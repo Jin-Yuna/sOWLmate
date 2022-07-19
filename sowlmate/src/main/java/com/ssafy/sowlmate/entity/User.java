@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class User {
 
@@ -29,5 +28,16 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserLanStatus language;
+
+    @Builder
+    public User(Long no, String id, String password, String nickname, String email, String region, UserLanStatus language) {
+        this.no = no;
+        this.id = id;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.region = region;
+        this.language = language;
+    }
 
 }
