@@ -38,7 +38,6 @@ public class AuthController {
             User loginUser = userService.login(user);
             if (loginUser != null) {
                 String token = jwtService.create("userid", loginUser.getId(), "access-token"); // key, data, subject
-//                log.debug("로그인 토큰정보 : {}", token);
                 resultMap.put("access-token", token);
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
@@ -63,13 +62,11 @@ public class AuthController {
     @GetMapping("info/{userId}")
     public ResponseEntity<Map<String, Object>> getInfo(
             @PathVariable("userId") String userId, HttpServletRequest request) {
-//		logger.debug("userid : {} ", userid);
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         if (jwtService.isUsable(request.getHeader("access-token"))) {
             log.info("사용 가능한 토큰!!!");
             try {
-//				로그인 사용자 정보.
                 User userInfo = userService.selectById(userId);
                 UserInfoDto userInfoDto = UserInfoDto.toDto(userInfo);
                 resultMap.put("userInfo", userInfoDto);

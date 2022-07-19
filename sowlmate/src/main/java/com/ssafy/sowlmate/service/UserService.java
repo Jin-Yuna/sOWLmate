@@ -53,7 +53,6 @@ public class UserService {
     }
 
     public User updateUser(String userId, User user) {
-//        log.debug("userInfo : " + user.toString());
         User findedUser = userRepository.findById(userId);
 
         findedUser.setNickname(user.getNickname());
