@@ -3,6 +3,7 @@ package com.ssafy.sowlmate.controller;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,10 +56,10 @@ public class UserController {
      * @param "userId", user
      * @return "Success"
      */
-//    @PutMapping("{userId}")
-//    public String updateUserInfo(@PathVariable String userId, User user) {
-//
-//    }
+    @PutMapping("{userId}")
+    public ResponseEntity<User> updateUserInfo(@PathVariable String userId, @RequestBody User user) {
+        return ResponseEntity.ok().body(userService.updateUser(userId, user));
+    }
 
     /**
      * 유저 정보 삭제

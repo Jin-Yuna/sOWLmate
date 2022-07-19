@@ -52,4 +52,18 @@ public class UserService {
         }
     }
 
+    public User updateUser(String userId, User user) {
+//        log.debug("userInfo : " + user.toString());
+        User findedUser = userRepository.findById(userId);
+
+        findedUser.setNickname(user.getNickname());
+        findedUser.setPassword(user.getPassword());
+        findedUser.setLanguage(user.getLanguage());
+        findedUser.setRegion(user.getRegion());
+        findedUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+        userRepository.save(findedUser);
+        return findedUser;
+    }
+
 }
