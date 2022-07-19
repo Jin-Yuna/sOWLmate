@@ -3,10 +3,10 @@ package com.ssafy.sowlmate.controller;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -37,24 +37,17 @@ public class UserController {
     }
 
     /**
-     * 로그인한 사용자 찾기
-     * @return user
-     */
-//    @GetMapping("me")
-//    public User myInfo() {}
-
-    /**
      * 존재하는 유저 정보
      * @param "userId"
      * @return "이미 존재하는 사용자 ID 입니다."
      */
     @GetMapping("{userId}")
     public String userInfo(@PathVariable String userId) {
-        Optional<User> user = userService.selectById(userId);
-        if (user.equals(Optional.empty())) {
-            return "failed";
-        } else {
+        User user = userService.selectById(userId);
+        if (user != null) {
             return "success";
+        } else {
+            return "failed";
         }
     }
 
@@ -63,10 +56,10 @@ public class UserController {
      * @param "userId", user
      * @return "Success"
      */
-//    @PutMapping("{userId}")
-//    public String updateUserInfo(@PathVariable String userId, User user) {
-//
-//    }
+    @PutMapping("{userId}")
+    public ResponseEntity<User> updateUserInfo(@PathVariable String userId, @RequestBody User user) {
+        return ResponseEntity.ok().body(userService.updateUser(userId, user));
+    }
 
     /**
      * 유저 정보 삭제
