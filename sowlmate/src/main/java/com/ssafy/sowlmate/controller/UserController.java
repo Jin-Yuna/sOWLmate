@@ -36,13 +36,6 @@ public class UserController {
     }
 
     /**
-     * 로그인한 사용자 찾기
-     * @return user
-     */
-//    @GetMapping("me")
-//    public User myInfo() {}
-
-    /**
      * 존재하는 유저 정보
      * @param "userId"
      * @return "이미 존재하는 사용자 ID 입니다."

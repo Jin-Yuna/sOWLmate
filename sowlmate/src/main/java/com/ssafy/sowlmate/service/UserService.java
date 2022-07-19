@@ -39,23 +39,12 @@ public class UserService {
     }
 
     public User login(User user) {
-//        log.debug("user.getId() : " + user.getId());
-//        log.debug("user.getPassword() : " + user.getPassword());
-
         if (user.getId() == null || user.getPassword() == null) {
             return null;
         }
 
-//        Optional<User> findedUser = userRepository.login(user);
-//        log.debug("findedUser : " + findedUser.toString());
-//
-//        if (findedUser.equals(Optional.empty())) {
-//            return null;
-//        } else {
-//            return findedUser.get();
-//        }
-
         User findedUser = userRepository.findById(user.getId());
+
         if (findedUser.getPassword().equals(user.getPassword())) {
             return findedUser;
         } else {

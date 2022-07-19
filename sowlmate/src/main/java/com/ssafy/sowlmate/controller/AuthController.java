@@ -1,5 +1,6 @@
 package com.ssafy.sowlmate.controller;
 
+import com.ssafy.sowlmate.dto.UserInfoDto;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.service.JwtService;
 import com.ssafy.sowlmate.service.UserService;
@@ -54,14 +55,14 @@ public class AuthController {
     }
 
     /**
-     * 회원 정보를 담은 Token을 반환한다.
-     * @param id
+     * 회원 정보를 반환한다. (로그인한 사용자 찾기)
+     * @param userId
      * @param request
      * @return
      */
-    @GetMapping("info/{id}")
+    @GetMapping("info/{userId}")
     public ResponseEntity<Map<String, Object>> getInfo(
-            @PathVariable("id") String id, HttpServletRequest request) {
+            @PathVariable("userId") String userId, HttpServletRequest request) {
 //		logger.debug("userid : {} ", userid);
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
@@ -69,8 +70,9 @@ public class AuthController {
             log.info("사용 가능한 토큰!!!");
             try {
 //				로그인 사용자 정보.
-                User userInfo = userService.selectById(id);
-                resultMap.put("userInfo", userInfo);
+                User userInfo = userService.selectById(userId);
+                UserInfoDto userInfoDto = UserInfoDto.toDto(userInfo);
+                resultMap.put("userInfo", userInfoDto);
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             } catch (Exception e) {
