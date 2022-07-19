@@ -17,14 +17,14 @@ public class UserService {
 
     @Transactional
     public Long enroll(User user) {
-        return userRepository.save(user);
+        return userRepository.save(user).getNo();
     }
 
     public User select(Long no) {
-        return userRepository.find(no);
+        return userRepository.findByNo(no);
     }
 
-    public Optional<User> selectById(String userId) {
+    public User selectById(String userId) {
         return userRepository.findById(userId);
     }
 

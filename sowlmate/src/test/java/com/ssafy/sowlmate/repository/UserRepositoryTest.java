@@ -23,10 +23,10 @@ public class UserRepositoryTest {
         //given
         User user = new User();
         user.setNickname("memberA");
-        Long savedNo = userRepository.save(user);
+        Long savedNo = userRepository.save(user).getNo();
 
         //when
-        User findedUser = userRepository.find(savedNo);
+        User findedUser = userRepository.findByNo(savedNo);
 
         //then
         Assertions.assertThat(findedUser.getNo()).isEqualTo(user.getNo());
