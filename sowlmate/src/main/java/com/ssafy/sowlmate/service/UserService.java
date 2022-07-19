@@ -19,7 +19,7 @@ public class UserService {
         return userRepository.save(user).getNo();
     }
 
-    public User select(Long no) {
+    public User selectByNo(Long no) {
         return userRepository.findByNo(no);
     }
 
