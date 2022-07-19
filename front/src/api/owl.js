@@ -1,6 +1,6 @@
-const HOST = '우리 서버 주소~~'
+const HOST = 'http://127.0.0.1:8000/'
 
-const USERS = 'users/'
+const USERS = 'dj-rest-auth/'
 
 export default {
   users: {

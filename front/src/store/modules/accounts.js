@@ -1,12 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+// import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '@/router'
 import owl from '@/api/owl'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export const accounts = ({
   state: {
     token: localStorage.getItem('token') || '',
   },
