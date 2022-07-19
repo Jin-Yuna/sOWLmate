@@ -49,12 +49,6 @@ public class UserController {
      */
     @GetMapping("{userId}")
     public String userInfo(@PathVariable String userId) {
-//        Optional<User> user = userService.selectById(userId);
-//        if (user.equals(Optional.empty())) {
-//            return "failed";
-//        } else {
-//            return "success";
-//        }
         User user = userService.selectById(userId);
         if (user != null) {
             return "success";
