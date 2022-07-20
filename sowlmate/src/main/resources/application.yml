@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/sowlmate?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
     username: sowlmate
-    password: sowl1234
+    password: SoWl@#MaTe1298
 
   jpa:
     hibernate:
