@@ -16,7 +16,7 @@
     - spring-boot
         - spring-core
     - spring-boot-starter-logging
-        - logback, slf4j
+        - logback, slf4j.
         
 
 ***테스트 라이브러리***
