@@ -2,6 +2,7 @@ package com.ssafy.sowlmate.interceptor;
 
 import com.ssafy.sowlmate.exception.UnauthorizedException;
 import com.ssafy.sowlmate.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
+@RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
 
     public static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
 
     private static final String HEADER_AUTH = "auth-token";
 
-    @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
