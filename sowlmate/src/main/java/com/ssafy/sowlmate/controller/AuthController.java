@@ -4,6 +4,7 @@ import com.ssafy.sowlmate.dto.UserInfoDto;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.service.JwtService;
 import com.ssafy.sowlmate.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,13 +18,14 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
 
-    @Autowired private JwtService jwtService;
-    @Autowired private UserService userService;
+    private final JwtService jwtService;
+    private final UserService userService;
 
     /**
      * Access-token과 로그인 결과 메세지를 반환한다.
