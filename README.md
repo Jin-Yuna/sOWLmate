@@ -1,3 +1,7 @@
 # S07P12B308
 
-## To Do..
+- front
+  - Vue3
+- sowlmate
+  - jpa
+  - spring boot
