@@ -1,10 +1,19 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/login">Login</router-link>
+    <TheNavBar/>
+    <router-view />
   </nav>
-  <router-view/>
 </template>
+
+<script>
+import TheNavBar from '@/components/Common/TheNavBar.vue'
+
+export default {
+  name: 'App',
+  components: { TheNavBar },
+}
+</script>
+
 
 <style>
 #app {
