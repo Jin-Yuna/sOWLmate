@@ -1,6 +1,7 @@
 package com.ssafy.sowlmate.repository;
 
 import com.ssafy.sowlmate.entity.User;
+import com.ssafy.sowlmate.entity.UserLanStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +22,13 @@ public class UserRepositoryTest {
     @Transactional
     public void testMember() throws Exception {
         //given
-        User user = new User();
-        user.setNickname("memberA");
+        User user = User.builder()
+                .id("memberA")
+                .password("123")
+                .nickname("memberA")
+                .region("KOREA")
+                .language(UserLanStatus.valueOf("KOREAN"))
+                .build();
         Long savedNo = userRepository.save(user).getNo();
 
         //when
