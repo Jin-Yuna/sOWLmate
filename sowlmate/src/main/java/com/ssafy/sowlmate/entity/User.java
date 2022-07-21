@@ -8,9 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
+//@Builder
 @Getter @Setter
 @RequiredArgsConstructor
 @Table(name = "user")
@@ -36,7 +38,8 @@ public class User {
     @Column(nullable = true)
     private String profilePictureUrl;
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Interest> interests = new ArrayList<>();
 
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-DD/HH:mm:ss")
