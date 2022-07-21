@@ -5,7 +5,7 @@ import owl from '@/api/owl'
 
 export const accounts = ({
   state: {
-    token: localStorage.getItem('token') || '',
+    token: sessionStorage.getItem('token') || '',
   },
   getters: {
     isLoggedIn: state => !!state.token,
@@ -22,38 +22,28 @@ export const accounts = ({
   actions: {
     removeToken({ commit }) {
       commit('SET_TOKEN', '')
-      localStorage.setItem('token', '')
+      sessionStorage.setItem('token', '')
     },
 
     login({commit}, userData) {
       axios({
-        url: owl.users.login(),
+        url: `${owl.users.login()}?id=${userData.id}&password=${userData.password}`,
         method: 'post',
-        data: userData
+        // data: JSON.stringify(userData)
       })
       .then(response => {
-        commit('SET_TOKEN',response.data.key)
-        localStorage.setItem('token', response.data.key)
+        commit('SET_TOKEN',response.data["access-token"])
+        sessionStorage.setItem('token', response.data["access-token"])
         router.push({ name: 'HomeView' })
       })
       .catch(error => {
         console.error(error)
       })
     },
-    logout({ getters, dispatch }) {
-      axios({
-        url: owl.users.logout(),
-        method: 'post',
-        headers: getters.authHeader,
-      })
-        .then(() => {
-          dispatch('removeToken')
-          alert('성공적으로 logout되었습니다.')
-          router.push({ name: 'HomeView' })
-        })
-        .error(err => {
-          console.error(err.response)
-        })
+    logout({dispatch }) {
+      dispatch('removeToken')
+      alert('성공적으로 logout되었습니다.')
+      router.push({ name: 'HomeView' })
     },
   },
   modules: {
