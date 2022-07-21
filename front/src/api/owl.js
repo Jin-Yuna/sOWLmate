@@ -1,6 +1,6 @@
-const HOST = 'http://127.0.0.1:8000/'
+const HOST = 'http://localhost:8000/api/v1/'
 
-const ACCOUNTS = 'dj-rest-auth/'
+const ACCOUNTS = 'auth/'
 
 export default {
   users: {

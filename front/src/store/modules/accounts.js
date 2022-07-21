@@ -5,7 +5,7 @@ import owl from '@/api/owl'
 
 export const accounts = ({
   state: {
-    token: localStorage.getItem('token') || '',
+    token: sessionStorage.getItem('token') || '',
   },
   getters: {
     isLoggedIn: state => !!state.token,
@@ -22,18 +22,20 @@ export const accounts = ({
   actions: {
     removeToken({ commit }) {
       commit('SET_TOKEN', '')
-      localStorage.setItem('token', '')
+      sessionStorage.setItem('token', '')
     },
 
     login({commit}, userData) {
+      console.log('userData :', userData)
       axios({
         url: owl.users.login(),
         method: 'post',
-        data: userData
+        data: JSON.stringify(userData)
       })
       .then(response => {
-        commit('SET_TOKEN',response.data.key)
-        localStorage.setItem('token', response.data.key)
+        console.log(response)
+        commit('SET_TOKEN',response.data["access-token"])
+        sessionStorage.setItem('token', response.data["access-token"])
         router.push({ name: 'HomeView' })
       })
       .catch(error => {
