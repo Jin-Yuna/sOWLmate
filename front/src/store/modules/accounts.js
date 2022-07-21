@@ -26,14 +26,12 @@ export const accounts = ({
     },
 
     login({commit}, userData) {
-      console.log('userData :', userData)
       axios({
         url: `${owl.users.login()}?id=${userData.id}&password=${userData.password}`,
         method: 'post',
         // data: JSON.stringify(userData)
       })
       .then(response => {
-        console.log(response)
         commit('SET_TOKEN',response.data["access-token"])
         sessionStorage.setItem('token', response.data["access-token"])
         router.push({ name: 'HomeView' })
@@ -42,20 +40,10 @@ export const accounts = ({
         console.error(error)
       })
     },
-    logout({ getters, dispatch }) {
-      axios({
-        url: owl.users.logout(),
-        method: 'post',
-        headers: getters.authHeader,
-      })
-        .then(() => {
-          dispatch('removeToken')
-          alert('성공적으로 logout되었습니다.')
-          router.push({ name: 'HomeView' })
-        })
-        .error(err => {
-          console.error(err.response)
-        })
+    logout({dispatch }) {
+      dispatch('removeToken')
+      alert('성공적으로 logout되었습니다.')
+      router.push({ name: 'HomeView' })
     },
   },
   modules: {
