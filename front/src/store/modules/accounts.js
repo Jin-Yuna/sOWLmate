@@ -28,9 +28,9 @@ export const accounts = ({
     login({commit}, userData) {
       console.log('userData :', userData)
       axios({
-        url: owl.users.login(),
+        url: `${owl.users.login()}?id=${userData.id}&password=${userData.password}`,
         method: 'post',
-        data: JSON.stringify(userData)
+        // data: JSON.stringify(userData)
       })
       .then(response => {
         console.log(response)
