@@ -1,12 +1,13 @@
 <template>
   <div>
     <router-link to="/">Home</router-link>
-    <router-link to="/auth/login" v-if="!isLoggedIn">
-      <button>Login</button>
-    </router-link>
-    <router-link to="/auth/logout" v-if="isLoggedIn">
-      <button>Logout</button>
-    </router-link>
+    <div v-if="!isLoggedIn">
+      <router-link :to="{ name: 'LoginView' }"><button>Login</button></router-link>
+      <router-link :to="{ name: 'SignUpView' }"><button>Signup</button></router-link>
+    </div>
+    <div v-if="isLoggedIn">
+    <router-link to="/auth/logout"><button>Logout</button></router-link>
+    </div>
   </div>
 </template>
 

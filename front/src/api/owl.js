@@ -6,5 +6,6 @@ export default {
   users: {
     login: () => HOST + ACCOUNTS + 'login',
     logout: () => HOST + ACCOUNTS + 'logout/',
+    signup: () => HOST + 'users/',
   }
 }

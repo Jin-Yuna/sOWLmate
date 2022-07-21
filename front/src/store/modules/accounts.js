@@ -40,10 +40,28 @@ export const accounts = ({
         console.error(error)
       })
     },
+
     logout({dispatch }) {
       dispatch('removeToken')
       alert('성공적으로 logout되었습니다.')
       router.push({ name: 'HomeView' })
+    },
+
+    signup(userData) {
+      console.log(userData, '--------')
+      console.log(userData.id)
+      axios({
+        url: `${owl.users.signup()}?id=${userData.id}&password=${userData.password1}&nickname=${userData.nickname}&region=${userData.region}&language=${userData.lang}`,
+        method: 'post',
+        // data: credentials
+      })
+        .then(res => {
+          console.log(res)
+          router.push({ name: 'HomeView' })
+        })
+        .catch(err => {
+          console.error(err.response.data)
+        })
     },
   },
   modules: {
