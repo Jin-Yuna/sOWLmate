@@ -18,7 +18,6 @@ public class Interest {
 
     @Enumerated(EnumType.STRING)
     private InterestType title;
-    private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
