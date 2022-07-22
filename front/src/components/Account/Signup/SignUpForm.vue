@@ -3,19 +3,36 @@
     <SignUpCard />
     <form @submit.prevent="signup(userData)">
       <div>
-        <label for="username">아이디: </label>
-        <input type="text" id="username" v-model="userData.id">
+        <label for="id">이메일: </label>
+        <input type="text" id="id" v-model="userData.id">
       </div>
       <div>
-        <label for="password">비밀번호: </label>
+        <label for="password">비밀번회: </label>
         <input type="password" id="password" v-model="userData.password">
       </div>
       <div>
-        <label for="password2">비밀번호: </label>
+        <label for="password2">비밀번호 확인: </label>
         <input type="password" id="password2" v-model="userData.password2">
+      </div>
+      <div>
+        <label for="nickname">닉네임: </label>
+        <input type="text" id="nickname" v-model="userData.nickname">
+      </div>
+      <div>
+        <label for="region">지역: </label>
+        <select name="region" id="region" v-model="userData.region">
+          <option v-for="reg in regions" :key="reg">{{ reg }}</option>
+        </select>
+      </div>
+      <div>
+        <label for="lang">언어: </label>
+        <select name="lang" id="lang" v-model="userData.lang">
+          <option v-for="lan in languages" :key="lan">{{ lan }}</option>
+        </select>
       </div>
       <button>회원가입</button>
     </form>
+    <router-link :to="{ name: 'LoginView' }">이미 회원이신가요?</router-link>
   </div>
 </template>
 
@@ -31,15 +48,28 @@ export default {
     return {
       userData: {
         id: '',
+        lang: '',
         password: '',
         password2: '',
-      }
+        nickname: '',
+        region: '',
+      },
+      regions: [
+          'KOREA',
+          'JAPAN',
+          'CHINA',
+          'UK',
+      ],
+      languages: [
+          'KOREAN',
+          'KOREAN',
+      ]
     }
   },
   computed: {
     passwordCheck() {
       console.log(this.userData)
-      if (this.userData.password1 == this.userData.password2) {
+      if (this.userData.password == this.userData.password2) {
         return true
       } else {
         return false
@@ -48,10 +78,8 @@ export default {
   },
   methods: {
     ...mapActions(['signup']),
-  }
+  },
 }
 </script>
 
-<style>
-
-</style>
+<style scoped></style>
