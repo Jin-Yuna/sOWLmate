@@ -40,6 +40,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Interest> interests = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conference_id")
+    private Conference conference;
+
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-DD/HH:mm:ss")
     private LocalDateTime enrollDate;
