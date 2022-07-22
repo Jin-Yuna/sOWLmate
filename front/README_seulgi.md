@@ -28,8 +28,6 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   http://localhost:8080/#/auth/login
   ```
 
-
-
 ## 3. mysql Data수정
 
 - 회원 가입 기능을 테스트 하면서, 같은 메일을 사용하는 계정이 두개 생기게 되었다. 
@@ -47,3 +45,11 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   - row 삭제를 위해서는 row를 선택하고 우클릭을 하면 Delete row 메뉴가 나온다.
   
   - 삭제 후 Apply를 눌러야 적용이 된다.
+
+
+
+## 4. 회원가입 폼을 만들 때의 고민
+
+- 폼의 유효성 체크를 어떻게 했는지 기억이 나지 않는다.
+
+- 지금 코드로는 userid하나만 입력하고 제출을 눌러도 회원가입이 된다.
