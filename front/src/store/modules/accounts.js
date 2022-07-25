@@ -24,6 +24,7 @@ export const accounts = ({
     SET_CURRENT_USER: (state, user) => state.currentUser = user,
     PASSWORD_DOUBLE_CHECK: (state, checked) => state.passwordDoubleCheck = checked,
     GET_INTEREST_LIST: (state, list) => state.interestList = list,
+    SET_USER_INTEREST: (state, interestName) => state.userInterests.push(interestName)
   },
   actions: {
     removeToken({ commit }) {
@@ -83,18 +84,33 @@ export const accounts = ({
       .then(response => {
         console.log(response.data)
         const temp_list = ['Music', 'Drama', 'Animal', 'Cat', 'Dog']
-        console.log(temp_list)
         commit('GET_INTEREST_LIST', temp_list )
       })
       .catch(error => {
         console.log(error)
       })
     },
-    userInterestSave({ state }, interestName) {
-      axios({
-        url: sowl.interests.userInterest(state.currentUser, interestName),
-        method: 'post',
-      })
+    userInterestSave({ state, commit }, interestindexs) {
+      console.log('interestindexs', interestindexs)
+      // todo : 이미 있던 interest는 제외하고 보내는 if문 추가
+      // 현재 뭔가 저장되긴 함...
+      for ( const index of interestindexs ) {
+        const interestName = state.interestList[index]
+        console.log(interestName, '----------')
+        axios({
+          url: sowl.interests.userInterest(state.currentUser, interestName),
+          method: 'post',
+        })
+        console.log(sowl.interests.userInterest(state.currentUser, interestName))
+        .then(response => {
+          console.log(response)
+          console.log(state.userInterests)
+          commit('SET_CURRENT_USER', interestName )
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
     }
 
 
