@@ -8,16 +8,15 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @RequiredArgsConstructor
 @Table(name = "blacklist", uniqueConstraints = {
-        @UniqueConstraint(name = "blacklist_uk", columnNames = {"from_user_no, to_user_no"})
+        @UniqueConstraint(name = "blacklist_uk", columnNames = {"from_user_no", "to_user_no"})
 })
 public class BlackList {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "blacklist_no")
     private Long no;
 
     @JoinColumn(name = "from_user_no")
