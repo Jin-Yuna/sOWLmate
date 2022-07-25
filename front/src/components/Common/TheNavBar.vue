@@ -6,7 +6,8 @@
       <router-link :to="{ name: 'SignUpView' }"><button>Signup</button></router-link>
     </div>
     <div v-if="isLoggedIn">
-    <router-link to="/auth/logout"><button>Logout</button></router-link>
+    <router-link :to="{ name: 'LogoutView' }"><button>Logout</button></router-link>
+    <router-link :to="{ name: 'MyPageBasicView' }"><button>My Page</button></router-link>
     </div>
   </div>
 </template>
@@ -26,5 +27,4 @@
 </script>
 
 
-<style scoped>
-</style>
+<style scoped></style>

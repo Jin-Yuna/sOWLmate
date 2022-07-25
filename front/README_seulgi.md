@@ -45,11 +45,29 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   - row 삭제를 위해서는 row를 선택하고 우클릭을 하면 Delete row 메뉴가 나온다.
   
   - 삭제 후 Apply를 눌러야 적용이 된다.
-
-
+    
+    
 
 ## 4. 회원가입 폼을 만들 때의 고민
 
 - 폼의 유효성 체크를 어떻게 했는지 기억이 나지 않는다.
 
 - 지금 코드로는 userid하나만 입력하고 제출을 눌러도 회원가입이 된다.
+
+- 이메일 중복검사 기능을 추가하였지만, 한번 중복검사를 하고 다른 이메일을 다시 입력하면 중복된 이메일로 회원가입을 할 수 있다. => keyup등의 이벤트를 이용하여 이벤트가 감지되면 중복확인 결과를 다시 false로 바꿀 수 는 있을 것 같은데, 이게 효율적인 방법인지에 대한 의문이 있다.
+
+## 
+
+## 5. 비밀번호확인 함수와 관련된 고민
+
+- password를 두번 입력해 비밀번호를 잘 확인했는지 확인하는 작업을 회원 가입 할 때만 하면 된다고 생각하고, 처음에는 회원가입폼 컴포넌트에 함수를 구현했었다.
+
+- 하지만 이 작업을 회원가입, 비밀번호를 알 때의 비밀번호 변경, 비밀번호를 모를 떄의 비밀번호 변경 총 3개의 컴포넌트에서 해야한다는 것을 깨닫고 vuex store 안에다가 이 함수를 넣어야 하나, 그럼 state에는 뭘 넣어야 하나 굉장히 고민이 되었다.
+
+- 사실 복사 붙여넣기를 두번 하는 것이 편하지만, 유지보수를 위해 vuex store의 account모듈 안에다가 이 기능을 구현하기로 했다.
+
+- `@keyup="passwordCheck(userData.password, userData.password2 })` passwordCheck이라는 action 함수로 데이터 입력된 두개의 비밀번호를 넘겨주고, 두개가 일치하면 state에 passwordCheck를 false에서 true로 바꿔주는 로직을 작성했지만, password2가 account모듈로 넘어오지 않았다. 
+  
+  - 데이터를 묶어 하나의 데이터로 보내 해결할 수 있었다.
+  
+  - `@keyup="passwordCheck( { password : userData.password, password2 : userData.password2 })`
