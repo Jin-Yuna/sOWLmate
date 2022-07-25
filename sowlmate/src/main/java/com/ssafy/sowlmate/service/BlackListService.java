@@ -20,7 +20,7 @@ public class BlackListService {
     }
 
     public BlackList selectByFromUserIdAndToUserId(String fromUserId, String toUserId) {
-        return blackListRepository.findByFromUSerIdAndToUserId(fromUserId, toUserId);
+        return blackListRepository.findByFromUserIdAndToUserId(fromUserId, toUserId);
     }
 
     @Transactional

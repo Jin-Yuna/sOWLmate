@@ -12,7 +12,7 @@ import java.util.List;
 public interface BlackListRepository extends JpaRepository<BlackList, Long> {
     public BlackList findByFromUserNoAndToUserNo(long fromUserNo, long toUserNo);
 
-    public BlackList findByFromUSerIdAndToUserId(String fromUserId, String toUserId);
+    public BlackList findByFromUserIdAndToUserId(String fromUserId, String toUserId);
 
     @Modifying
     @Transactional
