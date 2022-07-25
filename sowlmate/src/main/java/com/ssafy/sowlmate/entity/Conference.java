@@ -21,7 +21,11 @@ public class Conference {
     private Long no;
 
     @NotNull
-    private int ownerId;
+    @ColumnDefault("Title")
+    private String conferenceTitle;
+
+    @NotNull
+    private String ownerId;
 
     @NotNull
     private InterestType interest;
@@ -43,10 +47,6 @@ public class Conference {
 
     @Column(nullable = true)
     private String thumbnail;
-
-    @NotNull
-    @ColumnDefault("Title")
-    private String conferenceTitle;
 
     private LocalDateTime timeRecordStart;
 
