@@ -30,6 +30,10 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
+    public User selectByNickname(String nickname) {
+        return userRepository.findByNickname(nickname);
+    }
+
     public List<User> selectAll() {
         return userRepository.findAll();
     }
