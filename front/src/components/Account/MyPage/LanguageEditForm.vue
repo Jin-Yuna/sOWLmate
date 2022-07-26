@@ -1,0 +1,39 @@
+<template>
+  <div>
+    <h3>LanguageEditForm.vue</h3>
+    <div>
+			<label for="lang">언어: </label>
+			<select name="lang" id="lang" v-model="lang">
+				<option v-for="lan in languages" :key="lan">{{ lan }}</option>
+			</select>
+		</div>
+    <button>저장</button>
+  </div>
+</template>
+
+<script>
+
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+  name: 'PasswordEditForm',
+  data() {
+    return {
+      lang: '',
+      languages: [
+          'KOREAN',
+          'KOREAN',
+      ],
+    }
+  },
+  computed: {
+    ...mapGetters(['userInfo']),
+  },
+  methods: {
+    ...mapActions(['getUserInfo']),
+  },
+  
+}
+</script>
+
+<style></style>

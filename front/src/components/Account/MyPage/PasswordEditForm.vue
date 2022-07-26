@@ -2,9 +2,10 @@
   <div>
     <h3>PasswordEditForm.vue</h3>
     <h3>[-ing] 현재 비밀번호를 맞게 입력했는지 확인하는 api 필요</h3>
+    {{ userInfo }}
       <div>
         <label for="currentPassword">현재 비밀번호: </label>
-        <input type="password" id="currentPassword" v-model="currentPassword">
+        <input type="password" id="currentPassword" v-model="currentPassword" @keyup="getUserInfo()">
       </div>
       <div>
         <label for="password">새로운 비밀번호: </label>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -31,10 +33,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isPasswordDoubleCheck'])
+    ...mapGetters(['isPasswordDoubleCheck', 'userInfo'])
   },
   methods: {
-    ...mapActions(['passwordDoubleCheck']),
+    ...mapActions(['passwordDoubleCheck', 'getUserInfo']),
   },
   
 }

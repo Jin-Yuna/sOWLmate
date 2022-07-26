@@ -6,6 +6,8 @@ import SignUpView from '@/views/Account/SignUpView.vue'
 import MyPageBasicView from '@/views/Account/MyPageBasicView.vue'
 import MyPageEditPasswordView from '@/views/Account/MyPageEditPasswordView.vue'
 import MyPageEditInterestView from '@/views/Account/MyPageEditInterestView.vue'
+import MyPageEditLanguageView from '@/views/Account/MyPageEditLanguageView.vue'
+
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
@@ -14,7 +16,8 @@ const routes = [
   { path: '/auth/sign-up/', name: 'SignUpView', component: SignUpView },
   { path: '/auth/mypage/basic-info/', name: 'MyPageBasicView', component: MyPageBasicView },
   { path: '/auth/mypage/change-password/', name: 'MyPageEditPasswordView', component: MyPageEditPasswordView },
-  { path: '/auth/mypage/change-interest', name: 'MypageEditInterestView', component: MyPageEditInterestView },
+  { path: '/auth/mypage/change-interest/', name: 'MypageEditInterestView', component: MyPageEditInterestView },
+  { path: '/auth/mypage/change-language/', name: 'MyPageEditLanguageView', component: MyPageEditLanguageView },
 ]
 
 const router = createRouter({

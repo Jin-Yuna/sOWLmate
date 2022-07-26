@@ -10,13 +10,15 @@ export const accounts = ({
     passwordDoubleCheck: false,
     interestList: [],
     userInterests: [],
+    userInfo: {},
   },
   getters: {
     isLoggedIn: state => !!state.token,
-    authHeader: state => ({ Authorization: `Token ${state.token}`}),
+    authHeader: state => state.token,
     currentUser: state => state.currentUser,
     isPasswordDoubleCheck: state => state.passwordDoubleCheck,
     InterestList: state => state.interestList,
+    userInfo: state => state.userInfo,
   },
   mutations: {
     SET_TOKEN: (state, newToken) => state.token = newToken,
@@ -24,7 +26,8 @@ export const accounts = ({
     SET_CURRENT_USER: (state, user) => state.currentUser = user,
     PASSWORD_DOUBLE_CHECK: (state, checked) => state.passwordDoubleCheck = checked,
     GET_INTEREST_LIST: (state, list) => state.interestList = list,
-    SET_USER_INTEREST: (state, interestName) => state.userInterests.push(interestName)
+    SET_USER_INTEREST: (state, interestName) => state.userInterests.push(interestName),
+    GET_USER_INFO: (state, data) => state.userInfo = data,
   },
   actions: {
     removeToken({ commit }) {
@@ -111,10 +114,29 @@ export const accounts = ({
           console.log(error)
         })
       }
+    },
+    getUserInfo({ state , commit }) {
+      axios({
+        url: sowl.users.info(state.currentUser),
+        headers: {
+          'access-token' : state.token,
+        }
+      })
+      .then(response => {
+        console.log(response.data.userInfo)
+        commit('GET_USER_INFO', response.data.userInfo )
+      })
+      .catch(error => {
+        console.error(error)
+      })
+    },
+    modifyUserInfo({ state, commit }, payload ) {
+      console.log(payload)
+      // 페이로드에 { 'nickname' : 'user1' } 이런 식으로 넘겨줄 예정
+      // axios({
+      //   url: 
+      // })
     }
-
-
-    // 현재 비밀번호를 잘 입력했는지 확인하는 api 필요함~
   },
   modules: {
   }

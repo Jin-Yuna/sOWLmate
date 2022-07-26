@@ -8,8 +8,10 @@ export default {
   users: {
     login: () => HOST + ACCOUNTS + 'login',
     logout: () => HOST + ACCOUNTS + 'logout/',
+    info: (currentUser) => HOST + ACCOUNTS + 'info/' + `${currentUser}/`,
     users: () => HOST + USERS,
-    nickname: () => HOST + USERS + 'nickname/',
+    userInfoChange: (currentUser) => HOST + USERS + `${currentUser}/`,
+    nicknameCheck: () => HOST + USERS + 'nickname/',
   },
   interests: {
     interestList: () => HOST + INTEREST + 'list/',
