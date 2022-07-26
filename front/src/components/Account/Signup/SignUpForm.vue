@@ -4,9 +4,10 @@
     <form @submit.prevent="signup(userData)">
       <div>
         <label for="id">이메일: </label>
-        <input type="email" id="id" v-model="userData.id">
+        <input type="email" id="id" v-model="userData.id" @keydown="idCheckFalse()">
         <p @click="idCheck()">중복검사</p>
         <p v-if="idChecked">사용 가능한 이메일입니다.</p>
+        <p v-if="!idChecked">중복검사를 해주세요</p>
         <!-- 버튼으로 하면 form 제출되서 임시로 p로 해둠 -->
       </div>
       <div>
@@ -22,8 +23,9 @@
       </div>
       <div>
         <label for="nickname">닉네임: </label>
-        <p @click="nicknameCheck()">중복검사</p>
-        <input type="text" id="nickname" v-model="userData.nickname">
+        <input type="text" id="nickname" v-model="userData.nickname" @keydown="NICKNAME_CHECK(false)">
+        <p @click="nicknameCheck(userData.nickname)">중복검사</p>
+        {{ userData.nickname }}
       </div>
       <div>
         <label for="region">지역: </label>
@@ -37,7 +39,7 @@
           <option v-for="lan in languages" :key="lan">{{ lan }}</option>
         </select>
       </div>
-      <button v-if="isPasswordDoubleCheck && idChecked">회원가입</button>
+      <button v-if="isPasswordDoubleCheck && idChecked && isNicknameCheck">회원가입</button>
     </form>
     <router-link :to="{ name: 'LoginView' }">이미 회원이신가요?</router-link>
   </div>
@@ -47,7 +49,7 @@
 
 import axios from 'axios'
 import sowl from '@/api/sowl'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import SignUpCard from '@/components/Account/Signup/SignUpCard.vue'
 
 export default {
@@ -78,20 +80,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isPasswordDoubleCheck'])
+    ...mapGetters(['isPasswordDoubleCheck', 'isNicknameCheck'])
   },
   methods: {
-    ...mapActions(['signup', 'passwordDoubleCheck']),
+    ...mapActions(['signup', 'passwordDoubleCheck', 'nicknameCheck']),
+    ...mapMutations(['NICKNAME_CHECK']),
     // id는 변경이 안되니까 id중복체크도 쓸 곳이 회원가입 폼 뿐인 것 같아서 여기다 id중복체크 만듦
     idCheck() {
       axios({
         url: `${sowl.users.users()}${this.userData.id}`,
         method: 'get',
-        // data: JSON.stringify(userData)
       })
       .then(response => {
         console.log(response)
-        if (response.data != 'success') {
+        if (response.data != 'exist') {
           this.idChecked = true
         }
       })
@@ -99,11 +101,9 @@ export default {
         console.error(error)
       }) 
     },
-    nicknameCheck() {
-      axios({
-        
-      })
-    },
+    idCheckFalse() {
+      this.idChecked = false
+    }
   },
 }
 </script>

@@ -8,6 +8,7 @@ export const accounts = ({
     token: sessionStorage.getItem('token') || '',
     currentUser: '',
     passwordDoubleCheck: false,
+    nicknameCheck: false,
     interestList: [],
     userInterests: [],
     userInfo: {},
@@ -17,6 +18,7 @@ export const accounts = ({
     authHeader: state => state.token,
     currentUser: state => state.currentUser,
     isPasswordDoubleCheck: state => state.passwordDoubleCheck,
+    isNicknameCheck: state => state.nicknameCheck,
     InterestList: state => state.interestList,
     userInfo: state => state.userInfo,
   },
@@ -25,6 +27,7 @@ export const accounts = ({
     REMOVE_TOKEN: (state) => state.token = '',
     SET_CURRENT_USER: (state, user) => state.currentUser = user,
     PASSWORD_DOUBLE_CHECK: (state, checked) => state.passwordDoubleCheck = checked,
+    NICKNAME_CHECK: (state, checked) => state.nicknameCheck = checked,
     GET_INTEREST_LIST: (state, list) => state.interestList = list,
     SET_USER_INTEREST: (state, interestName) => state.userInterests.push(interestName),
     GET_USER_INFO: (state, data) => state.userInfo = data,
@@ -80,6 +83,22 @@ export const accounts = ({
       }
         commit('PASSWORD_DOUBLE_CHECK', checked )
     },
+    nicknameCheck({ commit }, nickname ) {
+      console.log(sowl.users.nicknameCheck(nickname))
+      axios({
+        url: sowl.users.nicknameCheck(nickname),
+        method: 'get',
+      })
+      .then(response => {
+        console.log(response)
+        if (response.data != 'exist') {
+          commit('NICKNAME_CHECK', true )
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      }) 
+    },
     getInterestList({ commit }) {
       axios({
         url: sowl.interests.interestList()
@@ -130,12 +149,25 @@ export const accounts = ({
         console.error(error)
       })
     },
+    // 언어변경 => 제대로 요청이 가고, 응답도 잘 오는데 DB 데이터가 안 바뀜
+    // 비밀번호변경도 마찬가지. 포스트맨으로 요청보내도 DB 데이터 변경 안됨
     modifyUserInfo({ state, commit }, payload ) {
-      console.log(payload)
-      // 페이로드에 { 'nickname' : 'user1' } 이런 식으로 넘겨줄 예정
-      // axios({
-      //   url: 
-      // })
+      // 페이로드에 { 'nickname' : 'user1' } 이런 식으로 넘어옴
+      const sub = Object.keys( payload )[0]
+      axios({
+        url: sowl.users.userInfoChange(state.currentUser),
+        method: 'put',
+        data: {
+          sub : payload[sub],
+        }
+      })
+      .then(response => {
+        commit('GET_USER_INFO', response.data )
+        alert('성공적으로 변경되었습니다.')
+      })
+      .catch(error => {
+        console.error(error)
+      })
     }
   },
   modules: {

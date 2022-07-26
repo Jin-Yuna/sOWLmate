@@ -11,7 +11,7 @@ export default {
     info: (currentUser) => HOST + ACCOUNTS + 'info/' + `${currentUser}/`,
     users: () => HOST + USERS,
     userInfoChange: (currentUser) => HOST + USERS + `${currentUser}/`,
-    nicknameCheck: () => HOST + USERS + 'nickname/',
+    nicknameCheck: (nickname) => HOST + USERS + 'nickname/' + `${nickname}/`,
   },
   interests: {
     interestList: () => HOST + INTEREST + 'list/',

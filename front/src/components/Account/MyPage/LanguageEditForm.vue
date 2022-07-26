@@ -7,7 +7,7 @@
 				<option v-for="lan in languages" :key="lan">{{ lan }}</option>
 			</select>
 		</div>
-    <button>저장</button>
+    <button @click="modifyUserInfo({ 'languages': lang })">저장</button>
   </div>
 </template>
 
@@ -23,6 +23,7 @@ export default {
       languages: [
           'KOREAN',
           'KOREAN',
+          'ENGLISH',
       ],
     }
   },
@@ -30,7 +31,7 @@ export default {
     ...mapGetters(['userInfo']),
   },
   methods: {
-    ...mapActions(['getUserInfo']),
+    ...mapActions(['getUserInfo', 'modifyUserInfo']),
   },
   
 }

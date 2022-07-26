@@ -15,7 +15,7 @@
         <label for="password2">비밀번호 확인: </label>
         <input type="password" id="password2" v-model="password2" @keyup="passwordDoubleCheck({ password : password, password2 : password2 })">
       </div>
-      <button v-if="isPasswordDoubleCheck">비밀번호 변경</button>
+      <button v-if="isPasswordDoubleCheck" @click="modifyUserInfo({ 'password': password })">비밀번호 변경</button>
   </div>
 </template>
 
@@ -36,7 +36,7 @@ export default {
     ...mapGetters(['isPasswordDoubleCheck', 'userInfo'])
   },
   methods: {
-    ...mapActions(['passwordDoubleCheck', 'getUserInfo']),
+    ...mapActions(['passwordDoubleCheck', 'getUserInfo', 'modifyUserInfo']),
   },
   
 }

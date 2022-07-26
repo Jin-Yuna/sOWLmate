@@ -53,8 +53,6 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   - row 삭제를 위해서는 row를 선택하고 우클릭을 하면 Delete row 메뉴가 나온다.
   
   - 삭제 후 Apply를 눌러야 적용이 된다.
-    
-    
 
 ## 4. 회원가입 폼을 만들 때의 고민
 
@@ -80,8 +78,6 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   
   - `@keyup="passwordCheck( { password : userData.password, password2 : userData.password2 })`
 
-
-
 ## 6. vuex 고민
 
 - 새로고침하면 store.state에 넣어뒀던 데이터들이 사라진다.
@@ -91,3 +87,15 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   - 또 어느 정보까지 localstorage에 저장해둬도 될까 싶은 고민이 있다.
 
 - store에 대부분의 정보를 저장해 두는 것이 맞나 의문이 든다.
+  
+  - 닉네임 중복 체크가 필요한 컴포넌트가 2개인데, 함수를 store에 만들고 state에 체크를 했는지를 저장하여 또 컴포넌트에서 이를 불러와서 사용하는게 맞나?
+
+
+
+
+
+## 7. eslint 설치
+
+- --save :   package.json의 dependency 항목에 모듈을 추가하는 옵션
+  
+  
