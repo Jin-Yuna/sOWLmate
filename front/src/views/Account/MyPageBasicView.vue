@@ -3,6 +3,7 @@
     <h1>MyPageBasicView.vue</h1>
     <MyPageNavigation/>
     <button @click="withdrawal">탈퇴</button>
+    <router-view/>
   </div>
 </template>
 
@@ -23,7 +24,6 @@ export default {
       axios({
         url: `${sowl.users.users()}${this.currentUser}`,
         method: 'delete',
-        // data: JSON.stringify(userData)
       })
       .then(response => {
         if (response.data === 'success') {

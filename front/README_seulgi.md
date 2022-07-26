@@ -97,5 +97,37 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
 ## 7. eslint 설치
 
 - --save :   package.json의 dependency 항목에 모듈을 추가하는 옵션
+
+
+
+## 8. vue3 router children
+
+- 마이페이지에 속하는 컴포넌트들이 MyPageBasicView 안에서 랜더링 될 수 있도록 vue router에 children 속성을 주었다.
   
+  그 후 MyPageBasicView의 템플릿에 router-view를 달아주었다.
   
+  ```javascript
+    // src/router/index.js
+    { 
+      path: '/auth/mypage/basic-info/', 
+      name: 'MyPageBasicView', 
+      component: MyPageBasicView,
+      children : [
+        { path: '/auth/mypage/change-password/', name: 'MyPageEditPasswordView', component: MyPageEditPasswordView },
+        { path: '/auth/mypage/change-interest/', name: 'MypageEditInterestView', component: MyPageEditInterestView },
+        { path: '/auth/mypage/change-language/', name: 'MyPageEditLanguageView', component: MyPageEditLanguageView },
+      ],
+    },
+  ```
+  
+  ```html
+  views/Account/MyPageBasicView
+  <template>
+    <div>
+      <h1>MyPageBasicView.vue</h1>
+      <MyPageNavigation/>
+      <button @click="withdrawal">탈퇴</button>
+      <router-view/>
+    </div>
+  </template>
+  ```

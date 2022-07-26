@@ -14,10 +14,17 @@ const routes = [
   { path: '/auth/login/', name: 'LoginView', component: LoginView },
   { path: '/auth/logout/', name: 'LogoutView', component: LogoutView },
   { path: '/auth/sign-up/', name: 'SignUpView', component: SignUpView },
-  { path: '/auth/mypage/basic-info/', name: 'MyPageBasicView', component: MyPageBasicView },
-  { path: '/auth/mypage/change-password/', name: 'MyPageEditPasswordView', component: MyPageEditPasswordView },
-  { path: '/auth/mypage/change-interest/', name: 'MypageEditInterestView', component: MyPageEditInterestView },
-  { path: '/auth/mypage/change-language/', name: 'MyPageEditLanguageView', component: MyPageEditLanguageView },
+  { 
+    path: '/auth/mypage/basic-info/', 
+    name: 'MyPageBasicView', 
+    component: MyPageBasicView,
+    children : [
+      { path: '/auth/mypage/change-password/', name: 'MyPageEditPasswordView', component: MyPageEditPasswordView },
+      { path: '/auth/mypage/change-interest/', name: 'MypageEditInterestView', component: MyPageEditInterestView },
+      { path: '/auth/mypage/change-language/', name: 'MyPageEditLanguageView', component: MyPageEditLanguageView },
+    ],
+  },
+ 
 ]
 
 const router = createRouter({
