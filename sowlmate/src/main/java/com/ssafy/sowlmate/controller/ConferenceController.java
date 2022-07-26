@@ -25,7 +25,7 @@ public class ConferenceController {
     /**
      * 관심사별 방 조회
      */
-    @GetMapping("conferenceInterest")
+    @GetMapping("interest")
     public List<Conference> conferenceInterestList(InterestType interest){
         return conferenceService.selectByInterest(interest);
     }
@@ -33,7 +33,7 @@ public class ConferenceController {
     /**
      * 언어별 방 조회
      */
-    @GetMapping("conferenceLanguage")
+    @GetMapping("language")
     public List<Conference> conferenceLanguageList(UserLanStatus language){
         return conferenceService.selectByLanguage(language);
     }
@@ -41,7 +41,7 @@ public class ConferenceController {
     /**
      * 관심사+언어 방 조회
      */
-    @GetMapping("conferenceBoth")
+    @GetMapping("both")
     public List<Conference> conferenceInterestAndLanguageList(InterestType interest, UserLanStatus language){
         return conferenceService.selectByInterestAndLanguage(interest, language);
     }
@@ -50,7 +50,7 @@ public class ConferenceController {
      * 방 생성
      */
     @PostMapping
-    public Conference createConference(@PathVariable Conference conference, String userId){
+    public Conference createConference(Conference conference, String userId){
         return conferenceService.createConference(conference, userId);
     }
 
@@ -65,7 +65,7 @@ public class ConferenceController {
     /**
      * 방 삭제 or 나가기
      */
-    @DeleteMapping("{conferenceNo}")
+    @DeleteMapping
     public void deleteOrExitConference(long conferenceNo, String userId){
         conferenceService.deleteOrExitConference(conferenceNo, userId);
     }
