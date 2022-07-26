@@ -6,8 +6,11 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sowlmate?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+#    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/sowlmate?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://13.209.171.69:3306/sowlmate?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+#    username: ${MYSQL_USER:sowlmate}
     username: sowlmate
+#    password: ${MYSQL_PASSWORD:SoWl@#MaTe1298}
     password: SoWl@#MaTe1298
 
   jpa:
