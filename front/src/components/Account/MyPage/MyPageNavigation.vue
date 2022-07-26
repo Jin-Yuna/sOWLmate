@@ -2,7 +2,7 @@
   <div>
     <router-link :to="{ name: 'MyPageEditPasswordView' }">비밀번호 수정</router-link> |
     <router-link :to="{ name: 'MypageEditInterestView' }">관심사 수정</router-link> |
-    <router-link :to="{ name: 'MyPageEditLanguageView' }">언어 수정</router-link>>
+    <router-link :to="{ name: 'MyPageEditLanguageView' }">언어 수정</router-link>
   </div>
 </template>
 
