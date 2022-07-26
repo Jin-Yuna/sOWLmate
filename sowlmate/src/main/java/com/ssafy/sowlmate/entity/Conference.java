@@ -27,6 +27,8 @@ public class Conference {
     @NotNull
     private String ownerId;
 
+    private String participantId;
+
     @NotNull
     private InterestType interest;
 
@@ -34,13 +36,13 @@ public class Conference {
     @Enumerated(EnumType.STRING)
     private UserLanStatus language;
 
-    @NotNull
-    @OneToMany(mappedBy = "conference")
-    private List<User> participants = new ArrayList<>();
+//    @NotNull
+//    @OneToMany(mappedBy = "conference")
+//    private List<User> participants = new ArrayList<>();
 
     @NotNull
-    @ColumnDefault("false")
-    private boolean lock;
+    @Enumerated(EnumType.STRING)
+    private LockStatus lock;
 
     @Column(nullable = true)
     private String password;

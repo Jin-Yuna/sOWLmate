@@ -25,7 +25,7 @@ public class ConferenceController {
     /**
      * 관심사별 방 조회
      */
-    @GetMapping("conference")
+    @GetMapping("conferenceInterest")
     public List<Conference> conferenceInterestList(InterestType interest){
         return conferenceService.selectByInterest(interest);
     }
@@ -33,7 +33,7 @@ public class ConferenceController {
     /**
      * 언어별 방 조회
      */
-    @GetMapping("conference")
+    @GetMapping("conferenceLanguage")
     public List<Conference> conferenceLanguageList(UserLanStatus language){
         return conferenceService.selectByLanguage(language);
     }
@@ -41,7 +41,7 @@ public class ConferenceController {
     /**
      * 관심사+언어 방 조회
      */
-    @GetMapping("conference")
+    @GetMapping("conferenceBoth")
     public List<Conference> conferenceInterestAndLanguageList(InterestType interest, UserLanStatus language){
         return conferenceService.selectByInterestAndLanguage(interest, language);
     }
@@ -49,17 +49,26 @@ public class ConferenceController {
     /**
      * 방 생성
      */
-    @PostMapping("{conferenceId}")
-    public Conference createConference(@PathVariable Long conferenceId, InterestType interestType, UserLanStatus language,
-                                       List<User> participants, boolean lock, String conferenceTitle){
-        return conferenceService.createConference(conferenceId, interestType, language, participants, lock, conferenceTitle);
+    @PostMapping
+    public Conference createConference(@PathVariable Conference conference, String userId){
+        return conferenceService.createConference(conference, userId);
     }
 
     /**
-     * 방 랜덤 입장
+     * 방 입장
      */
-    public void enterRandomConference(InterestType interst, UserLanStatus language){
-
+    @PutMapping
+    public void enterConference(long coneference, String userId) {
+        conferenceService.enterConference(coneference, userId);
     }
 
+    /**
+     * 방 삭제 or 나가기
+     */
+    @DeleteMapping("{conferenceNo}")
+    public void deleteOrExitConference(long conferenceNo, String userId){
+        conferenceService.deleteOrExitConference(conferenceNo, userId);
+    }
 }
+
+

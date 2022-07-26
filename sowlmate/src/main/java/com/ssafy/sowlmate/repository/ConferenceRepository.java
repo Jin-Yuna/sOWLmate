@@ -12,10 +12,14 @@ import java.util.List;
 @Repository
 public interface ConferenceRepository extends JpaRepository<Conference, Long> {
 
+    Conference findByNo(long conferenceNo);
+
     List<Conference> findAllByInterest(InterestType interest);
 
     List<Conference> findAllByLanguage(UserLanStatus language);
 
     List<Conference> findAllByInterestAndLanguage(InterestType interest, UserLanStatus language);
+
+    int deleteByNo(long conferenceNo);
 
 }
