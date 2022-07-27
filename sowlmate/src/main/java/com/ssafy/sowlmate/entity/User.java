@@ -29,7 +29,7 @@ public class User {
     private String nickname;
 
     @NotNull
-    private String region;
+    private String region; // 대륙 enum type
 
     @Enumerated(EnumType.STRING)
     private UserLanStatus language;
