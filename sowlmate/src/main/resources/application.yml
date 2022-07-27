@@ -18,6 +18,16 @@ spring:
         # show_sql: true
         format_sql: true
 
+# find password by email
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: jungyoon9898@naver.com
+    password: 비번
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+
 #  profiles:
 #    include: API-KEY
 

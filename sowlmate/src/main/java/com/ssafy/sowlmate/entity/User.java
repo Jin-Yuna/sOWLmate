@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@Builder
 @Getter @Setter
 @RequiredArgsConstructor
 @Table(name = "user")
@@ -25,6 +24,8 @@ public class User {
     private String id;
     @NotNull
     private String password;
+    @NotNull
+    private String name;
     @NotNull
     private String nickname;
 

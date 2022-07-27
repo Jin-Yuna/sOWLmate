@@ -30,6 +30,10 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
+    public User selectByUserIdAndUserName(String userId, String userName) {
+        return userRepository.findByIdAndName(userId, userName);
+    }
+
     public List<User> selectAll() {
         return userRepository.findAll();
     }
@@ -37,6 +41,20 @@ public class UserService {
     @Transactional
     public int deleteById(String userId) {
         return userRepository.deleteById(userId);
+    }
+
+    /**
+     * Find Password by email
+     * : emil을 통해 해당 email로 가입된 정보가 있는지 확인하고,
+     *   가입된 정보가 있다면 입력받은 name과 등록된 name이 일치한지 여부를 return
+     */
+    public boolean userEmailCheck(String userEmail, String userName) {
+        User user = userRepository.findById(userEmail);
+        if(user != null && user.getName().equals(userName)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public User login(User user) {
@@ -65,5 +83,10 @@ public class UserService {
         userRepository.save(findedUser);
         return findedUser;
     }
+
+    /**
+     * Find Password by email
+     */
+
 
 }
