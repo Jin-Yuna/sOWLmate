@@ -20,6 +20,7 @@ services:
     build:
       context: ./sowlmate
       dockerfile: Dockerfile
+      # target: finalApp
     container_name: sowlmate-back
     restart: always
     ports:
