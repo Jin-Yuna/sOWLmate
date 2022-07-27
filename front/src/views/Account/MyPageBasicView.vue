@@ -3,7 +3,9 @@
     <h1>MyPageBasicView.vue</h1>
     <MyPageNavigation/>
     <button @click="withdrawal">탈퇴</button>
-    <router-view/>
+    <v-main>
+      <router-view/>
+    </v-main>
   </div>
 </template>
 
@@ -12,6 +14,7 @@ import { mapGetters, mapActions } from 'vuex'
 import axios from 'axios'
 import sowl from '@/api/sowl'
 import MyPageNavigation from '@/components/Account/MyPage/MyPageNavigation.vue'
+
 
 export default {
   name: 'MyPageBasicView',

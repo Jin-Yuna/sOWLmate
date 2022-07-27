@@ -7,7 +7,7 @@ import MyPageBasicView from '@/views/Account/MyPageBasicView.vue'
 import MyPageEditPasswordView from '@/views/Account/MyPageEditPasswordView.vue'
 import MyPageEditInterestView from '@/views/Account/MyPageEditInterestView.vue'
 import MyPageEditLanguageView from '@/views/Account/MyPageEditLanguageView.vue'
-
+import MyPageBasicInfoView from '@/views/Account/MyPageBasicInfoView.vue'
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
@@ -15,13 +15,14 @@ const routes = [
   { path: '/auth/logout/', name: 'LogoutView', component: LogoutView },
   { path: '/auth/sign-up/', name: 'SignUpView', component: SignUpView },
   { 
-    path: '/auth/mypage/basic-info/', 
+    path: '/auth/mypage/', 
     name: 'MyPageBasicView', 
     component: MyPageBasicView,
     children : [
-      { path: '/auth/mypage/change-password/', name: 'MyPageEditPasswordView', component: MyPageEditPasswordView },
-      { path: '/auth/mypage/change-interest/', name: 'MypageEditInterestView', component: MyPageEditInterestView },
-      { path: '/auth/mypage/change-language/', name: 'MyPageEditLanguageView', component: MyPageEditLanguageView },
+      { path: 'basic-info', name: 'MyPageBasicInfoView', component: MyPageBasicInfoView },
+      { path: 'change-password', name: 'MyPageEditPasswordView', component: MyPageEditPasswordView },
+      { path: 'change-interest', name: 'MypageEditInterestView', component: MyPageEditInterestView },
+      { path: 'change-language', name: 'MyPageEditLanguageView', component: MyPageEditLanguageView },
     ],
   },
  
