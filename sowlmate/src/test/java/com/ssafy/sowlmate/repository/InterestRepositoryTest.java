@@ -1,7 +1,7 @@
 //package com.ssafy.sowlmate.repository;
 //
 //import com.ssafy.sowlmate.entity.Interest;
-//import com.ssafy.sowlmate.entity.InterestType;
+//import com.ssafy.sowlmate.entity.type.InterestType;
 //import com.ssafy.sowlmate.entity.User;
 //import com.ssafy.sowlmate.entity.UserLanStatus;
 //import org.junit.Assert;

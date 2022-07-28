@@ -1,7 +1,7 @@
 package com.ssafy.sowlmate.controller;
 
 import com.ssafy.sowlmate.entity.Interest;
-import com.ssafy.sowlmate.entity.InterestType;
+import com.ssafy.sowlmate.entity.type.InterestType;
 import com.ssafy.sowlmate.service.InterestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

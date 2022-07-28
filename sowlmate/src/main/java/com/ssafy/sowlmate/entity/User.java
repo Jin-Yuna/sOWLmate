@@ -1,5 +1,7 @@
 package com.ssafy.sowlmate.entity;
 
+import com.ssafy.sowlmate.entity.type.LanguageType;
+import com.ssafy.sowlmate.entity.type.RegionType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,10 +31,10 @@ public class User {
     private String nickname;
 
     @NotNull
-    private String region; // 대륙 enum type
+    private RegionType region; // 대륙 enum type
 
     @Enumerated(EnumType.STRING)
-    private UserLanStatus language;
+    private LanguageType language;
 
     @Column(nullable = true)
     private String profilePictureUrl;

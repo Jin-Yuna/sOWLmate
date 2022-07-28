@@ -1,4 +1,4 @@
-const HOST = 'http://localhost:8000/api/v1/'
+const HOST = 'http://3.38.245.51:8000/api/v1/'
 
 const ACCOUNTS = 'auth/'
 const USERS = 'users/'
@@ -6,7 +6,7 @@ const INTEREST = 'interest/'
 
 export default {
   users: {
-    login: () => HOST + ACCOUNTS + 'login',
+    login: () => HOST + ACCOUNTS + 'login/',
     logout: () => HOST + ACCOUNTS + 'logout/',
     info: (currentUser) => HOST + ACCOUNTS + 'info/' + `${currentUser}/`,
     users: () => HOST + USERS,
