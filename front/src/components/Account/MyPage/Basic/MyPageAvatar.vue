@@ -18,7 +18,9 @@ import axios from 'axios'
  
 export default {
   data: ()=>({
-    images: ''
+    imageData: null,
+    picture: null,
+    uploadValue: 0
   }),
   methods: {
     uploadImage() {
