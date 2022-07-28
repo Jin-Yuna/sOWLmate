@@ -32,6 +32,7 @@ public class User {
     private String name;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private RegionType region; // 대륙 enum type
 
     @Enumerated(EnumType.STRING)
@@ -42,10 +43,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Interest> interests = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "conference_id")
-    private Conference conference;
 
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-DD/HH:mm:ss")
