@@ -29,6 +29,8 @@ public class User {
     private String password;
     @NotNull
     private String nickname;
+    @NotNull
+    private String name;
 
     @NotNull
     private RegionType region; // 대륙 enum type
