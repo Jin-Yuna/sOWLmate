@@ -3,7 +3,10 @@ package com.ssafy.sowlmate.entity;
 public enum InterestType {
     FOOD("Kimchi..."),
     MUSIC("Dynamite"),
-    DANCE("Shuffle");
+    DANCE("Shuffle"),
+    COOK("Cooking"),
+    CLUB("HOUSE");
+
 
     private final String contents;
 
