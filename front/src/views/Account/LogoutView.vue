@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Logout</h1>
+    <h1>LogoutView.vue</h1>
   </div>
 </template>
 

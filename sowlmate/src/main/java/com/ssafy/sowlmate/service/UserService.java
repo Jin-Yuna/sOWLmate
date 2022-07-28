@@ -34,6 +34,10 @@ public class UserService {
         return userRepository.findByIdAndName(userId, userName);
     }
 
+    public User selectByNickname(String nickname) {
+        return userRepository.findByNickname(nickname);
+    }
+
     public List<User> selectAll() {
         return userRepository.findAll();
     }
@@ -71,6 +75,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public User updateUser(String userId, User user) {
         User findedUser = userRepository.findById(userId);
 

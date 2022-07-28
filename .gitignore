@@ -1,5 +1,9 @@
 
 .DS_Store
 
+
 ### IntelliJ IDEA ###
 *.yml
+
+sowlmate/gradlew
+

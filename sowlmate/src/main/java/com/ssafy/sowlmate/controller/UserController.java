@@ -44,8 +44,6 @@ public class UserController {
 
     /**
      * 유저 회원가입
-     * @param user
-     * @return "Success"
      */
     @PostMapping
     public String enrollUser(User user) {
@@ -56,7 +54,6 @@ public class UserController {
 
     /**
      * 사용자 리스트
-     * @return List<User>
      */
     @GetMapping("list")
     public List<User> userList() {
@@ -64,24 +61,33 @@ public class UserController {
     }
 
     /**
-     * 존재하는 유저 정보
-     * @param "userId"
-     * @return "이미 존재하는 사용자 ID 입니다."
+     * 존재하는 유저 아이디 여부 확인
      */
     @GetMapping("{userId}")
     public String userInfo(@PathVariable String userId) {
         User user = userService.selectById(userId);
         if (user != null) {
-            return "success";
+            return "exist";
         } else {
-            return "failed";
+            return "empty";
+        }
+    }
+
+    /**
+     * 존재하는 닉네임 여부 확인
+     */
+    @GetMapping("nickname/{nickname}")
+    public String existNickname(@PathVariable String nickname) {
+        User user = userService.selectByNickname(nickname);
+        if (user != null) {
+            return "exist";
+        } else {
+            return "empty";
         }
     }
 
     /**
      * 유저 정보 수정
-     * @param "userId", user
-     * @return "Success"
      */
     @PutMapping("{userId}")
     public ResponseEntity<User> updateUserInfo(@PathVariable String userId, @RequestBody User user) {
@@ -90,8 +96,6 @@ public class UserController {
 
     /**
      * 유저 정보 삭제
-     * @param "userId"
-     * @return "Success"
      */
     @DeleteMapping("{userId}")
     public String deleteUserInfo(@PathVariable String userId) {
