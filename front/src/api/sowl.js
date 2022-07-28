@@ -6,7 +6,7 @@ const INTEREST = 'interest/'
 
 export default {
   users: {
-    login: () => HOST + ACCOUNTS + 'login/',
+    login: () => HOST + ACCOUNTS + 'login',
     logout: () => HOST + ACCOUNTS + 'logout/',
     info: (currentUser) => HOST + ACCOUNTS + 'info/' + `${currentUser}/`,
     users: () => HOST + USERS,
