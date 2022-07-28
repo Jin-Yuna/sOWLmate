@@ -47,6 +47,7 @@ export const accounts = ({
         commit('SET_TOKEN',response.data["access-token"])
         commit('SET_CURRENT_USER', userData.id )
         dispatch('getInterestList')
+        dispatch('getUserInfo')
         sessionStorage.setItem('token', response.data["access-token"])
         router.push({ name: 'HomeView' })
       })
@@ -101,12 +102,10 @@ export const accounts = ({
     },
     getInterestList({ commit }) {
       axios({
-        url: sowl.interests.interestList()
+        url: sowl.categories.interest()
       })
       .then(response => {
-        console.log(response.data)
-        const temp_list = ['Music', 'Drama', 'Animal', 'Cat', 'Dog']
-        commit('GET_INTEREST_LIST', temp_list )
+        commit('GET_INTEREST_LIST', response.data )
       })
       .catch(error => {
         console.log(error)
@@ -118,15 +117,12 @@ export const accounts = ({
       // 현재 뭔가 저장되긴 함...
       for ( const index of interestindexs ) {
         const interestName = state.interestList[index]
-        console.log(interestName, '----------')
         axios({
           url: sowl.interests.userInterest(state.currentUser, interestName),
           method: 'post',
         })
-        console.log(sowl.interests.userInterest(state.currentUser, interestName))
         .then(response => {
           console.log(response)
-          console.log(state.userInterests)
           commit('SET_CURRENT_USER', interestName )
         })
         .catch(error => {
@@ -142,7 +138,7 @@ export const accounts = ({
         }
       })
       .then(response => {
-        console.log(response.data.userInfo)
+        console.log('account.js/getUserInfo', response.data.userInfo)
         commit('GET_USER_INFO', response.data.userInfo )
       })
       .catch(error => {

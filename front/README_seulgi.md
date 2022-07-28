@@ -16,6 +16,8 @@
 store/index.js와 마찬가지로 `export default createStore({})`로 되어있던 부분을
 `export const accounts = ({})`로 바꾸니 해결되었다.
 
+
+
 ## 2. router 동작 오류
 
 - 네비게이션바를 추가하면서 App.vue의 template부분에서 `<router-view />`를 제거했더니 라우터가 제대로 작동하지 않는 오류가 발생하였다.
@@ -36,6 +38,8 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   })
   ```
 
+## 
+
 ## 3. mysql Data수정
 
 - 회원 가입 기능을 테스트 하면서, 같은 메일을 사용하는 계정이 두개 생기게 되었다. 
@@ -53,6 +57,8 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   - row 삭제를 위해서는 row를 선택하고 우클릭을 하면 Delete row 메뉴가 나온다.
   
   - 삭제 후 Apply를 눌러야 적용이 된다.
+
+## 
 
 ## 4. 회원가입 폼을 만들 때의 고민
 
@@ -78,6 +84,8 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   
   - `@keyup="passwordCheck( { password : userData.password, password2 : userData.password2 })`
 
+## 
+
 ## 6. vuex 고민
 
 - 새로고침하면 store.state에 넣어뒀던 데이터들이 사라진다.
@@ -92,13 +100,11 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
 
 
 
-
-
 ## 7. eslint 설치
 
 - --save :   package.json의 dependency 항목에 모듈을 추가하는 옵션
 
-
+## 
 
 ## 8. vue3 router children
 
@@ -131,3 +137,36 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
     </div>
   </template>
   ```
+
+
+
+## 9. v-chip
+
+- vuetify에는 v-chip이라는 컴포넌트가 있는데, 누르면 선택되고 다시 누르면 비선택 상태로 바뀌는 버튼이다. 
+  
+  ```html
+  <template>
+  <v-chip-group v-model="userInterest" column multiple>
+  	<v-chip v-for="interest in InterestList" :key="interest">
+  		{{ interest }}
+      </v-chip>
+  </v-chip-group>
+  </template>
+  ```
+  
+  ```javascript
+  export default {
+      name: 'InterestEditForm',
+      data() {
+  	    return {
+  		    userInterest: [],
+  	    }
+      }
+  }
+  ```
+
+- 위 코드만으로도 interest를 누르면 data에 interestList의 클릭한 interest 인덱스가 추가되고, 선택한 것을 다시 클릭하면 해당 인덱스가 userInterest 배열에서 빠지게 된다.
+
+- 위 코드에서 userInterest안에 들어 있는 값이면 선택 상태(진한색) 으로 랜더링되고, userInterest안에 없는 값이면 비 선택 상태(연한색)으로 보이게 된다.
+
+- 만약 userInterest를 수정하는 상황이라면, 이전에 유저가 선택했던 interest 정보를 불러와 userInterest안에 키값(InterestList 인덱스)을 넣어두면, 이번에 유저가 선택하지 않았더라도 선택된 상태로 보이게 된다.
