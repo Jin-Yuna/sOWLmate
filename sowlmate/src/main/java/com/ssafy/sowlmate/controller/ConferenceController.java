@@ -1,6 +1,8 @@
 package com.ssafy.sowlmate.controller;
 
 import com.ssafy.sowlmate.entity.*;
+import com.ssafy.sowlmate.entity.type.InterestType;
+import com.ssafy.sowlmate.entity.type.LanguageType;
 import com.ssafy.sowlmate.service.ConferenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +36,7 @@ public class ConferenceController {
      * 언어별 방 조회
      */
     @GetMapping("language")
-    public List<Conference> conferenceLanguageList(UserLanStatus language){
+    public List<Conference> conferenceLanguageList(LanguageType language){
         return conferenceService.selectByLanguage(language);
     }
 
@@ -42,7 +44,7 @@ public class ConferenceController {
      * 관심사+언어 방 조회
      */
     @GetMapping("both")
-    public List<Conference> conferenceInterestAndLanguageList(InterestType interest, UserLanStatus language){
+    public List<Conference> conferenceInterestAndLanguageList(InterestType interest, LanguageType language){
         return conferenceService.selectByInterestAndLanguage(interest, language);
     }
 

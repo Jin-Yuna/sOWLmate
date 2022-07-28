@@ -1,5 +1,7 @@
 package com.ssafy.sowlmate.entity;
 
+import com.ssafy.sowlmate.entity.type.InterestType;
+import com.ssafy.sowlmate.entity.type.LanguageType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -8,8 +10,6 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -34,7 +34,7 @@ public class Conference {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private UserLanStatus language;
+    private LanguageType language;
 
 //    @NotNull
 //    @OneToMany(mappedBy = "conference")

@@ -27,8 +27,6 @@ public class User {
     @NotNull
     private String password;
     @NotNull
-    private String name;
-    @NotNull
     private String nickname;
     @NotNull
     private String name;

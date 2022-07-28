@@ -1,6 +1,8 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.entity.*;
+import com.ssafy.sowlmate.entity.type.InterestType;
+import com.ssafy.sowlmate.entity.type.LanguageType;
 import com.ssafy.sowlmate.repository.ConferenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,11 +29,11 @@ public class ConferenceService {
         return conferenceRepository.findAllByInterest(interest);
     }
 
-    public  List<Conference> selectByLanguage(UserLanStatus language){
+    public  List<Conference> selectByLanguage(LanguageType language){
         return conferenceRepository.findAllByLanguage(language);
     }
 
-    public List<Conference> selectByInterestAndLanguage(InterestType interest, UserLanStatus language){
+    public List<Conference> selectByInterestAndLanguage(InterestType interest, LanguageType language){
         return conferenceRepository.findAllByInterestAndLanguage(interest, language);
     }
 
