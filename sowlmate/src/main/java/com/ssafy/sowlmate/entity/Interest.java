@@ -1,6 +1,7 @@
 package com.ssafy.sowlmate.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssafy.sowlmate.entity.type.InterestType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

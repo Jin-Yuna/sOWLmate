@@ -1,8 +1,9 @@
 package com.ssafy.sowlmate.dto;
 
 import com.ssafy.sowlmate.entity.Interest;
+import com.ssafy.sowlmate.entity.type.RegionType;
 import com.ssafy.sowlmate.entity.User;
-import com.ssafy.sowlmate.entity.UserLanStatus;
+import com.ssafy.sowlmate.entity.type.LanguageType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,8 +16,8 @@ public class UserInfoDto {
 
     private String id;
     private String nickname;
-    private String region;
-    private UserLanStatus language;
+    private RegionType region;
+    private LanguageType language;
     private String profilePictureUrl;
     private List<Interest> interests;
 
