@@ -1,6 +1,9 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.entity.*;
+import com.ssafy.sowlmate.entity.type.InterestType;
+import com.ssafy.sowlmate.entity.type.LanguageType;
+import com.ssafy.sowlmate.entity.type.LockType;
 import com.ssafy.sowlmate.repository.ConferenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,11 +30,11 @@ public class ConferenceService {
         return conferenceRepository.findAllByInterest(interest);
     }
 
-    public  List<Conference> selectByLanguage(UserLanStatus language){
+    public  List<Conference> selectByLanguage(LanguageType language){
         return conferenceRepository.findAllByLanguage(language);
     }
 
-    public List<Conference> selectByInterestAndLanguage(InterestType interest, UserLanStatus language){
+    public List<Conference> selectByInterestAndLanguage(InterestType interest, LanguageType language){
         return conferenceRepository.findAllByInterestAndLanguage(interest, language);
     }
 
@@ -40,15 +43,15 @@ public class ConferenceService {
         User user = userService.selectById(userId);
         Conference newConference = new Conference();
         // conferenceId 자동생성 해야함 (순차 order? e.g. 1 2 3 4 5 6... or random number?? -> 중복 안되게 생성해야 함)
-       newConference.setConferenceTitle(newConference.getConferenceTitle());
+       newConference.setTitle(newConference.getTitle());
        newConference.setOwnerId(user.getId());
        newConference.setInterest(newConference.getInterest());
        newConference.setLanguage(newConference.getLanguage());
-       if(conference.getLock().equals(LockStatus.LOCK)){
-         newConference.setLock(conference.getLock());
+       if(conference.getLocks().equals(LockType.LOCK)){
+         newConference.setLocks(conference.getLocks());
          newConference.setPassword(conference.getPassword());  // pass 어떻게 하지~
        } else {
-           newConference.setLock(conference.getLock());
+           newConference.setLocks(conference.getLocks());
        }
 
         return conferenceRepository.save(newConference);

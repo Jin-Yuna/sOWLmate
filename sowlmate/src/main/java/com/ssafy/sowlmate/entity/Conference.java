@@ -1,15 +1,15 @@
 package com.ssafy.sowlmate.entity;
 
+import com.ssafy.sowlmate.entity.type.InterestType;
+import com.ssafy.sowlmate.entity.type.LanguageType;
+import com.ssafy.sowlmate.entity.type.LockType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -21,8 +21,7 @@ public class Conference {
     private Long no;
 
     @NotNull
-    @ColumnDefault("Title")
-    private String conferenceTitle;
+    private String title;
 
     @NotNull
     private String ownerId;
@@ -30,19 +29,16 @@ public class Conference {
     private String participantId;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private InterestType interest;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private UserLanStatus language;
-
-//    @NotNull
-//    @OneToMany(mappedBy = "conference")
-//    private List<User> participants = new ArrayList<>();
+    private LanguageType language;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private LockStatus lock;
+    private LockType locks;
 
     @Column(nullable = true)
     private String password;
