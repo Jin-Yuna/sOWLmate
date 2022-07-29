@@ -1,10 +1,10 @@
-const HOST = 'http://127.0.0.1:8000/'
+const HOST = "http://3.38.245.51:8000/api/v1/";
 
-const ACCOUNTS = 'dj-rest-auth/'
+const ACCOUNTS = "auth/";
 
 export default {
   users: {
-    login: () => HOST + ACCOUNTS + 'login/',
-    logout: () => HOST + ACCOUNTS + 'logout/',
-  }
-}
+    login: () => HOST + ACCOUNTS + "login",
+    logout: () => HOST + ACCOUNTS + "logout/",
+  },
+};

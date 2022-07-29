@@ -1,5 +1,7 @@
 package com.ssafy.sowlmate.entity;
 
+import com.ssafy.sowlmate.entity.type.LanguageType;
+import com.ssafy.sowlmate.entity.type.RegionType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,13 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Builder
 @Entity
 @Getter @Setter
 @RequiredArgsConstructor
-@AllArgsConstructor
-@ToString
 @Table(name = "user")
 public class User {
 
@@ -27,15 +28,21 @@ public class User {
     private String password;
     @NotNull
     private String nickname;
+    @NotNull
+    private String name;
 
     @NotNull
-    private String region;
+    @Enumerated(EnumType.STRING)
+    private RegionType region; // 대륙 enum type
 
     @Enumerated(EnumType.STRING)
-    private UserLanStatus language;
+    private LanguageType language;
 
     @Column(nullable = true)
     private String profilePictureUrl;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Interest> interests = new ArrayList<>();
 
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-DD/HH:mm:ss")

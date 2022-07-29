@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sowlmate?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://3.38.245.51:3306/sowlmate?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
     username: sowlmate
     password: SoWl@#MaTe1298
 
@@ -17,6 +17,16 @@ spring:
       hibernate:
         # show_sql: true
         format_sql: true
+
+# find password by email
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: jungyoon9898@naver.com
+    password: 비번
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
 
 #  profiles:
 #    include: API-KEY

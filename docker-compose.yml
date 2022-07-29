@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  # db:
+  #   image: mysql
+  #   restart: always
+  #   container_name: sowlmate-db
+  #   environment:
+  #     - MYSQL_ROOT_HOST='%'
+  #     - MYSQL_ROOT_PASSWORD=SoWl@#MaTe1298
+  #     - MYSQL_USER=sowlmate
+  #     - MYSQL_PASSWORD=SoWl@#MaTe1298
+  #     - MYSQL_DATABASE=sowlmate
+  #   ports:
+  #     - 3307:3306
+  #   networks:
+  #     - backdb
+
+  back:
+    build:
+      context: ./sowlmate
+      dockerfile: Dockerfile
+      # target: finalApp
+    container_name: sowlmate-back
+    restart: always
+    ports:
+      - 8000:8000
+    # depends_on:
+    #   - db
+    # networks:
+    #   - backdb
+
+  front:
+    build: ./front
+    container_name: sowlmate-front
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - back
+    # networks:
+    #   - frontback
+# networks:
+#   backdb:
+#     driver: bridge
+#   frontback:
+#     driver: bridge
