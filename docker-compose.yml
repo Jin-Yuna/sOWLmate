@@ -21,11 +21,11 @@ services:
       context: ./sowlmate
       dockerfile: Dockerfile
       # target: finalApp
-    image: sowlmate308/sowlmate:back0.1.0
+    image: sowlmate308/sowlmate:back0.1.2
     container_name: sowlmate-back
     restart: always
     ports:
-      - 8000:8000
+      - 8080:8080
     # depends_on:
     #   - db
     # networks:
@@ -33,11 +33,11 @@ services:
 
   front:
     build: ./front
-    image: sowlmate308/sowlmate:front0.1.0
+    image: sowlmate308/sowlmate:front0.1.2
     container_name: sowlmate-front
     restart: always
     ports:
-      - 8080:8080
+      - 80:80
     depends_on:
       - back
     # networks:
