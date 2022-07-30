@@ -25,9 +25,9 @@
     - junit: 테스트 프레임워크
     - mockito: 목 라이브러리
     - assertj: 테스트 코드를 좀 더 편하게 작성하게 도와주는 라이브러ㅣ
-<<<<<<< HEAD
+    <<<<<<< HEAD
     - spring-test: 스프링 통합 테스트 지원
-=======
+    =======
     - spring-test: 스프링 통합 테스트 지원
     
 
@@ -126,3 +126,12 @@
 
 ![Untitled](B308-PJT2%20ff23d3ebd70d414fa9c3244e89ee1bc4/Untitled%2010.png)
 >>>>>>> b86ced2720269b5338ed538aa86473bb0abf556b
+
+
+
+
+
+# Chat Server
+
+- openvidu
+- https setting
