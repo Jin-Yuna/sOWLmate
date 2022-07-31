@@ -1,30 +1,24 @@
 <template>
-<div>
-  <div v-if="images">
-    <img :src="images" alt="image">
+  <div>
+    <input type="file" id="image">
+    <button @click="upload()">저장</button>
   </div>
-  <div v-else @click="clickInputTag()">
-    <img src="https://via.placeholder.com/150" alt="profile image">
-    <label for="image">수정하기</label>
-    <div v-show="false">
-      <input ref="image" id="image" type="file" name="image" accept="image/*" @change="uploadImage()">
-    </div>
-  </div>
-</div>
 </template>
 
 <script>
-import axios from 'axios'
- 
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/storage'
+
 export default {
-  data: ()=>({
-    images: ''
-  }),
   methods: {
-    uploadImage() {
-      this.images = this.$refs.image.files
-      console.log(this.images)
-      axios({})
+    upload() {
+      const storage = firebase.storage();
+      var file = document.querySelector('#image').files[0];
+      var storageRef = storage.ref();
+      var spaceRef = storageRef.child('image/' +  file.name);
+      spaceRef.put(file).then((snapshot)=> {
+        console.log('uploaded', snapshot)
+      })
     }
   }
 }
