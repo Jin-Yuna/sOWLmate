@@ -33,6 +33,20 @@ spring:
       mail.smtp.auth: true
       mail.smtp.ssl.enable: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 710793534732-kgcut5qhk7kab496eh1i8k8pkcsaoje5.apps.googleusercontent.com
+            #            client-id: 710793534732-kgcut5qhk7kab496eh1i8k8pkcsaoje5.apps.googleusercontent.com
+            clientSecret: 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
+            scope:
+              - email
+              - profile
+
+  profiles:
+    include: google
 #  profiles:
 #    include: API-KEY
 
