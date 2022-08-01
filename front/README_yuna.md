@@ -11,16 +11,17 @@
   ESLint가 제공하는 formatting보다 더 강화된 formatting을 제공
   
   ESLint가 자동으로 고쳐주는 것보다 더 많은 범위내에서 formatting을 고쳐줌
+  
+  
 
 #### 1-1) dev 의존성에 prettier와 eslint와 prettier를 통합으로 사용할 패키지 두 개 추가
 
-   `npm i prettier eslint-config-prettier eslint-plugin-prettier --save-dev` 
+`npm i prettier eslint-config-prettier eslint-plugin-prettier --save-dev`
 
 - eslint-config-prettier : Prettier 설정과 충돌 나는 ESLint의 설정을 비활성화하는 역할
 
 - eslint-plugin-prettier : ESLint 안에서 Prettier 검사를 실행하도록 설정 -> Prettier 검사 결과를 ESLint 검사 결과처럼 보여주도록 함
 
- 
 
 
 #### 1-2) .eslintrc.json
@@ -39,7 +40,6 @@
 - `"plugins": ["prettier"]` : eslint-plugin-prettier 플러그인을 등록 → eslint-plugin-prettier 패키지의 기능
 - `"prettier/prettier": "error"` : ESLint 안에서 Prettier 검사를 실행하도록 설정. → eslint-plugin-prettier 패키지의 기능
 
- 
 
 
 #### 1-3) .prettierrc
