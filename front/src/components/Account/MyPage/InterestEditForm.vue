@@ -1,8 +1,5 @@
 <template>
 	<div>
-		{{ InterestList }}
-		{{ userInterest }}
-
 		<v-chip-group v-model="userInterest" column multiple>
 			<v-chip v-for="interest in InterestList" :key="interest">
 				{{ interest }}

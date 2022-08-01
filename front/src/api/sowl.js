@@ -3,6 +3,7 @@ const HOST = 'http://localhost:8000/api/v1/'
 const ACCOUNTS = 'auth/'
 const USERS = 'users/'
 const INTEREST = 'interest/'
+const CATEGORIS = 'categories/'
 
 export default {
   users: {
@@ -16,5 +17,10 @@ export default {
   interests: {
     interestList: () => HOST + INTEREST + 'list/',
     userInterest: (currentUser, interestName) => HOST + INTEREST + `${currentUser}?=title=${interestName}/`
-  }
+  },
+  categories: {
+    language: () => HOST + CATEGORIS + 'language/',
+    region: () => HOST + CATEGORIS + 'region/',
+    interest: () => HOST + CATEGORIS + 'interest/'
+  },
 }

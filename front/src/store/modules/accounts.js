@@ -47,6 +47,7 @@ export const accounts = ({
         commit('SET_TOKEN',response.data["access-token"])
         commit('SET_CURRENT_USER', userData.id )
         dispatch('getInterestList')
+        dispatch('getUserInfo')
         sessionStorage.setItem('token', response.data["access-token"])
         router.push({ name: 'HomeView' })
       })
@@ -101,12 +102,11 @@ export const accounts = ({
     },
     getInterestList({ commit }) {
       axios({
-        url: sowl.interests.interestList()
+        url: sowl.categories.interest()
       })
       .then(response => {
         console.log(response.data)
-        const temp_list = ['Music', 'Drama', 'Animal', 'Cat', 'Dog']
-        commit('GET_INTEREST_LIST', temp_list )
+        commit('GET_INTEREST_LIST', response.data)
       })
       .catch(error => {
         console.log(error)
@@ -114,8 +114,6 @@ export const accounts = ({
     },
     userInterestSave({ state, commit }, interestindexs) {
       console.log('interestindexs', interestindexs)
-      // todo : 이미 있던 interest는 제외하고 보내는 if문 추가
-      // 현재 뭔가 저장되긴 함...
       for ( const index of interestindexs ) {
         const interestName = state.interestList[index]
         console.log(interestName, '----------')
@@ -125,8 +123,8 @@ export const accounts = ({
         })
         console.log(sowl.interests.userInterest(state.currentUser, interestName))
         .then(response => {
-          console.log(response)
-          console.log(state.userInterests)
+          console.log('userInterestSaver', response)
+          console.log('userInterestSave', state.userInterests)
           commit('SET_CURRENT_USER', interestName )
         })
         .catch(error => {
@@ -142,24 +140,29 @@ export const accounts = ({
         }
       })
       .then(response => {
-        console.log(response.data.userInfo)
+        console.log('유저정보 state에 저장:', response.data.userInfo)
         commit('GET_USER_INFO', response.data.userInfo )
       })
       .catch(error => {
         console.error(error)
       })
     },
-    // 언어변경 => 제대로 요청이 가고, 응답도 잘 오는데 DB 데이터가 안 바뀜
-    // 비밀번호변경도 마찬가지. 포스트맨으로 요청보내도 DB 데이터 변경 안됨
+
     modifyUserInfo({ state, commit }, payload ) {
       // 페이로드에 { 'nickname' : 'user1' } 이런 식으로 넘어옴
       const sub = Object.keys( payload )[0]
+      console.log(sub)
+      // password가 안와서!!! 변경못함ㅠㅠ
+      let data = {
+        'id': state.userInfo['id'],
+      }
+      data[sub] = payload[sub]
+      console.log('수정데이터', data)
+      
       axios({
         url: sowl.users.userInfoChange(state.currentUser),
         method: 'put',
-        data: {
-          sub : payload[sub],
-        }
+        data
       })
       .then(response => {
         commit('GET_USER_INFO', response.data )
