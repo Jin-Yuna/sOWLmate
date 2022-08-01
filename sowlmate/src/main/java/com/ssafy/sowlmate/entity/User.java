@@ -35,8 +35,6 @@ public class User implements OAuth2User {
     private String nickname;
     @NotNull
     private String name;
-    @NotNull
-    private String email;
 
     @NotNull
     @Enumerated(EnumType.STRING)

@@ -34,7 +34,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         User user = new User();
         user.setId(attributes.get("sub").toString());
-        user.setEmail("");
         user.setPassword("");
         user.setNickname("");
         user.setRegion(RegionType.ASIA);
