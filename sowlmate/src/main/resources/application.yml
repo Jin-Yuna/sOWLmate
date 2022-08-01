@@ -1,7 +1,12 @@
 server:
-  port: 8000
+  port: 8080
   servlet:
     context-path: /api/v1
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: SoWl@#MaTe1298
+    key-store-type: PKCS12
+    enabled: true
 
 spring:
   datasource:
