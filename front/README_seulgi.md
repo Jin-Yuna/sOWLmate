@@ -90,15 +90,9 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   
   - 닉네임 중복 체크가 필요한 컴포넌트가 2개인데, 함수를 store에 만들고 state에 체크를 했는지를 저장하여 또 컴포넌트에서 이를 불러와서 사용하는게 맞나?
 
-
-
-
-
 ## 7. eslint 설치
 
 - --save :   package.json의 dependency 항목에 모듈을 추가하는 옵션
-
-
 
 ## 8. vue3 router children
 
@@ -131,3 +125,164 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
     </div>
   </template>
   ```
+
+## 9. vue & firebase
+
+- 파이어베이스 버전별 문법이 상이하여 도대체 vue 컴포넌트에서 firebase를 어떻게 import 해야 하는지를 모르겠다.
+
+- [시도 1. 코딩애플 firebase로 당근마켓 만들기](https://www.youtube.com/watch?v=bJ-33ANIScE&list=PLfLgtT94nNq3PzZinqs9Afuiai--r5NB_&index=2)
+  
+  - 이 강의를 따라 index.html에 스크립트 등을 넣었을 때 vue컴포넌트에서 firebase를 import할 수 없었다.
+
+- 시도 2.  [FIREBASE STORAGE – UPLOAD, DOWNLOAD, AND DELETE(September 29, 2021](https://adnan-tech.com/upload-download-and-delete-in-firebase-storage-vue-js/))
+  
+  - 업로드 로직이 필요한 프로필 컴포넌트에서 진행했지만 
+    
+    `ERROR in external "https://www.gstatic.com/firebasejs/9.9.1/firebase-storage.js"
+    The target environment doesn't support dynamic import() syntax so it's not possible to use external type 'module' within a script`
+    
+    라는 에러가 발생한다
+  
+  - 찾아보니 누군가 "Dynamic imports only works since ES2020"라고 하는 것을 봤다.
+  
+  - 자바스크립트 버전 확인을 어떻게 하는지 검색해 봤더니 브라우저마다 버전이 다르다고 하는 것 같다. 
+  
+  - 혹시나 해서 script테그에서 type="module"을 지워봤지만 해결되지 않았다.
+    
+    ```js
+    <template>
+    <div>
+      <form id="upload-form">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+      </form>
+    </div>
+    </template>
+    
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
+      import { getStorage, ref as stRef, uploadBytes } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-storage.js"
+      import { getDatabase, ref as dbRef, push, set } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js"
+      const firebaseConfig = {
+        apiKey: "",
+        authDomain: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: "",
+        measurementId: ""
+      };
+      const app = initializeApp(firebaseConfig);
+      const storage = getStorage(app)
+      const database = getDatabase()
+      const databaseReference = dbRef(database, "files")
+      window.addEventListener("load", function() {
+        document.getElementById("upload-form").addEventListener("submit", function() {
+          event.preventDefault()
+          var form = event.target
+          var file = form.file.files[0]
+          const storageRef = stRef(storage, "files/" + file.name)
+          uploadBytes(storageRef, file).then(function (snapshot) {
+            var newFileRef = push(databaseReference)
+            set(newFileRef, {
+              "name": file.name
+            })
+            console.log(snapshot)
+          })
+        })
+      })
+    </script>
+    <style></style>
+    ```
+
+- [시도3 Firebase공식문서 _ web version 8 ](https://firebase.google.com/docs/storage/web/start?authuser=0)
+  
+  - `export 'default' (imported as 'firebase') was not found in 'firebase/app' (possible exports: FirebaseError, SDK_VERSION, _DEFAULT_ENTRY_NAME, _addComponent, _addOrOverwriteComponent, _apps, _clearComponents, _components, _getProvider, _registerComponent, _removeServiceInstance, deleteApp, getApp, getApps, initializeApp, onLog, registerVersion, setLogLevel)` 이라는 노란색 오류가 떴다. 
+  
+  - 웹 콘솔창에는 `Uncaught TypeError: Cannot read properties of undefined (reading 'initializeApp')`오류가 출력되고 아무것도 랜더링 되지 았았다.
+    
+    ```javascript
+    // main.js
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import router from './router'
+    import store from './store'
+    import vuetify from './plugins/vuetify'
+    import { loadFonts } from './plugins/webfontloader'
+    import firebase from 'firebase/app'
+    
+    const firebaseConfig = {
+        // 생략
+    }
+    firebase.initializeApp(firebaseConfig)
+    
+    loadFonts()
+    
+    createApp(App)
+      .use(router)
+      .use(store)
+      .use(vuetify)
+      .mount('#app')
+    ```
+    
+    ```js
+    <template>
+      <div>
+        <input type="file" id="image">
+      </div>
+    </template>
+    
+    <script>
+    import firebase from 'firebase/app'
+    import 'firebse/storage'
+    export default {
+      methods: {
+        upload() {
+          const storage = firebase.storage();
+          var file = document.querySelector('#image').files[0];
+          var storageRef = storage.ref();
+          var mypath = storageRef.child('image/' +  file.name);
+          mypath.put(file)
+        }
+      }
+    }
+    </script>
+    <style></style>
+    
+    ```
+  
+  - 블로그 등에서 많이 본 코드처럼 main.js에서 `import firebase from 'firebase/app'`를 `import firebase from 'firebase'`로 바꿨더니 `Module not found: Error: Package path . is not exported from package C:\Users\multicampus\Desktop\pj\S07P12B308\front\node_modules\firebase`라는 오류가 뜬다
+  
+  - 검색해보니 `import firebase from 'firebase/compat/app'`으로 수정하면 된다고 한다.
+  
+  - 수정 후 오류도 안뜨고 저장도 안되길래 의아했는데, 만든 메서드를 실행시키는 버튼이 없다는 것을 알았다.  저장 성공!!
+    
+    ```javascript
+    <template>
+      <div>
+        <input type="file" id="image">
+        <button @click="upload()">저장</button>
+      </div>
+    </template>
+    
+    <script>
+    import firebase from 'firebase/compat/app'
+    import 'firebase/compat/storage'
+    
+    export default {
+      methods: {
+        upload() {
+          const storage = firebase.storage();
+          var file = document.querySelector('#image').files[0];
+          var storageRef = storage.ref();
+          var spaceRef = storageRef.child('image/' +  file.name);
+          spaceRef.put(file).then((snapshot)=> {
+            console.log('uploaded', snapshot)
+          })
+        }
+      }
+    }
+    </script>
+    
+    <style scoped></style>
+    ```
