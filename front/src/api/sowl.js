@@ -1,8 +1,8 @@
-const HOST = 'http://3.38.245.51:8000/api/v1/'
+const HOST = 'http://3.38.245.51:8000/api/v1/';
 
-const ACCOUNTS = 'auth/'
-const USERS = 'users/'
-const INTEREST = 'interest/'
+const ACCOUNTS = 'auth/';
+const USERS = 'users/';
+const INTEREST = 'interest/';
 
 export default {
   users: {
@@ -15,6 +15,7 @@ export default {
   },
   interests: {
     interestList: () => HOST + INTEREST + 'list/',
-    userInterest: (currentUser, interestName) => HOST + INTEREST + `${currentUser}?=title=${interestName}/`
-  }
-}
+    userInterest: (currentUser, interestName) =>
+      HOST + INTEREST + `${currentUser}?=title=${interestName}/`,
+  },
+};

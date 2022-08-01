@@ -1,13 +1,11 @@
 <template>
-  <div></div>  
+  <div></div>
 </template>
 
 <script>
 export default {
   name: 'PasswordResetCard',
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
