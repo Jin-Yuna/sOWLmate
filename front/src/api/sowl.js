@@ -16,7 +16,7 @@ export default {
   },
   interests: {
     interestList: () => HOST + INTEREST + 'list/',
-    userInterest: (currentUser, interestName) => HOST + INTEREST + `${currentUser}?=title=${interestName}/`
+    userInterest: (currentUser, interestName) => HOST + INTEREST + `${currentUser}?title=${interestName}`
   },
   categories: {
     language: () => HOST + CATEGORIS + 'language/',

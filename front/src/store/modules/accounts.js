@@ -116,7 +116,7 @@ export const accounts = ({
       console.log('interestindexs', interestindexs)
       for ( const index of interestindexs ) {
         const interestName = state.interestList[index]
-        console.log(interestName, '----------')
+        console.log(sowl.interests.userInterest(state.currentUser, interestName))
         axios({
           url: sowl.interests.userInterest(state.currentUser, interestName),
           method: 'post',
