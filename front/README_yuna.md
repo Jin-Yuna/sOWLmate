@@ -1,4 +1,4 @@
-# 1 ) ESLint와 prettier 적용
+### 1. ESLint와 prettier 적용
 
 - eslint?
   
@@ -11,8 +11,6 @@
   ESLint가 제공하는 formatting보다 더 강화된 formatting을 제공
   
   ESLint가 자동으로 고쳐주는 것보다 더 많은 범위내에서 formatting을 고쳐줌
-  
-  
 
    1-1) dev 의존성에 eslint와 prettier를 통합으로 사용할 패키지 두 개를 추가
 
@@ -22,9 +20,9 @@
 
 - eslint-plugin-prettier : ESLint 안에서 Prettier 검사를 실행하도록 설정 -> Prettier 검사 결과를 ESLint 검사 결과처럼 보여주도록 함
 
+ 
 
-
-   1-2) .eslintrc.json
+  1-2) .eslintrc.json
 
 ```json
 {
@@ -40,9 +38,9 @@
 - `"plugins": ["prettier"]` : eslint-plugin-prettier 플러그인을 등록 → eslint-plugin-prettier 패키지의 기능
 - `"prettier/prettier": "error"` : ESLint 안에서 Prettier 검사를 실행하도록 설정. → eslint-plugin-prettier 패키지의 기능
 
+ 
 
-
-   1-3) .prettierrc
+  1-3) .prettierrc
 
 ```json
 {    
@@ -75,8 +73,8 @@
 - `"useTabs": false` : 탭 사용 여부
 
 - `"endOfLine": "auto"` : 기존의 CRLF, LF 문자를 유지 / 이를 설정해주지 않으면 디폴트 값인 `"lf"`으로 설정되기 때문에 개행 문자로 CRLF를 사용하는 Windows에서는 에러가 발생
-  
-  
+
+
 
    1-4) default formatter 지정 + 저장을 눌렀을 때 자동 포매팅
 
@@ -114,5 +112,3 @@ why? )
 ```
 
 추가 했더니 해결됨!
-
-
