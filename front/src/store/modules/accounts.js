@@ -9,7 +9,9 @@ export const accounts = {
     currentUser: '',
     passwordDoubleCheck: false,
     nicknameCheck: false,
+    languageList: [],
     interestList: [],
+    regionList: [],
     userInterests: [],
     userInfo: {},
   },
@@ -19,6 +21,8 @@ export const accounts = {
     currentUser: (state) => state.currentUser,
     isPasswordDoubleCheck: (state) => state.passwordDoubleCheck,
     isNicknameCheck: (state) => state.nicknameCheck,
+    languageList: (state) => state.languageList,
+    regionList: (state) => state.regionList,
     InterestList: (state) => state.interestList,
     userInfo: (state) => state.userInfo,
   },
@@ -29,6 +33,8 @@ export const accounts = {
     PASSWORD_DOUBLE_CHECK: (state, checked) =>
       (state.passwordDoubleCheck = checked),
     NICKNAME_CHECK: (state, checked) => (state.nicknameCheck = checked),
+    GET_LANGUAGE_LIST: (state, list) => (state.languageList = list),
+    GET_REGION_LIST: (state, list) => (state.regionList = list),
     GET_INTEREST_LIST: (state, list) => (state.interestList = list),
     SET_USER_INTEREST: (state, interestName) =>
       state.userInterests.push(interestName),
@@ -41,11 +47,8 @@ export const accounts = {
     },
     login({ commit, dispatch }, userData) {
       axios({
-        url: `${sowl.users.login()}?id=${userData.id}&password=${
-          userData.password
-        }`,
+        url: sowl.users.login(userData.id, userData.password),
         method: 'post',
-        // data: JSON.stringify(userData)
       })
         .then((response) => {
           commit('SET_TOKEN', response.data['access-token']);
@@ -66,15 +69,17 @@ export const accounts = {
       router.push({ name: 'HomeView' });
     },
     signup({ dispatch }, userData) {
-      console.log('회원가입~');
       axios({
-        url: `${sowl.users.users()}?id=${userData.id}&password=${
-          userData.password
-        }&nickname=${userData.nickname}&region=${userData.region}&language=${
-          userData.lang
-        }`,
+        url: sowl.users.signup(
+          userData.id,
+          userData.password,
+          userData.nickname,
+          userData.region,
+          userData.userlang,
+          userData.preferlang,
+          userData.nickname,
+        ),
         method: 'post',
-        // data: JSON.stringify(userData)
       })
         .then((response) => {
           console.log(response);
@@ -106,6 +111,30 @@ export const accounts = {
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    getLanguageList({ commit }) {
+      axios({
+        url: sowl.categories.language(),
+      })
+        .then((response) => {
+          console.log(response.data);
+          commit('GET_LANGUAGE_LIST', response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getRegionList({ commit }) {
+      axios({
+        url: sowl.categories.region(),
+      })
+        .then((response) => {
+          console.log(response.data);
+          commit('GET_REGION_LIST', response.data);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     getInterestList({ commit }) {
@@ -166,13 +195,6 @@ export const accounts = {
           'access-token': state.token,
         },
       })
-        .then((response) => {
-          console.log('유저정보 state에 저장:', response.data.userInfo);
-          commit('GET_USER_INFO', response.data.userInfo);
-        })
-        .catch((error) => {
-          console.error(error);
-        })
         .then((response) => {
           console.log(response.data.userInfo);
           commit('GET_USER_INFO', response.data.userInfo);

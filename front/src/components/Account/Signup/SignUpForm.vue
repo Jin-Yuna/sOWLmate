@@ -58,13 +58,23 @@
       <div>
         <label for="region">지역: </label>
         <select name="region" id="region" v-model="userData.region">
-          <option v-for="reg in regions" :key="reg">{{ reg }}</option>
+          <option v-for="reg in regionList" :key="reg">{{ reg }}</option>
         </select>
       </div>
       <div>
-        <label for="lang">언어: </label>
-        <select name="lang" id="lang" v-model="userData.lang">
-          <option v-for="lan in languages" :key="lan">{{ lan }}</option>
+        <label for="userlang">사용 언어: </label>
+        <select name="userlang" id="userlang" v-model="userData.userlang">
+          <option v-for="userlan in languageList" :key="userlan">
+            {{ userlan }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label for="preferlang">선호 언어: </label>
+        <select name="preferlang" id="preferlang" v-model="userData.preferlang">
+          <option v-for="preferlang in languageList" :key="preferlang">
+            {{ preferlang }}
+          </option>
         </select>
       </div>
       <router-link :to="{ name: 'PasswordResetView' }"
@@ -92,22 +102,32 @@ export default {
     return {
       userData: {
         id: '',
-        lang: '',
         password: '',
         password2: '',
         nickname: '',
         region: '',
+        userlang: '',
+        preferlang: '',
       },
-      regions: ['KOREA', 'JAPAN', 'CHINA', 'UK'],
-      languages: ['KOREAN', 'KOREAN'],
       idChecked: false,
     };
   },
   computed: {
-    ...mapGetters(['isPasswordDoubleCheck', 'isNicknameCheck']),
+    ...mapGetters([
+      'isPasswordDoubleCheck',
+      'isNicknameCheck',
+      'languageList',
+      'regionList',
+    ]),
   },
   methods: {
-    ...mapActions(['signup', 'passwordDoubleCheck', 'nicknameCheck']),
+    ...mapActions([
+      'signup',
+      'passwordDoubleCheck',
+      'nicknameCheck',
+      'getLanguageList',
+      'getRegionList',
+    ]),
     ...mapMutations(['NICKNAME_CHECK']),
     // id는 변경이 안되니까 id중복체크도 쓸 곳이 회원가입 폼 뿐인 것 같아서 여기다 id중복체크 만듦
     idCheck() {
@@ -128,6 +148,10 @@ export default {
     idCheckFalse() {
       this.idChecked = false;
     },
+  },
+  mounted() {
+    this.getLanguageList();
+    this.getRegionList();
   },
 };
 </script>
