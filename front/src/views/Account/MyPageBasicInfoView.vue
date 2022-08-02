@@ -7,16 +7,16 @@
 </template>
 
 <script>
-import MyPageAvatar from '@/components/Account/MyPage/Basic/MyPageAvatar.vue'
-import MyPageBasicInfoForm from '@/components/Account/MyPage/Basic/MyPageBasicInfoForm.vue'
+import MyPageAvatar from '@/components/Account/MyPage/Basic/MyPageAvatar.vue';
+import MyPageBasicInfoForm from '@/components/Account/MyPage/Basic/MyPageBasicInfoForm.vue';
 
 export default {
   name: 'MyPageBasicInfoView',
-  components : {
+  components: {
     MyPageAvatar,
     MyPageBasicInfoForm,
-  }
-}
+  },
+};
 </script>
 
 <style></style>
