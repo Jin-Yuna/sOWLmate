@@ -1,10 +1,12 @@
 package com.ssafy.sowlmate.controller;
 
+import com.ssafy.sowlmate.dto.ConferenceRequestDto;
 import com.ssafy.sowlmate.entity.*;
 import com.ssafy.sowlmate.entity.type.InterestType;
 import com.ssafy.sowlmate.entity.type.LanguageType;
 import com.ssafy.sowlmate.service.ConferenceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public class ConferenceController {
     /**
      * 개설된 방 전체 조회
      */
-    @GetMapping("conference")
+    @GetMapping("list")
     public List<Conference> conferenceList(){
         return conferenceService.selectAll();
     }
@@ -27,49 +29,49 @@ public class ConferenceController {
     /**
      * 관심사별 방 조회
      */
-    @GetMapping("interest")
-    public List<Conference> conferenceInterestList(InterestType interest){
+    @GetMapping("list/interest")
+    public List<Conference> conferenceInterestList(InterestType interest) {
         return conferenceService.selectByInterest(interest);
     }
 
     /**
      * 언어별 방 조회
      */
-    @GetMapping("language")
-    public List<Conference> conferenceLanguageList(LanguageType language){
+    @GetMapping("list/language")
+    public List<Conference> conferenceLanguageList(LanguageType language) {
         return conferenceService.selectByLanguage(language);
     }
 
     /**
      * 관심사+언어 방 조회
      */
-    @GetMapping("both")
-    public List<Conference> conferenceInterestAndLanguageList(InterestType interest, LanguageType language){
+    @GetMapping("list/both")
+    public List<Conference> conferenceInterestAndLanguageList(InterestType interest, LanguageType language) {
         return conferenceService.selectByInterestAndLanguage(interest, language);
     }
 
     /**
      * 방 생성
      */
-    @PostMapping
-    public Conference createConference(Conference conference, String userId){
-        return conferenceService.createConference(conference, userId);
+    @PostMapping("create")
+    public ResponseEntity<Conference> createConference(@RequestBody Conference conference) {
+        return ResponseEntity.ok().body(conferenceService.createConference(conference));
     }
 
     /**
      * 방 입장
      */
-    @PutMapping
-    public void enterConference(long coneference, String userId) {
-        conferenceService.enterConference(coneference, userId);
+    @PutMapping("enter")
+    public ResponseEntity<Conference> enterConference(@RequestBody ConferenceRequestDto conferenceRequestDto) {
+        return ResponseEntity.ok().body(conferenceService.enterConference(conferenceRequestDto));
     }
 
     /**
      * 방 삭제 or 나가기
      */
-    @DeleteMapping
-    public void deleteOrExitConference(long conferenceNo, String userId){
-        conferenceService.deleteOrExitConference(conferenceNo, userId);
+    @DeleteMapping("exit")
+    public ResponseEntity<?> deleteOrExitConference(@RequestBody ConferenceRequestDto conferenceRequestDto) {
+        return ResponseEntity.ok().body(conferenceService.deleteOrExitConference(conferenceRequestDto));
     }
 }
 
