@@ -29,12 +29,10 @@ computed: {
 methods: {
 	...mapActions(['userInterestSave']),
 	interestCheck(){
-		console.log('InterestList',this.InterestList)
 		for (const userinterest of this.userInfo.interests) {
-			console.log(userinterest['title'])
 			if (this.InterestList.includes(userinterest['title'])) {
 				const index = this.InterestList.indexOf(userinterest['title'])
-				console.log(index) 
+				this.userInterest.push(index)
 			}
 		}
 	},
