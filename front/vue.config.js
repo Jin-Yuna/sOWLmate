@@ -4,8 +4,13 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       scss: {
+<<<<<<< HEAD
         additionalData: `
           @import "@/sass/variables.scss";
+=======
+        prependData: `
+          @import "@/styles/sass/variables.scss";
+>>>>>>> ce77119 (Style : setting scss and apply global style)
         `,
       },
     },
