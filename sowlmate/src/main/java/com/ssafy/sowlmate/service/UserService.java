@@ -80,8 +80,8 @@ public class UserService {
         User findedUser = userRepository.findById(userId);
 
         findedUser.setNickname(user.getNickname());
-        findedUser.setPassword(user.getPassword());
         findedUser.setLanguage(user.getLanguage());
+        findedUser.setPreferenceLanguage(user.getPreferenceLanguage());
         findedUser.setRegion(user.getRegion());
         findedUser.setProfilePictureUrl(user.getProfilePictureUrl());
 
