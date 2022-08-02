@@ -95,6 +95,14 @@ public class UserController {
     }
 
     /**
+     * 유저 정보 수정 : profilePictureUrl
+     */
+    @PutMapping("profile/{userId}")
+    public ResponseEntity<String> updateUserInfo(@PathVariable String userId, @RequestBody String profilePictureUrl) {
+        return ResponseEntity.ok().body(userService.updateUserProfile(userId, profilePictureUrl));
+    }
+
+    /**
      * 유저 정보 삭제
      */
     @DeleteMapping("{userId}")

@@ -89,6 +89,14 @@ public class UserService {
         return findedUser;
     }
 
+    @Transactional
+    public String updateUserProfile(String userId, String profilePictureUrl) {
+        User findedUser = userRepository.findById(userId);
+        findedUser.setProfilePictureUrl(profilePictureUrl);
+        userRepository.save(findedUser);
+        return findedUser.getProfilePictureUrl();
+    }
+
     /**
      * Find Password by email
      */
