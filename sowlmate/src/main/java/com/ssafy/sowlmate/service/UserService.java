@@ -80,13 +80,21 @@ public class UserService {
         User findedUser = userRepository.findById(userId);
 
         findedUser.setNickname(user.getNickname());
-        findedUser.setPassword(user.getPassword());
         findedUser.setLanguage(user.getLanguage());
+        findedUser.setPreferenceLanguage(user.getPreferenceLanguage());
         findedUser.setRegion(user.getRegion());
         findedUser.setProfilePictureUrl(user.getProfilePictureUrl());
 
         userRepository.save(findedUser);
         return findedUser;
+    }
+
+    @Transactional
+    public String updateUserProfile(String userId, String profilePictureUrl) {
+        User findedUser = userRepository.findById(userId);
+        findedUser.setProfilePictureUrl(profilePictureUrl);
+        userRepository.save(findedUser);
+        return findedUser.getProfilePictureUrl();
     }
 
     /**
