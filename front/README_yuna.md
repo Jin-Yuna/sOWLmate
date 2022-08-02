@@ -105,15 +105,11 @@ why? )
 
 추가 했더니 해결됨!
 
-
-
 ### 2. vuetify & scss 설정
 
 > Vuetify에서 scss를 이용해 특정 스타일을 지정하고 바꿀 수 있고, 프로젝트에서 css 대신 scss를 이용해 변수, mixin, placeholder 등을 통해 간편하게 스타일을 적용 할 예정
 > 
 > [Vuetify — A Material Design Framework for Vue.js](https://vuetifyjs.com/en/features/sass-variables/)
-
-
 
 **폴더 구조**
 
@@ -125,8 +121,6 @@ why? )
 - **_index.scss** : 위의 모든 SCSS를 한곳으로 모으는 CSS (단, variables.scss는 여기에 포함되지 않음)
 - **variables.scss** : 모든 SCSS 파일에서 사용할 변수에 대한 정의만 작성
 
-
-
 #### 2-1) variables.scss
 
 > 프로젝트 전체에 적용되는 변수에 대해 정의
@@ -135,13 +129,9 @@ why? )
 > 
 > vue.config.js에 설정
 
-
-
 - path: `src/styles/variables.scss`
 
 - `src/styles/`폴더 안에 `variables.scss`를 만든 뒤 vuetify component들의 스타일을 지정하면 vuetify에서 알아서 불러옴
-
-
 
 ---------------------
 
