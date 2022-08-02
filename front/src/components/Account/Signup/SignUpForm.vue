@@ -36,7 +36,7 @@
       <div>
         <label for="lang">언어: </label>
         <select name="lang" id="lang" v-model="userData.lang">
-          <option v-for="lan in languages" :key="lan">{{ lan }}</option>
+          <option v-for="lan in languageList" :key="lan">{{ lan }}</option>
         </select>
       </div>
       <button v-if="isPasswordDoubleCheck && idChecked && isNicknameCheck">회원가입</button>
@@ -71,19 +71,15 @@ export default {
           'JAPAN',
           'CHINA',
           'UK',
-      ],
-      languages: [
-          'KOREAN',
-          'KOREAN',
-      ],
+      ],  
       idChecked : false,
     }
   },
   computed: {
-    ...mapGetters(['isPasswordDoubleCheck', 'isNicknameCheck'])
+    ...mapGetters(['isPasswordDoubleCheck', 'isNicknameCheck', 'languageList'])
   },
   methods: {
-    ...mapActions(['signup', 'passwordDoubleCheck', 'nicknameCheck']),
+    ...mapActions(['signup', 'passwordDoubleCheck', 'nicknameCheck', 'getLanguageList']),
     ...mapMutations(['NICKNAME_CHECK']),
     // id는 변경이 안되니까 id중복체크도 쓸 곳이 회원가입 폼 뿐인 것 같아서 여기다 id중복체크 만듦
     idCheck() {
@@ -105,6 +101,9 @@ export default {
       this.idChecked = false
     }
   },
+  mounted() {
+    this.getLanguageList()
+  }
 }
 </script>
 

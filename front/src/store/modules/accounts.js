@@ -9,6 +9,7 @@ export const accounts = ({
     currentUser: '',
     passwordDoubleCheck: false,
     nicknameCheck: false,
+    languageList: [],
     interestList: [],
     userInterests: [],
     userInfo: {},
@@ -19,6 +20,7 @@ export const accounts = ({
     currentUser: state => state.currentUser,
     isPasswordDoubleCheck: state => state.passwordDoubleCheck,
     isNicknameCheck: state => state.nicknameCheck,
+    languageList: state => state.languageList,
     InterestList: state => state.interestList,
     userInfo: state => state.userInfo,
   },
@@ -28,6 +30,7 @@ export const accounts = ({
     SET_CURRENT_USER: (state, user) => state.currentUser = user,
     PASSWORD_DOUBLE_CHECK: (state, checked) => state.passwordDoubleCheck = checked,
     NICKNAME_CHECK: (state, checked) => state.nicknameCheck = checked,
+    GET_LANGUAGE_LIST: (state, list) => state.languageList = list,
     GET_INTEREST_LIST: (state, list) => state.interestList = list,
     SET_USER_INTEREST: (state, interestName) => state.userInterests.push(interestName),
     GET_USER_INFO: (state, data) => state.userInfo = data,
@@ -41,7 +44,6 @@ export const accounts = ({
       axios({
         url: `${sowl.users.login()}?id=${userData.id}&password=${userData.password}`,
         method: 'post',
-        // data: JSON.stringify(userData)
       })
       .then(response => {
         commit('SET_TOKEN',response.data["access-token"])
@@ -73,9 +75,7 @@ export const accounts = ({
         const loginData = { id: userData.id, password : userData.password }
         dispatch('login', loginData)
       })
-      .catch(error => {
-        console.error(error)
-      })
+      .catch(error => { console.error(error) })
     },
     passwordDoubleCheck({ commit }, payload ) {
       let checked = false
@@ -96,9 +96,18 @@ export const accounts = ({
           commit('NICKNAME_CHECK', true )
         }
       })
-      .catch(error => {
-        console.error(error)
-      }) 
+      .catch(error => { console.error(error) }) 
+    },
+    getLanguageList({ commit }) {
+      axios({
+        url: sowl.categories.language(),
+        method: 'get'
+      })
+      .then(response => {
+        console.log(response.data)
+        commit('GET_LANGUAGE_LIST', response.data)
+      })
+      .catch(err => { console.log(err) })
     },
     getInterestList({ commit }) {
       axios({
@@ -129,6 +138,7 @@ export const accounts = ({
             console.log('관심사저장',response)
             commit('SET_CURRENT_USER', interestName )
           })
+          .catch(err => {console.log(err)})
         }
       }
       // 기존에는 있는데 넘겨준 interestindexs에 없다면 삭제 요청
@@ -156,11 +166,8 @@ export const accounts = ({
         console.log('유저정보 state에 저장:', response.data.userInfo)
         commit('GET_USER_INFO', response.data.userInfo )
       })
-      .catch(error => {
-        console.error(error)
-      })
+      .catch(error => { console.error(error)})
     },
-
     modifyUserInfo({ state, commit }, payload ) {
       // 페이로드에 { 'nickname' : 'user1' } 이런 식으로 넘어옴
       const sub = Object.keys( payload )[0]
@@ -181,9 +188,7 @@ export const accounts = ({
         commit('GET_USER_INFO', response.data )
         alert('성공적으로 변경되었습니다.')
       })
-      .catch(error => {
-        console.error(error)
-      })
+      .catch(error => { console.error(error) })
     }
   },
   modules: {
