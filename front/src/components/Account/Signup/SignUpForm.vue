@@ -67,6 +67,9 @@
           <option v-for="lan in languages" :key="lan">{{ lan }}</option>
         </select>
       </div>
+      <router-link :to="{ name: 'PasswordResetView' }"
+        >비밀번호를 잊으셨나요?</router-link
+      >
       <button v-if="isPasswordDoubleCheck && idChecked && isNicknameCheck">
         회원가입
       </button>
