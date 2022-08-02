@@ -11,18 +11,20 @@ export const accounts = {
     nicknameCheck: false,
     languageList: [],
     interestList: [],
+    regionList: [],
     userInterests: [],
     userInfo: {},
   },
   getters: {
-    isLoggedIn: state => !!state.token,
-    authHeader: state => state.token,
-    currentUser: state => state.currentUser,
-    isPasswordDoubleCheck: state => state.passwordDoubleCheck,
-    isNicknameCheck: state => state.nicknameCheck,
-    languageList: state => state.languageList,
-    InterestList: state => state.interestList,
-    userInfo: state => state.userInfo,
+    isLoggedIn: (state) => !!state.token,
+    authHeader: (state) => state.token,
+    currentUser: (state) => state.currentUser,
+    isPasswordDoubleCheck: (state) => state.passwordDoubleCheck,
+    isNicknameCheck: (state) => state.nicknameCheck,
+    languageList: (state) => state.languageList,
+    regionList: (state) => state.regionList,
+    InterestList: (state) => state.interestList,
+    userInfo: (state) => state.userInfo,
   },
   mutations: {
     SET_TOKEN: (state, newToken) => (state.token = newToken),
@@ -32,6 +34,7 @@ export const accounts = {
       (state.passwordDoubleCheck = checked),
     NICKNAME_CHECK: (state, checked) => (state.nicknameCheck = checked),
     GET_LANGUAGE_LIST: (state, list) => (state.languageList = list),
+    GET_REGION_LIST: (state, list) => (state.regionList = list),
     GET_INTEREST_LIST: (state, list) => (state.interestList = list),
     SET_USER_INTEREST: (state, interestName) =>
       state.userInterests.push(interestName),
@@ -44,9 +47,7 @@ export const accounts = {
     },
     login({ commit, dispatch }, userData) {
       axios({
-        url: `${sowl.users.login()}?id=${userData.id}&password=${
-          userData.password
-        }`,
+        url: sowl.users.login(userData.id, userData.password),
         method: 'post',
       })
         .then((response) => {
@@ -68,22 +69,26 @@ export const accounts = {
       router.push({ name: 'HomeView' });
     },
     signup({ dispatch }, userData) {
-      console.log('회원가입~');
       axios({
-        url: `${sowl.users.users()}?id=${userData.id}&password=${
-          userData.password
-        }&nickname=${userData.nickname}&region=${userData.region}&language=${
-          userData.lang
-        }`,
+        url: sowl.users.signup(
+          userData.id,
+          userData.password,
+          userData.nickname,
+          userData.region,
+          userData.userlang,
+          userData.preferlang,
+          userData.nickname,
+        ),
         method: 'post',
-        // data: JSON.stringify(userData)
       })
-      .then(response => {
-        console.log(response)
-        const loginData = { id: userData.id, password : userData.password }
-        dispatch('login', loginData)
-      })
-      .catch(error => { console.error(error) })
+        .then((response) => {
+          console.log(response);
+          const loginData = { id: userData.id, password: userData.password };
+          dispatch('login', loginData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     passwordDoubleCheck({ commit }, payload) {
       let checked = false;
@@ -106,6 +111,30 @@ export const accounts = {
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    getLanguageList({ commit }) {
+      axios({
+        url: sowl.categories.language(),
+      })
+        .then((response) => {
+          console.log(response.data);
+          commit('GET_LANGUAGE_LIST', response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getRegionList({ commit }) {
+      axios({
+        url: sowl.categories.region(),
+      })
+        .then((response) => {
+          console.log(response.data);
+          commit('GET_REGION_LIST', response.data);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     getInterestList({ commit }) {
