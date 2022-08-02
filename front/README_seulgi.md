@@ -248,7 +248,6 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
     }
     </script>
     <style></style>
-    
     ```
   
   - 블로그 등에서 많이 본 코드처럼 main.js에서 `import firebase from 'firebase/app'`를 `import firebase from 'firebase'`로 바꿨더니 `Module not found: Error: Package path . is not exported from package C:\Users\multicampus\Desktop\pj\S07P12B308\front\node_modules\firebase`라는 오류가 뜬다
@@ -286,3 +285,15 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
     
     <style scoped></style>
     ```
+
+
+
+
+
+## 10. 사라진 코드
+
+- 관심사 등록이 잘 되는걸 분명 확인했었는데, 오늘 갑자기 안되서 다시 보니 열심히 만들었던 관심사 관련 코드가 사라져있었다. 
+
+- firebase를 하기 전에 dev에 머지를 하고 진행했어야 하는데, 문제 없을 것이라 생각하고 firebase오류 때문에 브랜치를 생성했다 지웠다하다 코드가 분실된 듯 하다.
+
+- 한 기능이 완료되면 머지를 꼭 하자!
