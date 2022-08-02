@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import InterestEditForm from '@/components/Account/MyPage/InterestEditForm.vue'
+import InterestEditForm from '@/components/Account/MyPage/InterestEditForm.vue';
 
 export default {
   name: 'MypageEditInterestView',
-  components : {
+  components: {
     InterestEditForm,
-  }
-}
+  },
+};
 </script>
 
 <style></style>

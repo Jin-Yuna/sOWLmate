@@ -1,22 +1,22 @@
 <template>
   <v-app>
-      <TheNavBar />
+    <TheNavBar />
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import TheNavBar from '@/components/Common/TheNavBar.vue'
+import TheNavBar from '@/components/Common/TheNavBar.vue';
 export default {
-  components : {
-    TheNavBar
+  components: {
+    TheNavBar,
   },
   name: 'App',
 
   data: () => ({
     //
   }),
-}
+};
 </script>
