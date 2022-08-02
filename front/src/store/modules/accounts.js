@@ -56,7 +56,11 @@ export const accounts = {
           dispatch('getInterestList');
           dispatch('getUserInfo');
           sessionStorage.setItem('token', response.data['access-token']);
-          router.push({ name: 'HomeView' });
+          if (userData.justSignup) {
+            router.push({ name: 'MypageEditInterestView' });
+          } else {
+            router.push({ name: 'HomeView' });
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -83,7 +87,11 @@ export const accounts = {
       })
         .then((response) => {
           console.log(response);
-          const loginData = { id: userData.id, password: userData.password };
+          const loginData = {
+            id: userData.id,
+            password: userData.password,
+            justSignup: true,
+          };
           dispatch('login', loginData);
         })
         .catch((error) => {
@@ -163,8 +171,7 @@ export const accounts = {
           axios({
             url: sowl.interests.userInterest(state.currentUser, interestName),
             method: 'post',
-          }).then((response) => {
-            console.log('관심사저장', response);
+          }).then(() => {
             commit('SET_CURRENT_USER', interestName);
           });
         }

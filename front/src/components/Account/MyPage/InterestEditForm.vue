@@ -25,7 +25,7 @@ export default {
     ...mapGetters(['InterestList', 'userInfo']),
   },
   methods: {
-    ...mapActions(['userInterestSave']),
+    ...mapActions(['userInterestSave', 'getInterestList']),
     interestCheck() {
       for (const userinterest of this.userInfo.interests) {
         if (this.InterestList.includes(userinterest['title'])) {
@@ -37,6 +37,9 @@ export default {
   },
   mounted() {
     this.interestCheck();
+    if (this.InterestList.length < 1) {
+      this.getInterestList();
+    }
   },
 };
 </script>
