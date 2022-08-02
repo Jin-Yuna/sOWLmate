@@ -23,6 +23,7 @@ public class User {
     @Column(name = "user_id")
     private Long no;
 
+    @Column(name = "id", unique = true)
     @NotNull private String id;
     @NotNull private String password;
     @NotNull private String nickname;
