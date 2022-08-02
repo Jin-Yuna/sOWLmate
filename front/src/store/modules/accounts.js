@@ -108,19 +108,18 @@ export const accounts = ({
         console.log(response.data)
         commit('GET_INTEREST_LIST', response.data)
       })
-      .catch(error => {
-        console.log(error)
-      })
+      .catch(error => { console.log(error) })
     },
     userInterestSave({ state, commit }, interestindexs) {
       // 기존에 저장된 관심사 뺴고 axios 요청
-      // todo 기존에는 있는데 넘겨준 interestindexs에 없다면 삭제 요청
       let current = []
+      let now = []
       for (const currentInterest of state.userInfo.interests) {
         current.push(currentInterest['title'])
       }
       for ( const index of interestindexs ) {
         const interestName = state.interestList[index]
+        now.push(interestName)
         if (!current.includes(interestName)) {
           axios({
             url: sowl.interests.userInterest(state.currentUser, interestName),
@@ -130,6 +129,19 @@ export const accounts = ({
             console.log('관심사저장',response)
             commit('SET_CURRENT_USER', interestName )
           })
+        }
+      }
+      // 기존에는 있는데 넘겨준 interestindexs에 없다면 삭제 요청
+      for (const currentInterest of current) {
+        if (!now.includes(currentInterest)) {
+          axios({
+            url: sowl.interests.userInterest(state.currentUser, currentInterest),
+            method: 'delete',
+          })
+          .then(()=>{
+            console.log('관심사삭제', currentInterest)
+          })
+          .catch(err => {console.log(err)})
         }
       }
     },
