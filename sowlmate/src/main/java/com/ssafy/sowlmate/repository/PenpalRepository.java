@@ -18,7 +18,7 @@ public interface PenpalRepository extends JpaRepository<Penpal, Long> {
 
     @Modifying
     @Transactional
-    void deleteByFromUserIdAndToUserId(String fromUserId, String toUserId);
+    int deleteByFromUserIdAndToUserId(String fromUserId, String toUserId);
 
     List<Penpal> findAllByFromUserNo(long fromUserNo);
     List<Penpal> findAllByFromUserId(String fromUserId);
