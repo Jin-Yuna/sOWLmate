@@ -97,13 +97,14 @@ export const accounts = {
         });
     },
     // Check
-    idCheck({ commit }, userData) {
+    idCheck({ commit }, id) {
       axios({
         url: sowl.users.idCheck(),
         method: 'get',
-        data: { userId: userData.id },
+        body: { userId: id },
       })
         .then((response) => {
+          console.log(response);
           if (response.data != 'exist') {
             commit('ID_CHECK', true);
           }

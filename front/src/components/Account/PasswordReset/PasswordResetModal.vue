@@ -11,16 +11,15 @@
               <p v-if="!idNicknameCheck">
                 아이디와 닉네임이 일치하지 않습니다.
               </p>
-              <p v-if="idNicknameCheck">비밀번호가 메일로 전송되었습니다.</p>
+              <p v-if="idNicknameCheck">
+                임시 비밀번호가 메일로 전송되었습니다. 비밀번호를 확인해보세요.
+              </p>
             </slot>
           </div>
           <div class="modal-footer">
             <slot name="footer">
               <router-link :to="{ name: 'SinupView' }" v-if="!idNicknameCheck"
                 >회원가입</router-link
-              >
-              <router-link :to="{ name: 'LoginView' }" v-if="idNicknameCheck"
-                >로그인</router-link
               >
               <button class="modal-default-button" @click="$emit('close')">
                 확인

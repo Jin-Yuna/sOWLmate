@@ -11,8 +11,9 @@
           v-model="userData.id"
           @keyup="idCheck(userData.id)"
         />
-        <p v-if="idCheck">아이디를 정확하게 입력해주세요.</p>
-        <p v-if="!idCheck">아이디가 확인되었습니다.</p>
+        {{ isIdCheck }}
+        <p v-if="!isIdCheck">아이디를 정확하게 입력해주세요.</p>
+        <p v-if="isIdCheck">아이디가 확인되었습니다.</p>
       </div>
       <div>
         <label for="nickname">닉네임 : </label>
@@ -24,7 +25,11 @@
         />
       </div>
       <PasswordResetModal v-if="showModal" @close="pageLink()" />
-      <v-btn type="submit" v-bind:disabled="idCheck" @click="showModal = true">
+      <v-btn
+        type="submit"
+        v-bind:disabled="!isIdCheck"
+        @click="showModal = true"
+      >
         임시 비밀번호 전송
       </v-btn>
     </form>
@@ -52,17 +57,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isIdCheck']),
+    ...mapGetters(['isIdCheck', 'isIdNicknameCheck']),
   },
   methods: {
     ...mapActions(['idCheck', 'resetPassword']),
     pageLink() {
-      this.showModal = false;
-      if (!this.$store.state.idNicknameCheck) {
-        this.$router.push({ name: 'SinupView' });
-      } else {
+      console.log(this.isIdNicknameCheck);
+      if (this.isIdNicknameCheck) {
         this.$router.push({ name: 'LoginView' });
       }
+      this.showModal = false;
     },
   },
 };
