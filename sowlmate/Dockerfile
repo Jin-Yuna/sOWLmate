@@ -8,13 +8,28 @@
 #RUN ./gradlew bootJar
 #FROM openjdk:8-jdk-alpine
 #COPY --from=builder build/libs/*.jar app.jar
+#EXPOSE 8080
 #ENTRYPOINT ["java","-jar","/app.jar"]
 
+# FROM openjdk:8-jdk-alpine
+# ARG JAR_FILE=*.jar
+# COPY build/libs/${JAR_FILE} app.jar
+# EXPOSE 8080
+# ENTRYPOINT ["java","-jar","/app.jar"]
+
+FROM openjdk:8-jdk-alpine AS builder
+WORKDIR /backend
+COPY . .
+RUN chmod +x ./gradlew
+
+RUN ./gradlew clean build
+RUN ls build/libs
+
 FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=*.jar
-COPY build/libs/${JAR_FILE} app.jar
+COPY --from=builder /backend/build/libs/*.jar app.jar
+
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java", "-jar", "-Duser.timezone=Asia/Seoul", "./app.jar"]
 
 #FROM openjdk:8-jdk-alpine as builder
 #COPY --chown=gradle:gradle . /home/gradle/src
