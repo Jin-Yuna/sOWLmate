@@ -1,9 +1,9 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.dto.MailDto;
+import com.ssafy.sowlmate.dto.UserFindPWRequestDto;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.UserRepository;
-import com.ssafy.sowlmate.util.EncryptionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,18 +23,18 @@ public class SendEmailService {
     /**
      * DTO에 사용자가 원하는 내용과 제목을 작성
      */
-    public MailDto createMailAndChangePassword(String userId, String userName) {
+    public MailDto createMailAndChangePassword(UserFindPWRequestDto requestDto) {
         String tempPassword = getTempPassword();
         log.debug(tempPassword);
 
         MailDto dto = new MailDto();
-        dto.setAddress(userId);
-        dto.setTitle("[sOWLmate]" + userName + "님의 임시비밀번호 안내 이메일 입니다.");
-        dto.setMessage("안녕하세요" + userName + "님,\n" + "귀하게서 요청하신 임시 비밀번호\n"
+        dto.setAddress(requestDto.getUserId());
+        dto.setTitle("[sOWLmate]" + requestDto.getUserName() + "님의 임시비밀번호 안내 이메일 입니다.");
+        dto.setMessage("안녕하세요" + requestDto.getUserName() + "님,\n" + "귀하게서 요청하신 임시 비밀번호\n"
                 + "수신을 위해 발송된 메일입니다.\n" + "\n" + "고객님의 임시 비밀번호는 " + tempPassword
         + " 입니다.\n" + "\n로그인 후에는 새로운 비밀번호로 변경하셔야 합니다.\n" + "감사합니다.");
 
-        updatePassword(tempPassword, userId);
+        updatePassword(tempPassword, requestDto.getUserId());
         return dto;
     }
 
@@ -67,7 +67,7 @@ public class SendEmailService {
         return str;
     }
 
-    public void sendEmail(MailDto mailDto) {
+    public String sendEmail(MailDto mailDto) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(mailDto.getAddress());
         simpleMailMessage.setFrom(SendEmailService.FROM_ADDRESS);
@@ -76,7 +76,6 @@ public class SendEmailService {
 
         javaMailSender.send(simpleMailMessage);
 
-        //System.out.println("email 전송 완료 !");
+        return "email 전송 완료 !";
     }
-
 }
