@@ -3,11 +3,13 @@ pipeline {
 		registry = "sowlmate308/sowlmate"
 		registryCredential = 'docker-credentials'
 		dockerImage = ''
+		PATH = "$PATH:/usr/local/bin"
 	}
 	agent any
 	stages {
 		stage('Build image') {
 			steps {
+				echo "$PATH"
 				sh 'docker-compose build'
 				// sh 'docker image tag $registry:$BUILD_NUMBER $registry:latest'
 				echo 'Build image...'
