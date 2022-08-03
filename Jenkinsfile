@@ -8,7 +8,7 @@ pipeline {
 	stages {
 		stage('Build image') {
 			steps {
-				sh 'sudo docker-compose build'
+				sh 'docker-compose build'
 				// sh 'docker image tag $registry:$BUILD_NUMBER $registry:latest'
 				echo 'Build image...'
 			}
@@ -22,8 +22,8 @@ pipeline {
 		stage('Push image') {
 			steps {
 					withDockerRegistry([ credentialsId: registryCredential, url: "" ]) {
-						sh 'sudo docker push $registry:back'
-						sh 'sudo docker push $registry:front'
+						sh 'docker push $registry:back'
+						sh 'docker push $registry:front'
 					}
 					echo 'Push image...'
 			}
