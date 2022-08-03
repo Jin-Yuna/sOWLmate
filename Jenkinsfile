@@ -30,15 +30,15 @@ pipeline {
 		// 			echo 'Push image...'
 		// 	}
 		// }
-		// stage('Clean image') {
-		// 	steps {
-		// 		sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-front"`'
-		// 		sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-back"`'
-		// 		sh 'docker rmi $registry:back'
-		// 		sh 'docker rmi $registry:front'
-		// 		echo 'Clean image...'
-		// 	}
-		// }
+		stage('Clean image') {
+			steps {
+				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-front"`'
+				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-back"`'
+				sh 'docker rmi $registry:back'
+				sh 'docker rmi $registry:front'
+				echo 'Clean image...'
+			}
+		}
 		stage('Deploy image') {
 			steps {
 				sh 'docker run -d -p 8080:8080 --name sowlmate-back sowlmate308/sowlmate:back'
