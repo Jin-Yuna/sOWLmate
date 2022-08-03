@@ -10,6 +10,11 @@
         <label for="password">비밀번호: </label>
         <input type="password" id="password" v-model="userData.password" />
       </div>
+      <div>
+        <router-link :to="{ name: 'PasswordResetView' }"
+          >비밀번호를 잊으셨나요?</router-link
+        >
+      </div>
       <button>로그인</button>
     </form>
   </div>

@@ -26,7 +26,10 @@ export default {
       'users' +
       `?id=${id}&password=${password}&nickname=${nickname}&region=${region}&language=${language}&preferenceLanguage=${preferenceLanguage}&name=${name}`,
     userInfoChange: (currentUser) => HOST + USERS + `${currentUser}/`,
+    idCheck: () => HOST + USERS + 'exist/' + 'id',
     nicknameCheck: (nickname) => HOST + USERS + 'nickname/' + `${nickname}/`,
+    idNicknameCheck: () => HOST + ACCOUNTS + 'finpw',
+    resetPassword: () => HOST + ACCOUNTS + 'finpw/' + 'sendemail',
   },
   interests: {
     interestList: () => HOST + INTEREST + 'list/',

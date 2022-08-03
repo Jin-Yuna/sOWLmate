@@ -77,14 +77,10 @@
           </option>
         </select>
       </div>
-      <router-link :to="{ name: 'PasswordResetView' }"
-        >비밀번호를 잊으셨나요?</router-link
-      >
       <button v-if="isPasswordDoubleCheck && idChecked && isNicknameCheck">
         회원가입
       </button>
     </form>
-    <router-link :to="{ name: 'LoginView' }">이미 회원이신가요?</router-link>
   </div>
 </template>
 
