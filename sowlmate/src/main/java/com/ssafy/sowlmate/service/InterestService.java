@@ -41,10 +41,10 @@ public class InterestService {
     }
 
     @Transactional
-    public void deleteInterest(String userId, InterestType title) {
+    public int deleteInterest(String userId, InterestType title) {
         User findUser = userRepository.findById(userId);
         // 유저가 같고, 관심사 타입이 같은 경우를 찾아 삭제한다.
         // jpql 활용할 예정
-        interestRepository.deleteByUserAndType(findUser, title);
+        return interestRepository.deleteByUserAndType(findUser, title);
     }
 }

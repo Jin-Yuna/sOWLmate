@@ -1,11 +1,10 @@
 package com.ssafy.sowlmate.controller;
 
-import com.ssafy.sowlmate.entity.Intimacy;
+import com.ssafy.sowlmate.dto.IntimacyRequestDto;
 import com.ssafy.sowlmate.service.IntimacyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,47 +17,47 @@ public class IntimacyController {
      * 등록
      */
     @PostMapping
-    public Intimacy enrollIntimacy(String fromUserId, String toUserId, int eval) {
-        return intimacyService.enrollIntimacy(fromUserId, toUserId, eval);
+    public ResponseEntity<?> enrollIntimacy(@RequestBody IntimacyRequestDto requestDto) {
+        return ResponseEntity.ok().body(intimacyService.enrollIntimacy(requestDto));
     }
 
     /**
      * 전체 조회
      */
     @GetMapping("list")
-    public List<Intimacy> getIntimacies() {
-        return intimacyService.selectAll();
+    public ResponseEntity<?> getIntimacies() {
+        return ResponseEntity.ok().body(intimacyService.selectAll());
     }
 
     /**
      * 유저별 조회
      */
-    @GetMapping("{userId}")
-    public List<Intimacy> getIntimaciesByFromUser(@PathVariable String userId) {
-        return intimacyService.selectAllByFromUserId(userId);
+    @GetMapping("list/user")
+    public ResponseEntity<?> getIntimaciesByFromUser(@RequestBody IntimacyRequestDto requestDto) {
+        return ResponseEntity.ok().body(intimacyService.selectAllByFromUserId(requestDto.getFromUserId()));
     }
 
     /**
      * 단일 조회
      */
     @GetMapping("single")
-    public Intimacy getIntimacy(String fromUserId, String toUserId) {
-        return intimacyService.selectByFromUserIdAndToUserId(fromUserId, toUserId);
+    public ResponseEntity<?> getIntimacy(@RequestBody IntimacyRequestDto requestDto) {
+        return ResponseEntity.ok().body(intimacyService.selectByFromUserIdAndToUserId(requestDto));
     }
 
     /**
      * 긍정 평가
      */
     @PutMapping("positive")
-    public int evalPositive(String fromUserId, String toUserId, int amount) {
-        return intimacyService.evalPositive(fromUserId, toUserId, amount);
+    public ResponseEntity<?> evalPositive(@RequestBody IntimacyRequestDto requestDto) {
+        return ResponseEntity.ok().body(intimacyService.evalPositive(requestDto));
     }
 
     /**
      * 부정 평가
      */
     @PutMapping("negative")
-    public int evalNegative(String fromUserId, String toUserId, int amount) {
-        return intimacyService.evalNegative(fromUserId, toUserId, amount);
+    public ResponseEntity<?> evalNegative(@RequestBody IntimacyRequestDto requestDto) {
+        return ResponseEntity.ok().body(intimacyService.evalNegative(requestDto));
     }
 }

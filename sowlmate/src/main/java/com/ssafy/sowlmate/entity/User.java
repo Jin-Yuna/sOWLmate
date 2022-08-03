@@ -16,27 +16,28 @@ import java.util.List;
 @Getter @Setter
 @RequiredArgsConstructor
 @Table(name = "user")
+//public class User implements OAuth2User {
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long no;
 
-    @NotNull
-    private String id;
-    @NotNull
-    private String password;
-    @NotNull
-    private String nickname;
-    @NotNull
-    private String name;
+    @Column(name = "id", unique = true)
+    @NotNull private String id;
+    @NotNull private String password;
+    @NotNull private String nickname;
+    @NotNull private String name;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private RegionType region; // 대륙 enum type
+    private RegionType region; // 7대륙
 
     @Enumerated(EnumType.STRING)
     private LanguageType language;
+
+    @Enumerated(EnumType.STRING)
+    private LanguageType preferenceLanguage;
 
     @Column(nullable = true)
     private String profilePictureUrl;
@@ -53,4 +54,22 @@ public class User {
         this.enrollDate = LocalDateTime.now();
     }
 
+    // google auth
+//    @Override
+//    public Map<String, Object> getAttributes() {
+//        return null;
+//    }
+//
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
+//
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
+//
+//    public User updateUser(User updateUser) {
+//        this.setProfilePictureUrl(updateUser.profilePictureUrl);
+//        return this;
+//    }
 }

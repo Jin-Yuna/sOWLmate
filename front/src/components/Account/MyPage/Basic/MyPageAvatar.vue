@@ -1,35 +1,49 @@
 <template>
-<div>
-  <div v-if="images">
-    <img :src="images" alt="image">
-  </div>
-  <div v-else @click="clickInputTag()">
-    <img src="https://via.placeholder.com/150" alt="profile image">
-    <label for="image">수정하기</label>
-    <div v-show="false">
-      <input ref="image" id="image" type="file" name="image" accept="image/*" @change="uploadImage()">
+  <div>
+    <div v-if="profile">
+      <img :src="profile" alt="프로필이미지" />
     </div>
+    <input type="file" id="image" />
+    <button @click="upload()">저장</button>
   </div>
-</div>
 </template>
 
 <script>
-import axios from 'axios'
- 
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
+
 export default {
-  data: ()=>({
-    images: ''
-  }),
+  data() {
+    return {
+      profile: '',
+    };
+  },
   methods: {
-    uploadImage() {
-      this.images = this.$refs.image.files
-      console.log(this.images)
-      axios({})
-    }
-  }
-}
+    upload() {
+      const storage = firebase.storage();
+      var file = document.querySelector('#image').files[0];
+      var storageRef = storage.ref();
+      var spaceRef = storageRef.child('image/' + file.name);
+      var uploading = spaceRef.put(file);
+      uploading.on(
+        'state_changed',
+        // 변화시 동작하는 함수
+        null,
+        //에러시 동작하는 함수
+        (error) => {
+          console.error('프로필 업로드 실패:', error);
+        },
+        // 성공시 동작하는 함수
+        () => {
+          uploading.snapshot.ref.getDownloadURL().then((url) => {
+            console.log('업로드된 경로는', url);
+            this.profile = url;
+          });
+        },
+      );
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

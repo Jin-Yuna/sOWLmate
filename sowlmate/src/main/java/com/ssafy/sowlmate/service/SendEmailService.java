@@ -1,36 +1,40 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.dto.MailDto;
+import com.ssafy.sowlmate.dto.UserFindPWRequestDto;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.UserRepository;
-import com.ssafy.sowlmate.util.EncryptionUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SendEmailService {
 
     private final UserRepository userRepository;
-
-    private JavaMailSender javaMailSender;
-    private static final String FROM_ADDRESS = "본인의 이메일 주소를 입력하세요!";
+    private final JavaMailSender javaMailSender;
+    private static final String FROM_ADDRESS = "sowlmate308@gmail.com";
 
     /**
      * DTO에 사용자가 원하는 내용과 제목을 작성
      */
-    public MailDto createMailAndChangePassword(String userEmail, String userName) {
-        String str = getTempPassword();
+    public MailDto createMailAndChangePassword(UserFindPWRequestDto requestDto) {
+        String tempPassword = getTempPassword();
+        log.debug(tempPassword);
+
         MailDto dto = new MailDto();
-        dto.setAddress(userEmail);
-        dto.setTitle("[sOWLmate]" + userName + "님의 임시비밀번호 안내 이메일 입니다.");
-        dto.setMessage("안녕하세요" + userName + "님,\n" + "귀하게서 요청하신 임시 비밀번호\n"
-                + "수신을 위해 발송된 메일입니다.\n" + "\n" + "고객님의 임시 비밀번호는 " + str
-        + "입니다.\n" + "\n로그인 후에는 새로운 비밀번호로 변경하셔야 합니다.\n" + "감사합니다.");
-        updatePassword(str, userEmail);
+        dto.setAddress(requestDto.getUserId());
+        dto.setTitle("[sOWLmate]" + requestDto.getUserName() + "님의 임시비밀번호 안내 이메일 입니다.");
+        dto.setMessage("안녕하세요" + requestDto.getUserName() + "님,\n" + "귀하게서 요청하신 임시 비밀번호\n"
+                + "수신을 위해 발송된 메일입니다.\n" + "\n" + "고객님의 임시 비밀번호는 " + tempPassword
+        + " 입니다.\n" + "\n로그인 후에는 새로운 비밀번호로 변경하셔야 합니다.\n" + "감사합니다.");
+
+        updatePassword(tempPassword, requestDto.getUserId());
         return dto;
     }
 
@@ -38,10 +42,11 @@ public class SendEmailService {
      * email로 발송된 임시비밀번호로 해당 유저의 password 변경
      */
     @Transactional
-    public void updatePassword(String tempPassword, String userEmail) {
-        String tempPw = EncryptionUtils.encryptMD5(tempPassword);
-        User user = userRepository.findById(userEmail);
-        user.setPassword(tempPw);
+    public void updatePassword(String tempPassword, String userId) {
+        User user = userRepository.findById(userId);
+//        String tempPw = EncryptionUtils.encryptMD5(tempPassword);
+//        user.setPassword(tempPw);
+        user.setPassword(tempPassword);
         userRepository.save(user);
     }
 
@@ -62,8 +67,7 @@ public class SendEmailService {
         return str;
     }
 
-    public void sendEmail(MailDto mailDto) {
-        System.out.println("email 전송 완료 !");
+    public String sendEmail(MailDto mailDto) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(mailDto.getAddress());
         simpleMailMessage.setFrom(SendEmailService.FROM_ADDRESS);
@@ -71,6 +75,7 @@ public class SendEmailService {
         simpleMailMessage.setText(mailDto.getMessage());
 
         javaMailSender.send(simpleMailMessage);
-    }
 
+        return "email 전송 완료 !";
+    }
 }

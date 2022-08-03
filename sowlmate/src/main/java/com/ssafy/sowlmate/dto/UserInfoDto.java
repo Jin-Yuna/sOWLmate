@@ -18,6 +18,7 @@ public class UserInfoDto {
     private String nickname;
     private RegionType region;
     private LanguageType language;
+    private LanguageType preferenceLanguage;
     private String profilePictureUrl;
     private List<Interest> interests;
 
@@ -27,6 +28,7 @@ public class UserInfoDto {
         userInfoDto.setNickname(user.getNickname());
         userInfoDto.setRegion(user.getRegion());
         userInfoDto.setLanguage(user.getLanguage());
+        userInfoDto.setPreferenceLanguage(user.getPreferenceLanguage());
         userInfoDto.setProfilePictureUrl(user.getProfilePictureUrl());
         userInfoDto.setInterests(user.getInterests());
         return userInfoDto;

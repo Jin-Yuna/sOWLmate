@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import LoginForm from '@/components/Account/Login/LoginForm.vue'
+import LoginForm from '@/components/Account/Login/LoginForm.vue';
 
 export default {
   name: 'LoginView',
-  components : {
+  components: {
     LoginForm,
-  }
-}
+  },
+};
 </script>
 
 <style></style>

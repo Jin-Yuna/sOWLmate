@@ -1,51 +1,49 @@
 <template>
   <div>
     <h1>MyPageBasicView.vue</h1>
-    <MyPageNavigation/>
+    <MyPageNavigation />
     <button @click="withdrawal">탈퇴</button>
     <v-main>
-      <router-view/>
+      <router-view />
     </v-main>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import axios from 'axios'
-import sowl from '@/api/sowl'
-import MyPageNavigation from '@/components/Account/MyPage/MyPageNavigation.vue'
-
+import { mapGetters, mapActions } from 'vuex';
+import axios from 'axios';
+import sowl from '@/api/sowl';
+import MyPageNavigation from '@/components/Account/MyPage/MyPageNavigation.vue';
 
 export default {
   name: 'MyPageBasicView',
-  components : {
+  components: {
     MyPageNavigation,
   },
-  methods : {
+  methods: {
     ...mapActions(['logout']),
     withdrawal() {
       axios({
         url: `${sowl.users.users()}${this.currentUser}`,
         method: 'delete',
       })
-      .then(response => {
-        if (response.data === 'success') {
-          alert('성공적으로 탈퇴하였습니다')
-          this.logout()
-        } else {
-          alert('탈퇴에 실패')
-        }
-      })
-      .catch(error => {
-        console.error(error)
-      })
-    }
+        .then((response) => {
+          if (response.data === 'success') {
+            alert('성공적으로 탈퇴하였습니다');
+            this.logout();
+          } else {
+            alert('탈퇴에 실패');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
-  computed : {
-    ...mapGetters(['currentUser'])
-  }
-
-}
+  computed: {
+    ...mapGetters(['currentUser']),
+  },
+};
 </script>
 
 <style></style>

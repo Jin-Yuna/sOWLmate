@@ -3,6 +3,7 @@ package com.ssafy.sowlmate.controller;
 import com.ssafy.sowlmate.entity.type.InterestType;
 import com.ssafy.sowlmate.entity.type.RegionType;
 import com.ssafy.sowlmate.entity.type.LanguageType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,46 +18,46 @@ import java.util.Map;
 public class CategoryController {
 
     @GetMapping("interest")
-    public List<String> getInterestTypes() {
+    public ResponseEntity<?> getInterestTypes() {
         List<String> interestTypeList = new ArrayList<>();
 
         for (InterestType value : InterestType.values()) {
             interestTypeList.add(value.toString());
         }
 
-        return interestTypeList;
+        return ResponseEntity.ok().body(interestTypeList);
     }
 
     @GetMapping("obj/interest")
-    public Map<String, String> getInterestObjs() {
+    public ResponseEntity<?> getInterestObjs() {
         Map<String, String> interestTypeList = new HashMap<>();
 
         for (InterestType value : InterestType.values()) {
             interestTypeList.put(value.toString(), value.getContent());
         }
 
-        return interestTypeList;
+        return ResponseEntity.ok().body(interestTypeList);
     }
 
     @GetMapping("region")
-    public List<String> getRegions() {
+    public ResponseEntity<?> getRegions() {
         List<String> regionList = new ArrayList<>();
 
         for (RegionType regionType : RegionType.values()) {
             regionList.add(regionType.toString());
         }
 
-        return regionList;
+        return ResponseEntity.ok().body(regionList);
     }
 
     @GetMapping("language")
-    public List<String> getLanguages() {
+    public ResponseEntity<?> getLanguages() {
         List<String> languageList = new ArrayList<>();
 
         for (LanguageType status : LanguageType.values()) {
             languageList.add(status.toString());
         }
 
-        return languageList;
+        return ResponseEntity.ok().body(languageList);
     }
 }

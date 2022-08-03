@@ -20,7 +20,7 @@ public interface BlackListRepository extends JpaRepository<BlackList, Long> {
 
     @Modifying
     @Transactional
-    public void deleteByFromUserIdAndToUserId(String fromUserId, String toUserId);
+    public int deleteByFromUserIdAndToUserId(String fromUserId, String toUserId);
 
     List<BlackList> findAllByFromUserNo(long fromUserNo);
 
