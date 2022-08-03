@@ -1,15 +1,14 @@
 package com.ssafy.sowlmate.controller;
 
-import com.ssafy.sowlmate.entity.Penpal;
+import com.ssafy.sowlmate.dto.FromToUserIdDto;
 import com.ssafy.sowlmate.service.PenpalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("penpal")
 @RequiredArgsConstructor
+@RequestMapping("penpal")
 public class PenpalController {
 
     private final PenpalService penpalService;
@@ -18,25 +17,25 @@ public class PenpalController {
      * 펜팔 등록
      */
     @PostMapping
-    public void enrollPenpal(String fromUserId, String toUserId) {
-        penpalService.enrollPenpalByUserId(fromUserId, toUserId);
+    public ResponseEntity<?> enrollPenpal(@RequestBody FromToUserIdDto idDto) {
+        return ResponseEntity.ok().body(penpalService.enrollPenpalByUserId(idDto));
     }
 
     /**
      * 펜팔 전체 조회
      */
     @GetMapping("list")
-    public List<Penpal> penpalList() {
-        return penpalService.selectAll();
+    public ResponseEntity<?> penpalList() {
+        return ResponseEntity.ok().body(penpalService.selectAll());
     }
 
 
     /**
      * 유저별 펜팔 조회
      */
-    @GetMapping("{userId}")
-    public List<Penpal> penpalListByUser(@PathVariable String userId) {
-        return penpalService.selectAllByFromUserId(userId);
+    @GetMapping("list/user")
+    public ResponseEntity<?> penpalListByUser(@RequestBody FromToUserIdDto idDto) {
+        return ResponseEntity.ok().body(penpalService.selectAllByFromUserId(idDto.getFromUserId()));
     }
 
 
@@ -44,7 +43,8 @@ public class PenpalController {
      * 펜팔 삭제
      */
     @DeleteMapping
-    public void deletePenpal(String fromUserId, String toUserId) {
-        penpalService.deletePenpalByUserId(fromUserId, toUserId);
+    public ResponseEntity<?> deletePenpal(@RequestBody FromToUserIdDto idDto) {
+        return ResponseEntity.ok().body(penpalService.deletePenpalByUserId(idDto));
     }
 }
+

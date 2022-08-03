@@ -1,5 +1,6 @@
 package com.ssafy.sowlmate.service;
 
+import com.ssafy.sowlmate.dto.IntimacyRequestDto;
 import com.ssafy.sowlmate.entity.Intimacy;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.IntimacyRepository;
@@ -21,12 +22,10 @@ public class IntimacyService {
      * 등록
      */
     @Transactional
-    public Intimacy enrollIntimacy(String fromUserId, String toUserId, int eval) {
-        User fromUser = userService.selectById(fromUserId);
-        User toUser = userService.selectById(toUserId);
-
-        Intimacy intimacy = Intimacy.createIntimacy(fromUser, toUser, eval);
-
+    public Intimacy enrollIntimacy(IntimacyRequestDto requestDto) {
+        User fromUser = userService.selectById(requestDto.getFromUserId());
+        User toUser = userService.selectById(requestDto.getToUserId());
+        Intimacy intimacy = Intimacy.createIntimacy(fromUser, toUser, requestDto.getEval());
         return intimacyRepository.save(intimacy);
     }
 
@@ -47,17 +46,17 @@ public class IntimacyService {
     /**
      * 단일 조회
      */
-    public Intimacy selectByFromUserIdAndToUserId(String fromUserId, String toUserId) {
-        return intimacyRepository.findByFromUserIdAndToUserId(fromUserId, toUserId);
+    public Intimacy selectByFromUserIdAndToUserId(IntimacyRequestDto requestDto) {
+        return intimacyRepository.findByFromUserIdAndToUserId(requestDto.getFromUserId(), requestDto.getToUserId());
     }
 
     /**
      * 수정 - 긍정평가
      */
     @Transactional
-    public int evalPositive(String fromUserId, String toUserId, int amount) {
-        Intimacy intimacy = selectByFromUserIdAndToUserId(fromUserId, toUserId);
-        intimacy.positive(amount);
+    public int evalPositive(IntimacyRequestDto requestDto) {
+        Intimacy intimacy = selectByFromUserIdAndToUserId(requestDto);
+        intimacy.positive(requestDto.getEval());
         return intimacy.getEval();
     }
 
@@ -65,9 +64,9 @@ public class IntimacyService {
      * 수정 - 부정평가
      */
     @Transactional
-    public int evalNegative(String fromUserId, String toUserId, int amount) {
-        Intimacy intimacy = selectByFromUserIdAndToUserId(fromUserId, toUserId);
-        intimacy.negative(amount);
+    public int evalNegative(IntimacyRequestDto requestDto) {
+        Intimacy intimacy = selectByFromUserIdAndToUserId(requestDto);
+        intimacy.negative(requestDto.getEval());
         return intimacy.getEval();
     }
 }
