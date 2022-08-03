@@ -1,5 +1,6 @@
 package com.ssafy.sowlmate.service;
 
+import com.ssafy.sowlmate.dto.FromToUserIdDto;
 import com.ssafy.sowlmate.entity.BlackList;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.BlackListRepository;
@@ -31,9 +32,9 @@ public class BlackListService {
     }
 
     @Transactional
-    public BlackList enrollBlackListByUserId(String fromUserId, String toUserId) {
-        User fromUser = userService.selectById(fromUserId);
-        User toUser = userService.selectById(toUserId);
+    public BlackList enrollByUserId(FromToUserIdDto idDto) {
+        User fromUser = userService.selectById(idDto.getFromUserId());
+        User toUser = userService.selectById(idDto.getToUserId());
 
         BlackList blackList = new BlackList();
         blackList.setFromUser(fromUser);
@@ -43,7 +44,7 @@ public class BlackListService {
     }
 
     @Transactional
-    public void deleteByFromUserIdAndToUserId(String fromUserId, String toUserId) {
-        blackListRepository.deleteByFromUserIdAndToUserId(fromUserId, toUserId);
+    public int deleteByUserId(FromToUserIdDto idDto) {
+        return blackListRepository.deleteByFromUserIdAndToUserId(idDto.getFromUserId(), idDto.getToUserId());
     }
 }

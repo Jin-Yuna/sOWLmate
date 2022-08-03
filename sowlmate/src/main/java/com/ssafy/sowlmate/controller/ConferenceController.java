@@ -9,11 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("conference")
 @RequiredArgsConstructor
+@RequestMapping("conference")
 public class ConferenceController {
 
     private final ConferenceService conferenceService;
@@ -22,32 +20,32 @@ public class ConferenceController {
      * 개설된 방 전체 조회
      */
     @GetMapping("list")
-    public List<Conference> conferenceList(){
-        return conferenceService.selectAll();
+    public ResponseEntity<?> conferenceList() {
+        return ResponseEntity.ok().body(conferenceService.selectAll());
     }
 
     /**
      * 관심사별 방 조회
      */
-    @GetMapping("list/interest")
-    public List<Conference> conferenceInterestList(InterestType interest) {
-        return conferenceService.selectByInterest(interest);
+    @GetMapping("list/interest/{interest}")
+    public ResponseEntity<?> conferenceInterestList(@PathVariable InterestType interest) {
+        return ResponseEntity.ok().body(conferenceService.selectByInterest(interest));
     }
 
     /**
      * 언어별 방 조회
      */
-    @GetMapping("list/language")
-    public List<Conference> conferenceLanguageList(LanguageType language) {
-        return conferenceService.selectByLanguage(language);
+    @GetMapping("list/language/{language}")
+    public ResponseEntity<?> conferenceLanguageList(@PathVariable LanguageType language) {
+        return ResponseEntity.ok().body(conferenceService.selectByLanguage(language));
     }
 
     /**
      * 관심사+언어 방 조회
      */
     @GetMapping("list/both")
-    public List<Conference> conferenceInterestAndLanguageList(InterestType interest, LanguageType language) {
-        return conferenceService.selectByInterestAndLanguage(interest, language);
+    public ResponseEntity<?> conferenceInterestAndLanguageList(InterestType interest, LanguageType language) {
+        return ResponseEntity.ok().body(conferenceService.selectByInterestAndLanguage(interest, language));
     }
 
     /**
