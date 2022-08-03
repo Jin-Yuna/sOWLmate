@@ -21,15 +21,15 @@ pipeline {
 		// 		echo 'Test image...'
 		// 	}
 		// }
-		// stage('Push image') {
-		// 	steps {
-		// 			withDockerRegistry([ credentialsId: registryCredential, url: "" ]) {
-		// 				sh 'docker push $registry:back'
-		// 				sh 'docker push $registry:front'
-		// 			}
-		// 			echo 'Push image...'
-		// 	}
-		// }
+		stage('Push image') {
+			steps {
+					withDockerRegistry([ credentialsId: registryCredential, url: "" ]) {
+						sh 'docker push $registry:back'
+						sh 'docker push $registry:front'
+					}
+					echo 'Push image...'
+			}
+		}
 		stage('Clean image') {
 			steps {
 				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-front"`'
