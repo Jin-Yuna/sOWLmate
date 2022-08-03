@@ -9,14 +9,20 @@
 </template>
 
 <script>
+import sowl from '@/api/sowl';
+import axios from 'axios';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
       profile: '',
     };
+  },
+  computed: {
+    ...mapGetters(['currentUser']),
   },
   methods: {
     upload() {
@@ -27,17 +33,27 @@ export default {
       var uploading = spaceRef.put(file);
       uploading.on(
         'state_changed',
-        // 변화시 동작하는 함수
         null,
-        //에러시 동작하는 함수
         (error) => {
           console.error('프로필 업로드 실패:', error);
         },
-        // 성공시 동작하는 함수
         () => {
-          uploading.snapshot.ref.getDownloadURL().then((url) => {
-            console.log('업로드된 경로는', url);
-            this.profile = url;
+          uploading.snapshot.ref.getDownloadURL().then((imgurl) => {
+            this.profile = imgurl;
+            const data = JSON.stringifyt(imgurl);
+            console.log(data);
+            axios({
+              url: sowl.users.profile(this.currentUser),
+              method: 'put',
+              data,
+              // data: JSON.stringify(this.profile)
+            })
+              .then((response) => {
+                console.log('db에저장', response);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           });
         },
       );
