@@ -23,11 +23,14 @@ pipeline {
 		// }
 		stage('Push image') {
 			steps {
-					withDockerRegistry([ credentialsId: registryCredential, url: "https://hub.docker.com/repository/docker/sowlmate308/sowlmate" ]) {
-						sh 'docker push sowlmate308/sowlmate:back'
-						sh 'docker push sowlmate308/sowlmate:front'
-					}
-					echo 'Push image...'
+				sh 'docker push sowlmate308/sowlmate:back'
+				sh 'docker push sowlmate308/sowlmate:front'
+				echo 'Push image...'
+				// withDockerRegistry([ credentialsId: registryCredential, url: "https://hub.docker.com/repository/docker/sowlmate308/sowlmate" ]) {
+				// 	sh 'docker push sowlmate308/sowlmate:back'
+				// 	sh 'docker push sowlmate308/sowlmate:front'
+				// }
+				// echo 'Push image...'
 			}
 		}
 		stage('Clean image') {
