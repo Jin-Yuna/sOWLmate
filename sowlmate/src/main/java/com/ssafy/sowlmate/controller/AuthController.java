@@ -103,4 +103,12 @@ public class AuthController {
         MailDto dto = sendEmailService.createMailAndChangePassword(requestDto);
         return ResponseEntity.ok().body(sendEmailService.sendEmail(dto));
     }
+
+    /**
+     * 등록된 email로 tempPassword를 발송하고, 발송된 tempPassword로 사용자의 pw를 변경하는 controller
+     */
+    @PostMapping("exist/id/sendemail")
+    public ResponseEntity<?> sendExistIdEmail(@RequestBody UserLoginDto dto) {
+        return ResponseEntity.ok().body(sendEmailService.sendIdCheckEmail(dto.getId()));
+    }
 }
