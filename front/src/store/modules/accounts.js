@@ -9,11 +9,12 @@ export const accounts = {
     currentUser: '',
     idCheck: false,
     idChecked: false,
+    emailValidCheck: false,
     idUsernameCheck: false,
     passwordDoubleCheck: false,
     passwordDoubleChecked: false,
     nicknameCheck: false,
-    nicknameChecked: false,
+    idEmailCheck: '',
     languageList: [],
     interestList: [],
     regionList: [],
@@ -26,11 +27,12 @@ export const accounts = {
     currentUser: (state) => state.currentUser,
     isIdCheck: (state) => state.idCheck,
     isIdChecked: (state) => state.idChecked,
+    isEmailValidCheck: (state) => state.emailValidCheck,
     isIdUsernameCheck: (state) => state.idUsernameCheck,
     isPasswordDoubleCheck: (state) => state.passwordDoubleCheck,
     isPasswordDoubleChecked: (state) => state.passwordDoubleChecked,
+    isIdEmailCheck: (state) => state.idEmailCheck,
     isNicknameCheck: (state) => state.nicknameCheck,
-    isNicknameChecked: (state) => state.nicknameChecked,
     languageList: (state) => state.languageList,
     regionList: (state) => state.regionList,
     InterestList: (state) => state.interestList,
@@ -42,13 +44,14 @@ export const accounts = {
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     ID_CHECK: (state, checked) => (state.idCheck = checked),
     ID_CHECKED: (state, checked) => (state.idChecked = checked),
+    EMAIL_VALID_CHECK: (state, checked) => (state.emailValidCheck = checked),
     ID_USERNAME_CHECK: (state, checked) => (state.idUsernameCheck = checked),
     PASSWORD_DOUBLE_CHECK: (state, checked) =>
       (state.passwordDoubleCheck = checked),
     PASSWORD_DOUBLE_CHECKED: (state, checked) =>
       (state.passwordDoubleChecked = checked),
     NICKNAME_CHECK: (state, checked) => (state.nicknameCheck = checked),
-    NICKNAME_CHECKED: (state, checked) => (state.nicknameChecked = checked),
+    ID_EMAIL_CHECK: (state, checked) => (state.idEmailCheck = checked),
     GET_LANGUAGE_LIST: (state, list) => (state.languageList = list),
     GET_REGION_LIST: (state, list) => (state.regionList = list),
     GET_INTEREST_LIST: (state, list) => (state.interestList = list),
@@ -129,6 +132,16 @@ export const accounts = {
           console.error(error);
         });
     },
+    emailValidCheck({ commit }, id) {
+      const validateEmail =
+        /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+      if (!validateEmail.test(id) || !id) {
+        commit('EMAIL_VALID_CHECK', false);
+        commit('ID_CHECK', false);
+      } else {
+        commit('EMAIL_VALID_CHECK', true);
+      }
+    },
     passwordDoubleCheck({ commit }, payload) {
       let checked = false;
       if (payload.password != '' && payload.password2 != '') {
@@ -148,10 +161,28 @@ export const accounts = {
         },
       })
         .then((response) => {
-          console.log(response);
-          if (response.data != 'exist') {
+          if (response.data != 'exist' && nickname != '') {
             commit('NICKNAME_CHECK', true);
+          } else {
+            commit('NICKNAME_CHECK', false);
           }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    idEmailCheck({ commit }, userId) {
+      const Id = {
+        id: userId,
+      };
+      axios({
+        url: sowl.users.idEmailCheck(),
+        method: 'post',
+        data: Id,
+      })
+        .then((response) => {
+          console.log(response.data);
+          commit('ID_EMAIL_CHECK', response.date);
         })
         .catch((error) => {
           console.error(error);
