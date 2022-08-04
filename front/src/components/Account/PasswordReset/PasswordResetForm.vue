@@ -11,7 +11,7 @@
           v-model="userData.userId"
           @input="idCheck(userData.userId)"
         />
-        <p v-if="isIdCheck">아이디를 정확하게 입력해주세요.</p>
+        <p v-if="isIdCheck || !isIdChecked">아이디를 정확하게 입력해주세요.</p>
         <p v-if="!isIdCheck">아이디가 확인되었습니다.</p>
       </div>
       <div>
@@ -56,7 +56,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isIdCheck', 'isIdUsernameCheck']),
+    ...mapGetters(['isIdCheck', 'isIdChecked', 'isIdUsernameCheck']),
   },
   methods: {
     ...mapActions(['idCheck', 'resetPassword']),
@@ -67,9 +67,6 @@ export default {
       }
       this.showModal = false;
     },
-  },
-  mounted() {
-    this.idCheck(this.userData.userId);
   },
 };
 </script>

@@ -11,10 +11,10 @@
           v-model="userData.id"
         />
         <p v-if="!isIdCheck" @click="idCheck(userData.id)">중복 검사</p>
-        <p @click="d">이메일 인증</p>
+        <p v-if="isIdCheck" @click="d">이메일 인증</p>
         <p v-if="isIdCheck">사용 가능한 아이디 입니다.</p>
-        <p v-if="isIdCheck">사용 가능한 아이디 입니다.</p>
-        <p v-if="!isIdCheck">중복 검사를 해주세요.</p>
+        <p v-if="!isIdCheck && !isIdChecked">중복 검사를 해주세요.</p>
+        <p v-if="!isIdCheck && isIdChecked">이미 있는 아이디 입니다.</p>
         <!-- 버튼으로 하면 form 제출되서 임시로 p로 해둠 -->
       </div>
       <div>
@@ -24,10 +24,10 @@
           placeholder="비밀번호를 입력하세요"
           id="password"
           v-model="userData.password"
-          @keyup="
+          @input="
             passwordDoubleCheck({
               password: userData.password,
-              password2: userData.password2,
+              password2: password2,
             })
           "
         />
@@ -38,15 +38,20 @@
           type="password"
           placeholder="비밀번호를 한 번 더 입력하세요"
           id="password2"
-          v-model="userData.password2"
-          @keyup="
+          v-model="password2"
+          @input="
             passwordDoubleCheck({
               password: userData.password,
-              password2: userData.password2,
+              password2: password2,
             })
           "
         />
-        <p v-if="!isPasswordDoubleCheck">비밀번호가 일치하지 않습니다</p>
+        <p v-if="!isPasswordDoubleCheck && isPasswordDoubleChecked">
+          비밀번호가 일치하지 않습니다
+        </p>
+        <p v-if="!isPasswordDoubleCheck && !isPasswordDoubleChecked">
+          비밀번호 확인이 필요합니다
+        </p>
       </div>
       <div>
         <label for="nickname">닉네임: </label>
@@ -57,9 +62,16 @@
           v-model="userData.nickname"
           @keydown="NICKNAME_CHECK(false)"
         />
-        <p @click="nicknameCheck(userData.nickname)">중복 검사</p>
-        {{ userData.nickname }}
+        <p v-if="!isNicknameCheck" @click="nicknameCheck(userData.nickname)">
+          중복 검사
+        </p>
+        <p v-if="!isIdCheck" @click="idCheck(userData.id)">중복 검사</p>
+        <p v-if="isIdCheck" @click="d">이메일 인증</p>
+        <p v-if="isIdCheck">사용 가능한 아이디 입니다.</p>
+        <p v-if="!isIdCheck && !isIdChecked">중복 검사를 해주세요.</p>
+        <p v-if="!isIdCheck && isIdChecked">이미 있는 아이디 입니다.</p>
       </div>
+
       <div>
         <label for="region">지역: </label>
         <select name="region" id="region" v-model="userData.region">
@@ -121,19 +133,21 @@ export default {
       userData: {
         id: '',
         password: '',
-        password2: '',
         nickname: '',
         region: '',
         language: '',
         preferenceLanguage: '',
         name: '',
       },
+      password2: '',
     };
   },
   computed: {
     ...mapGetters([
       'isPasswordDoubleCheck',
+      'isPasswordDoubleChecked',
       'isIdCheck',
+      'isIdChecked',
       'isNicknameCheck',
       'languageList',
       'regionList',
@@ -148,7 +162,7 @@ export default {
       'getLanguageList',
       'getRegionList',
     ]),
-    ...mapMutations(['NICKNAME_CHECK']),
+    ...mapMutations(['ID_CHECK', 'NICKNAME_CHECK']),
   },
   mounted() {
     this.getLanguageList();
