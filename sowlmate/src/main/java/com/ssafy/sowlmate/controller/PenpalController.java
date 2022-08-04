@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("penpal")
@@ -34,8 +36,8 @@ public class PenpalController {
      * 유저별 펜팔 조회
      */
     @GetMapping("list/user")
-    public ResponseEntity<?> penpalListByUser(@RequestBody FromToUserIdDto idDto) {
-        return ResponseEntity.ok().body(penpalService.selectAllByFromUserId(idDto.getFromUserId()));
+    public ResponseEntity<?> penpalListByUser(HttpServletRequest request) {
+        return ResponseEntity.ok().body(penpalService.selectAllByFromUserId(request.getHeader("fromUserId")));
     }
 
 

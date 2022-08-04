@@ -44,10 +44,17 @@ public class IntimacyService {
     }
 
     /**
-     * 단일 조회
+     * 단일 조회1
      */
     public Intimacy selectByFromUserIdAndToUserId(IntimacyRequestDto requestDto) {
         return intimacyRepository.findByFromUserIdAndToUserId(requestDto.getFromUserId(), requestDto.getToUserId());
+    }
+
+    /**
+     * 단일 조회2
+     */
+    public Intimacy selectByFromUserIdAndToUserId2(String fromUserId, String toUserId) {
+        return intimacyRepository.findByFromUserIdAndToUserId(fromUserId, toUserId);
     }
 
     /**
