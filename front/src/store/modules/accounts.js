@@ -90,16 +90,9 @@ export const accounts = {
     },
     signup({ dispatch }, userData) {
       axios({
-        url: sowl.users.signup(
-          userData.id,
-          userData.password,
-          userData.nickname,
-          userData.region,
-          userData.userlang,
-          userData.preferlang,
-          userData.nickname,
-        ),
+        url: sowl.users.users(),
         method: 'post',
+        data: userData,
       })
         .then((response) => {
           console.log(response);
@@ -182,7 +175,7 @@ export const accounts = {
       })
         .then((response) => {
           console.log(response.data);
-          commit('ID_EMAIL_CHECK', response.date);
+          commit('ID_EMAIL_CHECK', String(response.data));
         })
         .catch((error) => {
           console.error(error);
