@@ -3,12 +3,22 @@
     <LoginCard />
     <form @submit.prevent="login(userData)">
       <div>
-        <label for="username">아이디: </label>
-        <input type="text" id="username" v-model="userData.id" />
+        <label for="userId">아이디: </label>
+        <input
+          type="text"
+          placeholder="아이디(이메일)를 입력하세요"
+          id="userId"
+          v-model="userData.id"
+        />
       </div>
       <div>
         <label for="password">비밀번호: </label>
-        <input type="password" id="password" v-model="userData.password" />
+        <input
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          id="password"
+          v-model="userData.password"
+        />
       </div>
       <div>
         <router-link :to="{ name: 'PasswordResetView' }"

@@ -9,33 +9,18 @@ const CONFERENCE = 'conference/';
 
 export default {
   users: {
-    login: (id, password) =>
-      HOST + ACCOUNTS + 'login' + `?id=${id}&password=${password}`,
+    login: () => HOST + ACCOUNTS + 'login/',
     logout: () => HOST + ACCOUNTS + 'logout/',
-    info: (currentUser) => HOST + ACCOUNTS + 'info/' + `${currentUser}/`,
+    info: () => HOST + ACCOUNTS + 'info/',
     users: () => HOST + USERS,
-    signup: (
-      id,
-      password,
-      nickname,
-      region,
-      language,
-      preferenceLanguage,
-      name,
-    ) =>
-      HOST +
-      'users' +
-      `?id=${id}&password=${password}&nickname=${nickname}&region=${region}&language=${language}&preferenceLanguage=${preferenceLanguage}&name=${name}`,
-    userInfoChange: (currentUser) => HOST + USERS + `${currentUser}/`,
-    idCheck: () => HOST + USERS + 'exist/' + 'id',
-    nicknameCheck: (nickname) => HOST + USERS + 'nickname/' + `${nickname}/`,
-    idNicknameCheck: () => HOST + ACCOUNTS + 'findpw',
-    resetPassword: () => HOST + ACCOUNTS + 'findpw/' + 'sendemail',
+    idCheck: () => HOST + USERS + 'exist/' + 'id/',
+    nicknameCheck: () => HOST + USERS + 'exist/' + 'nickname/',
+    idUsernameCheck: () => HOST + ACCOUNTS + 'findpw/',
+    resetPassword: () => HOST + ACCOUNTS + 'findpw/' + 'sendemail/',
   },
   interests: {
     interestList: () => HOST + INTEREST + 'list/',
-    userInterest: (currentUser, interestName) =>
-      HOST + INTEREST + `${currentUser}?title=${interestName}`,
+    userInterest: () => HOST + INTEREST,
   },
   categories: {
     language: () => HOST + CATEGORIS + 'language/',

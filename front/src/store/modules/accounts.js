@@ -8,9 +8,12 @@ export const accounts = {
     token: sessionStorage.getItem('token') || '',
     currentUser: '',
     idCheck: false,
-    idNicknameCheck: false,
+    idChecked: false,
+    idUsernameCheck: false,
     passwordDoubleCheck: false,
+    passwordDoubleChecked: false,
     nicknameCheck: false,
+    nicknameChecked: false,
     languageList: [],
     interestList: [],
     regionList: [],
@@ -22,9 +25,12 @@ export const accounts = {
     authHeader: (state) => state.token,
     currentUser: (state) => state.currentUser,
     isIdCheck: (state) => state.idCheck,
-    isIdNicknameCheck: (state) => state.idNicknameCheck,
+    isIdChecked: (state) => state.idChecked,
+    isIdUsernameCheck: (state) => state.idUsernameCheck,
     isPasswordDoubleCheck: (state) => state.passwordDoubleCheck,
+    isPasswordDoubleChecked: (state) => state.passwordDoubleChecked,
     isNicknameCheck: (state) => state.nicknameCheck,
+    isNicknameChecked: (state) => state.nicknameChecked,
     languageList: (state) => state.languageList,
     regionList: (state) => state.regionList,
     InterestList: (state) => state.interestList,
@@ -35,10 +41,14 @@ export const accounts = {
     REMOVE_TOKEN: (state) => (state.token = ''),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     ID_CHECK: (state, checked) => (state.idCheck = checked),
-    ID_NICKNAME_CHECK: (state, checked) => (state.idNicknameCheck = checked),
+    ID_CHECKED: (state, checked) => (state.idChecked = checked),
+    ID_USERNAME_CHECK: (state, checked) => (state.idUsernameCheck = checked),
     PASSWORD_DOUBLE_CHECK: (state, checked) =>
       (state.passwordDoubleCheck = checked),
+    PASSWORD_DOUBLE_CHECKED: (state, checked) =>
+      (state.passwordDoubleChecked = checked),
     NICKNAME_CHECK: (state, checked) => (state.nicknameCheck = checked),
+    NICKNAME_CHECKED: (state, checked) => (state.nicknameChecked = checked),
     GET_LANGUAGE_LIST: (state, list) => (state.languageList = list),
     GET_REGION_LIST: (state, list) => (state.regionList = list),
     GET_INTEREST_LIST: (state, list) => (state.interestList = list),
@@ -53,8 +63,9 @@ export const accounts = {
     },
     login({ commit, dispatch }, userData) {
       axios({
-        url: sowl.users.login(userData.id, userData.password),
+        url: sowl.users.login(),
         method: 'post',
+        data: userData,
       })
         .then((response) => {
           commit('SET_TOKEN', response.data['access-token']);
@@ -112,6 +123,7 @@ export const accounts = {
           } else {
             commit('ID_CHECK', false);
           }
+          commit('ID_CHECKED', true);
         })
         .catch((error) => {
           console.error(error);
@@ -119,16 +131,21 @@ export const accounts = {
     },
     passwordDoubleCheck({ commit }, payload) {
       let checked = false;
-      if (payload.password === payload.password2) {
-        checked = true;
+      if (payload.password != '' && payload.password2 != '') {
+        commit('PASSWORD_DOUBLE_CHECKED', true);
+        if (payload.password === payload.password2) {
+          checked = true;
+        }
       }
       commit('PASSWORD_DOUBLE_CHECK', checked);
     },
     nicknameCheck({ commit }, nickname) {
-      console.log(sowl.users.nicknameCheck(nickname));
       axios({
-        url: sowl.users.nicknameCheck(nickname),
-        method: 'get',
+        url: sowl.users.nicknameCheck(),
+        method: 'post',
+        data: {
+          userNickname: nickname,
+        },
       })
         .then((response) => {
           console.log(response);
@@ -259,7 +276,7 @@ export const accounts = {
     },
     resetPassword({ commit }, userData) {
       axios({
-        url: sowl.users.idNicknameCheck(),
+        url: sowl.users.idUsernameCheck(),
         method: 'post',
         data: userData,
       })
@@ -267,7 +284,7 @@ export const accounts = {
           console.log(response.data['check']);
           // 아이디와 닉네임이 일치할 때
           if (response.data['check']) {
-            commit('ID_NICKNAME_CHECK', true);
+            commit('ID_USERNAME_CHECK', true);
             axios({
               url: sowl.users.resetPassword(),
               method: 'post',
@@ -275,7 +292,7 @@ export const accounts = {
             })
               .then((response) => {
                 console.log(response);
-                commit('ID_NICKNAME_CHECK', true);
+                commit('ID_USERNAME_CHECK', true);
               })
               .catch((error) => {
                 console.error(error);
@@ -287,5 +304,4 @@ export const accounts = {
         });
     },
   },
-  modules: {},
 };
