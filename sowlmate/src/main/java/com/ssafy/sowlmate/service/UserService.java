@@ -1,5 +1,6 @@
 package com.ssafy.sowlmate.service;
 
+import com.ssafy.sowlmate.dto.*;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long enroll(User user) {
-        return userRepository.save(user).getNo();
+    public User enroll(User user) {
+        return userRepository.save(user);
     }
 
     public User selectByNo(Long no) {
@@ -52,54 +53,39 @@ public class UserService {
      * : emil을 통해 해당 email로 가입된 정보가 있는지 확인하고,
      *   가입된 정보가 있다면 입력받은 name과 등록된 name이 일치한지 여부를 return
      */
-    public boolean userEmailCheck(String userEmail, String userName) {
-        User user = userRepository.findById(userEmail);
-        if(user != null && user.getName().equals(userName)) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean userEmailCheck(UserFindPWRequestDto requestDto) {
+        User user = userRepository.findById(requestDto.getUserId());
+        return user != null && user.getName().equals(requestDto.getUserName());
     }
 
-    public User login(User user) {
-        if (user.getId() == null || user.getPassword() == null) {
+    public User login(UserLoginDto loginDto) {
+        if (loginDto.getId() == null || loginDto.getPassword() == null) {
             return null;
         }
-
-        User findedUser = userRepository.findById(user.getId());
-
-        if (findedUser.getPassword().equals(user.getPassword())) {
-            return findedUser;
-        } else {
-            return null;
-        }
+        User findUser = userRepository.findById(loginDto.getId());
+        return findUser.getPassword().equals(loginDto.getPassword()) ? findUser : null;
     }
 
     @Transactional
-    public User updateUser(String userId, User user) {
-        User findedUser = userRepository.findById(userId);
+    public User updateUser(UserUpdateRequestDto updateDto) {
+        UserUpdateDto user = updateDto.getUser();
+        User newUser = userRepository.findById(updateDto.getUserId());
 
-        findedUser.setNickname(user.getNickname());
-        findedUser.setLanguage(user.getLanguage());
-        findedUser.setPreferenceLanguage(user.getPreferenceLanguage());
-        findedUser.setRegion(user.getRegion());
-        findedUser.setProfilePictureUrl(user.getProfilePictureUrl());
+        newUser.setNickname(user.getNickname());
+        newUser.setLanguage(user.getLanguage());
+        newUser.setPreferenceLanguage(user.getPreferenceLanguage());
+        newUser.setRegion(user.getRegion());
+        newUser.setName(user.getName());
 
-        userRepository.save(findedUser);
-        return findedUser;
+        userRepository.save(newUser);
+        return newUser;
     }
 
     @Transactional
-    public String updateUserProfile(String userId, String profilePictureUrl) {
-        User findedUser = userRepository.findById(userId);
-        findedUser.setProfilePictureUrl(profilePictureUrl);
-        userRepository.save(findedUser);
-        return findedUser.getProfilePictureUrl();
+    public String updateUserProfile(UserProfileDto profileDto) {
+        User findUser = userRepository.findById(profileDto.getUserId());
+        findUser.setProfilePictureUrl(profileDto.getProfilePictureUrl());
+        userRepository.save(findUser);
+        return findUser.getProfilePictureUrl();
     }
-
-    /**
-     * Find Password by email
-     */
-
-
 }
