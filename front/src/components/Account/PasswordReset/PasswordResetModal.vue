@@ -3,24 +3,24 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-          <!-- <div class="modal-header">
-            <slot name="header"> default header </slot>
-          </div> -->
+          <div class="modal-header">
+            <slot name="header"> 로고 </slot>
+          </div>
           <div class="modal-body">
             <slot name="body">
-              <p v-if="!idNicknameCheck">
+              <p v-if="!isIdNicknameCheck">
                 아이디와 닉네임이 일치하지 않습니다.
               </p>
-              <p v-if="idNicknameCheck">
+              <p v-if="isIdNicknameCheck">
                 임시 비밀번호가 메일로 전송되었습니다. 비밀번호를 확인해보세요.
-              </p>
-            </slot>
+              </p></slot
+            >
           </div>
           <div class="modal-footer">
             <slot name="footer">
-              <router-link :to="{ name: 'SinupView' }" v-if="!idNicknameCheck"
+              <!-- <router-link :to="{ name: 'SinupView' }" v-if="!idNicknameCheck"
                 >회원가입</router-link
-              >
+              > -->
               <button class="modal-default-button" @click="$emit('close')">
                 확인
               </button>
@@ -37,7 +37,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'PasswordResetModal',
   computed: {
-    ...mapGetters(['isIdNicknmaeCheck']),
+    ...mapGetters(['isIdNicknameCheck']),
   },
 };
 </script>

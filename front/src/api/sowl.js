@@ -5,6 +5,7 @@ const ACCOUNTS = 'auth/';
 const USERS = 'users/';
 const INTEREST = 'interest/';
 const CATEGORIS = 'categories/';
+const CONFERENCE = 'conference/';
 
 export default {
   users: {
@@ -28,8 +29,8 @@ export default {
     userInfoChange: (currentUser) => HOST + USERS + `${currentUser}/`,
     idCheck: () => HOST + USERS + 'exist/' + 'id',
     nicknameCheck: (nickname) => HOST + USERS + 'nickname/' + `${nickname}/`,
-    idNicknameCheck: () => HOST + ACCOUNTS + 'finpw',
-    resetPassword: () => HOST + ACCOUNTS + 'finpw/' + 'sendemail',
+    idNicknameCheck: () => HOST + ACCOUNTS + 'findpw',
+    resetPassword: () => HOST + ACCOUNTS + 'findpw/' + 'sendemail',
   },
   interests: {
     interestList: () => HOST + INTEREST + 'list/',
@@ -40,5 +41,17 @@ export default {
     language: () => HOST + CATEGORIS + 'language/',
     region: () => HOST + CATEGORIS + 'region/',
     interest: () => HOST + CATEGORIS + 'interest/',
+  },
+  conference: {
+    conferenceList: () => HOST + CONFERENCE + 'list/',
+    conferenceInsterestList: (interest) =>
+      HOST + CONFERENCE + 'list/' + `${interest}`,
+    conferenceLanguageList: (language) =>
+      HOST + CONFERENCE + 'list/' + `${language}`,
+    conferenceInterestLanguageList: (interest, language) =>
+      HOST + CONFERENCE + 'list/' + `${interest}` + `${language}`,
+    conferenceCreate: () => HOST + CONFERENCE + 'create/',
+    conferenceEnter: () => HOST + CONFERENCE + 'enter/',
+    conferenceDelete: () => HOST + CONFERENCE + 'exit/',
   },
 };

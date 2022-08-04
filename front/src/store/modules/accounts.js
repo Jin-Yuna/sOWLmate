@@ -8,7 +8,7 @@ export const accounts = {
     token: sessionStorage.getItem('token') || '',
     currentUser: '',
     idCheck: false,
-    idNicknameCheck: true,
+    idNicknameCheck: false,
     passwordDoubleCheck: false,
     nicknameCheck: false,
     languageList: [],
@@ -22,7 +22,7 @@ export const accounts = {
     authHeader: (state) => state.token,
     currentUser: (state) => state.currentUser,
     isIdCheck: (state) => state.idCheck,
-    isIdNicknmaeCheck: (state) => state.idNicknameCheck,
+    isIdNicknameCheck: (state) => state.idNicknameCheck,
     isPasswordDoubleCheck: (state) => state.passwordDoubleCheck,
     isNicknameCheck: (state) => state.nicknameCheck,
     languageList: (state) => state.languageList,
@@ -98,15 +98,19 @@ export const accounts = {
     },
     // Check
     idCheck({ commit }, id) {
+      const userId = {
+        userId: id,
+      };
       axios({
         url: sowl.users.idCheck(),
         method: 'get',
-        body: { userId: id },
+        headers: userId,
       })
         .then((response) => {
-          console.log(response);
           if (response.data != 'exist') {
             commit('ID_CHECK', true);
+          } else {
+            commit('ID_CHECK', false);
           }
         })
         .catch((error) => {
@@ -256,16 +260,14 @@ export const accounts = {
     resetPassword({ commit }, userData) {
       axios({
         url: sowl.users.idNicknameCheck(),
-        method: 'get',
+        method: 'post',
         data: userData,
       })
         .then((response) => {
-          // 아이디와 닉네임이 일치하지 않을 때
-          if (response.data != 'exist') {
-            commit('ID_NICKNAME_CHECK', false);
-          }
-          // 아이디와 닉네임 일치
-          else {
+          console.log(response.data['check']);
+          // 아이디와 닉네임이 일치할 때
+          if (response.data['check']) {
+            commit('ID_NICKNAME_CHECK', true);
             axios({
               url: sowl.users.resetPassword(),
               method: 'post',
