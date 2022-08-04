@@ -77,8 +77,6 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
   - 데이터를 묶어 하나의 데이터로 보내 해결할 수 있었다.
   
   - `@keyup="passwordCheck( { password : userData.password, password2 : userData.password2 })`
-    
-    
 
 ## 6. vuex 고민
 
@@ -91,14 +89,10 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
 - store에 대부분의 정보를 저장해 두는 것이 맞나 의문이 든다.
   
   - 닉네임 중복 체크가 필요한 컴포넌트가 2개인데, 함수를 store에 만들고 state에 체크를 했는지를 저장하여 또 컴포넌트에서 이를 불러와서 사용하는게 맞나?
-    
-    
 
 ## 7. eslint 설치
 
 - --save :   package.json의 dependency 항목에 모듈을 추가하는 옵션
-  
-  
 
 ## 8. vue3 router children
 
@@ -131,8 +125,6 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
     </div>
   </template>
   ```
-
- 
 
 ## 9. vue & firebase
 
@@ -294,7 +286,7 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
     <style scoped></style>
     ```
 
- 
+## 
 
 ## 10. 사라진 코드
 
@@ -303,8 +295,6 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
 - firebase를 하기 전에 dev에 머지를 하고 진행했어야 하는데, 문제 없을 것이라 생각하고 firebase오류 때문에 브랜치를 생성했다 지웠다하다 코드가 분실된 듯 하다.
 
 - 한 기능이 완료되면 머지를 꼭 하자!
-  
-  
 
 ## 11. ERR_CERT_COMMON_NAME_INVALID
 
@@ -328,3 +318,61 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
 - 시도3: 이 외에도 뭔가 이것 저것 해봤지만 실패
 
 - 시도4: 이게 서버문제인가 프론트 문제인가, 크롬의 문제인가 고민하다 크롬에서 백 url로 직접 접속해봄. => 인증 에러가 콘솔이 아니라 브라우저 창에 띄워짐. => 설정 허용 이런거 하니 프론트에서도 성공적으로 요청을 보낼 수 있게 되었다.
+
+## 12. axios get과 body
+
+- axios요청을 보낼 때 body로 보내려면 data라는 이름으로 담아 보내야 한다.
+
+- post 요청인 로그인은 이렇게 잘 되었는데, get 요청인 아이디 중복확인은 자꾸 400 에러가 나고, body가 missing되었다고 뜨기에, `JSON.stringify(id)`도 해보고, const data로 만들어서도 보내보고, 여러가지 시도를 해봤는데 해결되지 았았다.
+
+- 원인은 애초에 axios get 요청에는 body를 담아 보낼 수 있는 공간이 없기 때문이었다.
+  
+  [Axios API | Axios Docs](https://axios-http.com/docs/api_intro)
+  
+  ```tex
+  <Request method aliases>
+  For convenience aliases have been provided for all supported request methods.
+  
+  axios.request(config)
+  axios.get(url[, config])
+  axios.delete(url[, config])
+  axios.head(url[, config])
+  axios.options(url[, config])
+  axios.post(url[, data[, config]])
+  axios.put(url[, data[, config]])
+  axios.patch(url[, data[, config]])
+  ```
+
+- post, put, patch에만 data 자리가 있는 것을 확인할 수 있었다.
+
+## 13. Ubuntu 설치
+
+- 쿠렌토와 마스킹을 연결하기 위해 쿠렌토 테스트 코드를 클론받아  `npm i` `npm start`를 하는데, 내 캠이 한번 가공되서 나오는 부분(Remote stream) 가 출력되지 않았다. 
+
+- 쿠렌토 가이드를 찾아보니 프로젝트를 실행하기 위해서 sudo명령어를 사용해 뭔가 해야 한다고 했고, sudo를 사용하기 위해 우분투가 필요하여 설치하게 되었다.
+
+- 설치는 [Microsoft문서](Microsoft Docs](https://docs.microsoft.com/ko-kr/windows/wsl/install-manual)에 따라 진행하였다. 
+
+- [블로그](https://ingu627.github.io/tips/install_ubuntu/)도 하나 참고하였다.
+
+- Ubuntu 20.04.4 LTS 버전을 설치하였다.
+
+[GitHub - Kurento/kurento-tutorial-node: Kurento tutorials for Node JS](https://github.com/Kurento/kurento-tutorial-node)
+
+[Installation Guide &mdash; Kurento 6.16.0 documentation](https://doc-kurento.readthedocs.io/en/stable/user/installation.html#local-installation)
+
+
+
+
+
+
+
+[캔버스(canvas)를 이용한 비디오 조작하기 - Web API | MDN](https://developer.mozilla.org/ko/docs/Web/API/Canvas_API/Manipulating_video_using_canvas)
+
+
+
+
+
+[getUserMedia to canvas](https://webrtc.github.io/samples/src/content/getusermedia/canvas/)
+
+[samples/src/content/getusermedia/canvas at gh-pages · webrtc/samples · GitHub](https://github.com/webrtc/samples/tree/gh-pages/src/content/getusermedia/canvas)

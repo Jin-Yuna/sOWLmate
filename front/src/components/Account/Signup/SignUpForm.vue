@@ -128,17 +128,23 @@ export default {
     ...mapMutations(['NICKNAME_CHECK']),
     // id는 변경이 안되니까 id중복체크도 쓸 곳이 회원가입 폼 뿐인 것 같아서 여기다 id중복체크 만듦
     idCheck() {
+      const checkdata = {
+        userId: this.userData.id,
+      };
       axios({
-        url: `${sowl.users.users()}${this.userData.id}`,
-        method: 'get',
+        url: sowl.users.users() + 'exist/id',
+        method: 'post',
+        data: JSON.stringify(checkdata),
       })
         .then((response) => {
+          console.log('응답', JSON.stringify(checkdata));
           console.log(response);
           if (response.data != 'exist') {
             this.idChecked = true;
           }
         })
         .catch((error) => {
+          console.log('에러', JSON.stringify(checkdata));
           console.error(error);
         });
     },
