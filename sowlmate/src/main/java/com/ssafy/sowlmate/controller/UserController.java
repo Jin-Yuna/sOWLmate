@@ -48,9 +48,9 @@ public class UserController {
     /**
      * 존재하는 닉네임 여부 확인
      */
-    @GetMapping("exist/nickname")
-    public ResponseEntity<?> existNickname(HttpServletRequest request) {
-        User user = userService.selectByNickname(request.getHeader("userNickname"));
+    @PostMapping("exist/nickname")
+    public ResponseEntity<?> existNickname(@RequestBody UserRequestDto requestDto) {
+        User user = userService.selectByNickname(requestDto.getUserNickname());
         return ResponseEntity.ok().body(user == null ? "empty" : "exist");
     }
 
