@@ -15,7 +15,7 @@ export default {
     users: () => HOST + USERS,
     idCheck: () => HOST + USERS + 'exist/' + 'id/',
     nicknameCheck: () => HOST + USERS + 'exist/' + 'nickname/',
-    idNicknameCheck: () => HOST + ACCOUNTS + 'findpw/',
+    idUsernameCheck: () => HOST + ACCOUNTS + 'findpw/',
     resetPassword: () => HOST + ACCOUNTS + 'findpw/' + 'sendemail/',
   },
   interests: {

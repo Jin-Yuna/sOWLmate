@@ -8,17 +8,17 @@
           </div>
           <div class="modal-body">
             <slot name="body">
-              <p v-if="!isIdNicknameCheck">
-                아이디와 닉네임이 일치하지 않습니다.
+              <p v-if="!isIdUsernameCheck">
+                아이디와 유저 이름이 일치하지 않습니다.
               </p>
-              <p v-if="isIdNicknameCheck">
-                임시 비밀번호가 메일로 전송되었습니다. 비밀번호를 확인해보세요.
+              <p v-if="isIdUsernameCheck">
+                임시 비밀번호가 메일로 전송되었습니다.
               </p></slot
             >
           </div>
           <div class="modal-footer">
             <slot name="footer">
-              <!-- <router-link :to="{ name: 'SinupView' }" v-if="!idNicknameCheck"
+              <!-- <router-link :to="{ name: 'SinupView' }" v-if="!isIdUsernameCheck"
                 >회원가입</router-link
               > -->
               <button class="modal-default-button" @click="$emit('close')">
@@ -37,7 +37,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'PasswordResetModal',
   computed: {
-    ...mapGetters(['isIdNicknameCheck']),
+    ...mapGetters(['isIdUsernameCheck']),
   },
 };
 </script>

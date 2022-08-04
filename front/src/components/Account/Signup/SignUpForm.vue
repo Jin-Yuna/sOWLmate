@@ -3,22 +3,25 @@
     <SignUpCard />
     <form @submit.prevent="signup(userData)">
       <div>
-        <label for="id">이메일: </label>
+        <label for="id">아이디 : </label>
         <input
           type="email"
+          placeholder="아이디(이메일)를 입력하세요"
           id="id"
           v-model="userData.id"
-          @keydown="idCheckFalse()"
         />
-        <p @click="idCheck()">중복검사</p>
-        <p v-if="idChecked">사용 가능한 이메일입니다.</p>
-        <p v-if="!idChecked">중복검사를 해주세요</p>
+        <p v-if="!isIdCheck" @click="idCheck(userData.id)">중복 검사</p>
+        <p @click="d">이메일 인증</p>
+        <p v-if="isIdCheck">사용 가능한 아이디 입니다.</p>
+        <p v-if="isIdCheck">사용 가능한 아이디 입니다.</p>
+        <p v-if="!isIdCheck">중복 검사를 해주세요.</p>
         <!-- 버튼으로 하면 form 제출되서 임시로 p로 해둠 -->
       </div>
       <div>
         <label for="password">비밀번호: </label>
         <input
           type="password"
+          placeholder="비밀번호를 입력하세요"
           id="password"
           v-model="userData.password"
           @keyup="
@@ -33,6 +36,7 @@
         <label for="password2">비밀번호 확인: </label>
         <input
           type="password"
+          placeholder="비밀번호를 한 번 더 입력하세요"
           id="password2"
           v-model="userData.password2"
           @keyup="
@@ -48,11 +52,12 @@
         <label for="nickname">닉네임: </label>
         <input
           type="text"
+          placeholder="닉네임을 입력하세요"
           id="nickname"
           v-model="userData.nickname"
           @keydown="NICKNAME_CHECK(false)"
         />
-        <p @click="nicknameCheck(userData.nickname)">중복검사</p>
+        <p @click="nicknameCheck(userData.nickname)">중복 검사</p>
         {{ userData.nickname }}
       </div>
       <div>
@@ -63,7 +68,7 @@
       </div>
       <div>
         <label for="userlang">사용 언어: </label>
-        <select name="userlang" id="userlang" v-model="userData.userlang">
+        <select name="userlang" id="userlang" v-model="userData.language">
           <option v-for="userlan in languageList" :key="userlan">
             {{ userlan }}
           </option>
@@ -71,22 +76,39 @@
       </div>
       <div>
         <label for="preferlang">선호 언어: </label>
-        <select name="preferlang" id="preferlang" v-model="userData.preferlang">
+        <select
+          name="preferlang"
+          id="preferlang"
+          v-model="userData.preferenceLanguage"
+        >
           <option v-for="preferlang in languageList" :key="preferlang">
             {{ preferlang }}
           </option>
         </select>
       </div>
-      <button v-if="isPasswordDoubleCheck && idChecked && isNicknameCheck">
+      <div>
+        <label for="name">유저 이름: </label>
+        <input
+          type="text"
+          placeholder="유저 이름을 입력하세요"
+          id="name"
+          v-model="userData.name"
+        />
+        <p>유저 이름은 공개되지 않으며, 비밀번호 찾기에 이용됩니다.</p>
+      </div>
+      <v-btn
+        type="submit"
+        v-bind:disabled="
+          !isPasswordDoubleCheck || !isIdCheck || !isNicknameCheck
+        "
+      >
         회원가입
-      </button>
+      </v-btn>
     </form>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import sowl from '@/api/sowl';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import SignUpCard from '@/components/Account/Signup/SignUpCard.vue';
 
@@ -102,15 +124,16 @@ export default {
         password2: '',
         nickname: '',
         region: '',
-        userlang: '',
-        preferlang: '',
+        language: '',
+        preferenceLanguage: '',
+        name: '',
       },
-      idChecked: false,
     };
   },
   computed: {
     ...mapGetters([
       'isPasswordDoubleCheck',
+      'isIdCheck',
       'isNicknameCheck',
       'languageList',
       'regionList',
@@ -120,30 +143,12 @@ export default {
     ...mapActions([
       'signup',
       'passwordDoubleCheck',
+      'idCheck',
       'nicknameCheck',
       'getLanguageList',
       'getRegionList',
     ]),
     ...mapMutations(['NICKNAME_CHECK']),
-    // id는 변경이 안되니까 id중복체크도 쓸 곳이 회원가입 폼 뿐인 것 같아서 여기다 id중복체크 만듦
-    idCheck() {
-      axios({
-        url: `${sowl.users.users()}${this.userData.id}`,
-        method: 'get',
-      })
-        .then((response) => {
-          console.log(response);
-          if (response.data != 'exist') {
-            this.idChecked = true;
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    idCheckFalse() {
-      this.idChecked = false;
-    },
   },
   mounted() {
     this.getLanguageList();

@@ -8,7 +8,7 @@ export const accounts = {
     token: sessionStorage.getItem('token') || '',
     currentUser: '',
     idCheck: false,
-    idNicknameCheck: false,
+    idUsernameCheck: false,
     passwordDoubleCheck: false,
     nicknameCheck: false,
     languageList: [],
@@ -22,7 +22,7 @@ export const accounts = {
     authHeader: (state) => state.token,
     currentUser: (state) => state.currentUser,
     isIdCheck: (state) => state.idCheck,
-    isIdNicknameCheck: (state) => state.idNicknameCheck,
+    isIdUsernameCheck: (state) => state.idUsernameCheck,
     isPasswordDoubleCheck: (state) => state.passwordDoubleCheck,
     isNicknameCheck: (state) => state.nicknameCheck,
     languageList: (state) => state.languageList,
@@ -35,7 +35,7 @@ export const accounts = {
     REMOVE_TOKEN: (state) => (state.token = ''),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     ID_CHECK: (state, checked) => (state.idCheck = checked),
-    ID_NICKNAME_CHECK: (state, checked) => (state.idNicknameCheck = checked),
+    ID_USERNAME_CHECK: (state, checked) => (state.idUsernameCheck = checked),
     PASSWORD_DOUBLE_CHECK: (state, checked) =>
       (state.passwordDoubleCheck = checked),
     NICKNAME_CHECK: (state, checked) => (state.nicknameCheck = checked),
@@ -53,8 +53,9 @@ export const accounts = {
     },
     login({ commit, dispatch }, userData) {
       axios({
-        url: sowl.users.login(userData.id, userData.password),
+        url: sowl.users.login(),
         method: 'post',
+        data: userData,
       })
         .then((response) => {
           commit('SET_TOKEN', response.data['access-token']);
@@ -259,7 +260,7 @@ export const accounts = {
     },
     resetPassword({ commit }, userData) {
       axios({
-        url: sowl.users.idNicknameCheck(),
+        url: sowl.users.idUsernameCheck(),
         method: 'post',
         data: userData,
       })
@@ -267,7 +268,7 @@ export const accounts = {
           console.log(response.data['check']);
           // 아이디와 닉네임이 일치할 때
           if (response.data['check']) {
-            commit('ID_NICKNAME_CHECK', true);
+            commit('ID_USERNAME_CHECK', true);
             axios({
               url: sowl.users.resetPassword(),
               method: 'post',
@@ -275,7 +276,7 @@ export const accounts = {
             })
               .then((response) => {
                 console.log(response);
-                commit('ID_NICKNAME_CHECK', true);
+                commit('ID_USERNAME_CHECK', true);
               })
               .catch((error) => {
                 console.error(error);
@@ -287,5 +288,4 @@ export const accounts = {
         });
     },
   },
-  modules: {},
 };

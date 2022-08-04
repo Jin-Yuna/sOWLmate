@@ -3,11 +3,11 @@
     <PasswordResetCard />
     <form @submit.prevent="resetPassword(userData)">
       <div>
-        <label for="username">아이디 : </label>
+        <label for="userId">아이디 : </label>
         <input
           type="email"
-          placeholder="아이디를 입력하세요"
-          id="id"
+          placeholder="아이디(이메일)를 입력하세요"
+          id="userId"
           v-model="userData.userId"
           @input="idCheck(userData.userId)"
         />
@@ -15,11 +15,11 @@
         <p v-if="!isIdCheck">아이디가 확인되었습니다.</p>
       </div>
       <div>
-        <label for="nickname">닉네임 : </label>
+        <label for="userName">유저 이름 : </label>
         <input
           type="text"
-          placeholder="닉네임을 입력하세요"
-          id="nickname"
+          placeholder="유저 이름을 입력하세요"
+          id="userName"
           v-model="userData.userName"
         />
       </div>
@@ -56,20 +56,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isIdCheck', 'isIdNicknameCheck']),
+    ...mapGetters(['isIdCheck', 'isIdUsernameCheck']),
   },
   methods: {
     ...mapActions(['idCheck', 'resetPassword']),
     pageLink() {
-      console.log(this.isIdNicknameCheck);
-      if (this.isIdNicknameCheck) {
+      console.log(this.isIdUsernameCheck);
+      if (this.isIdUsernameCheck) {
         this.$router.push({ name: 'LoginView' });
       }
       this.showModal = false;
     },
   },
   mounted() {
-    this.idCheck(this.userData.id);
+    this.idCheck(this.userData.userId);
   },
 };
 </script>
