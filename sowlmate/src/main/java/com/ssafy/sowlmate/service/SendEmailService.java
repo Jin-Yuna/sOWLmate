@@ -78,4 +78,32 @@ public class SendEmailService {
 
         return "email 전송 완료 !";
     }
+
+    public String sendIdCheckEmail(String userId) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(userId);
+        simpleMailMessage.setFrom(FROM_ADDRESS);
+        simpleMailMessage.setSubject("SOWLMATE Email(ID) Check");
+        simpleMailMessage.setText(getAuthNumber());
+
+        javaMailSender.send(simpleMailMessage);
+
+        return simpleMailMessage.getText();
+    }
+
+    /**
+     * 6자리 인증번호 생성
+     */
+    public String getAuthNumber() {
+        char[] charSet = new char[]{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+        String str = "";
+
+        int idx = 0;
+        for(int i=0; i<6; i++){
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
+    }
 }
