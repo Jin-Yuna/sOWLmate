@@ -2,6 +2,7 @@
   <div>
     <h1>LoginView.vue</h1>
     <LoginForm />
+    <router-link :to="{ name: 'SignUpView' }">처음 오셨나요?</router-link>
   </div>
 </template>
 

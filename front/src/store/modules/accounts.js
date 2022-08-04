@@ -7,6 +7,8 @@ export const accounts = {
   state: {
     token: sessionStorage.getItem('token') || '',
     currentUser: '',
+    idCheck: false,
+    idNicknameCheck: false,
     passwordDoubleCheck: false,
     nicknameCheck: false,
     languageList: [],
@@ -19,6 +21,8 @@ export const accounts = {
     isLoggedIn: (state) => !!state.token,
     authHeader: (state) => state.token,
     currentUser: (state) => state.currentUser,
+    isIdCheck: (state) => state.idCheck,
+    isIdNicknameCheck: (state) => state.idNicknameCheck,
     isPasswordDoubleCheck: (state) => state.passwordDoubleCheck,
     isNicknameCheck: (state) => state.nicknameCheck,
     languageList: (state) => state.languageList,
@@ -30,6 +34,8 @@ export const accounts = {
     SET_TOKEN: (state, newToken) => (state.token = newToken),
     REMOVE_TOKEN: (state) => (state.token = ''),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
+    ID_CHECK: (state, checked) => (state.idCheck = checked),
+    ID_NICKNAME_CHECK: (state, checked) => (state.idNicknameCheck = checked),
     PASSWORD_DOUBLE_CHECK: (state, checked) =>
       (state.passwordDoubleCheck = checked),
     NICKNAME_CHECK: (state, checked) => (state.nicknameCheck = checked),
@@ -90,6 +96,27 @@ export const accounts = {
           console.error(error);
         });
     },
+    // Check
+    idCheck({ commit }, id) {
+      const userId = {
+        userId: id,
+      };
+      axios({
+        url: sowl.users.idCheck(),
+        method: 'get',
+        headers: userId,
+      })
+        .then((response) => {
+          if (response.data != 'exist') {
+            commit('ID_CHECK', true);
+          } else {
+            commit('ID_CHECK', false);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     passwordDoubleCheck({ commit }, payload) {
       let checked = false;
       if (payload.password === payload.password2) {
@@ -113,6 +140,7 @@ export const accounts = {
           console.error(error);
         });
     },
+    // Get List
     getLanguageList({ commit }) {
       axios({
         url: sowl.categories.language(),
@@ -149,6 +177,7 @@ export const accounts = {
           console.log(error);
         });
     },
+    // Save
     userInterestSave({ state, commit }, interestindexs) {
       // 기존에 저장된 관심사 뺴고 axios 요청
       let current = [];
@@ -203,7 +232,7 @@ export const accounts = {
           console.error(error);
         });
     },
-
+    // Modify
     modifyUserInfo({ state, commit }, payload) {
       // 페이로드에 { 'nickname' : 'user1' } 이런 식으로 넘어옴
       const sub = Object.keys(payload)[0];
@@ -223,6 +252,35 @@ export const accounts = {
         .then((response) => {
           commit('GET_USER_INFO', response.data);
           alert('성공적으로 변경되었습니다.');
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    resetPassword({ commit }, userData) {
+      axios({
+        url: sowl.users.idNicknameCheck(),
+        method: 'post',
+        data: userData,
+      })
+        .then((response) => {
+          console.log(response.data['check']);
+          // 아이디와 닉네임이 일치할 때
+          if (response.data['check']) {
+            commit('ID_NICKNAME_CHECK', true);
+            axios({
+              url: sowl.users.resetPassword(),
+              method: 'post',
+              data: userData,
+            })
+              .then((response) => {
+                console.log(response);
+                commit('ID_NICKNAME_CHECK', true);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
         })
         .catch((error) => {
           console.error(error);

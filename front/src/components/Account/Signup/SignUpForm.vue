@@ -81,7 +81,6 @@
         회원가입
       </button>
     </form>
-    <router-link :to="{ name: 'LoginView' }">이미 회원이신가요?</router-link>
   </div>
 </template>
 
