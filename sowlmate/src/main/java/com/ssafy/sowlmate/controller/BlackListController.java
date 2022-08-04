@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -26,8 +28,8 @@ public class BlackListController {
      * 유저별 차단 계정 조회
      */
     @GetMapping("list")
-    public ResponseEntity<?> BlackListByUser(@RequestBody FromToUserIdDto idDto) {
-        return ResponseEntity.ok().body(blackListService.selectAllByFromUserId(idDto.getFromUserId()));
+    public ResponseEntity<?> BlackListByUser(HttpServletRequest request) {
+        return ResponseEntity.ok().body(blackListService.selectAllByFromUserId(request.getHeader("fromUserId")));
     }
 
     /**
