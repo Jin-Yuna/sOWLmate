@@ -9,12 +9,63 @@
           placeholder="아이디(이메일)를 입력하세요"
           id="id"
           v-model="userData.id"
+          @input="resetId()"
         />
-        <p v-if="!isIdCheck" @click="idCheck(userData.id)">중복 검사</p>
-        <p v-if="isIdCheck" @click="d">이메일 인증</p>
-        <p v-if="isIdCheck">사용 가능한 아이디 입니다.</p>
-        <p v-if="!isIdCheck && !isIdChecked">중복 검사를 해주세요.</p>
+        <p v-if="!isIdChecked" @click="idCheck(userData.id)">중복 검사</p>
+        <p v-if="isIdCheck && isEmailValidCheck && !authentication_check">
+          사용 가능한 아이디 입니다. 이메일 인증을 해주세요.
+        </p>
+        <p v-if="!isIdChecked">중복 검사를 해주세요.</p>
+        <p v-if="!isEmailValidCheck && isIdCheck">이메일 형식이 아닙니다.</p>
         <p v-if="!isIdCheck && isIdChecked">이미 있는 아이디 입니다.</p>
+        <p
+          v-if="isIdCheck && isEmailValidCheck && isIdEmailCheck === ''"
+          @click="idEmailCheck(userData.id)"
+        >
+          이메일 인증
+        </p>
+
+        <label
+          for="emailNum"
+          v-if="isIdEmailCheck != '' && !authentication_check"
+          >인증 번호 입력 :
+        </label>
+        <input
+          type="text"
+          placeholder="인증번호를 입력하세요"
+          id="emailNum"
+          v-if="isIdEmailCheck != '' && !authentication_check"
+          v-model="authentication_num"
+        />
+        {{ authentication_num }}
+        {{ isIdEmailCheck }}
+        <p
+          v-if="
+            isIdCheck &&
+            isEmailValidCheck &&
+            isIdEmailCheck != '' &&
+            !authentication_check
+          "
+          @click="authenticationNum(isIdEmailCheck)"
+        >
+          확인
+        </p>
+        <p
+          v-if="
+            isIdCheck &&
+            isEmailValidCheck &&
+            isIdEmailCheck != '' &&
+            !authentication_check
+          "
+          @click="idEmailCheck(userData.id)"
+        >
+          재요청
+        </p>
+        <p v-if="authentication_check">인증이 완료되었습니다.</p>
+        <p v-if="authentication_checked && !authentication_check">
+          인증 번호가 틀렸습니다.
+        </p>
+
         <!-- 버튼으로 하면 form 제출되서 임시로 p로 해둠 -->
       </div>
       <div>
@@ -60,16 +111,12 @@
           placeholder="닉네임을 입력하세요"
           id="nickname"
           v-model="userData.nickname"
-          @keydown="NICKNAME_CHECK(false)"
+          @input="nicknameCheck(userData.nickname)"
         />
-        <p v-if="!isNicknameCheck" @click="nicknameCheck(userData.nickname)">
-          중복 검사
+        <p v-if="userData.nickname != '' && !isNicknameCheck">
+          이미 있는 닉네임 입니다.
         </p>
-        <p v-if="!isIdCheck" @click="idCheck(userData.id)">중복 검사</p>
-        <p v-if="isIdCheck" @click="d">이메일 인증</p>
-        <p v-if="isIdCheck">사용 가능한 아이디 입니다.</p>
-        <p v-if="!isIdCheck && !isIdChecked">중복 검사를 해주세요.</p>
-        <p v-if="!isIdCheck && isIdChecked">이미 있는 아이디 입니다.</p>
+        <p v-if="isNicknameCheck">사용할 수 있는 닉네임 입니다.</p>
       </div>
 
       <div>
@@ -106,12 +153,16 @@
           id="name"
           v-model="userData.name"
         />
+        <p v-if="userData.name === ''">유저 이름을 입력해주세요.</p>
         <p>유저 이름은 공개되지 않으며, 비밀번호 찾기에 이용됩니다.</p>
       </div>
       <v-btn
         type="submit"
         v-bind:disabled="
-          !isPasswordDoubleCheck || !isIdCheck || !isNicknameCheck
+          !isPasswordDoubleCheck ||
+          !authentication_check ||
+          !isNicknameCheck ||
+          userData.name === ''
         "
       >
         회원가입
@@ -140,6 +191,9 @@ export default {
         name: '',
       },
       password2: '',
+      authentication_num: '',
+      authentication_check: false,
+      authentication_checked: false,
     };
   },
   computed: {
@@ -148,7 +202,9 @@ export default {
       'isPasswordDoubleChecked',
       'isIdCheck',
       'isIdChecked',
+      'isEmailValidCheck',
       'isNicknameCheck',
+      'isIdEmailCheck',
       'languageList',
       'regionList',
     ]),
@@ -158,11 +214,30 @@ export default {
       'signup',
       'passwordDoubleCheck',
       'idCheck',
+      'emailValidCheck',
       'nicknameCheck',
+      'idEmailCheck',
       'getLanguageList',
       'getRegionList',
     ]),
-    ...mapMutations(['ID_CHECK', 'NICKNAME_CHECK']),
+    ...mapMutations(['ID_CHECKED', 'ID_CHECK', 'ID_EMAIL_CHECK']),
+    resetId() {
+      this.ID_CHECKED(false);
+      this.ID_CHECK(false);
+      this.ID_EMAIL_CHECK('');
+      this.emailValidCheck(this.userData.id);
+      this.authentication_check = false;
+      this.authentication_checked = false;
+    },
+    authenticationNum(isIdEmailCheck) {
+      console.log(this.authentication_num);
+      console.log(isIdEmailCheck);
+      this.authentication_checked = true;
+      if (this.authentication_num === isIdEmailCheck) {
+        this.authentication_check = true;
+        return;
+      }
+    },
   },
   mounted() {
     this.getLanguageList();
