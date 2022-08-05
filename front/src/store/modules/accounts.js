@@ -227,19 +227,27 @@ export const accounts = {
         });
     },
     // Save
-    userInterestSave({ state, commit }, interestindexs) {
+    userInterestSave({ state, commit, dispatch }, interestindexs) {
       // 기존에 저장된 관심사 뺴고 axios 요청
       let current = [];
       let now = [];
       for (const currentInterest of state.userInfo.interests) {
         current.push(currentInterest['title']);
       }
+      console.log('관심사 현재', current);
       for (const index of interestindexs) {
         const interestName = state.interestList[index];
         now.push(interestName);
         if (!current.includes(interestName)) {
           axios({
-            url: sowl.interests.userInterest(state.currentUser, interestName),
+            url: sowl.interests.userInterest(),
+            // url: sowl.interests.userInterest(state.currentUser, interestName),
+            data: {
+              userId: state.currentUser,
+              interest: {
+                title: interestName,
+              },
+            },
             method: 'post',
           }).then((response) => {
             console.log('관심사저장', response);
@@ -247,14 +255,18 @@ export const accounts = {
           });
         }
       }
+      console.log('관심사 수정', now);
       // 기존에는 있는데 넘겨준 interestindexs에 없다면 삭제 요청
       for (const currentInterest of current) {
         if (!now.includes(currentInterest)) {
           axios({
-            url: sowl.interests.userInterest(
-              state.currentUser,
-              currentInterest,
-            ),
+            url: sowl.interests.userInterest(),
+            data: {
+              userId: state.currentUser,
+              interest: {
+                title: currentInterest,
+              },
+            },
             method: 'delete',
           })
             .then(() => {
@@ -265,13 +277,19 @@ export const accounts = {
             });
         }
       }
+      dispatch('getUserInfo');
     },
     getUserInfo({ state, commit }) {
+      const data = {
+        id: state.currentUser,
+      };
       axios({
-        url: sowl.users.info(state.currentUser),
+        url: sowl.users.info(),
+        method: 'post',
         headers: {
           'access-token': state.token,
         },
+        data,
       })
         .then((response) => {
           console.log(response.data.userInfo);
@@ -285,22 +303,25 @@ export const accounts = {
     modifyUserInfo({ state, commit }, payload) {
       // 페이로드에 { 'nickname' : 'user1' } 이런 식으로 넘어옴
       const sub = Object.keys(payload)[0];
-      console.log(sub);
-      // password가 안와서!!! 변경못함ㅠㅠ
       let data = {
-        id: state.userInfo['id'],
+        userId: state.userInfo['id'],
+        user: {
+          nickname: state.userInfo['nickname'],
+          region: state.userInfo['region'],
+          language: state.userInfo['language'],
+          preferenceLanguage: state.userInfo['preferenceLanguage'],
+          name: state.userInfo['nickname'],
+        },
       };
-      data[sub] = payload[sub];
-      console.log('수정데이터', data);
-
+      data.user[sub] = payload[sub];
       axios({
-        url: sowl.users.userInfoChange(state.currentUser),
+        url: sowl.users.users(),
         method: 'put',
         data,
       })
         .then((response) => {
           commit('GET_USER_INFO', response.data);
-          alert('성공적으로 변경되었습니다.');
+          alert(`${sub}가 성공적으로 변경되었습니다.`);
         })
         .catch((error) => {
           console.error(error);
