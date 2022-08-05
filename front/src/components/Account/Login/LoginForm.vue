@@ -59,8 +59,8 @@ export default {
   data() {
     return {
       userData: {
-        id: '',
         password: '',
+        id: '',
       },
     };
   },
