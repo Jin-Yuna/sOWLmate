@@ -2,6 +2,7 @@
   <div>
     <SignUpCard />
     <form @submit.prevent="signup(userData)">
+      <!-- 아이디 관련 -->
       <div>
         <label for="id">아이디 : </label>
         <input
@@ -11,20 +12,21 @@
           v-model="userData.id"
           @input="resetId()"
         />
+        <!-- 중복 검사 -->
         <p v-if="!isIdChecked" @click="idCheck(userData.id)">중복 검사</p>
-        <p v-if="isIdCheck && isEmailValidCheck && !authentication_check">
-          사용 가능한 아이디 입니다. 이메일 인증을 해주세요.
-        </p>
         <p v-if="!isIdChecked">중복 검사를 해주세요.</p>
         <p v-if="!isEmailValidCheck && isIdCheck">이메일 형식이 아닙니다.</p>
         <p v-if="!isIdCheck && isIdChecked">이미 있는 아이디 입니다.</p>
+        <p v-if="isIdCheck && isEmailValidCheck && !authentication_check">
+          사용 가능한 아이디 입니다. 이메일 인증을 해주세요.
+        </p>
+        <!-- 이메일 인증 -->
         <p
           v-if="isIdCheck && isEmailValidCheck && isIdEmailCheck === ''"
           @click="idEmailCheck(userData.id)"
         >
           이메일 인증
         </p>
-
         <label
           for="emailNum"
           v-if="isIdEmailCheck != '' && !authentication_check"
@@ -37,8 +39,6 @@
           v-if="isIdEmailCheck != '' && !authentication_check"
           v-model="authentication_num"
         />
-        {{ authentication_num }}
-        {{ isIdEmailCheck }}
         <p
           v-if="
             isIdCheck &&
@@ -65,9 +65,8 @@
         <p v-if="authentication_checked && !authentication_check">
           인증 번호가 틀렸습니다.
         </p>
-
-        <!-- 버튼으로 하면 form 제출되서 임시로 p로 해둠 -->
       </div>
+      <!-- 비밀번호 -->
       <div>
         <label for="password">비밀번호: </label>
         <input
@@ -83,6 +82,7 @@
           "
         />
       </div>
+      <!-- 비밀번호 확인 -->
       <div>
         <label for="password2">비밀번호 확인: </label>
         <input
@@ -104,6 +104,7 @@
           비밀번호 확인이 필요합니다
         </p>
       </div>
+      <!-- 닉네임 -->
       <div>
         <label for="nickname">닉네임: </label>
         <input
@@ -118,13 +119,14 @@
         </p>
         <p v-if="isNicknameCheck">사용할 수 있는 닉네임 입니다.</p>
       </div>
-
+      <!-- 지역 설정 -->
       <div>
         <label for="region">지역: </label>
         <select name="region" id="region" v-model="userData.region">
           <option v-for="reg in regionList" :key="reg">{{ reg }}</option>
         </select>
       </div>
+      <!-- 사용 언어 설정 -->
       <div>
         <label for="userlang">사용 언어: </label>
         <select name="userlang" id="userlang" v-model="userData.language">
@@ -133,6 +135,7 @@
           </option>
         </select>
       </div>
+      <!-- 선호 언어 설정 -->
       <div>
         <label for="preferlang">선호 언어: </label>
         <select
@@ -145,6 +148,7 @@
           </option>
         </select>
       </div>
+      <!-- 유저 이름 -->
       <div>
         <label for="name">유저 이름: </label>
         <input
@@ -156,6 +160,7 @@
         <p v-if="userData.name === ''">유저 이름을 입력해주세요.</p>
         <p>유저 이름은 공개되지 않으며, 비밀번호 찾기에 이용됩니다.</p>
       </div>
+      <!-- 회원 가입 버튼 -->
       <v-btn
         type="submit"
         v-bind:disabled="
@@ -230,8 +235,6 @@ export default {
       this.authentication_checked = false;
     },
     authenticationNum(isIdEmailCheck) {
-      console.log(this.authentication_num);
-      console.log(isIdEmailCheck);
       this.authentication_checked = true;
       if (this.authentication_num === isIdEmailCheck) {
         this.authentication_check = true;

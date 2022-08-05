@@ -7,6 +7,7 @@ export const accounts = {
   state: {
     token: sessionStorage.getItem('token') || '',
     currentUser: '',
+    loginFail: 'success',
     idCheck: false,
     idChecked: false,
     emailValidCheck: false,
@@ -25,6 +26,7 @@ export const accounts = {
     isLoggedIn: (state) => !!state.token,
     authHeader: (state) => state.token,
     currentUser: (state) => state.currentUser,
+    isLoginFail: (state) => state.loginFail,
     isIdCheck: (state) => state.idCheck,
     isIdChecked: (state) => state.idChecked,
     isEmailValidCheck: (state) => state.emailValidCheck,
@@ -42,6 +44,7 @@ export const accounts = {
     SET_TOKEN: (state, newToken) => (state.token = newToken),
     REMOVE_TOKEN: (state) => (state.token = ''),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
+    LOGIN_FAIL: (state, checked) => (state.loginFail = checked),
     ID_CHECK: (state, checked) => (state.idCheck = checked),
     ID_CHECKED: (state, checked) => (state.idChecked = checked),
     EMAIL_VALID_CHECK: (state, checked) => (state.emailValidCheck = checked),
@@ -71,12 +74,17 @@ export const accounts = {
         data: userData,
       })
         .then((response) => {
-          commit('SET_TOKEN', response.data['access-token']);
-          commit('SET_CURRENT_USER', userData.id);
-          dispatch('getInterestList');
-          dispatch('getUserInfo');
-          sessionStorage.setItem('token', response.data['access-token']);
-          router.push({ name: 'HomeView' });
+          if (response.data['message'] === 'fail') {
+            commit('LOGIN_FAIL', 'fail');
+          } else {
+            commit('SET_TOKEN', response.data['access-token']);
+            commit('SET_CURRENT_USER', userData.id);
+            dispatch('getInterestList');
+            dispatch('getUserInfo');
+            sessionStorage.setItem('token', response.data['access-token']);
+            router.push({ name: 'HomeView' });
+            alert('성공적으로 login 되었습니다.');
+          }
         })
         .catch((error) => {
           console.error(error);
