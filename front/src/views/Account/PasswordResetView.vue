@@ -1,22 +1,22 @@
 <template>
   <div>
-    <p>
-      백으로 이메일 발송 요청하면 ~> 임시 비밀번호로 비밀번호가 변경되고,
-      임시비밀번호가 담긴 메일이 발송됨
-    </p>
-    <p>
-      해야할 일 ~~~ id_이메일,닉네임 담아서 백에 보내기! ~> 그럼 백에서 있는
-      회원인지 검사한다고 함?
-    </p>
-    <p>
-      id 중복검사를 이용해 프론트에서 존재하지 않는 회원입니다. 존재하는
-      회원이면 이메일 발송 버튼 활성화
-    </p>
+    <h1>PasswordResetView.vue</h1>
+    <PasswordResetForm />
+    <router-link :to="{ name: 'LoginView' }"
+      >비밀번호가 생각나셨나요?</router-link
+    >
   </div>
 </template>
 
 <script>
-export default {};
+import PasswordResetForm from '@/components/Account/PasswordReset/PasswordResetForm.vue';
+
+export default {
+  name: 'PasswordResetView',
+  components: {
+    PasswordResetForm,
+  },
+};
 </script>
 
 <style></style>

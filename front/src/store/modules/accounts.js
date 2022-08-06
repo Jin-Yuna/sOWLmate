@@ -7,8 +7,15 @@ export const accounts = {
   state: {
     token: sessionStorage.getItem('token') || '',
     currentUser: '',
+    loginFail: 'success',
+    idCheck: false,
+    idChecked: false,
+    emailValidCheck: false,
+    idUsernameCheck: false,
     passwordDoubleCheck: false,
+    passwordDoubleChecked: false,
     nicknameCheck: false,
+    idEmailCheck: '',
     languageList: [],
     interestList: [],
     regionList: [],
@@ -19,7 +26,14 @@ export const accounts = {
     isLoggedIn: (state) => !!state.token,
     authHeader: (state) => state.token,
     currentUser: (state) => state.currentUser,
+    isLoginFail: (state) => state.loginFail,
+    isIdCheck: (state) => state.idCheck,
+    isIdChecked: (state) => state.idChecked,
+    isEmailValidCheck: (state) => state.emailValidCheck,
+    isIdUsernameCheck: (state) => state.idUsernameCheck,
     isPasswordDoubleCheck: (state) => state.passwordDoubleCheck,
+    isPasswordDoubleChecked: (state) => state.passwordDoubleChecked,
+    isIdEmailCheck: (state) => state.idEmailCheck,
     isNicknameCheck: (state) => state.nicknameCheck,
     languageList: (state) => state.languageList,
     regionList: (state) => state.regionList,
@@ -30,9 +44,17 @@ export const accounts = {
     SET_TOKEN: (state, newToken) => (state.token = newToken),
     REMOVE_TOKEN: (state) => (state.token = ''),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
+    LOGIN_FAIL: (state, checked) => (state.loginFail = checked),
+    ID_CHECK: (state, checked) => (state.idCheck = checked),
+    ID_CHECKED: (state, checked) => (state.idChecked = checked),
+    EMAIL_VALID_CHECK: (state, checked) => (state.emailValidCheck = checked),
+    ID_USERNAME_CHECK: (state, checked) => (state.idUsernameCheck = checked),
     PASSWORD_DOUBLE_CHECK: (state, checked) =>
       (state.passwordDoubleCheck = checked),
+    PASSWORD_DOUBLE_CHECKED: (state, checked) =>
+      (state.passwordDoubleChecked = checked),
     NICKNAME_CHECK: (state, checked) => (state.nicknameCheck = checked),
+    ID_EMAIL_CHECK: (state, checked) => (state.idEmailCheck = checked),
     GET_LANGUAGE_LIST: (state, list) => (state.languageList = list),
     GET_REGION_LIST: (state, list) => (state.regionList = list),
     GET_INTEREST_LIST: (state, list) => (state.interestList = list),
@@ -47,16 +69,22 @@ export const accounts = {
     },
     login({ commit, dispatch }, userData) {
       axios({
-        url: sowl.users.login(userData.id, userData.password),
+        url: sowl.users.login(),
         method: 'post',
+        data: userData,
       })
         .then((response) => {
-          commit('SET_TOKEN', response.data['access-token']);
-          commit('SET_CURRENT_USER', userData.id);
-          dispatch('getInterestList');
-          dispatch('getUserInfo');
-          sessionStorage.setItem('token', response.data['access-token']);
-          router.push({ name: 'HomeView' });
+          if (response.data['message'] === 'fail') {
+            commit('LOGIN_FAIL', 'fail');
+          } else {
+            commit('SET_TOKEN', response.data['access-token']);
+            commit('SET_CURRENT_USER', userData.id);
+            dispatch('getInterestList');
+            dispatch('getUserInfo');
+            sessionStorage.setItem('token', response.data['access-token']);
+            router.push({ name: 'HomeView' });
+            alert('성공적으로 login 되었습니다.');
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -70,16 +98,9 @@ export const accounts = {
     },
     signup({ dispatch }, userData) {
       axios({
-        url: sowl.users.signup(
-          userData.id,
-          userData.password,
-          userData.nickname,
-          userData.region,
-          userData.userlang,
-          userData.preferlang,
-          userData.nickname,
-        ),
+        url: sowl.users.users(),
         method: 'post',
+        data: userData,
       })
         .then((response) => {
           console.log(response);
@@ -90,29 +111,85 @@ export const accounts = {
           console.error(error);
         });
     },
+    // Check
+    idCheck({ commit }, id) {
+      const userId = {
+        userId: id,
+      };
+      axios({
+        url: sowl.users.idCheck(),
+        method: 'get',
+        headers: userId,
+      })
+        .then((response) => {
+          if (response.data != 'exist') {
+            commit('ID_CHECK', true);
+          } else {
+            commit('ID_CHECK', false);
+          }
+          commit('ID_CHECKED', true);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    emailValidCheck({ commit }, id) {
+      const validateEmail =
+        /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+      if (!validateEmail.test(id) || !id) {
+        commit('EMAIL_VALID_CHECK', false);
+        commit('ID_CHECK', false);
+      } else {
+        commit('EMAIL_VALID_CHECK', true);
+      }
+    },
     passwordDoubleCheck({ commit }, payload) {
       let checked = false;
-      if (payload.password === payload.password2) {
-        checked = true;
+      if (payload.password != '' && payload.password2 != '') {
+        commit('PASSWORD_DOUBLE_CHECKED', true);
+        if (payload.password === payload.password2) {
+          checked = true;
+        }
       }
       commit('PASSWORD_DOUBLE_CHECK', checked);
     },
     nicknameCheck({ commit }, nickname) {
-      console.log(sowl.users.nicknameCheck(nickname));
       axios({
-        url: sowl.users.nicknameCheck(nickname),
-        method: 'get',
+        url: sowl.users.nicknameCheck(),
+        method: 'post',
+        data: {
+          userNickname: nickname,
+        },
       })
         .then((response) => {
-          console.log(response);
-          if (response.data != 'exist') {
+          if (response.data != 'exist' && nickname != '') {
             commit('NICKNAME_CHECK', true);
+          } else {
+            commit('NICKNAME_CHECK', false);
           }
         })
         .catch((error) => {
           console.error(error);
         });
     },
+    idEmailCheck({ commit }, userId) {
+      const Id = {
+        id: userId,
+      };
+      axios({
+        url: sowl.users.idEmailCheck(),
+        method: 'post',
+        data: Id,
+      })
+        .then((response) => {
+          console.log(response.data);
+          commit('ID_EMAIL_CHECK', String(response.data));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    // Get List
     getLanguageList({ commit }) {
       axios({
         url: sowl.categories.language(),
@@ -149,19 +226,28 @@ export const accounts = {
           console.log(error);
         });
     },
-    userInterestSave({ state, commit }, interestindexs) {
+    // Save
+    userInterestSave({ state, commit, dispatch }, interestindexs) {
       // 기존에 저장된 관심사 뺴고 axios 요청
       let current = [];
       let now = [];
       for (const currentInterest of state.userInfo.interests) {
         current.push(currentInterest['title']);
       }
+      console.log('관심사 현재', current);
       for (const index of interestindexs) {
         const interestName = state.interestList[index];
         now.push(interestName);
         if (!current.includes(interestName)) {
           axios({
-            url: sowl.interests.userInterest(state.currentUser, interestName),
+            url: sowl.interests.userInterest(),
+            // url: sowl.interests.userInterest(state.currentUser, interestName),
+            data: {
+              userId: state.currentUser,
+              interest: {
+                title: interestName,
+              },
+            },
             method: 'post',
           }).then((response) => {
             console.log('관심사저장', response);
@@ -169,14 +255,18 @@ export const accounts = {
           });
         }
       }
+      console.log('관심사 수정', now);
       // 기존에는 있는데 넘겨준 interestindexs에 없다면 삭제 요청
       for (const currentInterest of current) {
         if (!now.includes(currentInterest)) {
           axios({
-            url: sowl.interests.userInterest(
-              state.currentUser,
-              currentInterest,
-            ),
+            url: sowl.interests.userInterest(),
+            data: {
+              userId: state.currentUser,
+              interest: {
+                title: currentInterest,
+              },
+            },
             method: 'delete',
           })
             .then(() => {
@@ -187,13 +277,19 @@ export const accounts = {
             });
         }
       }
+      dispatch('getUserInfo');
     },
     getUserInfo({ state, commit }) {
+      const data = {
+        id: state.currentUser,
+      };
       axios({
-        url: sowl.users.info(state.currentUser),
+        url: sowl.users.info(),
+        method: 'post',
         headers: {
           'access-token': state.token,
         },
+        data,
       })
         .then((response) => {
           console.log(response.data.userInfo);
@@ -203,31 +299,62 @@ export const accounts = {
           console.error(error);
         });
     },
-
+    // Modify
     modifyUserInfo({ state, commit }, payload) {
       // 페이로드에 { 'nickname' : 'user1' } 이런 식으로 넘어옴
       const sub = Object.keys(payload)[0];
-      console.log(sub);
-      // password가 안와서!!! 변경못함ㅠㅠ
       let data = {
-        id: state.userInfo['id'],
+        userId: state.userInfo['id'],
+        user: {
+          nickname: state.userInfo['nickname'],
+          region: state.userInfo['region'],
+          language: state.userInfo['language'],
+          preferenceLanguage: state.userInfo['preferenceLanguage'],
+          name: state.userInfo['nickname'],
+        },
       };
-      data[sub] = payload[sub];
-      console.log('수정데이터', data);
-
+      data.user[sub] = payload[sub];
       axios({
-        url: sowl.users.userInfoChange(state.currentUser),
+        url: sowl.users.users(),
         method: 'put',
         data,
       })
         .then((response) => {
           commit('GET_USER_INFO', response.data);
-          alert('성공적으로 변경되었습니다.');
+          alert(`${sub}가 성공적으로 변경되었습니다.`);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    resetPassword({ commit }, userData) {
+      axios({
+        url: sowl.users.idUsernameCheck(),
+        method: 'post',
+        data: userData,
+      })
+        .then((response) => {
+          console.log(response.data['check']);
+          // 아이디와 닉네임이 일치할 때
+          if (response.data['check']) {
+            commit('ID_USERNAME_CHECK', true);
+            axios({
+              url: sowl.users.resetPassword(),
+              method: 'post',
+              data: userData,
+            })
+              .then((response) => {
+                console.log(response);
+                commit('ID_USERNAME_CHECK', true);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
         })
         .catch((error) => {
           console.error(error);
         });
     },
   },
-  modules: {},
 };

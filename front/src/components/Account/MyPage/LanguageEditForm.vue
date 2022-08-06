@@ -4,10 +4,10 @@
     <div>
       <label for="lang">언어: </label>
       <select name="lang" id="lang" v-model="lang">
-        <option v-for="lan in languages" :key="lan">{{ lan }}</option>
+        <option v-for="lan in languageList" :key="lan">{{ lan }}</option>
       </select>
     </div>
-    <button @click="modifyUserInfo({ languages: lang })">저장</button>
+    <button @click="modifyUserInfo({ language: lang })">저장</button>
   </div>
 </template>
 
@@ -19,14 +19,16 @@ export default {
   data() {
     return {
       lang: '',
-      languages: ['KOREAN', 'KOREAN', 'ENGLISH'],
     };
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'languageList']),
   },
   methods: {
-    ...mapActions(['getUserInfo', 'modifyUserInfo']),
+    ...mapActions(['getUserInfo', 'modifyUserInfo', 'getLanguageList']),
+  },
+  mounted() {
+    this.getLanguageList();
   },
 };
 </script>
