@@ -11,6 +11,10 @@
       >
     </div>
     <div v-if="isLoggedIn">
+      <router-link :to="{ name: 'RoomMainView' }"
+        ><button>Room</button></router-link
+      >
+      |
       <router-link :to="{ name: 'LogoutView' }"
         ><button>Logout</button></router-link
       >
