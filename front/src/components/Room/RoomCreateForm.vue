@@ -20,7 +20,7 @@
         >
       </div>
       <div v-else>
-        <p v-if="userInterest.length === 0">관심사는 하나만 선택 가능합니다.</p>
+        <p>관심사는 하나만 선택 가능합니다.</p>
         <v-chip-group
           v-if="!isInterestMore"
           v-model="newRoom.interest"

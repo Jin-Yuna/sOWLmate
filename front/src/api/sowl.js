@@ -35,7 +35,13 @@ export default {
     conferenceLanguageList: (language) =>
       HOST + CONFERENCE + 'list/' + `${language}`,
     conferenceInterestLanguageList: (interest, language) =>
-      HOST + CONFERENCE + 'list/' + `${interest}` + `${language}`,
+      HOST +
+      CONFERENCE +
+      'list/' +
+      'both?interest=' +
+      `${interest}` +
+      '&language=' +
+      `${language}`,
     conferenceCreate: () => HOST + CONFERENCE + 'create/',
     conferenceEnter: () => HOST + CONFERENCE + 'enter/',
     conferenceDelete: () => HOST + CONFERENCE + 'exit/',
