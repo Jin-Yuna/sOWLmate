@@ -163,8 +163,7 @@ function incomingCall(message) {
 
 	setCallState(PROCESSING_CALL);
 
-	var confirmCall = window.confirm('User ' + message.from
-		+ ' is calling you. Do you accept the call?');
+	var confirmCall = confirm('방에 누군가 입장합니다.');
 
 	if (confirmCall) {
 		showSpinner(videoInput, videoOutput);
