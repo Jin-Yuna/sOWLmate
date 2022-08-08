@@ -162,8 +162,11 @@ function incomingCall(message) {
 	}
 
 	setCallState(PROCESSING_CALL);
-	if (confirm('User ' + message.from
-			+ ' is calling you. Do you accept the call?')) {
+
+	var confirmCall = confirm('User ' + message.from
+		+ ' is calling you. Do you accept the call?');
+
+	if (confirmCall) {
 		showSpinner(videoInput, videoOutput);
 
 		var options = {
