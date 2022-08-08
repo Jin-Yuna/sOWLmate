@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("intimacy")
@@ -33,16 +35,16 @@ public class IntimacyController {
      * 유저별 조회
      */
     @GetMapping("list/user")
-    public ResponseEntity<?> getIntimaciesByFromUser(@RequestBody IntimacyRequestDto requestDto) {
-        return ResponseEntity.ok().body(intimacyService.selectAllByFromUserId(requestDto.getFromUserId()));
+    public ResponseEntity<?> getIntimaciesByFromUser(HttpServletRequest request) {
+        return ResponseEntity.ok().body(intimacyService.selectAllByFromUserId(request.getHeader("fromUserId")));
     }
 
     /**
      * 단일 조회
      */
     @GetMapping("single")
-    public ResponseEntity<?> getIntimacy(@RequestBody IntimacyRequestDto requestDto) {
-        return ResponseEntity.ok().body(intimacyService.selectByFromUserIdAndToUserId(requestDto));
+    public ResponseEntity<?> getIntimacy(HttpServletRequest request) {
+        return ResponseEntity.ok().body(intimacyService.selectByFromUserIdAndToUserId2(request.getHeader("fromUserId"), request.getHeader("toUserId")));
     }
 
     /**

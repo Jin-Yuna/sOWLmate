@@ -4,7 +4,7 @@
     <div>
       <label for="region">언어: </label>
       <select name="region" id="region" v-model="region">
-        <option v-for="reg in regions" :key="reg">{{ reg }}</option>
+        <option v-for="reg in regionList" :key="reg">{{ reg }}</option>
       </select>
     </div>
     <button @click="modifyUserInfo({ region: region })">저장</button>
@@ -19,14 +19,16 @@ export default {
   data() {
     return {
       region: '',
-      regions: ['KOREA', 'JAPAN', 'CHINA'],
     };
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'regionList']),
   },
   methods: {
-    ...mapActions(['getUserInfo', 'modifyUserInfo']),
+    ...mapActions(['getUserInfo', 'modifyUserInfo', 'getRegionList']),
+  },
+  mounted() {
+    this.getRegionList();
   },
 };
 </script>

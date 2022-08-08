@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("users")
@@ -38,15 +40,15 @@ public class UserController {
      * 존재하는 유저 아이디 여부 확인
      */
     @GetMapping("exist/id")
-    public ResponseEntity<?> userInfo(@RequestBody UserRequestDto requestDto) {
-        User user = userService.selectById(requestDto.getUserId());
+    public ResponseEntity<?> userInfo(HttpServletRequest request) {
+        User user = userService.selectById(request.getHeader("userId"));
         return ResponseEntity.ok().body(user == null ? "empty" : "exist");
     }
 
     /**
      * 존재하는 닉네임 여부 확인
      */
-    @GetMapping("exist/nickname")
+    @PostMapping("exist/nickname")
     public ResponseEntity<?> existNickname(@RequestBody UserRequestDto requestDto) {
         User user = userService.selectByNickname(requestDto.getUserNickname());
         return ResponseEntity.ok().body(user == null ? "empty" : "exist");

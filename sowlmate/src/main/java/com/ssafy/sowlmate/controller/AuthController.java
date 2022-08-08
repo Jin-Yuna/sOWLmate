@@ -60,7 +60,7 @@ public class AuthController {
     /**
      * 회원 정보를 반환한다. (로그인한 사용자 찾기)
      */
-    @GetMapping("info")
+    @PostMapping("info")
     public ResponseEntity<?> getInfo(@RequestBody UserLoginDto loginDto, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
@@ -88,7 +88,7 @@ public class AuthController {
     /**
      * Find Password by email (Email과 name의 일치여부를 check하는 controller)
      */
-    @GetMapping("findpw")
+    @PostMapping("findpw")
     public ResponseEntity<?> findPw(@RequestBody UserFindPWRequestDto requestDto) {
         Map<String, Boolean> json = new HashMap<>();
         json.put("check", userService.userEmailCheck(requestDto));
@@ -102,5 +102,13 @@ public class AuthController {
     public ResponseEntity<?> sendEmail(@RequestBody UserFindPWRequestDto requestDto) {
         MailDto dto = sendEmailService.createMailAndChangePassword(requestDto);
         return ResponseEntity.ok().body(sendEmailService.sendEmail(dto));
+    }
+
+    /**
+     * 등록된 email로 tempPassword를 발송하고, 발송된 tempPassword로 사용자의 pw를 변경하는 controller
+     */
+    @PostMapping("exist/id/sendemail")
+    public ResponseEntity<?> sendExistIdEmail(@RequestBody UserLoginDto dto) {
+        return ResponseEntity.ok().body(sendEmailService.sendIdCheckEmail(dto.getId()));
     }
 }

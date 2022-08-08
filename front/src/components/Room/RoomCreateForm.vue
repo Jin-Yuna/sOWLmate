@@ -1,0 +1,180 @@
+<template>
+  <div>
+    <form @submit.prevent="createRoom(newRoom)">
+      <label for="title">제목 : </label>
+      <input
+        type="text"
+        placeholder="방 제목을 입력해주세요."
+        id="title"
+        v-model="newRoom.title"
+      />
+      <div>
+        <label for="thumbnail">썸네일 : </label>
+        <input type="file" id="thumbnail" />
+      </div>
+      <h5>관심사 선택</h5>
+      <div v-if="userInterest.length === 0">
+        <router-link :to="{ name: 'MypageEditInterestView' }"
+          >관심사를 먼저 선택해야 이용 가능합니다. 관심사 선택하러
+          가기</router-link
+        >
+      </div>
+      <div v-else>
+        <p v-if="userInterest.length === 0">관심사는 하나만 선택 가능합니다.</p>
+        <v-chip-group
+          v-if="!isInterestMore"
+          v-model="newRoom.interest"
+          active-class="primary--text"
+          column
+        >
+          <v-chip
+            v-for="interest in userInterest"
+            :key="userInterest[interest]"
+          >
+            {{ interest }}
+          </v-chip>
+        </v-chip-group>
+        <p v-if="!isInterestMore" @click="interestMore()">관심사 모두 보기</p>
+        <v-chip-group
+          v-if="isInterestMore"
+          v-model="newRoom.interest"
+          color="000000"
+          column
+        >
+          <v-chip
+            v-for="interest in userInterest"
+            :key="userInterest[interest]"
+          >
+            {{ interest }}
+          </v-chip>
+          <v-chip
+            v-for="interest in userNotInterest"
+            :key="userNotInterest[interest]"
+          >
+            {{ interest }}
+          </v-chip>
+        </v-chip-group>
+      </div>
+
+      <div>
+        <input
+          type="checkbox"
+          id="checkbox"
+          true-value="LOCK"
+          false-value="UNLOCK"
+          v-model="newRoom.locks"
+          @click="lockCheck()"
+        />
+        <label for="checkbox" v-if="newRoom.locks === 'UNLOCK'"> LOCK </label>
+        <label for="checkbox" v-if="newRoom.locks === 'LOCK'"> UNLOCK </label>
+      </div>
+      <div>
+        <label for="password" v-if="newRoom.locks === 'LOCK'"
+          >방 비밀번호 :
+        </label>
+        <input
+          type="text"
+          placeholder="방 비밀번호를 지정해주세요."
+          id="password"
+          v-if="newRoom.locks === 'LOCK'"
+          v-model="newRoom.password"
+        />
+      </div>
+      <v-btn
+        type="submit"
+        @click="upload()"
+        :disabled="!newRoom.title && !newRoom.interest"
+        >생성</v-btn
+      >
+    </form>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
+
+export default {
+  name: 'RoomCreateForm',
+  data() {
+    return {
+      newRoom: {
+        title: '',
+        ownerId: '',
+        interest: '',
+        language: '',
+        locks: 'UNLOCK',
+        password: '',
+        thumbnail: '',
+      },
+      userInterest: [],
+      userNotInterest: [],
+      isInterestMore: false,
+    };
+  },
+  computed: {
+    ...mapGetters(['InterestList', 'userInfo']),
+  },
+  methods: {
+    ...mapActions(['userInterestSave', 'createRoom']),
+    userInfoCheck() {
+      this.userNotInterest = this.InterestList;
+      this.newRoom.ownerId = this.userInfo.id;
+      this.newRoom.language = this.userInfo.language;
+      for (const userinterest of this.userInfo.interests) {
+        if (this.InterestList.includes(userinterest['title'])) {
+          this.userInterest.push(userinterest['title']);
+          this.userNotInterest = this.userNotInterest.filter(
+            (interest) => interest !== userinterest['title'],
+          );
+        }
+      }
+    },
+    lockCheck() {
+      let lock = this.newRoom.locks;
+      if (lock === 'LOCK') {
+        lock = 'UNLOCK';
+        this.newRoom.password = '';
+      } else {
+        lock = 'LOCK';
+      }
+    },
+    interestMore() {
+      this.isInterestMore = !this.isInterestMore;
+    },
+    upload() {
+      if (this.newRoom.interest > 4) {
+        this.newRoom.interest = this.userNotInterest[this.newRoom.interest - 4];
+      } else {
+        this.newRoom.interest = this.userInterest[this.newRoom.interest];
+      }
+      const storage = firebase.storage();
+      var file = document.querySelector('#thumbnail').files[0];
+      var storageRef = storage.ref();
+      var spaceRef = storageRef.child('thumbnail/' + file.name);
+      var uploading = spaceRef.put(file);
+      uploading.on(
+        'state_changed',
+        // 변화시 동작하는 함수
+        null,
+        //에러시 동작하는 함수
+        (error) => {
+          console.error('썸네일 업로드 실패:', error);
+        },
+        // 성공시 동작하는 함수
+        () => {
+          uploading.snapshot.ref.getDownloadURL().then((url) => {
+            this.newRoom.thumbnail = url;
+          });
+        },
+      );
+    },
+  },
+  mounted() {
+    this.userInfoCheck();
+  },
+};
+</script>
+
+<style></style>
