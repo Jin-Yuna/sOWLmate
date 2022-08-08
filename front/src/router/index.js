@@ -8,6 +8,7 @@ import MyPageBasicView from '@/views/Account/MyPageBasicView.vue';
 import MyPageEditPasswordView from '@/views/Account/MyPageEditPasswordView.vue';
 import MyPageEditInterestView from '@/views/Account/MyPageEditInterestView.vue';
 import MyPageEditLanguageView from '@/views/Account/MyPageEditLanguageView.vue';
+import MyPageEditPreferenceLanguageView from '@/views/Account/MyPageEditPreferenceLanguageView.vue';
 import MyPageBasicInfoView from '@/views/Account/MyPageBasicInfoView.vue';
 import RoomMainView from '@/views/Room/RoomMainView.vue';
 import RoomCreateView from '@/views/Room/RoomCreateView.vue';
@@ -50,6 +51,11 @@ const routes = [
         path: 'change-language/',
         name: 'MyPageEditLanguageView',
         component: MyPageEditLanguageView,
+      },
+      {
+        path: 'change-preferlanguage/',
+        name: 'MyPageEditPreferenceLanguageView',
+        component: MyPageEditPreferenceLanguageView,
       },
     ],
   },
