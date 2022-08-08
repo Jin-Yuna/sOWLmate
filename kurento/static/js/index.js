@@ -163,7 +163,7 @@ function incomingCall(message) {
 
 	setCallState(PROCESSING_CALL);
 
-	var confirmCall = confirm('User ' + message.from
+	var confirmCall = window.confirm('User ' + message.from
 		+ ' is calling you. Do you accept the call?');
 
 	if (confirmCall) {
