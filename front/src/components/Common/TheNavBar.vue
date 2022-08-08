@@ -11,7 +11,7 @@
       >
     </div>
     <div v-if="isLoggedIn">
-      <router-link :to="{ name: 'RoomMainView' }"
+      <router-link :to="{ name: 'RoomMainListView' }"
         ><button>Room</button></router-link
       >
       |
