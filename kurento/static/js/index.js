@@ -68,6 +68,8 @@ window.onload = function() {
 	});
 	console.log(users);
 
+	console.log(location.host);
+
 	register();
 
 	if (users[1] != '') {
