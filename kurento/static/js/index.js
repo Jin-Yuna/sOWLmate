@@ -163,7 +163,9 @@ function incomingCall(message) {
 
 	setCallState(PROCESSING_CALL);
 
-	var confirmCall = confirm('방에 누군가 입장합니다.');
+	setTimeout(function() {
+		var confirmCall = confirm('방에 누군가 입장합니다.');
+	}, 1500);
 
 	if (confirmCall) {
 		showSpinner(videoInput, videoOutput);
