@@ -1,4 +1,5 @@
-var ws = new WebSocket('wss://' + location.host + '/one2one');
+// var ws = new WebSocket('wss://' + location.host + '/one2one');
+var ws = new WebSocket('wss://localhost:8443/one2one');
 var videoInput;
 var videoOutput;
 var webRtcPeer;
@@ -67,6 +68,8 @@ window.onload = function() {
 		users.push(element.split("=")[1]);
 	});
 	console.log(users);
+
+	console.log(location.host);
 
 	register();
 

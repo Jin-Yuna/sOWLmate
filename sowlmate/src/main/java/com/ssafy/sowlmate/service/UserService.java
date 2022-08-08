@@ -88,4 +88,18 @@ public class UserService {
         userRepository.save(findUser);
         return findUser.getProfilePictureUrl();
     }
+
+    @Transactional
+    public String modifyPassword(UserChangePwDto pwDto) {
+        String res = "";
+        User user = userRepository.findById(pwDto.getUserId());
+        if (user.getPassword().equals(pwDto.getCurrentPW())) {
+            user.setPassword(pwDto.getNewPW());
+            userRepository.save(user);
+            res = "done";
+        } else {
+            res = "is not match!!!";
+        }
+        return res;
+    }
 }

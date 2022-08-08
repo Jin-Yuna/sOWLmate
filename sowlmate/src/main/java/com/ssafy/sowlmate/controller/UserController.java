@@ -1,9 +1,6 @@
 package com.ssafy.sowlmate.controller;
 
-import com.ssafy.sowlmate.dto.UserInfoDto;
-import com.ssafy.sowlmate.dto.UserProfileDto;
-import com.ssafy.sowlmate.dto.UserRequestDto;
-import com.ssafy.sowlmate.dto.UserUpdateRequestDto;
+import com.ssafy.sowlmate.dto.*;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -68,6 +65,14 @@ public class UserController {
     @PutMapping("profile")
     public ResponseEntity<?> updateUserInfo(@RequestBody UserProfileDto profileDto) {
         return ResponseEntity.ok().body(userService.updateUserProfile(profileDto));
+    }
+
+    /**
+     * 유저 정보 수정 : password
+     */
+    @PutMapping("modifypw")
+    public ResponseEntity<?> updateUserInfo(@RequestBody UserChangePwDto pwDto) {
+        return ResponseEntity.ok().body(userService.modifyPassword(pwDto));
     }
 
     /**
