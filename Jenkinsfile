@@ -49,7 +49,7 @@ pipeline {
 			steps {
 				sh 'docker run -d -p 8080:8080 --name sowlmate-back sowlmate308/sowlmate:back'
 				sh 'docker run -d -p 3000:80 --name sowlmate-front sowlmate308/sowlmate:front'
-				sh 'docker run -d -p 8443:8443 --name sowlmate-kurento sowlmate308/sowlmate:kurento'
+				sh 'docker run -d -p 8443:8443 --name sowlmate-kurento --network host sowlmate308/sowlmate:kurento'
 				echo 'Deploy image...'
 			}
 		}
