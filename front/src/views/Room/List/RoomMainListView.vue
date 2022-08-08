@@ -6,26 +6,20 @@
     <router-link :to="{ name: 'MyPageEditLanguageView' }"
       >선호 언어 수정</router-link
     >
-    <v-container>
-      <v-row justify="center">
-        <v-col v-for="room in roomByInterestLanguage" :key="room.id">
-          <RoomListCard :room="room" />
-        </v-col>
-      </v-row>
-    </v-container>
+    <RoomMainList />
   </div>
 </template>
 
 <script>
-import RoomListCard from '@/components/Room/RoomListCard.vue';
+import RoomMainList from '@/components/Room/Home/RoomMainList.vue';
 import InterestSelector from '@/components/Room/Home/InterestSelector.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'RoomMainListView',
-  components: { InterestSelector, RoomListCard },
+  components: { InterestSelector, RoomMainList },
   computed: {
-    ...mapGetters(['userInfo', 'roomInterests', 'roomByInterestLanguage']),
+    ...mapGetters(['userInfo', 'roomInterests']),
   },
 };
 </script>

@@ -42,10 +42,16 @@ export default {
       userInterest: [],
       isEditInterest: false,
       roomInterest: [],
+      roomList: [],
     };
   },
   computed: {
-    ...mapGetters(['InterestList', 'userInfo', 'roomInterests']),
+    ...mapGetters([
+      'InterestList',
+      'userInfo',
+      'roomInterests',
+      'roomByInterestLanguage',
+    ]),
   },
   methods: {
     ...mapActions(['createRoom', 'getRoomList']),
@@ -61,14 +67,17 @@ export default {
       this.isEditInterest = !this.isEditInterest;
     },
     allCheck() {
-      this.roomInterest = this.userInterest;
-      this.ROOM_INTERESTS(this.roomInterest);
-      for (const interest of this.roomInterests) {
+      this.roomList = [];
+      this.ROOM_INTERESTS(this.userInterest);
+      for (const interest of this.userInterest) {
         this.getRoomList({
           language: this.userInfo.preferenceLanguage,
           interest: interest,
         });
+        this.roomList.push(this.roomByInterestLanguage);
       }
+      this.ROOM_BY_INTEREST_LANGUAGE(this.roomList);
+      console.log(this.roomList);
     },
     roomInterestCheck() {
       let current = [];
