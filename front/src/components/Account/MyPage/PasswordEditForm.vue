@@ -1,16 +1,9 @@
 <template>
   <div>
     <h3>PasswordEditForm.vue</h3>
-    <h3>[-ing] 현재 비밀번호를 맞게 입력했는지 확인하는 api 필요</h3>
-    {{ userInfo }}
     <div>
       <label for="currentPassword">현재 비밀번호: </label>
-      <input
-        type="password"
-        id="currentPassword"
-        v-model="currentPassword"
-        @keyup="getUserInfo()"
-      />
+      <input type="password" id="currentPassword" v-model="currentPassword" />
     </div>
     <div>
       <label for="password">새로운 비밀번호: </label>
@@ -34,10 +27,7 @@
         "
       />
     </div>
-    <button
-      v-if="isPasswordDoubleCheck"
-      @click="modifyUserInfo({ password: password })"
-    >
+    <button v-if="isPasswordDoubleCheck" @click="passwordChange()">
       비밀번호 변경
     </button>
   </div>
@@ -45,6 +35,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import axios from 'axios';
+import sowl from '@/api/sowl';
 
 export default {
   name: 'PasswordEditForm',
@@ -56,10 +48,35 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isPasswordDoubleCheck', 'userInfo']),
+    ...mapGetters(['isPasswordDoubleCheck', 'currentUser']),
   },
   methods: {
-    ...mapActions(['passwordDoubleCheck', 'getUserInfo', 'modifyUserInfo']),
+    ...mapActions(['passwordDoubleCheck']),
+    passwordChange() {
+      axios({
+        url: sowl.users.changePassword(),
+        method: 'put',
+        data: {
+          userId: this.currentUser,
+          currentPW: this.currentPassword,
+          newPW: this.password,
+        },
+      })
+        .then((response) => {
+          if (response.data === 'done') {
+            alert('비밀번호가 성공적으로 변경되었습니다');
+          } else {
+            alert('현재 비밀번호와 일치하지 않습니다.');
+          }
+          this.currentPassword = '';
+          this.password = '';
+          this.password2 = '';
+          this.passwordDoubleCheck({ password: '1', password2: '' });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>

@@ -11,12 +11,18 @@
 <script>
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
+import { mapGetters } from 'vuex';
+import axios from 'axios';
+import sowl from '@/api/sowl';
 
 export default {
   data() {
     return {
       profile: '',
     };
+  },
+  computed: {
+    ...mapGetters(['currentUser', 'userInfo']),
   },
   methods: {
     upload() {
@@ -35,13 +41,30 @@ export default {
         },
         // 성공시 동작하는 함수
         () => {
-          uploading.snapshot.ref.getDownloadURL().then((url) => {
-            console.log('업로드된 경로는', url);
-            this.profile = url;
+          uploading.snapshot.ref.getDownloadURL().then((imgUrl) => {
+            this.profile = imgUrl;
+            axios({
+              url: sowl.users.profile(),
+              method: 'put',
+              data: {
+                userId: this.currentUser,
+                profilePictureUrl: imgUrl,
+              },
+            })
+              .then(() => {})
+              .catch((error) => {
+                console.log(error);
+              });
           });
         },
       );
     },
+  },
+  mounted() {
+    if (this.userInfo.profilePictureUrl) {
+      console.log(this.userInfo.profilePictureUrl);
+      this.profile = this.userInfo.profilePictureUrl;
+    }
   },
 };
 </script>

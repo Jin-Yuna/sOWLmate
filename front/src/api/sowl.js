@@ -13,6 +13,8 @@ export default {
     logout: () => HOST + ACCOUNTS + 'logout/',
     info: () => HOST + ACCOUNTS + 'info/',
     users: () => HOST + USERS,
+    profile: () => HOST + USERS + 'profile/',
+    changePassword: () => HOST + USERS + 'modifypw/', // 비밀번호 알고있을 때
     idCheck: () => HOST + USERS + 'exist/' + 'id/',
     nicknameCheck: () => HOST + USERS + 'exist/' + 'nickname/',
     idUsernameCheck: () => HOST + ACCOUNTS + 'findpw/',
