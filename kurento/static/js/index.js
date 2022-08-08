@@ -148,16 +148,6 @@ function startCommunication(message) {
 	webRtcPeer.processAnswer(message.sdpAnswer);
 }
 
-function show_confirm(message) {
-	var confirmCall = confirm('User ' + message.from
-		+ ' is calling you. Do you accept the call?');
-	if (confirmCall == true) {
-		return true;
-	} else {
-		return false;
-	}
-} 
-
 function incomingCall(message) {
 	// If bussy just reject without disturbing user
 	if (callState != NO_CALL) {
@@ -173,12 +163,10 @@ function incomingCall(message) {
 
 	setCallState(PROCESSING_CALL);
 
-	// var confirmCall = window.confirm('User ' + message.from
-	// 	+ ' is calling you. Do you accept the call?');
+	var confirmCall = window.confirm('User ' + message.from
+		+ ' is calling you. Do you accept the call?');
 
-	var result_confirm = show_confirm(message);
-
-	if (result_confirm) {
+	if (confirmCall) {
 		showSpinner(videoInput, videoOutput);
 
 		var options = {
