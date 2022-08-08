@@ -47,6 +47,7 @@ public class ConferenceService {
         newConference.setInterest(conference.getInterest());
         newConference.setLanguage(conference.getLanguage());
         newConference.setLocks(conference.getLocks());
+        newConference.setThumbnail(conference.getThumbnail());
         if(newConference.getLocks().equals(LockType.LOCK)){
           newConference.setPassword(conference.getPassword());
         }
