@@ -20,4 +20,4 @@ COPY . .
 # RUN npm run build
 
 EXPOSE 8443
-CMD [ "npm", "start", "--", "--ws_uri=wss://i7b308.p.ssafy.io:8888/kurento" ]
+CMD [ "npm", "start", "--", "--ws_uri=ws://i7b308.p.ssafy.io:8888/kurento" ]
