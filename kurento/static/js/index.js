@@ -162,9 +162,8 @@ function incomingCall(message) {
 	}
 
 	setCallState(PROCESSING_CALL);
-	// if (confirm('User ' + message.from
-	// 		+ ' is calling you. Do you accept the call?')) {
-	if (true) {
+	if (confirm('User ' + message.from
+			+ ' is calling you. Do you accept the call?')) {
 		showSpinner(videoInput, videoOutput);
 
 		var options = {
@@ -194,17 +193,16 @@ function incomingCall(message) {
 						sendMessage(response);
 					});
 				});
+	} else {
+		var response = {
+			id : 'incomingCallResponse',
+			from : message.from,
+			callResponse : 'reject',
+			message : 'user declined'
+		};
+		sendMessage(response);
+		stop(true);
 	}
-	// else {
-	// 	var response = {
-	// 		id : 'incomingCallResponse',
-	// 		from : message.from,
-	// 		callResponse : 'reject',
-	// 		message : 'user declined'
-	// 	};
-	// 	sendMessage(response);
-	// 	stop(true);
-	// }
 }
 
 function register() {
