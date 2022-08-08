@@ -163,7 +163,7 @@ function incomingCall(message) {
 
 	setCallState(PROCESSING_CALL);
 
-	sleep(2000);
+	setTimeout(() => console.log("sleepes"), 2000);
 
 	if (confirm('방에 누군가 입장합니다.')) {
 		showSpinner(videoInput, videoOutput);
