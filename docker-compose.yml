@@ -37,7 +37,7 @@ services:
     container_name: sowlmate-kurento
     restart: always
     ports:
-      - 8443:8443
+      - 8433:8433
     depends_on:
       - back
 
