@@ -1,17 +1,20 @@
 <template>
   <div>
     <h1>RoomMainView.vue</h1>
-    <RoomNavigation />
+    <RoomListNavigation />
     <router-link :to="{ name: 'RoomCreateView' }">방 생성</router-link>
+    <v-main>
+      <router-view />
+    </v-main>
   </div>
 </template>
 
 <script>
-import RoomNavigation from '@/components/Room/RoomNavigation.vue';
+import RoomListNavigation from '@/components/Room/RoomListNavigation.vue';
 
 export default {
   name: 'RoomMainView',
-  components: { RoomNavigation },
+  components: { RoomListNavigation },
   methods: {},
 };
 </script>
