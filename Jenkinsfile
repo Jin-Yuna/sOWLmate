@@ -38,10 +38,10 @@ pipeline {
 			steps {
 				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-front"`'
 				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-back"`'
-				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-kurento"`'
+				// sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-kurento"`'
 				sh 'docker rmi $registry:back'
 				sh 'docker rmi $registry:front'
-				sh 'docker rmi $registry:kurento'
+				// sh 'docker rmi $registry:kurento'
 				echo 'Clean image...'
 			}
 		}
