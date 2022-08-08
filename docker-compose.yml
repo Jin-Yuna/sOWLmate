@@ -31,6 +31,16 @@ services:
     # networks:
     #   - backdb
 
+  kurento:
+    build: ./kurento
+    image: sowlmate308/sowlmate:kurento
+    container_name: sowlmate-kurento
+    restart: always
+    ports:
+      - 8443:8443
+    depends_on:
+      - back
+
   front:
     build: ./front
     image: sowlmate308/sowlmate:front
@@ -39,7 +49,7 @@ services:
     ports:
       - 80:80
     depends_on:
-      - back
+      - kurento
     # networks:
     #   - frontback
 # networks:
