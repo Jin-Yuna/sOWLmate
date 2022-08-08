@@ -1,5 +1,5 @@
-// var ws = new WebSocket('wss://' + location.host + '/one2one');
-var ws = new WebSocket('wss://localhost:8443/one2one');
+var ws = new WebSocket('wss://' + location.host + '/one2one');
+// var ws = new WebSocket('wss://localhost:8443/one2one');
 var videoInput;
 var videoOutput;
 var webRtcPeer;
@@ -71,7 +71,10 @@ window.onload = function() {
 
 	console.log(location.host);
 
-	register();
+	ws.onopen = () => {
+		register();
+	}
+	// register();
 
 	if (users[1] != '') {
 		call();
@@ -159,8 +162,9 @@ function incomingCall(message) {
 	}
 
 	setCallState(PROCESSING_CALL);
-	if (confirm('User ' + message.from
-			+ ' is calling you. Do you accept the call?')) {
+	// if (confirm('User ' + message.from
+	// 		+ ' is calling you. Do you accept the call?')) {
+	if (true) {
 		showSpinner(videoInput, videoOutput);
 
 		var options = {
@@ -190,17 +194,17 @@ function incomingCall(message) {
 						sendMessage(response);
 					});
 				});
-
-	} else {
-		var response = {
-			id : 'incomingCallResponse',
-			from : message.from,
-			callResponse : 'reject',
-			message : 'user declined'
-		};
-		sendMessage(response);
-		stop(true);
 	}
+	// else {
+	// 	var response = {
+	// 		id : 'incomingCallResponse',
+	// 		from : message.from,
+	// 		callResponse : 'reject',
+	// 		message : 'user declined'
+	// 	};
+	// 	sendMessage(response);
+	// 	stop(true);
+	// }
 }
 
 function register() {
