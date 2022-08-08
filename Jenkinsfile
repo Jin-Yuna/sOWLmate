@@ -25,6 +25,7 @@ pipeline {
 			steps {
 				sh 'docker push sowlmate308/sowlmate:back'
 				sh 'docker push sowlmate308/sowlmate:front'
+				sh 'docker push sowlmate308/sowlmate:kurento'
 				echo 'Push image...'
 				// withDockerRegistry([ credentialsId: registryCredential, url: "https://hub.docker.com/repository/docker/sowlmate308/sowlmate" ]) {
 				// 	sh 'docker push sowlmate308/sowlmate:back'
@@ -37,8 +38,10 @@ pipeline {
 			steps {
 				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-front"`'
 				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-back"`'
+				sh 'docker rm -f `docker ps -aq --filter="name=sowlmate-kurento"`'
 				sh 'docker rmi $registry:back'
 				sh 'docker rmi $registry:front'
+				sh 'docker rmi $registry:kurento'
 				echo 'Clean image...'
 			}
 		}
@@ -46,6 +49,7 @@ pipeline {
 			steps {
 				sh 'docker run -d -p 8080:8080 --name sowlmate-back sowlmate308/sowlmate:back'
 				sh 'docker run -d -p 3000:80 --name sowlmate-front sowlmate308/sowlmate:front'
+				sh 'docker run -d -p 8443:8443 --name sowlmate-kurento sowlmate308/sowlmate:kurento'
 				echo 'Deploy image...'
 			}
 		}
