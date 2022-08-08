@@ -13,6 +13,7 @@ export default {
     logout: () => HOST + ACCOUNTS + 'logout/',
     info: () => HOST + ACCOUNTS + 'info/',
     users: () => HOST + USERS,
+    profile: () => HOST + USERS + 'profile/',
     idCheck: () => HOST + USERS + 'exist/' + 'id/',
     nicknameCheck: () => HOST + USERS + 'exist/' + 'nickname/',
     idUsernameCheck: () => HOST + ACCOUNTS + 'findpw/',
