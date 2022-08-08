@@ -9,7 +9,7 @@ var https = require('https');
 
 var argv = minimist(process.argv.slice(2), {
   default: {
-      as_uri: "https://localhost:8443/",
+      as_uri: "https://i7b308.p.ssafy.io:8443/",
       ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
   }
 });
