@@ -71,7 +71,10 @@ window.onload = function() {
 
 	console.log(location.host);
 
-	register();
+	ws.onopen = () => {
+		register();
+	}
+	// register();
 
 	if (users[1] != '') {
 		call();
