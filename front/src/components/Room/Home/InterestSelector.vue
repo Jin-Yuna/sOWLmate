@@ -13,7 +13,6 @@
         v-if="!isEditInterest"
         v-model="roomInterest"
         @click="roomInterestCheck()"
-        active-class="primary--text"
         column
         multiple
       >
@@ -43,6 +42,7 @@ export default {
       isEditInterest: false,
       roomInterest: [],
       roomList: [],
+      isAllCheck: true,
     };
   },
   computed: {
@@ -67,19 +67,27 @@ export default {
       this.isEditInterest = !this.isEditInterest;
     },
     allCheck() {
-      this.roomList = [];
-      this.ROOM_INTERESTS(this.userInterest);
-      for (const interest of this.userInterest) {
-        this.getRoomList({
-          language: this.userInfo.preferenceLanguage,
-          interest: interest,
-        });
-        this.roomList.push(this.roomByInterestLanguage);
+      if (this.isAllCheck) {
+        this.roomList = [];
+        console.log(this.userInterest);
+        for (const interest of this.userInterest) {
+          this.getRoomList({
+            language: this.userInfo.preferenceLanguage,
+            interest: interest,
+          });
+          console.log('여기2', this.roomByInterestLanguage);
+          this.roomList.push(this.roomByInterestLanguage);
+          console.log('여기3', this.roomList);
+        }
+        console.log('여기4', this.roomList);
+        this.ROOM_BY_INTEREST_LANGUAGE(this.roomList);
+      } else {
+        this.roomList = [];
       }
-      this.ROOM_BY_INTEREST_LANGUAGE(this.roomList);
-      console.log(this.roomList);
+      this.isAllCheck = !this.isAllCheck;
     },
     roomInterestCheck() {
+      this.roomList = [];
       let current = [];
       for (let index of this.roomInterest) {
         current.push(this.userInterest[index]);
@@ -90,7 +98,9 @@ export default {
           language: this.userInfo.preferenceLanguage,
           interest: interest,
         });
+        this.roomList.push(this.roomByInterestLanguage);
       }
+      this.ROOM_BY_INTEREST_LANGUAGE(this.roomList);
     },
   },
   mounted() {
