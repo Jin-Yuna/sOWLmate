@@ -321,8 +321,8 @@ function incomingCallResponse(calleeId, from, callResponse, calleeSdp, ws) {
     }
     var caller = userRegistry.getByName(from);
 
-    if (callResponse === 'accept') {
-        var pipeline = new CallMediaPipeline();
+    //////////////
+    var pipeline = new CallMediaPipeline();
         pipelines[caller.id] = pipeline;
         pipelines[callee.id] = pipeline;
 
@@ -356,14 +356,51 @@ function incomingCallResponse(calleeId, from, callResponse, calleeSdp, ws) {
                 });
             });
         });
-    } else {
-        var decline = {
-            id: 'callResponse',
-            response: 'rejected',
-            message: 'user declined'
-        };
-        caller.sendMessage(decline);
-    }
+        ////////////////
+    
+    // if (callResponse === 'accept') {
+    //     var pipeline = new CallMediaPipeline();
+    //     pipelines[caller.id] = pipeline;
+    //     pipelines[callee.id] = pipeline;
+
+    //     pipeline.createPipeline(caller.id, callee.id, ws, function(error) {
+    //         if (error) {
+    //             return onError(error, error);
+    //         }
+
+    //         pipeline.generateSdpAnswer(caller.id, caller.sdpOffer, function(error, callerSdpAnswer) {
+    //             if (error) {
+    //                 return onError(error, error);
+    //             }
+
+    //             pipeline.generateSdpAnswer(callee.id, calleeSdp, function(error, calleeSdpAnswer) {
+    //                 if (error) {
+    //                     return onError(error, error);
+    //                 }
+
+    //                 var message = {
+    //                     id: 'startCommunication',
+    //                     sdpAnswer: calleeSdpAnswer
+    //                 };
+    //                 callee.sendMessage(message);
+
+    //                 message = {
+    //                     id: 'callResponse',
+    //                     response : 'accepted',
+    //                     sdpAnswer: callerSdpAnswer
+    //                 };
+    //                 caller.sendMessage(message);
+    //             });
+    //         });
+    //     });
+    // } else {
+    //     var decline = {
+    //         id: 'callResponse',
+    //         response: 'rejected',
+    //         message: 'user declined'
+    //     };
+    //     caller.sendMessage(decline);
+    // }
 }
 
 function call(callerId, to, from, sdpOffer) {
