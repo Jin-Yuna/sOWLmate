@@ -2,6 +2,8 @@
 const HOST = 'https://localhost:8080/api/v1/';
 // const NODE = 'https://i7b308.p.ssafy.io:8443/';
 const NODE = 'https://localhost:8443/';
+// const FRONT = 'https://i7b308.p.ssafy.io/'
+const FRONT = 'http://localhost:80/';
 
 const ACCOUNTS = 'auth/';
 const USERS = 'users/';
@@ -10,6 +12,9 @@ const CATEGORIS = 'categories/';
 const CONFERENCE = 'conference/';
 
 export default {
+  front: {
+    googleRequest: () => FRONT,
+  },
   users: {
     login: () => HOST + ACCOUNTS + 'login/',
     logout: () => HOST + ACCOUNTS + 'logout/',
