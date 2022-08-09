@@ -1,5 +1,5 @@
 var ws = new WebSocket('wss://' + location.host + '/one2one');
-// var ws = new WebSocket('wss://localhost:8433/one2one');
+// var ws = new WebSocket('wss://localhost:8443/one2one');
 var videoInput;
 var videoOutput;
 var webRtcPeer;
@@ -62,8 +62,8 @@ window.onload = function() {
 	videoInput = document.getElementById('videoInput');
 	videoOutput = document.getElementById('videoOutput');
 
-	// only register https://localhost:8433/?from=user1&to=
-	// register&call https://localhost:8433/?from=user2&to=user1
+	// only register https://localhost:8443/?from=user1&to=
+	// register&call https://localhost:8443/?from=user2&to=user1
 	location.href.split("?")[1].split("&").forEach(element => {
 		users.push(element.split("=")[1]);
 	});
