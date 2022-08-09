@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="33d84380-e2e6-4726-878c-34c94f183ab2" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/components/Account/PasswordReset/PasswordResetModal.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/store/modules/conferences.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/FromToUserIdDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/InterestRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/IntimacyRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/UserFindPWRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/UserLoginDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/UserProfileDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/UserRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/UserUpdateDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/dto/UserUpdateRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/front/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/README_yuna.md" beforeDir="false" afterPath="$PROJECT_DIR$/front/README_yuna.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/api/sowl.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/api/sowl.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Account/Login/LoginForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Account/Login/LoginForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Account/MyPage/Basic/RegionEditForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Account/MyPage/Basic/RegionEditForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Account/MyPage/LanguageEditForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Account/MyPage/LanguageEditForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Account/PasswordReset/PasswordResetForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Account/PasswordReset/PasswordResetForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Account/Signup/SignUpForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Account/Signup/SignUpForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/store/modules/accounts.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/store/modules/accounts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/views/Account/LoginView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/views/Account/LoginView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/views/Account/PasswordResetView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/views/Account/PasswordResetView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/views/Account/SignUpView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/views/Account/SignUpView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/BlackListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/BlackListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/ConferenceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/ConferenceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/InterestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/InterestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/IntimacyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/IntimacyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/PenpalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/PenpalController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/repository/BlackListRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/repository/BlackListRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/repository/PenpalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/repository/PenpalRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/BlackListService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/BlackListService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/InterestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/InterestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/IntimacyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/IntimacyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/PenpalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/PenpalService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/SendEmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/SendEmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/java/com/ssafy/sowlmate/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/test/java/com/ssafy/sowlmate/controller/CategoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/test/java/com/ssafy/sowlmate/controller/CategoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sowlmate/src/test/java/com/ssafy/sowlmate/service/PenpalServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sowlmate/src/test/java/com/ssafy/sowlmate/service/PenpalServiceTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2D1PbD46CkH0RhSL0HQrUJ7duOd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.google.cloudcode.ide_session_index": "20220807_0001",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="33d84380-e2e6-4726-878c-34c94f183ab2" name="변경" comment="" />
+      <created>1659863693850</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1659863693850</updated>
+      <workItem from="1659863698978" duration="10000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
