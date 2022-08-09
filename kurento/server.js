@@ -9,7 +9,7 @@ var https = require('https');
 
 var argv = minimist(process.argv.slice(2), {
   default: {
-      as_uri: "https://i7b308.p.ssafy.io:8443/",
+      as_uri: "https://i7b308.p.ssafy.io:8443",
       ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
   }
 });
@@ -203,6 +203,8 @@ var wss = new ws.Server({
 wss.on('connection', function(ws) {
     var sessionId = nextUniqueId();
     console.log('Connection received with sessionId ' + sessionId);
+
+    console.log(server);
 
     ws.on('error', function(error) {
         console.log('Connection ' + sessionId + ' error');
