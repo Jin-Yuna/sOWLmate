@@ -286,10 +286,6 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
     <style scoped></style>
     ```
 
-
-
-
-
 ## 10. 사라진 코드
 
 - 관심사 등록이 잘 되는걸 분명 확인했었는데, 오늘 갑자기 안되서 다시 보니 열심히 만들었던 관심사 관련 코드가 사라져있었다. 
@@ -297,3 +293,241 @@ store/index.js와 마찬가지로 `export default createStore({})`로 되어있�
 - firebase를 하기 전에 dev에 머지를 하고 진행했어야 하는데, 문제 없을 것이라 생각하고 firebase오류 때문에 브랜치를 생성했다 지웠다하다 코드가 분실된 듯 하다.
 
 - 한 기능이 완료되면 머지를 꼭 하자!
+
+---
+
+## 11. 쿠렌토 스터디를 위한 git clone 후 npm 오류
+
+`npm WARN config global --global, --local are deprecated. Use --location=global`
+
+해결 : [warnings - Message &quot;npm WARN config global `--global`, `--local` are deprecated. Use `--location=global` instead&quot; - Stack Overflow](https://stackoverflow.com/questions/72401421/message-npm-warn-config-global-global-local-are-deprecated-use-loc)
+
+![](C:\Users\multicampus\AppData\Roaming\marktext\images\2022-08-05-10-26-21-image.png)
+
+에러창에 써있는 `--legacy-peer-deps`로 해결되는 듯 했으나 다시 에러가 발생하였다
+
+```bash
+npm ERR! code 1
+npm ERR! path C:\Users\multicampus\Desktop\pj\test\focus\frontend\node_modules\fibers
+```
+
+검색해보니 아래 패키지들을 설치하라기에 설치하고 다시 npm instal --lagacy-peer-deps
+
+```bash
+npm install --global --production windows-build-tools    
+npm install --global node-gyp
+```
+
+하지만 같은 오류가 발생하였고, 잘되던 우리팀 프로젝트의 npm start에도 오류가 나기 시작했다.
+
+```bash
+$ npm start
+npm ERR! code ENOENT
+npm ERR! syscall open
+...
+npm ERR! errno -4058
+...
+```
+
+깜짝 놀라 글로벌로 설치했던 패키지들을 지우니 또 다른 에러가 발생한다
+
+```bash
+$ npm start
+npm ERR! Missing script: "start"
+...
+```
+
+다시 노드 npm 설정을 원상복구 하였으나 같은 오류가 발생한다.
+
+...!! npm run serve를 해야지,  npm start를 해서 안된다고 이러고 있었다.
+
+## 11. 구글 소셜로그인
+
+### 1) 프론트(vue)에서 구글 로그인 구현
+
+- 처음에 구현할 때 뭔가 잘못 생각했다. vue에서 소셜로그인 구현하는 방법을 찾아서 진행하였는데, 이렇게 하는게 아니고 자바스프링에서 소셜 로그인을 구현하는 방법을 찾아서 해야 했던 거였다.
+
+- vue에서 구글 소셜로그인을 할 때는 npm으로 `vue3-google-oauth2`를 설치후 
+
+- main.js에 아래 코드를 넣는다. 이 과정에서 vue3 앱을 생성하면 써져있던 코드를 조금 수정해야했다 
+  
+  - ``createApp(App).use(router).mount('#app');` 
+    
+    - => `const app = createApp(App);` 
+    
+    - app.use(router);
+    
+    - app.mount('#app);
+  
+  ```js
+  import gAuthPlugin from 'vue3-google-oauth2';
+  
+  app.use(gAuthPlugin, {
+    clientId: process.env.VUE_APP_GOOGLE_OAUTH_CLIENT_ID,
+    scope: 'email',
+    response_type: 'code',
+    plugin_name: 'front',
+  });
+  ```
+
+- 구글 로그인 컴포넌트에 아래 코드를 넣으면 된다.
+  
+  ```html
+  <template>
+    <div>
+      <button
+        @click="handleSignIn"
+        :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized"
+      >
+        Google 로그인
+      </button>
+      <button @click="handleSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">
+        Sign Out
+      </button>
+    </div>
+  </template>
+  ```
+  
+  ```js
+  <script>
+  import { inject } from 'vue';
+  export default {
+    name: 'GoogleLogin',
+    data() {
+      return {
+        user: '',
+      };
+    },
+    methods: {
+      async handleSignIn() {
+        try {
+          const googleUser = await this.$gAuth.signIn();
+          // console.log(this.$gAuth.signIn);
+          if (!googleUser) {
+            return null;
+          }
+          this.user = googleUser.getBasicProfile().getEmail();
+          console.log('아마도 리스폰스받은거', googleUser);
+        } catch (error) {
+          console.log(error);
+          return null;
+        }
+      },
+      async handleSignOut() {
+        try {
+          await this.$gAuth.signOut();
+          // console.log(this.$gAuth.signOut);
+          this.user = '';
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    },
+    setup() {
+      const Vue3GoogleOauth = inject('Vue3GoogleOauth');
+      return {
+        Vue3GoogleOauth,
+      };
+    },
+  };
+  </script>
+  ```
+
+- 이렇게 하면 저 '아마도 리스폰스 받은거' 부분에서 로그인한 유저의 구글 아이디와 이름, 구글이 준 access_token 등을 얻을 수 있다.
+
+- `idpiframe_initialization_failed`라는 오류가 있었는데,
+  
+  - 검색해서 나온 해결법대로 캐시를 지우고, 인터넷 기록을 삭제하고, 구글에서 프로젝트를 새로 시작해도 고쳐지지 않다. 
+  
+  - 유튜브를 코드를 따라쳤었는데 해당 코드가 깃에 올라와있는걸 발견해 그 코드를 복붙했더니 고쳐졌다. 어딘가 코드에 오타가 있었던 것 같다.
+
+### 2) 백에서 구글 소셜 로그인하기
+
+- 다 구현하고 백에 어떤 정보를 주면될까요? 라고 물어보니 뭔가 잘못되었다. 다시 찾아보니 백에서 소셜 로그인을 구현할 때
+  
+  - Front에서 로그인을 누르면 리다이렉트 페이지에 나오는 ' Authorization code'를 백에 넘겨준다
+  
+  - 백에서는 이 코드로 구글에서 유저의 정보를 받아오고, 토큰을 발행해 프론트에 다시 넘겨준다. 이 과정에서 회원가입된 유저인지 등을 백에서 확인한다.
+
+- 프론트에서 할 일은 훨씬 간단해졌다. 앞서 구글 소셜로그인을 위해 설치했던 `vue3-google-oauth2`패키지를 삭제하고, 관련 코드들도 지운 후 소셜 로그인 버튼이 들어갈 페이지에 다음과 같은 코드를 작성해준다.
+  
+  ```html
+  <div class="googlelogin">
+    <a
+      v-bind:href="`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email&response_type=code&client_id=${googleConfig.client_id}&redirect_uri=${googleConfig.redirect_uri}`"
+    >
+      구글로 로그인하
+    </a>
+  </div>
+  ```
+  
+  ```javascript
+  <script>
+  import sowl from '@/api/sowl';
+  export default {
+    data() {
+      return {
+        userData: {
+          password: '',
+          id: '',
+        },
+        googleConfig: {
+          client_id: process.env.VUE_APP_GOOGLE_OAUTH_CLIENT_ID,
+          redirect_uri:
+            sowl.front.googleRequest() + 'accounts/auth/google/callback',
+        },
+      };
+    },
+  }
+  </script>
+  ```
+
+- redirect_url은 서버와 로컬 개발환경에서 서로 달라지기 때문에 api 관리하는 곳에 앞 부분을 써주었다. 다 써줄수도 있지만 뒤에 부분은 변경되지 않으니 컴포넌트에 쓰는 것이 코드를 다시봤을 때 어떤 코드인지 파악하기 좋을 것 같았다.
+
+- views에 GoogleLoginView.vue 파일을 생성하고 router/index.js에서 `import GoogleLoginView from '@/views/Account/GoogleLoginView.vue'`를 하고 다음과 같은 경로를 만들어주었다.
+  
+  ```javascript
+   {
+      path: '/accounts/auth/google/callback',
+      name: 'GoogleLoginView',
+      component: GoogleLoginView,
+    },
+  ```
+
+- GoogleLoginView.vue의 전체 url(http:// ~~~~/callback)을 구글 클라우드의 API및 서비스=> 사용자인증정보에서 승인된 리디렉션 URL에 추가해준다.
+
+- GoogleLoginView파일에 다음과 같이 작성해주면 백에 넘겨줄 Authorization code를 얻을 수 있다.
+  
+  ```javascript
+  <template>
+    <div></div>
+  </template>
+  
+  <script>
+  export default {
+    name: 'GoogleLoginView',
+    setup() {
+      let googleCode = new URL(window.location.href).searchParams.get('code');
+      console.log(googleCode);
+    },
+  };
+  </script>
+  ```
+
+- 이제 백에 넘겨주는 요청 axios와 그 결과를 받아 해야할 일만 작성해주면 프론트에서 해야할 일이 끝난다.
+
+- 회원가입일 경우 요청을 보내고 응답을 받은 후 이메일입력과 인증, 비밀번호 설정 등의 작업을 제외한 회원가입 절차를 진행하면 될 것 같다.
+
+## 12. 나만 axios error가 뜰 때
+
+- 포스트맨에서는 요청이 잘가거나, 나만 axios오류가 날 때, 코드는 바뀐 것이 없는데 갑자기 다음과 같은 axios에러가 날 때
+  
+  ![](C:\Users\multicampus\AppData\Roaming\marktext\images\2022-08-09-23-01-41-image.png)
+
+- 저 POST 옆에 있는 백에 보내는 request url주소를 복사해 주소창에 입력하여 접속한다.
+  
+  ![](C:\Users\multicampus\AppData\Roaming\marktext\images\2022-08-09-23-02-39-image.png)
+
+- 여기서 고급을 눌러 "`localhost(안전하지 않음)`(으)로 이동"을 누른 후 다시 시도해보면 정상적으로 작동한다.
+
+- 정상작동상태가 유지되다가 인터넷 사용기록을 삭제하거나 하면 다시 이 에러가 발생하게 된다.
