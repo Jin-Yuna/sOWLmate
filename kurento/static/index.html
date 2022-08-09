@@ -87,14 +87,26 @@
                       text: finalTranscript,
                   },
               ]);
+              console.log(sharedMessages);
           }
-          console.log(sharedMessages);
       };
       sr2.onerror = function() {
-          listening.value = false;
+        console.log("onerror");
+        try {
+          if(listening.value===true) {
+            sr2.start();
+          }
+        } catch {
+          console.log("말을 더 이상 안하실 예정이면 번역 기능을 꺼주세요~!");
+        }
+        //listening.value = false;
       };
       sr2.onend = function() {
-          listening.value = false;
+        console.log("onend");
+        if(listening.value===true) {
+          sr2.start();
+        }
+        //listening.value = false;
       };
       sr2.start();
       return [2];
@@ -102,8 +114,8 @@
     
     var stopListen = function () {
         console.log("stopListen");
-        sr2.stop();
         listening.value = false;
+        sr2.stop();
     };
     </script>
     <title>Kurento</title>
