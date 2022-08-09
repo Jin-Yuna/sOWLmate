@@ -44,20 +44,13 @@
         로그인
       </v-btn>
     </form>
-    <div class="googlelogin">
-      <a
-        v-bind:href="`https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email&response_type=code&client_id=${googleConfig.client_id}&redirect_uri=${googleConfig.redirect_uri}`"
-      >
-        구글~
-      </a>
-    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import LoginCard from '@/components/Account/Login/LoginCard.vue';
-import sowl from '@/api/sowl';
+
 export default {
   name: 'LoginForm',
   components: {
@@ -68,11 +61,6 @@ export default {
       userData: {
         password: '',
         id: '',
-      },
-      googleConfig: {
-        client_id: process.env.VUE_APP_GOOGLE_OAUTH_CLIENT_ID,
-        redirect_uri:
-          sowl.front.googleRequest() + 'accounts/auth/google/callback',
       },
     };
   },
@@ -87,9 +75,6 @@ export default {
       this.emailValidCheck(this.userData.id);
       this.LOGIN_FAIL('succcess');
     },
-  },
-  mounted() {
-    console.log(this.googleConfig.redirect_uri);
   },
 };
 </script>
