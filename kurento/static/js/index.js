@@ -4,6 +4,13 @@ var videoInput;
 var videoOutput;
 var webRtcPeer;
 
+window.process = {
+    env: {
+        DEEPAR_KEY: 'DEEPAR_KEY'
+    }
+}
+const deepAR_license_key = process.env.DEEPAR_KEY
+
 var users = [];
 
 var registerName = null;
@@ -11,6 +18,7 @@ const NOT_REGISTERED = 0;
 const REGISTERING = 1;
 const REGISTERED = 2;
 var registerState = null
+
 function setRegisterState(nextState) {
 	switch (nextState) {
 	case NOT_REGISTERED:
@@ -38,14 +46,17 @@ var callState = null
 function setCallState(nextState) {
 	switch (nextState) {
 	case NO_CALL:
+		console.log('NO_CALL')
 		$('#call').attr('disabled', false);
 		$('#terminate').attr('disabled', true);
 		break;
 	case PROCESSING_CALL:
+		console.log('PROCESSING_CALL')
 		$('#call').attr('disabled', true);
 		$('#terminate').attr('disabled', true);
 		break;
 	case IN_CALL:
+		console.log('IN_CALL')
 		$('#call').attr('disabled', true);
 		$('#terminate').attr('disabled', false);
 		break;
@@ -54,6 +65,11 @@ function setCallState(nextState) {
 	}
 	callState = nextState;
 }
+
+// create canvas on which DeepAR will render
+const sourceVideo = document.createElement('video')
+const deeparCanvas = document.createElement('canvas')
+const streamVideo = document.querySelector("#videoInput");
 
 window.onload = function() {
 	// console = new Console();
@@ -67,18 +83,24 @@ window.onload = function() {
 	location.href.split("?")[1].split("&").forEach(element => {
 		users.push(element.split("=")[1]);
 	});
-	console.log(users);
 
-	console.log(location.host);
-
-	ws.onopen = () => {
-		register();
-	}
-	// register();
+	console.log(users)
+	console.log('열렸다!')
+	register()
 
 	if (users[1] != '') {
 		call();
 	}
+
+	// ws.onopen = () => {
+	// 	
+	// 	register();
+	// }
+	// register();
+
+	// if (users[1] != '') {
+	// 	call();
+	// }
 
 	document.getElementById('terminate').addEventListener('click', function() {
 		stop();
@@ -101,6 +123,7 @@ ws.onmessage = function(message) {
 		callResponse(parsedMessage);
 		break;
 	case 'incomingCall':
+		console.log('incomingCall')
 		incomingCall(parsedMessage);
 		break;
 	case 'startCommunication':
@@ -208,8 +231,9 @@ function incomingCall(message) {
 function register() {
 		sendMessage({
 			id : 'register',
-			name : users[0]
+			name : user[0]
 		});
+		console.log(user[0], '등록 완료')
 }
 
 function call() {
@@ -241,6 +265,7 @@ function call() {
 				sdpOffer : offerSdp
 			};
 			sendMessage(message);
+			console.log(user[0], user[1], 'call')
 		});
 	});
 }

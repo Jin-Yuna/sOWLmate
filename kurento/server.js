@@ -9,8 +9,9 @@ var https = require('https');
 
 var argv = minimist(process.argv.slice(2), {
   default: {
-      as_uri: "https://i7b308.p.ssafy.io:8433/",
-      ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
+    //   as_uri: "https://i7b308.p.ssafy.io:8443/",
+      as_uri: "https://localhost:8443/",
+      ws_uri: "ws://localhost:8888/kurento"
   }
 });
 
@@ -63,6 +64,7 @@ function UserRegistry() {
 UserRegistry.prototype.register = function(user) {
     this.usersById[user.id] = user;
     this.usersByName[user.name] = user;
+    console.log('register', user.id)
 }
 
 UserRegistry.prototype.unregister = function(id) {
@@ -193,6 +195,7 @@ var port = asUrl.port;
 var server = https.createServer(options, app).listen(port, function() {
     console.log('Kurento Tutorial started');
     console.log('Open ' + url.format(asUrl) + ' with a WebRTC capable browser');
+    console.log('서버는', server)
 });
 
 var wss = new ws.Server({
@@ -391,6 +394,7 @@ function call(callerId, to, from, sdpOffer) {
         response: 'rejected: ',
         message: rejectCause
     };
+    process.on('uncaughtException', (err) => {})
     caller.sendMessage(message);
 }
 
