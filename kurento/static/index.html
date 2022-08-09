@@ -23,6 +23,7 @@
     <script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
 
     <script src="js/index.js"></script>
+    <script src="js/translation.js"></script>
     <title>Kurento</title>
   </head>
   <body>
@@ -70,6 +71,50 @@
         <div>
           <a id="terminate" href="#" class="btn btn-danger">
             <span class="glyphicon glyphicon-stop"></span> Stop</a>
+        </div>
+        <!-- display translation -->
+        <div>
+          <template v-if="!langIsSet">
+            <h2 class="text-3xl mb-6">Select language</h2>
+            <ul class="langlist">
+              <li v-for="[n] of locales" :key="n">
+                <a class="text-blue-800" :href="'?lang=' + n">{{ n }}</a>
+              </li>
+            </ul>
+          </template>
+          <template v-else>
+            <div v-if="!listening">
+              <button class="
+                bg-blue-500
+                hover:bg-blue-700
+                text-white
+                font-bold
+                py-2
+                px-4
+                rounded
+              "
+              @click="send()"
+            >
+              Start Listening
+            </button>
+            </div>
+            <div v-else>
+                Listening...
+                <button
+                  class="
+                    border border-blue-500
+                    hover:bg-blue-700
+                    hover:text-white
+                    py-2
+                    py-4
+                    rounded
+                  "
+                  @click="stop()"
+                >
+                Stop Listening
+                </button>
+            </div>
+          </template>
         </div>
       </div>
     </div>
