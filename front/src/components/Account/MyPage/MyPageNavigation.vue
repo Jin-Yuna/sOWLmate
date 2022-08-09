@@ -13,6 +13,10 @@
     <router-link :to="{ name: 'MyPageEditLanguageView' }"
       >언어 수정</router-link
     >
+    |
+    <router-link :to="{ name: 'MyPageEditPreferenceLanguageView' }"
+      >선호 언어 수정</router-link
+    >
   </div>
 </template>
 

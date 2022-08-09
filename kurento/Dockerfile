@@ -19,5 +19,5 @@ COPY . .
 # build app for production with minification
 # RUN npm run build
 
-EXPOSE 8443
+EXPOSE 8433
 CMD [ "npm", "start", "--", "--ws_uri=ws://i7b308.p.ssafy.io:8888/kurento" ]

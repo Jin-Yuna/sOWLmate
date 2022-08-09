@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/Account/LoginView.vue';
 import LogoutView from '@/views/Account/LogoutView.vue';
 import SignUpView from '@/views/Account/SignUpView.vue';
@@ -8,13 +8,12 @@ import MyPageBasicView from '@/views/Account/MyPageBasicView.vue';
 import MyPageEditPasswordView from '@/views/Account/MyPageEditPasswordView.vue';
 import MyPageEditInterestView from '@/views/Account/MyPageEditInterestView.vue';
 import MyPageEditLanguageView from '@/views/Account/MyPageEditLanguageView.vue';
+import MyPageEditPreferenceLanguageView from '@/views/Account/MyPageEditPreferenceLanguageView.vue';
 import MyPageBasicInfoView from '@/views/Account/MyPageBasicInfoView.vue';
 import RoomMainView from '@/views/Room/RoomMainView.vue';
 import RoomCreateView from '@/views/Room/RoomCreateView.vue';
 import RoomMainListView from '@/views/Room/List/RoomMainListView.vue';
 import RoomFriendsListView from '@/views/Room/List/RoomFriendsListView.vue';
-import RoomLanguageListView from '@/views/Room/List/RoomLanguageListView.vue';
-import RoomInterestListView from '@/views/Room/List/RoomInterestListView.vue';
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
@@ -51,6 +50,11 @@ const routes = [
         name: 'MyPageEditLanguageView',
         component: MyPageEditLanguageView,
       },
+      {
+        path: 'change-preferlanguage/',
+        name: 'MyPageEditPreferenceLanguageView',
+        component: MyPageEditPreferenceLanguageView,
+      },
     ],
   },
   {
@@ -68,20 +72,10 @@ const routes = [
         name: 'RoomFriendsListView',
         component: RoomFriendsListView,
       },
-      {
-        path: 'language/',
-        name: 'RoomLanguageListView',
-        component: RoomLanguageListView,
-      },
-      {
-        path: 'interest/',
-        name: 'RoomInterestListView',
-        component: RoomInterestListView,
-      },
     ],
   },
   {
-    path: '/portal/rooms/create/',
+    path: '/portal/rooms/new/',
     name: 'RoomCreateView',
     component: RoomCreateView,
   },
