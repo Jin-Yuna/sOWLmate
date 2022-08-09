@@ -20,7 +20,7 @@
         >
       </div>
       <div v-else>
-        <p v-if="userInterest.length === 0">관심사는 하나만 선택 가능합니다.</p>
+        <p>관심사는 하나만 선택 가능합니다.</p>
         <v-chip-group
           v-if="!isInterestMore"
           v-model="newRoom.interest"
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 
@@ -108,6 +108,9 @@ export default {
         password: '',
         thumbnail: '',
       },
+      nickname: {
+        userNickname: '',
+      },
       userInterest: [],
       userNotInterest: [],
       isInterestMore: false,
@@ -118,7 +121,9 @@ export default {
   },
   methods: {
     ...mapActions(['userInterestSave', 'createRoom']),
+    ...mapMutations(['TO_USER_NICKNAME']),
     userInfoCheck() {
+      this.TO_USER_NICKNAME(this.userInfo.nickname);
       this.userNotInterest = this.InterestList;
       this.newRoom.ownerId = this.userInfo.id;
       this.newRoom.language = this.userInfo.language;

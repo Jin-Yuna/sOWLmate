@@ -21,6 +21,7 @@ export const accounts = {
     regionList: [],
     userInterests: [],
     userInfo: {},
+    userList: [],
   },
   getters: {
     isLoggedIn: (state) => !!state.token,
@@ -39,6 +40,7 @@ export const accounts = {
     regionList: (state) => state.regionList,
     InterestList: (state) => state.interestList,
     userInfo: (state) => state.userInfo,
+    userList: (state) => state.userList,
   },
   mutations: {
     SET_TOKEN: (state, newToken) => (state.token = newToken),
@@ -61,6 +63,7 @@ export const accounts = {
     SET_USER_INTEREST: (state, interestName) =>
       state.userInterests.push(interestName),
     GET_USER_INFO: (state, data) => (state.userInfo = data),
+    GET_USER_LIST: (state, data) => (state.userList = data),
   },
   actions: {
     removeToken({ commit }) {
@@ -298,6 +301,14 @@ export const accounts = {
         .catch((error) => {
           console.error(error);
         });
+    },
+    getUserList({ commit }) {
+      axios({
+        url: sowl.users.userList(),
+        method: 'get',
+      }).then((response) => {
+        commit('GET_USER_LIST', response.data);
+      });
     },
     // Modify
     modifyUserInfo({ state, commit }, payload) {

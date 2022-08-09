@@ -5,16 +5,12 @@
     <router-link :to="{ name: 'RoomFriendsListView' }"
       >내 친구의 방</router-link
     >
-    |
-    <router-link :to="{ name: 'RoomInterestListView' }">관심사 별</router-link>
-    |
-    <router-link :to="{ name: 'RoomLanguageListView' }">언어 별</router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RoomNavigation',
+  name: 'RoomListNavigation',
   components: {},
   computed: {},
 };

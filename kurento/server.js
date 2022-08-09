@@ -9,15 +9,17 @@ var https = require('https');
 
 var argv = minimist(process.argv.slice(2), {
   default: {
-      as_uri: "https://localhost:8443/",
+      as_uri: "https://i7b308.p.ssafy.io:8443",
       ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
   }
 });
 
 var options =
 {
-  key:  fs.readFileSync('keys/server.key'),
-  cert: fs.readFileSync('keys/server.crt')
+    key:  fs.readFileSync('keys/server.key'),
+    cert: fs.readFileSync('keys/server.crt')
+    //   key:  fs.readFileSync('keys/privKey.pem'),
+    //   cert: fs.readFileSync('keys/cert.pem')
 };
 
 var app = express();
@@ -203,6 +205,8 @@ var wss = new ws.Server({
 wss.on('connection', function(ws) {
     var sessionId = nextUniqueId();
     console.log('Connection received with sessionId ' + sessionId);
+
+    console.log(server);
 
     ws.on('error', function(error) {
         console.log('Connection ' + sessionId + ' error');

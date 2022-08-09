@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/Account/LoginView.vue';
 import LogoutView from '@/views/Account/LogoutView.vue';
 import SignUpView from '@/views/Account/SignUpView.vue';
@@ -14,14 +14,18 @@ import RoomMainView from '@/views/Room/RoomMainView.vue';
 import RoomCreateView from '@/views/Room/RoomCreateView.vue';
 import RoomMainListView from '@/views/Room/List/RoomMainListView.vue';
 import RoomFriendsListView from '@/views/Room/List/RoomFriendsListView.vue';
-import RoomLanguageListView from '@/views/Room/List/RoomLanguageListView.vue';
-import RoomInterestListView from '@/views/Room/List/RoomInterestListView.vue';
+import GoogleLoginView from '@/views/Account/GoogleLoginView.vue';
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
   { path: '/auth/login/', name: 'LoginView', component: LoginView },
   { path: '/auth/logout/', name: 'LogoutView', component: LogoutView },
   { path: '/auth/sign-up/', name: 'SignUpView', component: SignUpView },
+  {
+    path: '/accounts/auth/google/callback',
+    name: 'GoogleLoginView',
+    component: GoogleLoginView,
+  },
   {
     path: '/auth/password-reset/',
     name: 'PasswordResetView',
@@ -74,20 +78,10 @@ const routes = [
         name: 'RoomFriendsListView',
         component: RoomFriendsListView,
       },
-      {
-        path: 'language/',
-        name: 'RoomLanguageListView',
-        component: RoomLanguageListView,
-      },
-      {
-        path: 'interest/',
-        name: 'RoomInterestListView',
-        component: RoomInterestListView,
-      },
     ],
   },
   {
-    path: '/portal/rooms/create/',
+    path: '/portal/rooms/new/',
     name: 'RoomCreateView',
     component: RoomCreateView,
   },

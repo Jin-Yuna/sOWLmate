@@ -1,7 +1,7 @@
 import { createStore } from 'vuex';
 import { accounts } from '@/store/modules/accounts';
-import { conferences } from '@/store/modules/conferences';
+import { rooms } from '@/store/modules/rooms';
 
 export default createStore({
-  modules: { accounts, conferences },
+  modules: { accounts, rooms },
 });
