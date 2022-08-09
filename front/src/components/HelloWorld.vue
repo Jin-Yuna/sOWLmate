@@ -11,12 +11,14 @@
         <h1>메인페이지 공사중~~</h1>
       </v-col>
     </v-row>
+    <router-link :to="{ name: 'GoogleLoginView' }">구글로그인</router-link>
   </v-container>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
+  components: {},
 };
 </script>
 <style scoped></style>
