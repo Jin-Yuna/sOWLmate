@@ -14,12 +14,18 @@ import RoomMainView from '@/views/Room/RoomMainView.vue';
 import RoomCreateView from '@/views/Room/RoomCreateView.vue';
 import RoomMainListView from '@/views/Room/List/RoomMainListView.vue';
 import RoomFriendsListView from '@/views/Room/List/RoomFriendsListView.vue';
+import GoogleLoginView from '@/views/Account/GoogleLoginView.vue';
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
   { path: '/auth/login/', name: 'LoginView', component: LoginView },
   { path: '/auth/logout/', name: 'LogoutView', component: LogoutView },
   { path: '/auth/sign-up/', name: 'SignUpView', component: SignUpView },
+  {
+    path: '/accounts/auth/google/callback',
+    name: 'GoogleLoginView',
+    component: GoogleLoginView,
+  },
   {
     path: '/auth/password-reset/',
     name: 'PasswordResetView',
