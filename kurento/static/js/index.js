@@ -55,6 +55,21 @@ function setCallState(nextState) {
 	callState = nextState;
 }
 
+function waitForSocketConnection(socket, callback){
+	setTimeout(
+			function () {
+					if (socket.readyState === 1) {
+							console.log("Connection is made")
+							if (callback != null){
+									callback();
+							}
+					} else {
+							console.log("wait for connection...")
+							waitForSocketConnection(socket, callback);
+					}
+			}, 5);
+}
+
 window.onload = function() {
 	// console = new Console();
 	setRegisterState(NOT_REGISTERED);
@@ -69,11 +84,15 @@ window.onload = function() {
 	});
 	console.log(users);
 
-	console.log(location.host);
+	//console.log(location.host);
 
-	ws.onopen = () => {
+	waitForSocketConnection(ws, function(){
 		register();
-	}
+	});
+
+	// ws.onopen = () => {
+	// 	register();
+	// }
 	// register();
 
 	if (users[1] != '') {
@@ -163,7 +182,7 @@ function incomingCall(message) {
 
 	setCallState(PROCESSING_CALL);
 
-	if (confirm('방에 누군가 입장합니다.')) {
+	// if (confirm('방에 누군가 입장합니다.')) {
 		showSpinner(videoInput, videoOutput);
 
 		var options = {
@@ -193,17 +212,18 @@ function incomingCall(message) {
 						sendMessage(response);
 					});
 				});
-	} else {
-		var response = {
-			id : 'incomingCallResponse',
-			from : message.from,
-			callResponse : 'reject',
-			message : 'user declined'
-		};
-		sendMessage(response);
-		stop(true);
-	}
-}
+} 
+// 	else {
+// 		var response = {
+// 			id : 'incomingCallResponse',
+// 			from : message.from,
+// 			callResponse : 'reject',
+// 			message : 'user declined'
+// 		};
+// 		sendMessage(response);
+// 		stop(true);
+// 	}
+// }
 
 function register() {
 		sendMessage({
