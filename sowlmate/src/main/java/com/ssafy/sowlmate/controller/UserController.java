@@ -1,6 +1,10 @@
 package com.ssafy.sowlmate.controller;
 
 import com.ssafy.sowlmate.dto.*;
+import com.ssafy.sowlmate.dto.request.UserChangePwDto;
+import com.ssafy.sowlmate.dto.request.UserProfileDto;
+import com.ssafy.sowlmate.dto.request.UserRequestDto;
+import com.ssafy.sowlmate.dto.request.UserUpdateRequestDto;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.service.UserService;
 import lombok.RequiredArgsConstructor;

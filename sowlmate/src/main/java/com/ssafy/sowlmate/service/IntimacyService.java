@@ -1,6 +1,8 @@
 package com.ssafy.sowlmate.service;
 
-import com.ssafy.sowlmate.dto.IntimacyRequestDto;
+import com.ssafy.sowlmate.dto.request.IntimacyRequestDto;
+import com.ssafy.sowlmate.dto.response.IntimacyResponseDto;
+import com.ssafy.sowlmate.dto.response.IntimacyShortResponseDto;
 import com.ssafy.sowlmate.entity.Intimacy;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.IntimacyRepository;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,15 +35,30 @@ public class IntimacyService {
     /**
      * 전체 조회
      */
-    public List<Intimacy> selectAll() {
-        return intimacyRepository.findAll();
+    public List<IntimacyResponseDto> selectAll() {
+        List<IntimacyResponseDto> result = new ArrayList<>();
+        for (Intimacy intimacy : intimacyRepository.findAll()) {
+            IntimacyResponseDto dto = new IntimacyResponseDto();
+            dto.setFromUserId(intimacy.getFromUser().getId());
+            dto.setToUserId(intimacy.getToUser().getId());
+            dto.setEval(intimacy.getEval());
+            result.add(dto);
+        }
+        return result;
     }
 
     /**
      * 유저별 조회
      */
-    public List<Intimacy> selectAllByFromUserId(String fromUserId) {
-        return intimacyRepository.findAllByFromUserId(fromUserId);
+    public List<IntimacyShortResponseDto> selectAllByFromUserId(String fromUserId) {
+        List<IntimacyShortResponseDto> result = new ArrayList<>();
+        for (Intimacy intimacy : intimacyRepository.findAllByFromUserId(fromUserId)) {
+            IntimacyShortResponseDto dto = new IntimacyShortResponseDto();
+            dto.setToUserId(intimacy.getToUser().getId());
+            dto.setEval(intimacy.getEval());
+            result.add(dto);
+        }
+        return result;
     }
 
     /**
