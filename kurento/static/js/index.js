@@ -77,8 +77,8 @@ function initDeepAR() {
 		if(navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({
 				video: {
-					width: { ideal: 4096 },
-					height: { ideal: 2160 }
+					width: { ideal: 640 },
+					height: { ideal: 480 }
 				}
 			})
 				.then(function (stream) {
@@ -93,11 +93,12 @@ function initDeepAR() {
 			deepAR.setVideoElement(sourceVideo)
 		}
 	}
+
 	// Initialize the DeepAR object
 	const deepAR = DeepAR({
 		licenseKey: deepAR_license_key,
-		canvasWidth: "240px",
-		canvasHeight: "180px",
+		canvasWidth: 640,
+		canvasHeight: 480,
 		canvas: deeparCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () {
@@ -263,13 +264,7 @@ window.onload = function() {
 
 	if (users[1] != '') {
 		call();
-		// start DeepAR
-		// initDeepAR();
 	}
-
-	document.getElementById('camera-off').addEventListener('click', function() {
-		stop();
-	});
 
 	document.getElementById('terminate').addEventListener('click', function() {
 		stop();
@@ -357,6 +352,9 @@ function incomingCall(message) {
 	// if (confirm('방에 누군가 입장합니다.')) {
 		showSpinner(videoInput, videoOutput);
 
+		// start DeepAR
+		initDeepAR();
+
 		var options = {
 			localVideo : videoInput,
 			remoteVideo : videoOutput,
@@ -407,6 +405,9 @@ function register() {
 function call() {
 	setCallState(PROCESSING_CALL);
 	showSpinner(videoInput, videoOutput);
+
+	// start DeepAR
+	initDeepAR();
 
 	var options = {
 		localVideo : videoInput,
