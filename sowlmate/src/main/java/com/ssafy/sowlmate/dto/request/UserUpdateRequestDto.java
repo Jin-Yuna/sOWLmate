@@ -1,5 +1,6 @@
-package com.ssafy.sowlmate.dto;
+package com.ssafy.sowlmate.dto.request;
 
+import com.ssafy.sowlmate.dto.UserUpdateDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

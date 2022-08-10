@@ -1,6 +1,6 @@
 package com.ssafy.sowlmate.controller;
 
-import com.ssafy.sowlmate.dto.IntimacyRequestDto;
+import com.ssafy.sowlmate.dto.request.IntimacyRequestDto;
 import com.ssafy.sowlmate.service.IntimacyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

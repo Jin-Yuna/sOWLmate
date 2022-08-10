@@ -1,4 +1,4 @@
-package com.ssafy.sowlmate.dto;
+package com.ssafy.sowlmate.dto.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

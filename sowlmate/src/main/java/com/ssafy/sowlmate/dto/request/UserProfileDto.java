@@ -1,12 +1,12 @@
-package com.ssafy.sowlmate.dto;
+package com.ssafy.sowlmate.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter @Getter
+@Getter @Setter
 @NoArgsConstructor
-public class ConferenceRequestDto {
+public class UserProfileDto {
     private String userId;
-    private Long conferenceNo;
+    private String profilePictureUrl;
 }

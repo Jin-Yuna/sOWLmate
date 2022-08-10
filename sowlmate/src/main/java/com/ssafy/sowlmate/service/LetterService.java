@@ -1,6 +1,6 @@
 package com.ssafy.sowlmate.service;
 
-import com.ssafy.sowlmate.dto.LetterRequestDto;
+import com.ssafy.sowlmate.dto.request.LetterRequestDto;
 import com.ssafy.sowlmate.entity.BlackList;
 import com.ssafy.sowlmate.entity.Letter;
 import com.ssafy.sowlmate.entity.User;

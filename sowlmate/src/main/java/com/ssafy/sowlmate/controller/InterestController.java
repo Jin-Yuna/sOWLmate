@@ -1,6 +1,6 @@
 package com.ssafy.sowlmate.controller;
 
-import com.ssafy.sowlmate.dto.InterestRequestDto;
+import com.ssafy.sowlmate.dto.request.InterestRequestDto;
 import com.ssafy.sowlmate.service.InterestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

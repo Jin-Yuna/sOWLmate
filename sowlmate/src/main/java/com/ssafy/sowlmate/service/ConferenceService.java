@@ -1,6 +1,6 @@
 package com.ssafy.sowlmate.service;
 
-import com.ssafy.sowlmate.dto.ConferenceRequestDto;
+import com.ssafy.sowlmate.dto.request.ConferenceRequestDto;
 import com.ssafy.sowlmate.entity.*;
 import com.ssafy.sowlmate.entity.type.InterestType;
 import com.ssafy.sowlmate.entity.type.LanguageType;

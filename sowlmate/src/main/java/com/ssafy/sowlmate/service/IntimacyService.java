@@ -1,6 +1,6 @@
 package com.ssafy.sowlmate.service;
 
-import com.ssafy.sowlmate.dto.IntimacyRequestDto;
+import com.ssafy.sowlmate.dto.request.IntimacyRequestDto;
 import com.ssafy.sowlmate.entity.Intimacy;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.IntimacyRepository;
