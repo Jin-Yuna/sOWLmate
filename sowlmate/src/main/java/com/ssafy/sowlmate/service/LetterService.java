@@ -1,6 +1,7 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.dto.request.LetterRequestDto;
+import com.ssafy.sowlmate.dto.response.LetterResponseDto;
 import com.ssafy.sowlmate.entity.BlackList;
 import com.ssafy.sowlmate.entity.Letter;
 import com.ssafy.sowlmate.entity.User;
@@ -25,8 +26,8 @@ public class LetterService {
      * 받은 편지 전체 리스트 (내가 설정한 블랙리스트가 보낸 편지는 가져오지 않는다.)
      * 향후 수정 필요(블랙리스트-유저 구조 수정 선행 필요)
      */
-    public List<Letter> selectAllByToUserId(String toUserId) {
-        List<Letter> result = new ArrayList<>();
+    public List<LetterResponseDto> selectAllByToUserId(String toUserId) {
+        List<LetterResponseDto> result = new ArrayList<>();
         // 편지를 받은 사람 기준 블랙리스트를 불러온다.
         List<BlackList> blackLists = blackListService.selectAllByFromUserId(toUserId);
         // 블랙리스트로 지정된 유저를 불러온다.
@@ -35,7 +36,7 @@ public class LetterService {
         // 편지를 보낸 사람이 블랙리스트에 포함되어 있다면 반환하지 않는다.
         for (Letter letter : letterRepository.findAllByToUserId(toUserId)) {
             if (!users.contains(letter.getFromUser())) {
-                result.add(letter);
+                result.add(LetterResponseDto.toDto(letter));
             }
         }
         return result;
@@ -45,10 +46,10 @@ public class LetterService {
      * 단일 편지 조회 (읽음 표시)
      */
     @Transactional
-    public Letter selectByNo(Long letterNo) {
+    public LetterResponseDto selectByNo(Long letterNo) {
         Letter letter = letterRepository.findByNo(letterNo);
         letter.read();
-        return letter;
+        return LetterResponseDto.toDto(letter);
     }
 
     /**
