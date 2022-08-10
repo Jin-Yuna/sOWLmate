@@ -1,6 +1,5 @@
 package com.ssafy.sowlmate.dto.response;
 
-import com.ssafy.sowlmate.entity.Interest;
 import com.ssafy.sowlmate.entity.Penpal;
 import com.ssafy.sowlmate.entity.type.InterestType;
 import com.ssafy.sowlmate.entity.type.LanguageType;
@@ -11,7 +10,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Getter @Setter
 @NoArgsConstructor
