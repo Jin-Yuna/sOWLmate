@@ -182,7 +182,7 @@ function incomingCall(message) {
 
 	setCallState(PROCESSING_CALL);
 
-	if (confirm('방에 누군가 입장합니다.')) {
+	// if (confirm('방에 누군가 입장합니다.')) {
 		showSpinner(videoInput, videoOutput);
 
 		var options = {
@@ -212,17 +212,18 @@ function incomingCall(message) {
 						sendMessage(response);
 					});
 				});
-	} else {
-		var response = {
-			id : 'incomingCallResponse',
-			from : message.from,
-			callResponse : 'reject',
-			message : 'user declined'
-		};
-		sendMessage(response);
-		stop(true);
-	}
-}
+} 
+// 	else {
+// 		var response = {
+// 			id : 'incomingCallResponse',
+// 			from : message.from,
+// 			callResponse : 'reject',
+// 			message : 'user declined'
+// 		};
+// 		sendMessage(response);
+// 		stop(true);
+// 	}
+// }
 
 function register() {
 		sendMessage({
