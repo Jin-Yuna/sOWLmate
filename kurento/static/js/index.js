@@ -55,6 +55,21 @@ function setCallState(nextState) {
 	callState = nextState;
 }
 
+function waitForSocketConnection(socket, callback){
+	setTimeout(
+			function () {
+					if (socket.readyState === 1) {
+							console.log("Connection is made")
+							if (callback != null){
+									callback();
+							}
+					} else {
+							console.log("wait for connection...")
+							waitForSocketConnection(socket, callback);
+					}
+			}, 5);
+}
+
 window.onload = function() {
 	// console = new Console();
 	setRegisterState(NOT_REGISTERED);
@@ -71,13 +86,9 @@ window.onload = function() {
 
 	//console.log(location.host);
 
-	setTimeout(() => console.log(location.host), 1000);
-
-	setTimeout(() => {
-		ws.onopen = () => {
-			register();
-		}
-	}, 2000);
+	waitForSocketConnection(ws, function(){
+		register();
+	});
 
 	// ws.onopen = () => {
 	// 	register();
