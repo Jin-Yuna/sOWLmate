@@ -1,37 +1,39 @@
 package com.ssafy.sowlmate.dto.response;
 
 import com.ssafy.sowlmate.entity.Interest;
-import com.ssafy.sowlmate.entity.Intimacy;
 import com.ssafy.sowlmate.entity.Penpal;
-import com.ssafy.sowlmate.entity.User;
+import com.ssafy.sowlmate.entity.type.InterestType;
 import com.ssafy.sowlmate.entity.type.LanguageType;
 import com.ssafy.sowlmate.entity.type.RegionType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Stream;
 
 @Getter @Setter
 @NoArgsConstructor
 public class PenpalResponseDto {
-    private String id;
-    private String nickname;
+    private String toUserId;
+    private String toUserNickname;
     private RegionType region;
     private LanguageType language;
     private LanguageType preferenceLanguage;
-    private List<Interest> interests;
+    private List<InterestType> interests;
     private int intimacyEval;
 
     public static PenpalResponseDto toDto(Penpal penpal) {
         PenpalResponseDto dto = new PenpalResponseDto();
-        dto.setId(penpal.getToUser().getId());
-        dto.setNickname(penpal.getToUser().getNickname());
+        dto.setToUserId(penpal.getToUser().getId());
+        dto.setToUserNickname(penpal.getToUser().getNickname());
         dto.setRegion(penpal.getToUser().getRegion());
         dto.setLanguage(penpal.getToUser().getLanguage());
         dto.setPreferenceLanguage(penpal.getToUser().getPreferenceLanguage());
-        dto.setInterests(penpal.getToUser().getInterests());
+        List<InterestType> tmpInterest = new ArrayList<>();
+        penpal.getToUser().getInterests().stream().forEach(i-> tmpInterest.add(i.getTitle()));
+        dto.setInterests(tmpInterest);
         return dto;
     }
 }
