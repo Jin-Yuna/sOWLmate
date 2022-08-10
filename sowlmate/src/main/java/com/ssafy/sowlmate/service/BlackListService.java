@@ -1,6 +1,7 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.dto.FromToUserIdDto;
+import com.ssafy.sowlmate.dto.response.BlackListResponseDto;
 import com.ssafy.sowlmate.entity.BlackList;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.BlackListRepository;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +22,18 @@ public class BlackListService {
 
     public List<BlackList> selectAllByFromUserId(String fromUserId) {
         return blackListRepository.findAllByFromUserId(fromUserId);
+    }
+
+    public List<BlackListResponseDto> selectAllByFromUserIdForResponse(String fromUserId) {
+        List<BlackListResponseDto> result = new ArrayList<>();
+        for (BlackList blackList : blackListRepository.findAllByFromUserId(fromUserId)) {
+            BlackListResponseDto blackListResponseDto = new BlackListResponseDto();
+            blackListResponseDto.setNo(blackList.getNo());
+            blackListResponseDto.setFromUserId(blackList.getFromUser().getId());
+            blackListResponseDto.setToUserId(blackList.getToUser().getId());
+            result.add(blackListResponseDto);
+        }
+        return result;
     }
 
     public BlackList selectByFromUserIdAndToUserId(String fromUserId, String toUserId) {

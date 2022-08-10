@@ -29,7 +29,7 @@ public class BlackListController {
      */
     @GetMapping("list")
     public ResponseEntity<?> BlackListByUser(HttpServletRequest request) {
-        return ResponseEntity.ok().body(blackListService.selectAllByFromUserId(request.getHeader("fromUserId")));
+        return ResponseEntity.ok().body(blackListService.selectAllByFromUserIdForResponse(request.getHeader("fromUserId")));
     }
 
     /**
