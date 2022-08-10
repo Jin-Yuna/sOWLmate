@@ -4,13 +4,6 @@ var videoInput;
 var videoOutput;
 var webRtcPeer;
 
-window.process = {
-    env: {
-        DEEPAR_KEY: 'DEEPAR_KEY'
-    }
-}
-const deepAR_license_key = process.env.DEEPAR_KEY
-
 var users = [];
 
 var registerName = null;
@@ -43,20 +36,18 @@ const NO_CALL = 0;
 const PROCESSING_CALL = 1;
 const IN_CALL = 2;
 var callState = null
+
 function setCallState(nextState) {
 	switch (nextState) {
 	case NO_CALL:
-		console.log('NO_CALL')
 		$('#call').attr('disabled', false);
 		$('#terminate').attr('disabled', true);
 		break;
 	case PROCESSING_CALL:
-		console.log('PROCESSING_CALL')
 		$('#call').attr('disabled', true);
 		$('#terminate').attr('disabled', true);
 		break;
 	case IN_CALL:
-		console.log('IN_CALL')
 		$('#call').attr('disabled', true);
 		$('#terminate').attr('disabled', false);
 		break;
@@ -66,10 +57,166 @@ function setCallState(nextState) {
 	callState = nextState;
 }
 
+/////////////////////////////////////////////////////DEEPAR
+
+window.process = {
+    env: {
+        DEEPAR_KEY: 'DEEPAR_KEY'
+    }
+}
+const deepAR_license_key = process.env.DEEPAR_KEY
+
 // create canvas on which DeepAR will render
 const sourceVideo = document.createElement('video')
 const deeparCanvas = document.createElement('canvas')
 const streamVideo = document.querySelector("#videoInput");
+
+function initDeepAR() {
+	const initVideoSource = () => {
+		if(navigator.mediaDevices.getUserMedia) {
+			navigator.mediaDevices.getUserMedia({
+				video: {
+					width: { ideal: 4096 },
+					height: { ideal: 2160 }
+				}
+			})
+				.then(function (stream) {
+					sourceVideo.srcObject = stream
+					sourceVideo.muted = true
+
+					setTimeout(function() {
+						sourceVideo.play()
+					}, 50);
+				}).catch();
+
+			deepAR.setVideoElement(sourceVideo)
+		}
+	}
+	// Initialize the DeepAR object
+	const deepAR = DeepAR({
+		licenseKey: deepAR_license_key,
+		canvasWidth: "240px",
+		canvasHeight: "180px",
+		canvas: deeparCanvas,
+		numberOfFaces: 1, // how many faces we want to track min 1, max 4
+		onInitialize: function () {
+		console.log('시작')
+		// start video immediately after the initalization, mirror = true
+		deepAR.startVideo()
+		windowVisibilityHandler(deepAR)
+
+		initVideoSource()
+		}
+	});
+
+	deepAR.onVideoStarted = function() {
+		streamVideo.srcObject = deeparCanvas.captureStream()
+		streamVideo.muted = true
+		streamVideo.play()
+	};
+
+	const windowVisibilityHandler = (deepAR) => {
+		const hiddenStatusPropName = getHiddenStatusType()
+		const isEventListenerAvailable = document.addEventListener !== undefined
+		const isPageHiddenAPIAvailable = hiddenStatusPropName !== undefined
+	
+		if (!isEventListenerAvailable || !isPageHiddenAPIAvailable) {
+			console.error("Warning: Page Visibility API not supported")
+		} else {
+			document.addEventListener(
+				getVisibilityChangeHandlerName(),
+				onVisibilityChange,
+				false
+			)
+		}
+	
+		function getHiddenStatusType() {
+			if (document.hidden !== undefined) { // Opera 12.10 and Firefox 18 and later support
+				return "hidden"
+			} else if (document.msHidden !== undefined) {
+				return "msHidden"
+			} else if (document.webkitHidden !== undefined) {
+				return "webkitHidden"
+			}
+		}
+	
+		function getVisibilityChangeHandlerName() {
+			// Opera 12.10 and Firefox 18 and later support
+			if (document.visibilityState !== undefined) { 
+				return "visibilitychange"
+			} else if (document.msVisibilityState !== undefined) {
+				return "msvisibilitychange"
+			} else if (document.webkitVisibilityState !== undefined) {
+				return "webkitvisibilitychange"
+			}
+		}
+	
+		function onVisibilityChange() {
+			if (document[hiddenStatusPropName]) {
+				deepAR.stopVideo()
+			} else {
+				deepAR.startVideo()
+			}
+		}
+	}
+
+	sourceVideo.addEventListener('play', function () {
+		if (this.paused && this.ended) {
+			deepAR.stopVideo()
+		}
+	}, 0)
+
+	sourceVideo.addEventListener('loadedmetadata', function() {
+		deepAR.canvasWidth = sourceVideo.videoWidth
+		deepAR.canvasHeight = sourceVideo.videoHeight
+	})
+
+	// download the face tracking model
+	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
+
+	function switchARFilter(effect) {
+		deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
+		// effect loaded
+		});
+	}
+
+	const effectSelect = document.getElementById('effects');
+	const pills = document.getElementsByClassName('pills')[0];
+	let slots = 0;
+
+	effectSelect.addEventListener('change', addFilter);
+	  
+	function addPill(name, value) {
+		let pill = document.createElement('div');
+		pill.classList.add('pill');
+		pill.innerText = name;
+		pill.id = `slot${slots}`;
+		pill.addEventListener('click', removeFilter);
+		pills.appendChild(pill);
+	}
+	  
+	function addFilter() {
+		const name = effectSelect.selectedOptions[0].innerHTML;
+		const value = effectSelect.value;
+		
+		if (value !== 0) {
+			switchARFilter(value);
+			addPill(name, value);
+			slots++;
+			effectSelect.value = '';
+		}
+	}
+	function removeFilter(ev) {
+		const pill = ev.target;
+		const slot = ev.target.id;
+		
+		deepAR.clearEffect(slot);
+		pills.removeChild(pill);
+	}	
+}
+
+/////////////////////////////////////////////////////////////
+
 
 window.onload = function() {
 	// console = new Console();
@@ -83,24 +230,24 @@ window.onload = function() {
 	location.href.split("?")[1].split("&").forEach(element => {
 		users.push(element.split("=")[1]);
 	});
+	console.log(users);
 
-	console.log(users)
-	console.log('열렸다!')
-	register()
+	console.log(location.host);
+
+	ws.onopen = () => {
+		register();
+	}
+	// register();
 
 	if (users[1] != '') {
 		call();
+		// start DeepAR
+		// initDeepAR();
 	}
 
-	// ws.onopen = () => {
-	// 	
-	// 	register();
-	// }
-	// register();
-
-	// if (users[1] != '') {
-	// 	call();
-	// }
+	document.getElementById('camera-off').addEventListener('click', function() {
+		stop();
+	});
 
 	document.getElementById('terminate').addEventListener('click', function() {
 		stop();
@@ -123,7 +270,6 @@ ws.onmessage = function(message) {
 		callResponse(parsedMessage);
 		break;
 	case 'incomingCall':
-		console.log('incomingCall')
 		incomingCall(parsedMessage);
 		break;
 	case 'startCommunication':
@@ -231,9 +377,8 @@ function incomingCall(message) {
 function register() {
 		sendMessage({
 			id : 'register',
-			name : user[0]
+			name : users[0]
 		});
-		console.log(user[0], '등록 완료')
 }
 
 function call() {
@@ -265,7 +410,6 @@ function call() {
 				sdpOffer : offerSdp
 			};
 			sendMessage(message);
-			console.log(user[0], user[1], 'call')
 		});
 	});
 }
