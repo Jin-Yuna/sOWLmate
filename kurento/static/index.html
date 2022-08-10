@@ -25,7 +25,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
 
+    <script src="js/index.js"></script>
     <script>
       var sharedMessages = [];
       var listening = {
@@ -88,7 +91,30 @@
                       text: finalTranscript,
                   },
               ]);
-              console.log(sharedMessages);
+              //console.log(sharedMessages);
+              console.log(sharedMessages[sharedMessages.length-1][0].text);
+              axios({
+                baseURL: "https://api.cognitive.microsofttranslator.com/",
+                url: '/translate',
+                method: 'post',
+                headers: {
+                  'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
+                  'Ocp-Apim-Subscription-Region': "koreacentral",
+                  'Content-type': 'application/json',
+                  'X-ClientTraceId': uuidv4().toString()
+                },
+                params: {
+                  'api-version': '3.0',
+                  'from': 'ko',
+                  'to': 'en'
+                },
+                data: [{
+                  'text': sharedMessages[sharedMessages.length-1][0].text
+                }],
+                responseType: 'json'
+              }).then(function(response){
+                console.log(JSON.stringify(response.data, null, 4));
+              })
           }
       };
       sr2.onerror = function() {
