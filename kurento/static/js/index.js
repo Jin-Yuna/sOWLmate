@@ -69,11 +69,19 @@ window.onload = function() {
 	});
 	console.log(users);
 
-	console.log(location.host);
+	//console.log(location.host);
 
-	ws.onopen = () => {
-		register();
-	}
+	setTimeout(() => console.log(location.host), 1000);
+
+	setTimeout(() => {
+		ws.onopen = () => {
+			register();
+		}
+	}, 2000);
+
+	// ws.onopen = () => {
+	// 	register();
+	// }
 	// register();
 
 	if (users[1] != '') {
