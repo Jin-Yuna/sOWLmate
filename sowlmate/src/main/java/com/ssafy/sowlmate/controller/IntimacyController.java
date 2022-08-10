@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,7 +46,10 @@ public class IntimacyController {
      */
     @GetMapping("single")
     public ResponseEntity<?> getIntimacy(HttpServletRequest request) {
-        return ResponseEntity.ok().body(intimacyService.selectByFromUserIdAndToUserId2(request.getHeader("fromUserId"), request.getHeader("toUserId")));
+        Map<String, Integer> result = new HashMap<>();
+        result.put("eval", intimacyService.selectByFromUserIdAndToUserId2(request.getHeader("fromUserId"),
+                request.getHeader("toUserId")).getEval());
+        return ResponseEntity.ok().body(result);
     }
 
     /**
