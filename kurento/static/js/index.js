@@ -279,7 +279,7 @@ function stop(message) {
 		}
 	}
 	hideSpinner(videoInput, videoOutput);
-	// location.replace("https://i7b308.p.ssafy.io")
+	location.replace("https://i7b308.p.ssafy.io")
 }
 
 function sendMessage(message) {
