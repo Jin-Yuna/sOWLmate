@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("blacklist")
@@ -29,7 +28,7 @@ public class BlackListController {
      */
     @GetMapping("list")
     public ResponseEntity<?> BlackListByUser(HttpServletRequest request) {
-        return ResponseEntity.ok().body(blackListService.selectAllByFromUserId(request.getHeader("fromUserId")));
+        return ResponseEntity.ok().body(blackListService.selectAllByFromUserIdForResponse(request.getHeader("fromUserId")));
     }
 
     /**

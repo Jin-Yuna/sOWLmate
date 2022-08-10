@@ -1,6 +1,7 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.dto.*;
+import com.ssafy.sowlmate.dto.request.*;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

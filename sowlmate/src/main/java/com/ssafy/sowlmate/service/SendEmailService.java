@@ -1,7 +1,7 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.dto.MailDto;
-import com.ssafy.sowlmate.dto.UserFindPWRequestDto;
+import com.ssafy.sowlmate.dto.request.UserFindPWRequestDto;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
