@@ -120,3 +120,25 @@ Before asking for support, please read first the [Kurento Netiquette Guidelines]
 [Open API specification]: http://kurento.github.io/doc-kurento/
 [apiary.io]: http://docs.streamoriented.apiary.io/
 [instructions]: http://www.kurento.org/docs/current/tutorials/node/tutorial-one2one.html
+
+
+
+
+
+-----------------------------
+
+# Google text-to-speech
+
+- 이 API에 정상정으로 요청을 보내기 위해서는 사용자환경변수에 구글  api키를 저장하는 과정이 필요하다. 그걸 위해 gcloud CLI를 설치해서 로그인하고,  명령어를 통해 key가 저장된 파일 경로를 환경변수로 설정해주었다.
+
+- [gcloud CLI 설치](https://cloud.google.com/sdk/docs/install)
+
+- [시작하기 전에  Cloud Text-to-Speech 문서 ](https://cloud.google.com/text-to-speech/docs/before-you-begin)
+
+- 리드미 기록을 위해 찾아보다 [다음과 같은 방법](https://developers.google.com/maps/documentation/javascript/get-api-key?hl=ko)도 있다는 것을 알게되었다. 하지만 이미 내 컴퓨터에는 환경변수가 저장되어있기 때문에 작동하는지 확인해보지는 못했다.
+  
+  ```javascript
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+  ```
+  
+  
