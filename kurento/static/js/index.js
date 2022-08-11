@@ -176,6 +176,14 @@ function initDeepAR() {
 	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
 
 	function switchARFilter(effect) {
+		console.log("switchARFilter");
+		console.log(effect)
+		sendMessage({
+			id : 'filter',
+			from : users[0],
+			to: users[1],
+			effect: effect
+		});
 		deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
 		// effect loaded
 		});
@@ -297,7 +305,11 @@ ws.onmessage = function(message) {
 		break;
 	case 'iceCandidate':
 		webRtcPeer.addIceCandidate(parsedMessage.candidate)
-		break;
+			break;
+	case 'filter':
+			console.log("from server.js to index.js by filter message");
+			console.log(parsedMessage.id + parsedMessage.from + parsedMessage.effect);
+			break;
 	default:
 		console.error('Unrecognized message', parsedMessage);
 	}
@@ -383,17 +395,20 @@ function incomingCall(message) {
 
 	setCallState(PROCESSING_CALL);
 
+	users[1] = message.from;
+	// console.log(`users[1] : ${users[1]}`);
+
 	// if (confirm('방에 누군가 입장합니다.')) {
-		showSpinner(videoInput, videoOutput);
+	showSpinner(videoInput, videoOutput);
 
-		// start DeepAR
-		initDeepAR();
+	// start DeepAR
+	initDeepAR();
 
-		var options = {
-			localVideo : videoInput,
-			remoteVideo : videoOutput,
-			onicecandidate : onIceCandidate
-		}
+	var options = {
+		localVideo : videoInput,
+		remoteVideo : videoOutput,
+		onicecandidate : onIceCandidate
+	}
 
 		webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
 				function(error) {

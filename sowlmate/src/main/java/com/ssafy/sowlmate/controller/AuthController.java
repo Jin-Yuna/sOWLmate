@@ -1,9 +1,9 @@
 package com.ssafy.sowlmate.controller;
 
 import com.ssafy.sowlmate.dto.MailDto;
-import com.ssafy.sowlmate.dto.UserFindPWRequestDto;
+import com.ssafy.sowlmate.dto.request.UserFindPWRequestDto;
 import com.ssafy.sowlmate.dto.UserInfoDto;
-import com.ssafy.sowlmate.dto.UserLoginDto;
+import com.ssafy.sowlmate.dto.request.UserLoginDto;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.service.JwtService;
 import com.ssafy.sowlmate.service.SendEmailService;

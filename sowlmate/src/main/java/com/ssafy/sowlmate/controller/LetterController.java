@@ -1,14 +1,12 @@
 package com.ssafy.sowlmate.controller;
 
-import com.ssafy.sowlmate.dto.LetterRequestDto;
-import com.ssafy.sowlmate.entity.Letter;
+import com.ssafy.sowlmate.dto.request.LetterRequestDto;
 import com.ssafy.sowlmate.service.LetterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

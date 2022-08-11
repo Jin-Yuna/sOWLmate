@@ -1,4 +1,4 @@
-package com.ssafy.sowlmate.dto;
+package com.ssafy.sowlmate.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,5 +6,6 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class UserResponseDto {
+public class PhotoBoothRequestDto {
+    private Long no;
 }

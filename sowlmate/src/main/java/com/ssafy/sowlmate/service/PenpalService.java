@@ -1,6 +1,9 @@
 package com.ssafy.sowlmate.service;
 
 import com.ssafy.sowlmate.dto.FromToUserIdDto;
+import com.ssafy.sowlmate.dto.response.PenpalResponseDto;
+import com.ssafy.sowlmate.dto.response.PenpalShortResponseDto;
+import com.ssafy.sowlmate.entity.Intimacy;
 import com.ssafy.sowlmate.entity.Penpal;
 import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.PenpalRepository;
@@ -19,17 +22,33 @@ public class PenpalService {
 
     private final PenpalRepository penpalRepository;
     private final UserService userService;
+    private final IntimacyService intimacyService;
 
-    public List<Penpal> selectAll() {
-        return penpalRepository.findAll();
+    public List<PenpalShortResponseDto> selectAll() {
+        List<PenpalShortResponseDto> result = new ArrayList<>();
+        for (Penpal penpal : penpalRepository.findAll()) {
+            PenpalShortResponseDto dto = new PenpalShortResponseDto();
+            dto.setFromUserId(penpal.getFromUser().getId());
+            dto.setToUserId(penpal.getToUser().getId());
+            result.add(dto);
+        }
+        return result;
     }
 
     public List<Penpal> selectAllByFromUserNo(long fromUserNo) {
         return penpalRepository.findAllByFromUserNo(fromUserNo);
     }
 
-    public List<Penpal> selectAllByFromUserId(String fromUserId) {
-        return penpalRepository.findAllByFromUserId(fromUserId);
+    public List<PenpalResponseDto> selectAllByFromUserId(String fromUserId) {
+        List<PenpalResponseDto> result = new ArrayList<>();
+        for (Penpal penpal : penpalRepository.findAllByFromUserId(fromUserId)) {
+            PenpalResponseDto dto = PenpalResponseDto.toDto(penpal);
+            Intimacy intimacy = intimacyService.selectByFromUserIdAndToUserId2(penpal.getFromUser().getId(),
+                    penpal.getToUser().getId());
+            dto.setIntimacyEval(intimacy==null ? 0 : intimacy.getEval());
+            result.add(dto);
+        }
+        return result;
     }
 
 //    @Transactional

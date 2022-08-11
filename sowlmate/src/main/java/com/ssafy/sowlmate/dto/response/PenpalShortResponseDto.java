@@ -1,4 +1,4 @@
-package com.ssafy.sowlmate.dto;
+package com.ssafy.sowlmate.dto.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,8 +6,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class IntimacyRequestDto {
+public class PenpalShortResponseDto {
     private String fromUserId;
     private String toUserId;
-    private int eval;
 }
