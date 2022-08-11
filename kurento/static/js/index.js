@@ -303,36 +303,36 @@ ws.onmessage = function(message) {
 	}
 }
 
- var chatView = document.getElementById('chatView');
- var chatForm = document.getElementById('chatForm');
+//  var chatView = document.getElementById('chatView');
+//  var chatForm = document.getElementById('chatForm');
 
-function receiveMessage(event) {
-	const name = document.getElementById('username_send')
-	const nickname = event.data
-	const header = document.getElementsByClassName('chat__header__greetings')
-	header.append(`${event.data} 님의 채팅창`)
-	const usernameBox = document.getElementsByClassName("usernameBox");
-	const chat = document.getElementById('chatView')
-	const chatLine = document.getElementById('username');
-	chatLine.append(`\n[알림] ${event.data} 님이 채팅창에 입장하였습니다.\n`);
-	chatLine.css('display', 'inline-block');
-	usernameBox.css('text-align', 'center');
-    usernameBox.append(chatLine);
-	chat.append(usernameBox);
-	chatView.scrollTop = chatView.scrollHeight;
- };
+// function receiveMessage(event) {
+// 	const name = document.getElementById('username_send')
+// 	const nickname = event.data
+// 	const header = document.getElementsByClassName('chat__header__greetings')
+// 	header.append(`${event.data} 님의 채팅창`)
+// 	const usernameBox = document.getElementsByClassName("usernameBox");
+// 	const chat = document.getElementById('chatView')
+// 	const chatLine = document.getElementById('username');
+// 	chatLine.append(`\n[알림] ${event.data} 님이 채팅창에 입장하였습니다.\n`);
+// 	chatLine.css('display', 'inline-block');
+// 	usernameBox.css('text-align', 'center');
+//     usernameBox.append(chatLine);
+// 	chat.append(usernameBox);
+// 	chatView.scrollTop = chatView.scrollHeight;
+//  };
   
-ws.onmessage = receiveMessage
+// ws.onmessage = receiveMessage
 
-// 메세지 전송
-function sendMessage() {
-	const nickname = document.getElementById("nickname").value
-	const message = document.getElementById("message").value
-	const fullMessage = `${nickname}: ${message}`
+// // 메세지 전송
+// function sendMessage() {
+// 	const nickname = document.getElementById("nickname").value
+// 	const message = document.getElementById("message").value
+// 	const fullMessage = `${nickname}: ${message}`
 
-	ws.send(fullMessage)
-	clearMessage()
-}
+// 	ws.send(fullMessage)
+// 	clearMessage()
+// }
 
 function resgisterResponse(message) {
 	if (message.response == 'accepted') {
@@ -346,9 +346,9 @@ function resgisterResponse(message) {
 	}
 }
 
-function clearMessage() {
-	document.getElementById("message").value = ""
-  }
+// function clearMessage() {
+// 	document.getElementById("message").value = ""
+//   }
 
 function callResponse(message) {
 	if (message.response != 'accepted') {

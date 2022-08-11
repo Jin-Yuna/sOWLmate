@@ -191,21 +191,6 @@
       </div>
     </div>
       <!-- chat -->
-      <input
-      type="text"
-      id="nickname"
-      placeholder="닉네임"
-      style="width: 50px"
-    />
-    <input
-      type="text"
-      id="message"
-      placeholder="메세지"   
-      style="width: 200px"
-    />
-    <button onClick="sendMessage()">전송</button>
-  </div>
-
   <div id="chat-log"></div>
       <div id="chatting" style="display:none">
         <div class="chat__header">
@@ -214,9 +199,11 @@
         </div>
         <div id="chatView">
         </div>
+        <form id="chatForm" onsubmit="return false">
           <input type="text" id="username_send">
           <input type="text" id="msg">
-          <button onClick="sendMessage()" type="submit" id="send" value="전송"></button>
+          <input type="submit" id="send" value="전송">
+        </form>
       </div>
     <div id="controls">
       <select id="effects">
@@ -251,7 +238,95 @@
     </div>
     <script type="text/javascript" src="lib/deepar.js"></script>
     <script src="js/index.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+       // 채팅 관련
+      var socket = io();
+      var chatView = document.getElementById('chatView');
+      var chatForm = document.getElementById('chatForm');
+        
+      // 메세지 전송 시 처리
+      chatForm.addEventListener('submit', function() {
+        var msg = $('#msg');
+        var name = $('#username_send');
+
+        if (msg.val() == '') {
+        return;
+
+        } else {
+        // 내 메세지 표시
+        socket.emit('SEND', name.val(), msg.val());
+
+        var msgLine = $('<div class="msgLine">');
+        var msgBox = $('<div class="me">');
+
+        msgBox.append(msg.val());
+        msgBox.css('display', 'inline-block');
+
+        msgLine.css('text-align', 'right');
+        msgLine.append(msgBox);
+
+        $('#chatView').append(msgLine);
+
+        msg.val('');
+        chatView.scrollTop = chatView.scrollHeight;
+        }
+      });
+
+    // 타인 메세지 구성
+    socket.on('SEND', function(name, msg) {
+      var msgLine = $('<div class="msgLine">');
+      var msgBox = $('<div class="msgBox">');
+      var nameLine = $('<div class="nameLine">');
+      var nameBox = $('<div class="nameBox">');
+      
+      nameBox.append(name);
+      msgBox.append(msg);
+      nameBox.css('display', 'inline-block');
+      msgBox.css('display', 'inline-block');
+      
+      nameLine.append(nameBox);
+      msgLine.append(msgBox);
+      $('#chatView').append(nameLine);
+      $('#chatView').append(msgLine);
+
+      chatView.scrollTop = chatView.scrollHeight;
+    });
+
+    // 이름 생성
+    socket.on('create name', function(name){
+      // 전달받은 name input값으로 name 설정
+      $('#username_send').val(name);
+      var header = $('.chat__header__greetings');
+      header.append(`${name} 님의 채팅창`)
+    });
+
+    // 채팅방 접속
+    socket.on('join', function(name){
+      var usernameBox = $('<div class="usernameBox">');
+      var chat = $('#chatView');
+      chatLine = $('<div id="username">');
+      chatLine.append(`\n[알림] ${name} 님이 채팅창에 입장하였습니다.\n`);
+      chatLine.css('display', 'inline-block');
+      usernameBox.css('text-align', 'center');
+      usernameBox.append(chatLine);
+      chat.append(usernameBox);
+      chatView.scrollTop = chatView.scrollHeight;
+    });
+
+    // 채팅방 종료
+    socket.on('disconnected', function(name){
+      var usernameBox = $('<div class="usernameBox">');
+      var chat = $('#chatView');
+      chatLine = $('<div id="username">');
+      chatLine.append(`[알림] ${name} 님이 채팅창에서 퇴장하셨습니다.\n`);
+      chatLine.css('display', 'inline-block');
+      usernameBox.css('text-align', 'center');
+      usernameBox.append(chatLine);
+      $('#chatView').append(usernameBox);
+      chatView.scrollTop = chatView.scrollHeight;
+    })
+    </script>
   </body>
 </html>
