@@ -6,8 +6,6 @@ var url = require('url');
 var kurento = require('kurento-client');
 var fs    = require('fs');
 var https = require('https');
-const { Socket } = require('dgram');
-
 
 var argv = minimist(process.argv.slice(2), {
   default: {
@@ -200,42 +198,6 @@ var server = https.createServer(options, app).listen(port, function() {
     console.log('Kurento Tutorial started');
     console.log('Open ' + url.format(asUrl) + ' with a WebRTC capable browser');
 });
-var io = require('socket.io')(server);
-var currentUser = false
-var nickname = ''
-
-io.on("connection", (socket) => {
-    
-    if (currentUser && nickname != '') {
-        socket.nickname = nickname
-        io.to(socket.id).emit('create name', socket.nickname);
-        io.emit('join', socket.nickname)
-        currentUser = false
-        nickname = ''
-    }
-   
-
-    // if (User.name != '') {
-    //     socket.nickname = User.name
-    //     io.to(socket.id).emit('create name', socket.nickname);
-    //     io.emit('join', socket.nickname)
-    // }
-
-
- 
-    // 메시지 전달
-    socket.on('SEND', function(name, msg){
-      console.log(msg);
-      socket.broadcast.emit('SEND', name, msg);
-    });
-  
-    // 접속 종료
-    socket.on('disconnect', function() {
-        user_nickname = ''
-      io.emit('disconnected', socket.nickname)
-    });
-  });
-  
 
 var wss = new ws.Server({
     server : server,
@@ -261,14 +223,9 @@ wss.on('connection', function(ws) {
 
     ws.on('close', function() {
         console.log('Connection ' + sessionId + ' closed');
-        // wss.broadcast(message.name);
         stop(sessionId);
         userRegistry.unregister(sessionId);
     });
-
-    // ws.on("message", (data) => {
-    //     wss.broadcast(data.toString());
-    // });
 
     ws.on('message', function(_message) {
         var message = JSON.parse(_message);
@@ -277,11 +234,6 @@ wss.on('connection', function(ws) {
         switch (message.id) {
         case 'register':
             register(sessionId, message.name, ws);
-            currentUser = true
-            nickname = message.name
-            
-            // wss.clients.forEach((client) => {
-            //     wss.broadcast(`새로운 유저가 접속했습니다. 현재 유저 ${message.name}`)})
             break;
 
         case 'call':
@@ -293,8 +245,6 @@ wss.on('connection', function(ws) {
             break;
 
         case 'stop':
-            user_nickname1 = ''
-            user_nickname2 = ''
             stop(sessionId);
             break;
 
@@ -303,16 +253,6 @@ wss.on('connection', function(ws) {
             break;
         
         case 'chatting':
-
-        case 'filter':
-            // onIceCandidate(sessionId, message.candidate);
-            // console.log("server.js : filter message sended");
-            userRegistry.getByName(message.to).sendMessage({
-                id: 'filter',
-                from: message.from,
-                effect: message.effect
-            });
-            break;
 
         default:
             ws.send(JSON.stringify({
@@ -514,7 +454,3 @@ function onIceCandidate(sessionId, _candidate) {
  
 
 app.use(express.static(path.join(__dirname, 'static')));
-
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/static/index.html');
-});

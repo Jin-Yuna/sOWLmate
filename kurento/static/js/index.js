@@ -57,6 +57,125 @@ function setCallState(nextState) {
 	callState = nextState;
 }
 
+///////////////////////////////////////////////////음성 번역
+
+var sharedMessages = [];
+      var listening = {
+        value:false
+      };
+      var draft = "";
+
+      const sr = new webkitSpeechRecognition();
+      sr.lang = "ko-KR";
+      const sr2 = new webkitSpeechRecognition();
+      sr2.lang = "ko-KR";
+      sr2.continuous = true;
+      sr2.interimResults = true;
+
+      const ask = function(prompt) {return awaiter(void 0, void 0, Promise, function(){
+        return generator(this, function(a){
+            switch(a.label){
+                case 0:
+                    a.trys.push([0, , 2, 3]);
+                    currentPrompt.value = prompt;
+                    return [4, new Promise(function (resolve, reject){
+                        sr.onresult = function(event){
+                            var text = Array.from(event.results)
+                                .map(function(alts){return alts[0].transcript;})
+                                .join("");
+                            resolve(text);
+                        };
+                        sr.onerror = function(e) {
+                            reject(new Error("Unable to recognize text: " + e.error));
+                        };
+                        sr.start();
+                    })];
+                case 1: return [2, a.sent()];
+                case 2: 
+                    currentPrompt.value = "";
+                    return [7];
+                case 3: return [2];
+            }
+        });
+    }); };
+
+    const startListen = function() {
+      console.log("startListen");
+      listening.value = true;
+      sr2.onresult = function(event) {
+          var finalTranscript = "";
+          var interimTranscript = "";
+          for(var i=event.resultIndex; i<event.results.length; i++){
+              if(event.results[i].isFinal){
+                  finalTranscript += event.results[i][0].transcript;
+              } else {
+                  interimTranscript += event.results[i][0].transcript;
+              }
+          }
+          draft.value = interimTranscript;
+          // console.log(draft);
+          if(finalTranscript) {
+              sharedMessages.push([
+                  {
+                      text: finalTranscript,
+                  },
+              ]);
+              //console.log(sharedMessages);
+              console.log(sharedMessages[sharedMessages.length-1][0].text);
+              axios({
+                baseURL: "https://api.cognitive.microsofttranslator.com/",
+                url: '/translate',
+                method: 'post',
+                headers: {
+                  'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
+                  'Ocp-Apim-Subscription-Region': "koreacentral",
+                  'Content-type': 'application/json',
+                  'X-ClientTraceId': uuidv4().toString()
+                },
+                params: {
+                  'api-version': '3.0',
+                  'from': 'ko',
+                  'to': 'en'
+                },
+                data: [{
+                  'text': sharedMessages[sharedMessages.length-1][0].text
+                }],
+                responseType: 'json'
+              }).then(function(response){
+                var translationResult = response.data;
+                document.getElementById("videoSubtitles").innerHTML = translationResult[0].translations[0].text;
+                console.log(JSON.stringify(response.data, null, 4));
+              })
+            }
+      };
+      sr2.onerror = function() {
+        console.log("onerror");
+        try {
+          if(listening.value===true) {
+            sr2.start();
+          }
+        } catch {
+          console.log("말을 더 이상 안하실 예정이면 번역 기능을 꺼주세요~!");
+        }
+        //listening.value = false;
+      };
+      sr2.onend = function() {
+        console.log("onend");
+        if(listening.value===true) {
+          sr2.start();
+        }
+        //listening.value = false;
+      };
+      sr2.start();
+      return [2];
+    };
+    
+    var stopListen = function () {
+        console.log("stopListen");
+        listening.value = false;
+        sr2.stop();
+    };
+
 
 /////////////////////////////////////////////////////DEEPAR
 
@@ -83,7 +202,7 @@ function initDeepAR() {
 			})
 				.then(function (stream) {
 					sourceVideo.srcObject = stream
-					// sourceVideo.muted = true
+					sourceVideo.muted = true
 
 					setTimeout(function() {
 						sourceVideo.play()
@@ -112,7 +231,7 @@ function initDeepAR() {
 
 	deepAR.onVideoStarted = function() {
 		streamVideo.srcObject = deeparCanvas.captureStream(25)
-		// streamVideo.muted = true
+		streamVideo.muted = true
 		streamVideo.play()
 	};
 
@@ -310,42 +429,27 @@ ws.onmessage = function(message) {
 			console.log("from server.js to index.js by filter message");
 			console.log(parsedMessage.id + parsedMessage.from + parsedMessage.effect);
 			break;
+	// text message
+	//when somebody wants to send us 
+	case "send": 
+		handleOffer(data.offer, data.name); 
+		break; 
+	case "answer": 
+		handleAnswer(data.answer); 
+		break; 
+	//when a remote peer sends an ice candidate to us 
+	case "candidate":
+		handleCandidate(data.candidate); 
+		break; 
 	default:
 		console.error('Unrecognized message', parsedMessage);
 	}
 }
 
-//  var chatView = document.getElementById('chatView');
-//  var chatForm = document.getElementById('chatForm');
-
-// function receiveMessage(event) {
-// 	const name = document.getElementById('username_send')
-// 	const nickname = event.data
-// 	const header = document.getElementsByClassName('chat__header__greetings')
-// 	header.append(`${event.data} 님의 채팅창`)
-// 	const usernameBox = document.getElementsByClassName("usernameBox");
-// 	const chat = document.getElementById('chatView')
-// 	const chatLine = document.getElementById('username');
-// 	chatLine.append(`\n[알림] ${event.data} 님이 채팅창에 입장하였습니다.\n`);
-// 	chatLine.css('display', 'inline-block');
-// 	usernameBox.css('text-align', 'center');
-//     usernameBox.append(chatLine);
-// 	chat.append(usernameBox);
-// 	chatView.scrollTop = chatView.scrollHeight;
-//  };
-  
-// ws.onmessage = receiveMessage
-
-// // 메세지 전송
-// function sendMessage() {
-// 	const nickname = document.getElementById("nickname").value
-// 	const message = document.getElementById("message").value
-// 	const fullMessage = `${nickname}: ${message}`
-
-// 	ws.send(fullMessage)
-// 	clearMessage()
-// }
-
+ws.onerror = function (err) { 
+	console.log("Got error", err); 
+ };
+   
 function resgisterResponse(message) {
 	if (message.response == 'accepted') {
 		setRegisterState(REGISTERED);
@@ -357,10 +461,6 @@ function resgisterResponse(message) {
 		alert('Error registering user. See console for further information.');
 	}
 }
-
-// function clearMessage() {
-// 	document.getElementById("message").value = ""
-//   }
 
 function callResponse(message) {
 	if (message.response != 'accepted') {
