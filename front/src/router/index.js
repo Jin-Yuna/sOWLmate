@@ -15,6 +15,7 @@ import RoomCreateView from '@/views/Room/RoomCreateView.vue';
 import RoomMainListView from '@/views/Room/List/RoomMainListView.vue';
 import RoomFriendsListView from '@/views/Room/List/RoomFriendsListView.vue';
 import GoogleLoginView from '@/views/Account/GoogleLoginView.vue';
+import PhotoBoothView from '@/views/Profile/PhotoBoothView.vue';
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
@@ -60,6 +61,11 @@ const routes = [
         path: 'change-preferlanguage/',
         name: 'MyPageEditPreferenceLanguageView',
         component: MyPageEditPreferenceLanguageView,
+      },
+      {
+        path: 'photo-booth/',
+        name: 'PhotoBoothView',
+        component: PhotoBoothView,
       },
     ],
   },
