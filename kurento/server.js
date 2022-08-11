@@ -246,6 +246,16 @@ wss.on('connection', function(ws) {
             onIceCandidate(sessionId, message.candidate);
             break;
 
+        case 'filter':
+            // onIceCandidate(sessionId, message.candidate);
+            // console.log("server.js : filter message sended");
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'filter',
+                from: message.from,
+                effect: message.effect
+            });
+            break;
+
         default:
             ws.send(JSON.stringify({
                 id : 'error',
