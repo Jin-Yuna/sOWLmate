@@ -113,9 +113,12 @@
                 }],
                 responseType: 'json'
               }).then(function(response){
+                var translationResult = response.data;
+                document.getElementById("videoSubtitles").innerHTML = translationResult;
                 console.log(JSON.stringify(response.data, null, 4));
+                location.reload();
               })
-          }
+            }
       };
       sr2.onerror = function() {
         console.log("onerror");
@@ -179,6 +182,7 @@
             <button onclick="stopListen()">Stop Listening</button>
           </div>
         </div>
+        <p id="videoSubtitles"></p>
       </div>
     </div>
     <div id="controls">
