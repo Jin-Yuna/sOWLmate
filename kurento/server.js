@@ -7,12 +7,13 @@ var kurento = require('kurento-client');
 var fs    = require('fs');
 var https = require('https');
 
+
 var argv = minimist(process.argv.slice(2), {
   default: {
-    //   as_uri: "https://localhost:8443",
-    //   ws_uri: "ws://localhost:8888/kurento"
-      as_uri: "https://i7b308.p.ssafy.io:8443",
-      ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
+      as_uri: "https://localhost:8443",
+      ws_uri: "ws://localhost:8888/kurento"
+    //   as_uri: "https://i7b308.p.ssafy.io:8443",
+    //   ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
   }
 });
 
@@ -204,6 +205,12 @@ var wss = new ws.Server({
     path : '/one2one'
 });
 
+wss.broadcast = (message) => {
+    wss.clients.forEach((client) => {
+        client.send(message);
+    });
+};
+
 wss.on('connection', function(ws) {
     var sessionId = nextUniqueId();
     console.log('Connection received with sessionId ' + sessionId);
@@ -217,8 +224,13 @@ wss.on('connection', function(ws) {
 
     ws.on('close', function() {
         console.log('Connection ' + sessionId + ' closed');
+        wss.broadcast(message.name);
         stop(sessionId);
         userRegistry.unregister(sessionId);
+    });
+
+    ws.on("message", (data) => {
+        wss.broadcast(data.toString());
     });
 
     ws.on('message', function(_message) {
@@ -228,6 +240,8 @@ wss.on('connection', function(ws) {
         switch (message.id) {
         case 'register':
             register(sessionId, message.name, ws);
+            wss.clients.forEach((client) => {
+                wss.broadcast(`새로운 유저가 접속했습니다. 현재 유저 ${message.name}`)})
             break;
 
         case 'call':
@@ -245,6 +259,8 @@ wss.on('connection', function(ws) {
         case 'onIceCandidate':
             onIceCandidate(sessionId, message.candidate);
             break;
+        
+        case 'chatting':
 
         default:
             ws.send(JSON.stringify({
@@ -255,6 +271,7 @@ wss.on('connection', function(ws) {
         }
 
     });
+
 });
 
 // Recover kurentoClient for the first time.
@@ -442,5 +459,6 @@ function onIceCandidate(sessionId, _candidate) {
         candidatesQueue[sessionId].push(candidate);
     }
 }
+ 
 
 app.use(express.static(path.join(__dirname, 'static')));

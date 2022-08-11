@@ -70,7 +70,7 @@ const deepAR_license_key = process.env.DEEPAR_KEY
 // create canvas on which DeepAR will render
 const sourceVideo = document.createElement('video')
 const deeparCanvas = document.createElement('canvas')
-const streamVideo = document.querySelector("#videoInput");
+const streamVideo = document.getElementById("videoInput");
 
 function initDeepAR() {
 	const initVideoSource = () => {
@@ -79,11 +79,11 @@ function initDeepAR() {
 				video: {
 					width: { ideal: 640 },
 					height: { ideal: 480 }
-				}
+				},
 			})
 				.then(function (stream) {
 					sourceVideo.srcObject = stream
-					sourceVideo.muted = true
+					// sourceVideo.muted = true
 
 					setTimeout(function() {
 						sourceVideo.play()
@@ -106,14 +106,13 @@ function initDeepAR() {
 		// start video immediately after the initalization, mirror = true
 		deepAR.startVideo()
 		windowVisibilityHandler(deepAR)
-
 		initVideoSource()
 		}
 	});
 
 	deepAR.onVideoStarted = function() {
-		streamVideo.srcObject = deeparCanvas.captureStream()
-		streamVideo.muted = true
+		streamVideo.srcObject = deeparCanvas.captureStream(25)
+		// streamVideo.muted = true
 		streamVideo.play()
 	};
 
@@ -304,6 +303,37 @@ ws.onmessage = function(message) {
 	}
 }
 
+ var chatView = document.getElementById('chatView');
+ var chatForm = document.getElementById('chatForm');
+
+function receiveMessage(event) {
+	const name = document.getElementById('username_send')
+	const nickname = event.data
+	const header = document.getElementsByClassName('chat__header__greetings')
+	header.append(`${event.data} 님의 채팅창`)
+	const usernameBox = document.getElementsByClassName("usernameBox");
+	const chat = document.getElementById('chatView')
+	const chatLine = document.getElementById('username');
+	chatLine.append(`\n[알림] ${event.data} 님이 채팅창에 입장하였습니다.\n`);
+	chatLine.css('display', 'inline-block');
+	usernameBox.css('text-align', 'center');
+    usernameBox.append(chatLine);
+	chat.append(usernameBox);
+	chatView.scrollTop = chatView.scrollHeight;
+ };
+  
+ws.onmessage = receiveMessage
+
+// 메세지 전송
+function sendMessage() {
+	const nickname = document.getElementById("nickname").value
+	const message = document.getElementById("message").value
+	const fullMessage = `${nickname}: ${message}`
+
+	ws.send(fullMessage)
+	clearMessage()
+}
+
 function resgisterResponse(message) {
 	if (message.response == 'accepted') {
 		setRegisterState(REGISTERED);
@@ -315,6 +345,10 @@ function resgisterResponse(message) {
 		alert('Error registering user. See console for further information.');
 	}
 }
+
+function clearMessage() {
+	document.getElementById("message").value = ""
+  }
 
 function callResponse(message) {
 	if (message.response != 'accepted') {
@@ -486,6 +520,7 @@ function hideSpinner() {
 	}
 }
 
+
 /**
  * Lightbox utility (to display media pipeline image in a modal dialog)
  */
@@ -493,3 +528,4 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 	event.preventDefault();
 	$(this).ekkoLightbox();
 });
+

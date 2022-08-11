@@ -23,12 +23,10 @@
     <script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
 
-    <script src="js/index.js"></script>
     <script>
       var sharedMessages = [];
       var listening = {
@@ -145,42 +143,81 @@
         sr2.stop();
     };
     </script>
+    <!-- chatting button -->
+    <script type="text/javascript">
+      function show(){
+          if($('#chatting').css('display') == 'none'){
+          $('#chatting').show();
+      }else{
+          $('#chatting').hide();
+      }
+      }
+  </script>
     <title>sOWLmate</title>
 
   </head>
   <body>
-    <div class="container">
+      <div id="left">
+        <div id="videoBig">
+          <!-- <canvas id="remoteCanvas">Your browser does not support Canvas</canvas> -->
+          <video id="videoOutput" autoplay width="640px" height="480px" poster="img/webrtc.png"></video>
         </div>
-        <div class="col-md-7">
-          <div id="videoBig">
-            <video id="videoOutput" autoplay width="640px" height="480px" poster="img/webrtc.png"></video>
-          </div>
-          <div id="videoSmall">
-            <video id="videoInput" autoplay width="240px" height="180px" poster="img/webrtc.png"></video>
-          </div>
+        <div id="videoSmall">
+          <!-- <canvas id="localCanvas">Your browser does not support Canvas</canvas> -->
+          <video id="videoInput" autoplay width="240px" height="180px" poster="img/webrtc.png"></video>
         </div>
+  
+      <div id="control">
+        <a id="terminate" href="#" class="btn btn-danger">
+          <span class="glyphicon glyphicon-stop"></span> Stop</a>
+        <button id="chatting-show" onclick="show()" class="btn btn-danger">
+          <span class="glyphicon glyphicon-chat"></span> Chatting</button>
+      </div>
+      <!-- display translation -->
+      <div>
+        <!-- <div v-if="!langIsSet">
+          <h2 class="text-3xl mb-6">Select language</h2>
+          <ul class="langlist">
+            <li v-for="[n] of locales" :key="n">
+              <a class="text-blue-800" :href="'?lang=' + n">{{ n }}</a>
+            </li>
+          </ul>
+        </div> -->
+        <br>
         <div>
-          <a id="terminate" href="#" class="btn btn-danger">
-            <span class="glyphicon glyphicon-stop"></span> Stop</a>
-        </div>
-        <!-- display translation -->
-        <div>
-          <!-- <div v-if="!langIsSet">
-            <h2 class="text-3xl mb-6">Select language</h2>
-            <ul class="langlist">
-              <li v-for="[n] of locales" :key="n">
-                <a class="text-blue-800" :href="'?lang=' + n">{{ n }}</a>
-              </li>
-            </ul>
-          </div> -->
-          <br>
-          <div>
-            <button onclick="startListen()">Start Listening</button>
-            <button onclick="stopListen()">Stop Listening</button>
-          </div>
+          <button onclick="startListen()">Start Listening</button>
+          <button onclick="stopListen()">Stop Listening</button>
         </div>
       </div>
     </div>
+      <!-- chat -->
+      <input
+      type="text"
+      id="nickname"
+      placeholder="닉네임"
+      style="width: 50px"
+    />
+    <input
+      type="text"
+      id="message"
+      placeholder="메세지"   
+      style="width: 200px"
+    />
+    <button onClick="sendMessage()">전송</button>
+  </div>
+
+  <div id="chat-log"></div>
+      <div id="chatting" style="display:none">
+        <div class="chat__header">
+          <span class="chat__header__greetings">
+          </span>
+        </div>
+        <div id="chatView">
+        </div>
+          <input type="text" id="username_send">
+          <input type="text" id="msg">
+          <button onClick="sendMessage()" type="submit" id="send" value="전송"></button>
+      </div>
     <div id="controls">
       <select id="effects">
         <option value="">Filter OFF</option>
@@ -214,5 +251,7 @@
     </div>
     <script type="text/javascript" src="lib/deepar.js"></script>
     <script src="js/index.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script> -->
   </body>
 </html>
