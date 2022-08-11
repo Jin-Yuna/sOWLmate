@@ -204,11 +204,11 @@ var wss = new ws.Server({
     path : '/one2one'
 });
 
-wss.broadcast = (message) => {
-    wss.clients.forEach((client) => {
-        client.send(message);
-    });
-};
+// wss.broadcast = (message) => {
+//     wss.clients.forEach((client) => {
+//         client.send(message);
+//     });
+// };
 
 wss.on('connection', function(ws) {
     var sessionId = nextUniqueId();
@@ -251,8 +251,25 @@ wss.on('connection', function(ws) {
         case 'onIceCandidate':
             onIceCandidate(sessionId, message.candidate);
             break;
-        
-        case 'chatting':
+
+        case 'filter':
+            // onIceCandidate(sessionId, message.candidate);
+            // console.log("server.js : filter message sended");
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'filter',
+                from: message.from,
+                effect: message.effect
+            });
+            break;
+
+        case 'textChat':
+            var toChat = userRegistry.getByName(message.to);
+            var message = {
+                id: 'receive', 
+                from : message.from,
+                content : message.context
+            }
+            toChat.sendMessage(message);
 
         default:
             ws.send(JSON.stringify({
@@ -263,7 +280,6 @@ wss.on('connection', function(ws) {
         }
 
     });
-
 });
 
 // Recover kurentoClient for the first time.
@@ -451,6 +467,6 @@ function onIceCandidate(sessionId, _candidate) {
         candidatesQueue[sessionId].push(candidate);
     }
 }
- 
 
 app.use(express.static(path.join(__dirname, 'static')));
+    

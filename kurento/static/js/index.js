@@ -363,6 +363,7 @@ function waitForSocketConnection(socket, callback){
 }
 
 
+
 window.onload = function() {
 	// console = new Console();
 	setRegisterState(NOT_REGISTERED);
@@ -406,49 +407,60 @@ ws.onmessage = function(message) {
 	console.info('Received message: ' + message.data);
 
 	switch (parsedMessage.id) {
-	case 'registerResponse':
-		resgisterResponse(parsedMessage);
-		break;
-	case 'callResponse':
-		callResponse(parsedMessage);
-		break;
-	case 'incomingCall':
-		incomingCall(parsedMessage);
-		break;
-	case 'startCommunication':
-		startCommunication(parsedMessage);
-		break;
-	case 'stopCommunication':
-		console.info("Communication ended by remote peer");
-		stop(true);
-		break;
-	case 'iceCandidate':
-		webRtcPeer.addIceCandidate(parsedMessage.candidate)
+		case 'registerResponse':
+			resgisterResponse(parsedMessage);
 			break;
-	case 'filter':
-			console.log("from server.js to index.js by filter message");
-			console.log(parsedMessage.id + parsedMessage.from + parsedMessage.effect);
+		case 'callResponse':
+			callResponse(parsedMessage);
 			break;
-	// text message
-	//when somebody wants to send us 
-	case "send": 
-		handleOffer(data.offer, data.name); 
-		break; 
-	case "answer": 
-		handleAnswer(data.answer); 
-		break; 
-	//when a remote peer sends an ice candidate to us 
-	case "candidate":
-		handleCandidate(data.candidate); 
-		break; 
-	default:
-		console.error('Unrecognized message', parsedMessage);
+		case 'incomingCall':
+			incomingCall(parsedMessage);
+			break;
+		case 'startCommunication':
+			startCommunication(parsedMessage);
+			break;
+		case 'stopCommunication':
+			console.info("Communication ended by remote peer");
+			stop(true);
+			break;
+		case 'iceCandidate':
+			webRtcPeer.addIceCandidate(parsedMessage.candidate)
+				break;
+		case 'filter':
+				console.log("from server.js to index.js by filter message");
+				console.log(parsedMessage.id + parsedMessage.from + parsedMessage.effect);
+				break;
+		// text message
+		// when we receive a message from the other peer, display it on the screen 
+		case 'receive':
+			var msgLine = $('<div class="msgLine">');
+			var msgBox = $('<div class="msgBox">');
+			var nameLine = $('<div class="nameLine">');
+			var nameBox = $('<div class="nameBox">');
+			
+			nameBox.append(parsedMessage.from);
+			msgBox.append(parsedMessage.content);
+			nameBox.css('display', 'inline-block');
+			msgBox.css('display', 'inline-block');
+			
+			nameLine.append(nameBox);
+			msgLine.append(msgBox);
+			$('#chatView').append(nameLine);
+			$('#chatView').append(msgLine);
+
+			chatView.scrollTop = chatView.scrollHeight;
+		default:
+			console.error('Unrecognized message', parsedMessage);
 	}
 }
+
 
 ws.onerror = function (err) { 
 	console.log("Got error", err); 
  };
+
+var chatView = document.getElementById('chatView');
+var chatForm = document.getElementById('chatForm');
    
 function resgisterResponse(message) {
 	if (message.response == 'accepted') {
@@ -510,27 +522,36 @@ function incomingCall(message) {
 		onicecandidate : onIceCandidate
 	}
 
-		webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
-				function(error) {
-					if (error) {
-						console.error(error);
-						setCallState(NO_CALL);
-					}
+	webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
+		function(error) {
+			if (error) {
+				console.error(error);
+				setCallState(NO_CALL);
+			}
 
-					this.generateOffer(function(error, offerSdp) {
-						if (error) {
-							console.error(error);
-							setCallState(NO_CALL);
-						}
-						var response = {
-							id : 'incomingCallResponse',
-							from : message.from,
-							callResponse : 'accept',
-							sdpOffer : offerSdp
-						};
-						sendMessage(response);
-					});
-				});
+			this.generateOffer(function(error, offerSdp) {
+				if (error) {
+					console.error(error);
+					setCallState(NO_CALL);
+				}
+				var response = {
+					id : 'incomingCallResponse',
+					from : message.from,
+					callResponse : 'accept',
+					sdpOffer : offerSdp
+				};
+				sendMessage(response);
+			});
+		});
+	var usernameBox = $('<div class="usernameBox">');
+	var chat = $('#chatView');
+	chatLine = $('<div id="username">');
+	chatLine.append(`\n[알림] ${message.from} 님이 채팅창에 입장하였습니다.\n`);
+	chatLine.css('display', 'inline-block');
+	usernameBox.css('text-align', 'center');
+	usernameBox.append(chatLine);
+	chat.append(usernameBox);
+	chatView.scrollTop = chatView.scrollHeight
 } 
 // 	else {
 // 		var response = {
@@ -545,10 +566,13 @@ function incomingCall(message) {
 // }
 
 function register() {
-		sendMessage({
-			id : 'register',
-			name : users[0]
-		});
+	sendMessage({
+		id : 'register',
+		name : users[0]
+	});
+	$('#username_send').val(users[0]);
+	var header = $('.chat__header__greetings');
+	header.append(`${users[0]} 님의 채팅창`)
 }
 
 function call() {
@@ -582,6 +606,7 @@ function call() {
 				to : users[1],
 				sdpOffer : offerSdp
 			};
+			console.log(message)
 			sendMessage(message);
 		});
 	});
@@ -635,7 +660,45 @@ function hideSpinner() {
 	}
 }
 
+//****** 
+//UI selectors block 
+//****** 
 
+// 메세지 전송 시 처리
+chatForm.addEventListener('submit', function(event) {
+	var msg = $('#msg');
+	
+	if (msg.val() == '') {
+		return;
+	} else {
+	// 내 메세지 표시
+	var msgLine = $('<div class="msgLine">');
+	var msgBox = $('<div class="me">');
+
+	msgBox.append(msg.val());
+	msgBox.css('display', 'inline-block');
+
+	msgLine.css('text-align', 'right');
+	msgLine.append(msgBox);
+
+	$('#chatView').append(msgLine);
+
+	var message = {
+		id : 'textChat',
+		to : users[1],
+		from : users[0],
+		context : msg.val()
+	}
+
+	sendMessage(message);
+
+	msg.val('');
+	chatView.scrollTop = chatView.scrollHeight;
+	}
+  });
+
+       
+ 
 /**
  * Lightbox utility (to display media pipeline image in a modal dialog)
  */
