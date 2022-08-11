@@ -114,9 +114,8 @@
                 responseType: 'json'
               }).then(function(response){
                 var translationResult = response.data;
-                document.getElementById("videoSubtitles").innerHTML = translationResult;
+                document.getElementById("videoSubtitles").innerHTML = translationResult[0].translations[0].text;
                 console.log(JSON.stringify(response.data, null, 4));
-                location.reload();
               })
             }
       };
