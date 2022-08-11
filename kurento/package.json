@@ -6,7 +6,8 @@
     "postinstall": "cd static && bower install",
     "dev": "vite --port 8443",
     "build": "vite build --port 8443",
-    "serve": "vite preview --port 8443"
+    "serve": "vite preview --port 8443",
+    "module": "index.mjs"
   },
   "dependencies": {
     "express": "^4.18.1",
