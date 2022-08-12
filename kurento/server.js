@@ -8,18 +8,14 @@ var fs    = require('fs');
 var https = require('https');
 
 var argv = minimist(process.argv.slice(2), {
-  default: {
-    //   as_uri: "https://localhost:8443",
-    //   ws_uri: "ws://localhost:8888/kurento"
-      as_uri: "https://i7b308.p.ssafy.io:8443",
-      ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
-  }
+    default: {
+        as_uri: "https://i7b308.p.ssafy.io:8443",
+        ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
+    }
 });
 
 var options =
 {
-    // key:  fs.readFileSync('keys/server.key'),
-    // cert: fs.readFileSync('keys/server.crt')
     key:  fs.readFileSync('keys/i7b308.p.ssafy.io.key'),
     cert: fs.readFileSync('keys/i7b308.p.ssafy.io.crt')
 };
@@ -247,12 +243,18 @@ wss.on('connection', function(ws) {
             break;
 
         case 'filter':
-            // onIceCandidate(sessionId, message.candidate);
-            // console.log("server.js : filter message sended");
             userRegistry.getByName(message.to).sendMessage({
                 id: 'filter',
                 from: message.from,
                 effect: message.effect
+            });
+            break;
+            
+        case 'translate':
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'translate',
+                from: message.from,
+                text: message.text
             });
             break;
 
