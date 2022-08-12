@@ -114,8 +114,13 @@
                 responseType: 'json'
               }).then(function(response){
                 var translationResult = response.data;
-                document.getElementById("videoSubtitles").innerHTML = translationResult[0].translations[0].text;
-                console.log(JSON.stringify(response.data, null, 4));
+                //console.log(JSON.stringify(response.data, null, 4));
+                sendMessage({
+                  id : 'translate',
+                  from : users[0],
+                  to: users[1],
+                  text: translationResult[0].translations[0].text
+                });
               })
             }
       };
