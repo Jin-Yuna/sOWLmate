@@ -1,7 +1,12 @@
 <template>
   <div>
     <div>
-      <h2>PRE-FRIENDS</h2>
+      <v-row>
+        <h2>PRE-FRIENDS</h2>
+        <v-chip variant="outlined" size="x-small" class="ml-10 mt-2"
+          >펜팔 가능</v-chip
+        >
+      </v-row>
       <br />
       <p>나와 한 번 이상 만난 적 있는, 나의 friends가 될 예비친구들입니다.</p>
       <br />

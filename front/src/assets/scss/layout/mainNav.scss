@@ -7,7 +7,7 @@
 
 @media screen and (max-width: 767px) {
   .nav__menu {
-    position: fixed;
+    position: sticky;
     top: 3rem;
     right: -100%;
     width: 80%;

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mt-5">
     <v-row justify="center">
       <v-col cols="3">
         <p>메모리네브바</p>
