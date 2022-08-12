@@ -308,11 +308,28 @@ function initDeepAR() {
 		});
 	}
 
-	const effectSelect = document.getElementById('effects');
-	const pills = document.getElementsByClassName('pills')[0];
-	let slots = 0;
+	var effectList = []
 
+	const boxs = document.querySelectorAll(".boxList > div");
+
+	boxs.forEach(el => {
+	el.onclick = (e) => {
+		const nodes = [...e.target.parentElement.children];
+		const index = nodes.valueOf(e.target);
+		const effect = e.target.innerHTML
+		if (effectList.includes[effect]) {
+			const Effectindex = array.indexOf(effect);
+			if (Effectindex > -1) {
+			effectList.splice(Effectindex, 1);
+		} else {
+			effectList.push(effect)
+		}
+	}
+	}});
+
+	const effectSelect = document.getElementById('effectLists');
 	effectSelect.addEventListener('change', addFilter);
+	let slots = 0;
 	  
 	function addPill(name, value) {
 		let pill = document.createElement('div');
@@ -337,7 +354,15 @@ function initDeepAR() {
 	function removeFilter(ev) {
 		const pill = ev.target;
 		const slot = ev.target.id;
-		
+		console.log(slot)
+		const effect = ev.target.textContent
+		console.log(effect)
+		sendMessage({
+			id : 'filterRemove',
+			from : users[0],
+			to: users[1],
+			effect: effect
+		});
 		deepAR.clearEffect(slot);
 		pills.removeChild(pill);
 	}	
@@ -430,6 +455,10 @@ ws.onmessage = function(message) {
 				console.log("from server.js to index.js by filter message");
 				console.log(parsedMessage.id + parsedMessage.from + parsedMessage.effect);
 				break;
+		case 'filterRemove':
+			console.log("from server.js to index.js by filter message");
+			console.log(parsedMessage.id + parsedMessage.from + parsedMessage.effect);
+			break;
 		// text message
 		// when we receive a message from the other peer, display it on the screen 
 		case 'receive':

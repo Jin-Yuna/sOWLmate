@@ -16,14 +16,37 @@
  */
 /* @CHARSET "UTF-8"; */
 
-@import url("https://cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0/all.min.css");
+@font-face {
+  font-family: 'AppleSDGothicNeoB';
+  src: url('../assets/font/AppleSDGothicNeoB.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'AppleSDGothicNeoEB';
+  src: url('../assets/font/AppleSDGothicNeoEB.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'AppleSDGothicNeoSB';
+  src: url('../assets/font/AppleSDGothicNeoSB.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'AppleSDGothicNeoR';
+  src: url('../assets/font/AppleSDGothicNeoR.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'AppleSDGothicNeoM';
+  src: url('../assets/font/AppleSDGothicNeoM.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'AppleSDGothicNeoL';
+  src: url('../assets/font/AppleSDGothicNeoL.ttf') format('truetype');
+}
 
 :root {
-  --main-darklg: #1d2635;
-  --main-dark: #1B1F24;
+  --main-darklg: #292D32;
   --primary-color: linear-gradient(#6E9DF5, #7C58EB);
-  --main-light: #eedfdf;
-  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+  --main-light: #F8F9FC;
+  --main-grey: #868E96;
+  --semi-grey: #CED4DA;
 }
 
 * {
@@ -31,21 +54,191 @@
   padding: 0;
 }
 
-.header {
+/* *, *:before, *:after {
+  box-sizing: border-box;
+} */
+
+
+html {
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+	min-height: 100%;
+}
+
+body {
+  justify-content: center; /* 1 */
+  background: #ffffff;
+}
+
+/* navbar */
+
+.navbar {
+  padding: 1rem 0 1rem 0;
+  background: var(--main-light);
+  font-size: 16px;
+}
+
+.navbar-left {
+  float: left;
+}
+
+#logo {
+  width: 12rem;
+  height: auto;
+  box-sizing: border-box;
+  display: inline;
+}
+
+.title {
+  background-color: var(--main-darklg);
+  border-radius: 0.5rem;
+  color: white;
+  display: inline-block;
+  font-family: 'AppleSDGothicNeoB';
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 4px 20px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.time-check {
+  background-color: white;
+  border-radius: 2rem;
+  color: var(--main-grey);
+  display: inline-block;
+  font-family: 'AppleSDGothicNeoSB';
+  font-size: 1rem;
+  line-height: 1;
+  padding: 4px 20px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.navbar-right {
+  float: right;
+}
+
+li {
+  display: inline;
+  padding-left: 1.25rem;
+}
+
+i {
+  color: var(--semi-grey);
+  text-decoration: none;
+}
+
+i:hover {
+  color: #6E9DF5;
+  box-shadow: 0px 8px 20px 
+  rgba(124, 88, 235, 0.3);
+  text-decoration: none;
+
+}
+
+/* main */
+
+.main {
+  overflow: hidden;
+  height: 92vh;
+  display: flex;
+}
+
+.main__left {
+  flex: 0.7;
+  display: flex;
+  flex-direction: column;
+}
+
+video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+	line-height: 1.42857143;
+	background-color: var(--main-light);
+	background-image: none;
+	/* border: 1px solid #ccc; */
+  border: 1px solid rgba(124, 88, 235, 0.05);
+	border-radius: 1rem;
+	/* -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3); */
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3);
+	-webkit-transition: border-color ease-in-out .15s, box-shadow
+		ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+#video-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#videoBig {
+	max-width: 100rem;
+	height: 75rem;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	text-align: center;
+	border: none;
+	/* background-color: white; */
+	margin-bottom: 10px;
+}
+
+div#videoSmall {
+	width: 480;
+	height: 360;
+	padding: 0px;
+	position: absolute;
+	top: 5.5%;
+	left: 10%;
+	cursor: pointer;
+	z-index: 10;
+	padding: 0px;
+}
+
+div.dragged {
+	cursor: all-scroll !important;
+	border-color: blue !important;
+	z-index: 10 !important;
+}
+
+.boxList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.boxList > div {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 8vh;
-  position: relative;
-  width: 100%;
-  background-color: var(--main-darklg);
+  width: 6rem;
+  height: 6rem;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+  background: #111;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  transition: .3s;
 }
 
-.logo > h3 {
-  color: var(--main-light);
+.boxList div:hover {
+  color: #000;
+  background: #febf00;
 }
 
-.main {
+.boxList div:active {
+  background: #f03d3d;
+}
+
+/* .main {
   overflow: hidden;
   height: 92vh;
   display: flex;
@@ -63,7 +256,7 @@
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background-color: var(--main-dark);
+  background-color: var(--main-light);
 }
 
 video {
@@ -72,9 +265,7 @@ video {
   margin: 0.5rem;
   width: 400px;
   object-fit: cover;
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .options {
@@ -180,14 +371,6 @@ video {
   display: none;
 }
 
-.header__back {
-  display: none;
-  position: absolute;
-  font-size: 1.3rem;
-  top: 17px;
-  left: 28px;
-  color: #fff;
-}
 
 @media (max-width: 700px) {
   .main__right {
@@ -223,27 +406,7 @@ video {
   .section__height {
 	height: 100vh;
   }
-  
-  /*=============== HEADER Y NAV ===============*/
 
-html {
-	scroll-behavior: smooth;
-	overflow-x: hidden;
-	position: relative;
-	min-height: 100%;
-}
-
-body {
-	display: flex;
-    justify-content: center; /* 1 */
-	padding-top: 40px;
-	background-color: #F8F9FC;
-}
-
-#left {
-	float: left;
-	margin-right: 30px;
-}
 
 video,#console {
 	display: block;
@@ -266,35 +429,9 @@ video,#console {
 	max-height: 360px;
 }
 
-#videoBig {
-	max-width: 640px;
-	height: 480px;
-	top: 0;
-	left: 0;
-	z-index: 1;
-	text-align: center;
-	border: none;
-	background-color: white;
-	margin-bottom: 10px;
-}
 
-div#videoSmall {
-	width: 240px;
-	height: 180px;
-	padding: 0px;
-	position: absolute;
-	top: 5.5%;
-	left: 10%;
-	cursor: pointer;
-	z-index: 10;
-	padding: 0px;
-}
 
-div.dragged {
-	cursor: all-scroll !important;
-	border-color: blue !important;
-	z-index: 10 !important;
-}
+
 
 #controls #effects {
     position: absolute;
@@ -328,7 +465,7 @@ div.dragged {
     font-family: Arial, Helvetica, sans-serif;
     margin-right: 15px;
     cursor: pointer;
-}
+} */
 
 /* Chatting */
 .msgLine {

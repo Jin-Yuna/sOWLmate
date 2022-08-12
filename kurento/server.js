@@ -204,12 +204,6 @@ var wss = new ws.Server({
     path : '/one2one'
 });
 
-// wss.broadcast = (message) => {
-//     wss.clients.forEach((client) => {
-//         client.send(message);
-//     });
-// };
-
 wss.on('connection', function(ws) {
     var sessionId = nextUniqueId();
     console.log('Connection received with sessionId ' + sessionId);
@@ -257,6 +251,16 @@ wss.on('connection', function(ws) {
             // console.log("server.js : filter message sended");
             userRegistry.getByName(message.to).sendMessage({
                 id: 'filter',
+                from: message.from,
+                effect: message.effect
+            });
+            break;
+
+        case 'filterRemove':
+            // onIceCandidate(sessionId, message.candidate);
+            // console.log("server.js : filter message sended");
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'filterRemove',
                 from: message.from,
                 effect: message.effect
             });

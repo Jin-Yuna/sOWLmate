@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="bower_components/ekko-lightbox/dist/ekko-lightbox.min.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0/all.min.css">
     <link rel="stylesheet" href="css/kurento.css">
-    <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
+    <script src="https://kit.fontawesome.com/efaff327b3.js" crossorigin="anonymous"></script>
     <script src="bower_components/webrtc-adapter/release/adapter.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -33,34 +33,47 @@
           $('#chatting').hide();
       }
       }
+
+      (function(){
+        $("#lock").on("click", function() {
+          $(".lock-check").fadeToggle( "fast");
+        });
+      })()
   </script>
   <title>sOWLmate</title>
   </head>
   <body>
-    <div class="header">
-      <div class="logo">
-        <div class="header__back">
-          <i class="fas fa-angle-left"></i>
-        </div>
-        <h3>Video Chat</h2>
+    <div class="navbar">
+      <div class="container">
+        <ul class="navbar-left">
+          <li><img id="logo" src="./assets/image/logoLong.svg" alt="logo"></li>
+          <li><span class="title">Title of Meeting</span></li>
+        </ul>
+        <ul class="navbar-right">
+          <li><span class="time-check">시간 체크</span></li>
+          <!-- {% if lock.is_true %} -->
+            <li><a href="#" id="lock"></a><i class="fa-solid fa-lock"></i></a></li>
+          <!-- {% else %} -->
+            <li><a href="#" id="unlock"><i class="fa-solid fa-unlock"></i></a></li>
+          <!-- {% endif %} -->
+          <li><a href="#" id="setting"><i class="fa-solid fa-gear"></i></a></li>
+        </ul>
       </div>
-    </div>  
+    </div>
     <div class="main">  
       <div class="main__left">
-
         <div class="videos__group">
         <div id="video-grid">
         <div id="videoBig">
           <!-- <canvas id="remoteCanvas">Your browser does not support Canvas</canvas> -->
-          <video id="videoOutput" autoplay width="640px" height="480px" poster="img/webrtc.png"></video>
+          <video id="videoOutput" autoplay width="1600" height="900" poster="img/webrtc.png"></video>
         </div>
         <div id="videoSmall">
-          <!-- <canvas id="localCanvas">Your browser does not support Canvas</canvas> -->
-          <video id="videoInput" autoplay width="240px" height="180px" poster="img/webrtc.png"></video>
+          <video id="videoInput" autoplay width="360" height="270" poster="img/webrtc.png"></video>
         </div>
       </div>
     </div>
-    <div class="options">
+    <!-- <div class="options">
       <div class="options__left">
         <div id="stopVideo" class="options__button">
           <i class="fa fa-video-camera"></i>
@@ -77,20 +90,33 @@
             <i class="fas fa-user-plus"></i>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="main__right">
-      <div class="main__chat_window">
+            <!-- chat -->
+            <div id="chatting" style="display:none">
+              <div class="chat__header">
+                <span class="chat__header__greetings" id="username">
+                </span>
+              </div>
+              <div id="chatView">
+              </div>
+              <form id="chatForm" onsubmit="return false">
+                <input type="text" id="msg" autocomplete="off" placeholder="Type message here...">
+                <input type="submit" id="send" value="전송">
+              </form>
+            </div>
+      <!-- <div class="main__chat_window">
           <div class="messages">
 
           </div>
-      </div>
-      <div class="main__message_container">
+      </div> -->
+      <!-- <div class="main__message_container">
         <input id="chat_message" type="text" autocomplete="off" placeholder="Type message here...">
         <div id="send" class="options__button">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   
@@ -118,47 +144,32 @@
         <p id="videoSubtitles"></p>
       </div>
     </div>
-      <!-- chat -->
-  <div id="chat-log"></div>
-      <div id="chatting" style="display:none">
-        <div class="chat__header">
-          <span class="chat__header__greetings" id="username">
-          </span>
-        </div>
-        <div id="chatView">
-        </div>
-        <form id="chatForm" onsubmit="return false">
-          <input type="text" id="msg">
-          <input type="submit" id="send" value="전송">
-        </form>
-      </div>
-    <div id="controls">
-      <select id="effects">
-        <option value="">Filter OFF</option>
-        <option value="alien">Alien</option>
-        <option value="aviators">Aviators</option>
-        <option value="background_blur">Background Blur</option>
-        <option value="background_segmentation">Background Segmentation</option>
-        <option value="ball_face">Ball Face</option>
-        <option value="beard">Beard</option>
-        <option value="beauty">Beauty</option>
-        <option value="dalmatian">Dalmatian</option>
-        <option value="fairy_lights">Fairy Lights</option>
-        <option value="flowers">Flowers</option>
-        <option value="frankenstein">Frankenstein</option>
-        <option value="hair_segmentation">Hair Segmentation</option>
-        <option value="koala">Koala</option>
-        <option value="lion">Lion</option>
-        <option value="look1">Look1</option>
-        <option value="look2">Look2</option>
-        <option value="manly_face">Manly Face</option>
-        <option value="plastic_ocean">Plastic Ocean</option>
-        <option value="pumpkin">Pumpkin</option>
-        <option value="scuba">Scuba</option>
-        <option value="tape_face">Tape Face</option>
-        <option value="teddycigar">Teddy Cigar</option>
-        <option value="tiny_sunglasses">Tiny Sunglasses</option>
-        <option value="topology">Topology</option>
+      <div id="effects">
+        <div value="">Filter OFF</div>
+        <div value="alien">Alien</div>
+        <div value="aviators">Aviators</div>
+        <div value="background_blur">Background Blur</div>
+        <div value="background_segmentation">Background Segmentation</div>
+        <div value="ball_face">Ball Face</div>
+        <div value="beard">Beard</div>
+        <div value="beauty">Beauty</div>
+        <div value="dalmatian">Dalmatian</div>
+        <div value="fairy_lights">Fairy Lights</div>
+        <div value="flowers">Flowers</div>
+        <div value="frankenstein">Frankenstein</div>
+        <div value="hair_segmentation">Hair Segmentation</div>
+        <div value="koala">Koala</div>
+        <div value="lion">Lion</div>
+        <div value="look1">Look1</div>
+        <div value="look2">Look2</div>
+        <div value="manly_face">Manly Face</div>
+        <div value="plastic_ocean">Plastic Ocean</div>
+        <div value="pumpkin">Pumpkin</div>
+        <div value="scuba">Scuba</div>
+        <div value="tape_face">Tape Face</div>
+        <div value="teddycigar">Teddy Cigar</div>
+        <div value="tiny_sunglasses">Tiny Sunglasses</div>
+        <div value="topology">Topology</div>
       </select>
       <div class="pills">
       </div>
