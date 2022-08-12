@@ -15,7 +15,7 @@ import RoomCreateView from '@/views/Room/RoomCreateView.vue';
 import RoomMainListView from '@/views/Room/List/RoomMainListView.vue';
 import RoomFriendsListView from '@/views/Room/List/RoomFriendsListView.vue';
 import GoogleLoginView from '@/views/Account/GoogleLoginView.vue';
-
+import friendsView from '@/views/Friends/friendsView.vue';
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
   { path: '/auth/login/', name: 'LoginView', component: LoginView },
@@ -84,6 +84,11 @@ const routes = [
     path: '/portal/rooms/new/',
     name: 'RoomCreateView',
     component: RoomCreateView,
+  },
+  {
+    path: '/friends/',
+    name: 'friendsView',
+    component: friendsView,
   },
 ];
 
