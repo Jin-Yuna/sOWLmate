@@ -532,10 +532,6 @@ npm ERR! Missing script: "start"
 
 - 정상작동상태가 유지되다가 인터넷 사용기록을 삭제하거나 하면 다시 이 에러가 발생하게 된다.
 
-
-
-
-
 ## 13. scss오류
 
 - scss가 잘 동작하다가 vue 컴포넌트에서 import 하려고만 하면 `Module not found: Error: Can't resolve ~~폰트경로` 가 뜨면서 에러가 발생하였다.
@@ -566,4 +562,98 @@ npm ERR! Missing script: "start"
   <style lang="scss">
   @import '~@/assets/scss/pages/profile.scss';
   </style>
+  ```
+
+
+
+
+
+## 14. vuex 모듈에서 다른 모듈 state 읽기
+
+- [Modules | Vuex](https://vuex.vuejs.org/guide/modules.html#module-local-state)
+
+- rootState를 쓰면 된다
+  
+  `rootState.모듈명.불러울데이터명`
+
+- ex:) friends 모듈에서 accounts.j의 state에 저장되어 있는 currentUser정보를 읽는 법
+  
+  ```javascript
+    actions: {
+      totalFriendList({ rootState }) {
+        const user = rootState.accounts.currentUser;
+        console.log( user);
+      },
+    },
+  ```
+
+- 그리고 새로운 모듈 파일을 만들고 store/index.js에 등록하는 것을 잊지 말자
+
+
+
+## 15. props사용하기
+
+- 아래 코드를 사용하면 부보 컴포넌트에서 자식 컴포넌트로 데이터가 전달되지 않는다. 부모컴포넌트의 html에서 바로 쓸 때는  출력된다.
+  
+  ```javascript
+  <template>
+    <div>
+      <PreFriend :preFriendsList="preFriendsList" />
+      토탈에서 : {{ preFriendsList }}
+    </div>
+  </template>
+  
+  <script>
+  import PreFriend from '@/components/Friend/PreFriend.vue';
+  import { mapGetters } from 'vuex';
+  export default {
+    components: {
+      PreFriend,
+    },
+    computed: {
+      ...mapGetters(['preFriendsList', 'friendsList', 'sowlmateList']),
+    },
+  };
+  </script>
+  ```
+
+- this를 붙이면 된다. computed에 있는 값이라 그런 것 같다. 
+  
+  ```javascript
+  <template>
+    <div>
+      <PreFriend :preFriendsList="this.preFriendsList" />
+      토탈에서 : {{ preFriendsList }}
+    </div>
+  </template>
+  
+  <script>
+  import PreFriend from '@/components/Friend/PreFriend.vue';
+  import { mapGetters } from 'vuex';
+  export default {
+    components: {
+      PreFriend,
+    },
+    props: {},
+    computed: {
+      ...mapGetters(['preFriendsList', 'friendsList', 'sowlmateList']),
+    },
+  };
+  </script>
+  ```
+  
+  ```javascript
+  <template>
+    <div>
+      예비친구에서 : {{ preFriendsList }}
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    props: {
+      preFriendsList: Array,
+    },
+  };
+  </script>
   ```

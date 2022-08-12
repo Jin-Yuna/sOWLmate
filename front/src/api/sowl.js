@@ -64,4 +64,7 @@ export default {
     conferenceReceive: (user1, user2) =>
       NODE + '?from=' + `${user1}` + '&to=' + `${user2}`,
   },
+  friend: {
+    friendList: () => HOST + 'penpal/list/user/',
+  },
 };

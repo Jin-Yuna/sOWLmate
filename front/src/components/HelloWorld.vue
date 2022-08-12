@@ -1,10 +1,10 @@
 <template>
-  <v-container>
+  <v-container class="mt-0 pt-0">
     <v-row class="text-center">
       <v-col cols="12">
         <v-img
           :src="require('../assets/sowlImage/mainBigSmall.png')"
-          class="my-3"
+          class="my-3 pt-0"
         />
       </v-col>
       <v-col class="mb-4">
