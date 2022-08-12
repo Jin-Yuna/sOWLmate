@@ -31,6 +31,9 @@
               >My Page</router-link
             >
           </li>
+          <li v-if="isLoggedIn" class="nav__item">
+            <router-link :to="{ name: 'friendsView' }">친구</router-link>
+          </li>
         </ul>
       </div>
       <div class="nav__toggle" id="nav-toggle">
@@ -51,3 +54,6 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '~@/assets/scss/layout/mainNav.scss';
+</style>

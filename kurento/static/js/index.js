@@ -57,7 +57,6 @@ function setCallState(nextState) {
 	callState = nextState;
 }
 
-
 /////////////////////////////////////////////////////DEEPAR
 
 window.process = {
@@ -224,10 +223,7 @@ function initDeepAR() {
 		pills.removeChild(pill);
 	}	
 }
-
 /////////////////////////////////////////////////////////////
-
-
 
 function waitForSocketConnection(socket, callback){
 	setTimeout(
@@ -244,9 +240,7 @@ function waitForSocketConnection(socket, callback){
 			}, 5);
 }
 
-
 window.onload = function() {
-	// console = new Console();
 	setRegisterState(NOT_REGISTERED);
 	var drag = new Draggabilly(document.getElementById('videoSmall'));
 	videoInput = document.getElementById('videoInput');
@@ -259,16 +253,9 @@ window.onload = function() {
 	});
 	console.log(users);
 
-	//console.log(location.host);
-
 	waitForSocketConnection(ws, function(){
 		register();
 	});
-
-	// ws.onopen = () => {
-	// 	register();
-	// }
-	// register();
 
 	if (users[1] != '') {
 		call();
@@ -308,9 +295,12 @@ ws.onmessage = function(message) {
 		webRtcPeer.addIceCandidate(parsedMessage.candidate)
 			break;
 	case 'filter':
-			console.log("from server.js to index.js by filter message");
-			console.log(parsedMessage.id + parsedMessage.from + parsedMessage.effect);
+			console.log(`filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
 			break;
+	case 'translate':
+			console.log(`translate message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.text}`);
+			document.getElementById("videoSubtitles").innerHTML = parsedMessage.text;
+		break;
 	default:
 		console.error('Unrecognized message', parsedMessage);
 	}
@@ -362,9 +352,7 @@ function incomingCall(message) {
 	setCallState(PROCESSING_CALL);
 
 	users[1] = message.from;
-	// console.log(`users[1] : ${users[1]}`);
 
-	// if (confirm('방에 누군가 입장합니다.')) {
 	showSpinner(videoInput, videoOutput);
 
 	// start DeepAR
@@ -376,39 +364,28 @@ function incomingCall(message) {
 		onicecandidate : onIceCandidate
 	}
 
-		webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
-				function(error) {
-					if (error) {
-						console.error(error);
-						setCallState(NO_CALL);
-					}
+	webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
+		function(error) {
+			if (error) {
+				console.error(error);
+				setCallState(NO_CALL);
+			}
 
-					this.generateOffer(function(error, offerSdp) {
-						if (error) {
-							console.error(error);
-							setCallState(NO_CALL);
-						}
-						var response = {
-							id : 'incomingCallResponse',
-							from : message.from,
-							callResponse : 'accept',
-							sdpOffer : offerSdp
-						};
-						sendMessage(response);
-					});
-				});
-} 
-// 	else {
-// 		var response = {
-// 			id : 'incomingCallResponse',
-// 			from : message.from,
-// 			callResponse : 'reject',
-// 			message : 'user declined'
-// 		};
-// 		sendMessage(response);
-// 		stop(true);
-// 	}
-// }
+			this.generateOffer(function(error, offerSdp) {
+				if (error) {
+					console.error(error);
+					setCallState(NO_CALL);
+				}
+				var response = {
+					id : 'incomingCallResponse',
+					from : message.from,
+					callResponse : 'accept',
+					sdpOffer : offerSdp
+				};
+				sendMessage(response);
+			});
+	});
+}
 
 function register() {
 		sendMessage({
