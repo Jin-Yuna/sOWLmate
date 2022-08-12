@@ -3,6 +3,7 @@ node_modules
 /dist
 
 # yarn
+yarn.lock
 .yarn/*
 !.yarn/releases
 !.yarn/patches

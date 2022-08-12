@@ -17,6 +17,8 @@
     <router-link :to="{ name: 'MyPageEditPreferenceLanguageView' }"
       >선호 언어 수정</router-link
     >
+    |
+    <router-link :to="{ name: 'PhotoBoothView' }">사진첩</router-link>
   </div>
 </template>
 
