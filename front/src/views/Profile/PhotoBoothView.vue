@@ -5,7 +5,21 @@
     <!--이미지 소스 리스트 -> 이미지 카드 뷰 -> 클릭 시 확대된 모달창-->
     <ul>
       <li v-for="photo in photos" :key="photo.no">
-        <img :src="photo.pictureUrl" />
+        <img
+          class="item_photo"
+          :src="photo.pictureUrl"
+          @click="
+            {
+              isModalViewed = true;
+              pictureUrl = photo.pictureUrl;
+            }
+          "
+        />
+        <profile-modal
+          v-if="isModalViewed"
+          @close-modal="isModalViewed = false"
+          :pictureUrl="pictureUrl"
+        ></profile-modal>
       </li>
     </ul>
   </div>
@@ -16,14 +30,20 @@ import { mapGetters } from 'vuex';
 import sowl from '@/api/sowl.js';
 import axios from 'axios';
 
+import ProfileModal from '@/components/Profile/ProfileModal.vue';
+
 export default {
   name: 'PhotoBoothView',
+  components: {
+    ProfileModal,
+  },
   data() {
     return {
       photos: [],
+      isModalViewed: false,
+      pictureUrl: '',
     };
   },
-  components: {},
   methods: {
     getPhotos() {
       console.log(this.currentUser);
@@ -49,4 +69,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.item_photo {
+  width: 150px;
+  height: 150px;
+}
+</style>
