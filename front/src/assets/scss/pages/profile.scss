@@ -2,38 +2,33 @@
   box-sizing: border-box;
 }
 
-a, a:hover {
-  text-decoration: none;
-}
-
 .wrapper {
-  width: 15%;
-  height: auto;
+  width: 11rem;
+  height: 12rem;
   min-height: 100vh;
-  padding: 50px 20px;
-  padding-top: 100px;
   display: flex;
  
   @media screen and (max-width: 768px) {
-    height: auto;
     min-height: 100vh;
-    padding-top: 100px;
   }
 
 }
 
 .profile-card {
   width: 100%;
-  min-height: 400px;
+  min-height: 8rem;
   margin: auto;
-  box-shadow: 0px 8px 20px -10px $color-purple;
-  border-radius: 12px;
-  max-width: 700px;
+  box-shadow: 0px 8px 20px -10px $color-blue;
+  border-radius: 1rem;
+  max-width: 11rem;
   position: relative;
-
+  &:hover {
+    background: linear-gradient(282.24deg, rgba(124, 88, 235, 0.2) -31.61%, rgba(110, 157, 245, 0.2) 89.49%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 8px 20px rgba(74, 131, 239, 0.3);
+  }
   &__img {
-    width: 100px;
-    height: 100px;
+    width: 6rem;
+    height: 6rem;
     margin-left: auto;
     margin-right: auto;
     transform: translateY(-50%);
@@ -41,11 +36,11 @@ a, a:hover {
     overflow: hidden;
     position: relative;
     z-index: 4;
-    box-shadow: 0px 5px 50px 0px $color-blue, 0px 0px 0px 7px $color-purple;
+    box-shadow: 0px 0px 0px 0.2rem $color-purple;
 
     @media screen and (max-width: 576px) {
-      width: 120px;
-      height: 120px;
+      width: 90px;
+      height: 90px;
     }
 
     img {
@@ -57,7 +52,6 @@ a, a:hover {
     }
 
   }
-
   &__cnt {
     margin-top: -35px;
     text-align: center;
@@ -67,113 +61,24 @@ a, a:hover {
   }
 
   &__name {
-    font-weight: 700;
-    font-size: 24px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
     background: $color-main;
     color: transparent;
     -webkit-background-clip: text;
-    margin-bottom: 15px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   &__txt {
     font-size: 18px;
     font-weight: 500;
-    color: #324e63;
     margin-bottom: 15px;
 
     strong {
       //color: #ff2846;
       font-weight: 700;
-    }
-
-  }
-
-  // &-ctr {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   margin-top: 40px;
-
-  //   @media screen and (max-width: 576px) {
-  //     flex-wrap: wrap;
-  //   }
-
-  // }
-
-  &__button {
-    background: none;
-    border: none;
-    font-weight: 700;
-    font-size: 19px;
-    margin: 15px 35px;
-    padding: 15px 40px;
-    min-width: 150px;
-    border-radius: 4px;
-    min-height: 55px;
-    color: #fff;
-    cursor: pointer;
-    backface-visibility: hidden;
-    transition: all .3s;
-
-    @media screen and (max-width: 768px) {
-      min-width: 120px;
-      margin: 15px 25px;
-    }
-
-    @media screen and (max-width: 576px) {
-      min-width: inherit;
-      margin: 0;
-      margin-bottom: 16px;
-      width: 100%;
-      max-width: 230px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    &:focus {
-      outline: none!important;
-    }
-
-    @media screen and (min-width: 768px) {
-      &:hover {
-        transform: translateY(-5px);
-      }
-    }
-
-    &:first-child {
-      margin-left: 0;
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &.button--blue {
-      background: linear-gradient(45deg, #1da1f2, #0e71c8);
-      box-shadow: 0px 4px 30px rgba(19, 127, 212, 0.4);
-
-      &:hover {
-        box-shadow: 0px 7px 30px rgba(19, 127, 212, 0.75);
-      }
-
-    }
-
-    &.button--orange {
-      background: linear-gradient(45deg, #d5135a, #f05924);
-      box-shadow: 0px 4px 30px rgba(223, 45, 70, 0.35);
-
-      &:hover {
-        box-shadow: 0px 7px 30px rgba(223, 45, 70, 0.75);
-      }
-
-    }
-
-    &.button--gray {
-      box-shadow: none;
-      background: #dcdcdc;
-      color: #142029;
     }
 
   }

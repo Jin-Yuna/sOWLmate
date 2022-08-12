@@ -17,6 +17,7 @@ export default {
 
 <style>
 .meter {
+  width: 90%;
   height: 7px;
   position: relative;
   background: #f3efe6;

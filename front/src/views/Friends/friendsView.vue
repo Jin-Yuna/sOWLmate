@@ -1,7 +1,14 @@
 <template>
-  <div>
-    <TotalFriend />
-  </div>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="3">
+        <p>메모리네브바</p>
+      </v-col>
+      <v-col cols="9">
+        <TotalFriend />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
