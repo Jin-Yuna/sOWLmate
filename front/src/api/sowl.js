@@ -1,4 +1,4 @@
-// const HOST = 'https://3.38.245.51:8080/api/v1/';
+// const HOST = 'https://i7b308.p.ssafy.io:8080/api/v1/';
 const HOST = 'https://localhost:8080/api/v1/';
 // const NODE = 'https://i7b308.p.ssafy.io:8443/';
 const NODE = 'https://localhost:8443/';
@@ -10,6 +10,7 @@ const USERS = 'users/';
 const INTEREST = 'interest/';
 const CATEGORIS = 'categories/';
 const CONFERENCE = 'conference/';
+const PHOTOBOOTH = 'photo-booth/';
 
 export default {
   front: {
@@ -63,5 +64,8 @@ export default {
     conferenceSend: (user1) => NODE + '?from=' + `${user1}` + '&to=',
     conferenceReceive: (user1, user2) =>
       NODE + '?from=' + `${user1}` + '&to=' + `${user2}`,
+  },
+  photoBooth: {
+    userPhotos: () => HOST + PHOTOBOOTH + 'list/' + 'user',
   },
 };
