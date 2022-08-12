@@ -10,7 +10,7 @@ var registerName = null;
 const NOT_REGISTERED = 0;
 const REGISTERING = 1;
 const REGISTERED = 2;
-var registerState = null
+var registerState = null;
 
 function setRegisterState(nextState) {
 	switch (nextState) {
@@ -56,6 +56,38 @@ function setCallState(nextState) {
 	}
 	callState = nextState;
 }
+
+///////
+let cnt = 0;
+const $videoInput = document.getElementById('videoInput');
+const $videoOutput = document.getElementById('videoOutput');
+const $canvas = document.getElementById('canvas');
+// 비디오 이미지 캡쳐
+function capture() {
+	console.log("start capture() function : 캡쳐를 시작합니다.");
+	var context = $canvas.getContext('2d');
+	context.drawImage($videoOutput, 0, 0, 175, 260);
+	context.drawImage($videoInput, 175, 0, 350, 260);
+	// insertImage($canvas.toDataURL('image/png')); // 우리는 이걸 사진첩으로 저장
+	console.log("end capture() function : 캡쳐를 끝냅니다.");
+}
+//* 캡쳐한 이미지 노출 함수
+function insertImage(imageData) {
+	const $images = document.querySelector('#images');
+	const $img = document.createElement('img');
+
+	$img.src = imageData;
+	$images.insertBefore($img, $images.childNodes[0]);
+}
+//* 초기 이벤트 바인딩
+function initialize() {
+	//$canvas.width = 350;
+	//$canvas.height = 260;
+	console.log("clicked initialiize() function");
+	document.querySelector('#btn-capture').addEventListener('click', capture);
+	console.log("캡쳐할 준비를 시작합니다.");
+}
+/////
 
 /////////////////////////////////////////////////////DEEPAR
 
@@ -176,8 +208,7 @@ function initDeepAR() {
 	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
 
 	function switchARFilter(effect) {
-		console.log("switchARFilter");
-		console.log(effect)
+		console.log(`switchARFilter ${effect}`)
 		sendMessage({
 			id : 'filter',
 			from : users[0],
@@ -444,7 +475,7 @@ function stop(message) {
 		}
 	}
 	hideSpinner(videoInput, videoOutput);
-	location.replace("https://i7b308.p.ssafy.io")
+	//location.replace("https://i7b308.p.ssafy.io")
 }
 
 function sendMessage(message) {
