@@ -68,4 +68,7 @@ export default {
   photoBooth: {
     userPhotos: () => HOST + PHOTOBOOTH + 'list/' + 'user',
   },
+  friend: {
+    friendList: () => HOST + 'penpal/list/user/',
+  },
 };
