@@ -58,7 +58,7 @@ function setCallState(nextState) {
 }
 
 ///////
-let cnt = 1;
+let cnt = 0;
 const $videoInput = document.getElementById('videoInput');
 const $videoOutput = document.getElementById('videoOutput');
 const $canvas1 = document.getElementById('canvas1');
@@ -69,31 +69,37 @@ const $canvas4 = document.getElementById('canvas4');
 function capture() {
 	console.log("start capture() function : 캡쳐를 시작합니다.");
 	var context = null;
+	cnt += 1;
 	switch (cnt) {
 		case 1:
 			context = $canvas1.getContext('2d');
-			cnt += 1;
 			break;
 		case 2:
 			context = $canvas2.getContext('2d');
-			cnt += 1;
 			break;
 		case 3:
 			context = $canvas3.getContext('2d');
-			cnt += 1;
 			break;
 		case 4:
 			context = $canvas4.getContext('2d');
-			cnt = 1;
+			document.querySelector('#btn-capture').innerHTML = '저장하기';
 			break;
 		default:
-			console.log("error")
+			console.log("save")
 			break;
 	}
-	context.drawImage($videoOutput, 0, 0, 250, 200);
-	context.drawImage($videoInput, 250, 0, 500, 200);
-	// insertImage($canvas1.toDataURL('image/png')); // 우리는 이걸 사진첩으로 저장
-	console.log("end capture() function : 캡쳐를 끝냅니다.");
+	if (cnt === 5) {
+		$canvas1.getContext('2d').clearRect(0, 0, 500, 200);
+		$canvas2.getContext('2d').clearRect(0, 0, 500, 200);
+		$canvas3.getContext('2d').clearRect(0, 0, 500, 200);
+		$canvas4.getContext('2d').clearRect(0, 0, 500, 200);
+		cnt = 0;
+	} else {
+		context.drawImage($videoOutput, 0, 0, 250, 200);
+		context.drawImage($videoInput, 250, 0, 500, 200);
+		// insertImage($canvas1.toDataURL('image/png')); // 우리는 이걸 사진첩으로 저장
+		console.log("end capture() function : 캡쳐를 끝냅니다.");
+	}
 }
 //* 캡쳐한 이미지 노출 함수
 function insertImage(imageData) {
@@ -105,6 +111,7 @@ function insertImage(imageData) {
 }
 //* 초기 이벤트 바인딩
 function initialize() {
+	document.querySelector('#btn-capture').innerHTML = '찰칵~!';
 	document.querySelector('#btn-capture').addEventListener('click', capture);
 	console.log("캡쳐할 준비를 시작합니다. 미리보기 창 띄우면 될 듯?");
 }
