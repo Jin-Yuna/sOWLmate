@@ -1,16 +1,31 @@
 <template>
-  <div>
-    <ProfileForm />
-  </div>
+  <v-container class="mt-5">
+    <v-row justify="center">
+      <v-col cols="3">
+        <p>메모리네브바</p>
+      </v-col>
+      <v-col cols="9">
+        <TotalFriend />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import ProfileForm from '@/components/Profile/ProfileForm.vue';
+import TotalFriend from '@/components/Friend/TotalFriend.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'friendsView',
   components: {
-    ProfileForm,
+    TotalFriend,
+  },
+  methods: {
+    ...mapActions(['totalFriendList']),
+  },
+  mounted() {
+    console.log('토탈프~');
+    this.totalFriendList();
   },
 };
 </script>

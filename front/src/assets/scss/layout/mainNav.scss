@@ -1,14 +1,13 @@
 .nav {
   height: 3rem;;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   font-weight: 600;
 }
 
 @media screen and (max-width: 767px) {
   .nav__menu {
-    position: fixed;
+    position: sticky;
     top: 3rem;
     right: -100%;
     width: 80%;
@@ -39,12 +38,12 @@
   height: 0.18rem;
   left: 0;
   top: 2rem;
-  background-color: $color-main;
+  background-color: $color-purple;
 }
 
-// .nav__logo {
-//   color: var(--second-color);
-// }
+.nav__logo {
+  margin-left: 1rem;
+}
 
 .nav__toggle {
   color: $color-purple;
