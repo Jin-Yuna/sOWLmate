@@ -42,9 +42,6 @@
       sr2.continuous = true;
       sr2.interimResults = true;
 
-      //const $video = document.getElementById('videoOutput');
-	    //const $canvas = document.getElementById('canvas');
-
       const ask = function(prompt) {return awaiter(void 0, void 0, Promise, function(){
         return generator(this, function(a){
             switch(a.label){
@@ -191,10 +188,7 @@
             <button id="btn-capture" onclick="initialize()">sayCheese</button>
           </div>
           <div>
-            <canvas id="canvas" width="350" height="260"></canvas>
-            <canvas id="canvas2" width="350" height="260"></canvas>
-            <canvas id="canvas3" width="350" height="260"></canvas>
-            <canvas id="canvas4" width="350" height="260"></canvas>
+            <canvas id="canvas" width="560" height="950"></canvas>
           </div>
         </div>
         <p id="videoSubtitles"></p>

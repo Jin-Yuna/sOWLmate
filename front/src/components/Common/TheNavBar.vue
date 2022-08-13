@@ -3,8 +3,9 @@
     <div class="nav bd-grid">
       <div class="nav__logo">
         <router-link to="/">
-          <img
-            :src="require('@/assets/sowlImage/navLogo.png')"
+          <embed
+            :src="require('@/assets/sowlImage/full_logo.svg')"
+            type="image/svg+xml"
             class="logo my-3"
             contain
             height="20"
@@ -37,7 +38,7 @@
         </ul>
       </div>
       <div class="nav__toggle" id="nav-toggle">
-        <i class="bx bx-menu"></i>
+        <i class="bx bx-menu">=</i>
       </div>
     </div>
   </header>

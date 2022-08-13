@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <!-- 사진, 친구아니면 익명으로 보임 -->
-  </div>
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+    alt="profile card"
+  />
 </template>
 
 <script>
