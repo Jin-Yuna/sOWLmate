@@ -101,8 +101,6 @@ const deepAR_license_key = process.env.DEEPAR_KEY
 // create canvas on which DeepAR will render
 const sourceVideo = document.createElement('video')
 const sourceVideoForRemote = document.createElement('video');
-const deeparCanvas = document.createElement('canvas');
-const deeparCanvasForRemote = document.createElement('canvas');
 const streamVideoForRemote = document.getElementById("videoOutput");
 const streamVideo = document.getElementById("videoInput");
 
@@ -119,6 +117,7 @@ var removeFilter = '';
 
 // local User
 function initDeepAR() {
+	const deeparCanvas = document.createElement('canvas');
 	const initVideoSource = () => {
 		if(navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({
@@ -232,21 +231,21 @@ function initDeepAR() {
 		if (effect.value === 'Filter Off') {
 			removeAllFilter()
 		}
-		if (effectList.includes[effect.value]) {
-			const Effectindex = array.indexOf(effect.value);
-			if (Effectindex > -1) {
+		else if (effectList.includes(effect.value)) {
+			const Effectindex = effectList.indexOf(effect.value);
 			effectList.splice(Effectindex, 1);
 			removeFilter(effect.value)
-		} else {
+		} 
+		else {
+			console.log('addFilter(effect.value)')
 			effectList.push(effect.value)
 			addFilter(effect.value)
 		}
-	}
+
 	}});
 
 	function addFilter(effect) {
-		if (effect !== '') {
-			switchARFilter(effect);
+		if (effect != '') {
 			slots++;
 			sendMessage({
 				id : 'filter',
@@ -254,7 +253,8 @@ function initDeepAR() {
 				to: users[1],
 				effect: effect
 			});
-			slotList.push({effect:slots})
+			slotList.push(({slot:slots, effect: effect}))
+			console.log(slotList)
 			deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
 			// effect loaded
 			});
@@ -262,29 +262,38 @@ function initDeepAR() {
 	}
 
 	function removeFilter(effect) {
-		const slot = slotList[effect];
-		if (effect !== '') {
-			removeFilter(effect);
+		let slotNum
+		for (let slot of slotList) {
+			console.log(slot)
+			slot.effect === effect
+			slotNum = slot.slot
+			break
+		}
+		if (effect != '') {
 			sendMessage({
 				id : 'filterRemove',
 				from : users[0],
 				to: users[1],
 				effect: effect
 			});
-			deepAR.clearEffect(slot);
+			deepAR.clearEffect(slotNum);
 		}
 
 	}	
 
 	function removeAllFilter() {
-		for (effet of effectList) {
-			deepAR.clearEffect(slotList[effect])
+		for (let effet of effectList) {
+			deepAR.clearEffect(slotList[effet])
 		}
+		effectList = ''
+		slotList = []
+		slots = 0;
 	}
 }
 
 // RemoteUser
 function initDeepARForRemote() {
+	const deeparCanvas = document.createElement('canvas');
 	const initVideoSource = () => {
 		if(navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({
@@ -311,20 +320,19 @@ function initDeepARForRemote() {
 		licenseKey: deepAR_license_key,
 		canvasWidth: 640,
 		canvasHeight: 480,
-		canvas: deepARCanvasForRemote,
+		canvas: deepARCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () {
 		console.log('시작')
 		// start video immediately after the initalization, mirror = true
 		deepAR.startVideo()
 		windowVisibilityHandler(deepAR)
-
 		initVideoSource()
 		}
 	});
 
 	deepAR.onVideoStarted = function() {
-		streamVideoForRemote.srcObject = deepARCanvasForRemote.captureStream()
+		streamVideoForRemote.srcObject = deepARCanvas.captureStream()
 		streamVideoForRemote.muted = true
 		streamVideoForRemote.play()
 	};
@@ -380,11 +388,6 @@ function initDeepARForRemote() {
 		}
 	}, 0)
 
-	sourceVideoForRemote.addEventListener('loadedmetadata', function() {
-		deepAR.canvasWidth = sourceVideoForRemote.videoWidth
-		deepAR.canvasHeight = sourceVideoForRemote.videoHeight
-	})
-
 	// download the face tracking model
 	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
 
@@ -399,10 +402,9 @@ function initDeepARForRemote() {
 		const value = removeFilter;
 		const slot = slotListForRemote[value];
 		if (value != '') {
-			removeFilter(value);
+			deepAR.clearEffect(slot);
+			removeFilter = '';
 		}
-		deepAR.clearEffect(slot);
-		removeFilter = '';
 	}	
 
 	function removeAllFilter() {

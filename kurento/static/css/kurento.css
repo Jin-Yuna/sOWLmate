@@ -110,3 +110,28 @@ div.dragged {
     margin-right: 15px;
     cursor: pointer;
 }
+
+.effects > div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 6rem;
+	height: 6rem;
+	margin-right: 2rem;
+	margin-bottom: 2rem;
+	background: #111;
+	font-size: 2rem;
+	font-weight: bold;
+	cursor: pointer;
+	color: #fff;
+	transition: .3s;
+  }
+  
+  .effects div:hover {
+	color: #000;
+	background: #febf00;
+  }
+  
+  .effects div:active {
+	background: #f03d3d;
+  }

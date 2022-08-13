@@ -171,6 +171,8 @@
         <div>
           <a id="terminate" href="#" class="btn btn-danger">
             <span class="glyphicon glyphicon-stop"></span> Stop</a>
+            <button id="chatting-show" onclick="show()" class="btn btn-danger">
+              <span class="glyphicon glyphicon-chat"></span> Chatting</button>
         </div>
         <!-- display translation -->
         <div>
@@ -198,6 +200,19 @@
         <p id="videoSubtitles"></p>
       </div>
     </div>
+      <!-- chat -->
+      <div id="chatting" style="display:none">
+        <div class="chat__header">
+          <span class="chat__header__greetings" id="username">
+          </span>
+        </div>
+        <div id="chatView">
+        </div>
+        <form id="chatForm" onsubmit="return false">
+          <input type="text" id="msg" autocomplete="off" placeholder="Type message here...">
+          <input type="submit" id="send" value="전송">
+        </form>
+      </div>
     <div class="effects">
       <div value="">Filter Off</div>
       <div value="alien">Alien</div>
