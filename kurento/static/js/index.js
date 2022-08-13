@@ -189,7 +189,8 @@ const deepAR_license_key = process.env.DEEPAR_KEY
 // create canvas on which DeepAR will render
 const sourceVideo = document.createElement('video')
 const deeparCanvas = document.createElement('canvas')
-const streamVideo = document.getElementById("videoInput");
+const streamVideo = document.getElementById("videoOutput");
+const remoteVideo = document.getElementById("videoInput");
 
 function initDeepAR() {
 	const initVideoSource = () => {
@@ -294,69 +295,58 @@ function initDeepAR() {
 	// download the face tracking model
 	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
 
-	function switchARFilter(effect) {
-		console.log("switchARFilter");
-		console.log(effect)
+
+	// effect click 시
+	var effectList = []
+	var slotList = []
+	let slots = 0;
+
+	const effects = document.querySelectorAll(".effects > div");
+
+	effects.forEach(el => {
+	el.onclick = (e) => {
+		const nodes = [...e.target.parentElement.children];
+		const index = nodes.indexOf(e.target);
+		const effect = nodes[index].getAttributeNode('value')
+		if (effect.value === 'Filter Off') {
+			removeAllFilter()
+		}
+		if (effectList.includes[effect.value]) {
+			const Effectindex = array.indexOf(effect.value);
+			if (Effectindex > -1) {
+			effectList.splice(Effectindex, 1);
+			addFilter(effect.value)
+		} else {
+			effectList.push(effect.value)
+			removeFilter(effect.value)
+		}
+	}
+	}});
+
+	function addFilter(effect) {
+		const value = effect;
+		if (value !== 0) {
+			switchARFilter(value);
+			slots++;
+		}
 		sendMessage({
 			id : 'filter',
 			from : users[0],
 			to: users[1],
 			effect: effect
 		});
+		slotList.push({effect:slots})
 		deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
 		// effect loaded
 		});
 	}
 
-	var effectList = []
-
-	const boxs = document.querySelectorAll(".boxList > div");
-
-	boxs.forEach(el => {
-	el.onclick = (e) => {
-		const nodes = [...e.target.parentElement.children];
-		const index = nodes.valueOf(e.target);
-		const effect = e.target.innerHTML
-		if (effectList.includes[effect]) {
-			const Effectindex = array.indexOf(effect);
-			if (Effectindex > -1) {
-			effectList.splice(Effectindex, 1);
-		} else {
-			effectList.push(effect)
-		}
-	}
-	}});
-
-	const effectSelect = document.getElementById('effectLists');
-	effectSelect.addEventListener('change', addFilter);
-	let slots = 0;
-	  
-	function addPill(name, value) {
-		let pill = document.createElement('div');
-		pill.classList.add('pill');
-		pill.innerText = name;
-		pill.id = `slot${slots}`;
-		pill.addEventListener('click', removeFilter);
-		pills.appendChild(pill);
-	}
-	  
-	function addFilter() {
-		const name = effectSelect.selectedOptions[0].innerHTML;
-		const value = effectSelect.value;
-		
+	function removeFilter(effect) {
+		const value = effect;
+		const slot = slotList[value];
 		if (value !== 0) {
-			switchARFilter(value);
-			addPill(name, value);
-			slots++;
-			effectSelect.value = '';
+			removeFilter(value);
 		}
-	}
-	function removeFilter(ev) {
-		const pill = ev.target;
-		const slot = ev.target.id;
-		console.log(slot)
-		const effect = ev.target.textContent
-		console.log(effect)
 		sendMessage({
 			id : 'filterRemove',
 			from : users[0],
@@ -364,8 +354,13 @@ function initDeepAR() {
 			effect: effect
 		});
 		deepAR.clearEffect(slot);
-		pills.removeChild(pill);
 	}	
+
+	function removeAllFilter() {
+		for (effet of effectList) {
+			deepAR.clearEffect(slotList[effect])
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////

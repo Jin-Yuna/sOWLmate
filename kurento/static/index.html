@@ -7,11 +7,10 @@
     <meta http-equiv="expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <link rel="shortcut icon" href="assets/logoIcon.svg" type="image/svg"/>
+    <link rel="shortcut icon" href="assets/image/logoIcon.svg" type="svg"/>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/demo-console/index.css">
     <link rel="stylesheet" href="bower_components/ekko-lightbox/dist/ekko-lightbox.min.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0/all.min.css">
     <link rel="stylesheet" href="css/kurento.css">
     <script src="https://kit.fontawesome.com/efaff327b3.js" crossorigin="anonymous"></script>
     <script src="bower_components/webrtc-adapter/release/adapter.js"></script>
@@ -43,7 +42,7 @@
   <title>sOWLmate</title>
   </head>
   <body>
-    <div class="navbar">
+    <div class="header">
       <div class="container">
         <ul class="navbar-left">
           <li><img id="logo" src="./assets/image/logoLong.svg" alt="logo"></li>
@@ -51,19 +50,25 @@
         </ul>
         <ul class="navbar-right">
           <li><span class="time-check">시간 체크</span></li>
-          <!-- {% if lock.is_true %} -->
-            <li><a href="#" id="lock"></a><i class="fa-solid fa-lock"></i></a></li>
-          <!-- {% else %} -->
+            <!-- <li><a href="#" id="lock"></a><i class="fa-solid fa-lock"></i></a></li> -->
             <li><a href="#" id="unlock"><i class="fa-solid fa-unlock"></i></a></li>
-          <!-- {% endif %} -->
           <li><a href="#" id="setting"><i class="fa-solid fa-gear"></i></a></li>
         </ul>
       </div>
     </div>
-    <div class="main">  
+    <!-- sidebar -->
+    <div class="Sidebar">
+      <div class="sidebar-container">
+        <div class="container">
+          <!--start main-sidebart -->
+    
+          <div class="main-sidebar">
+            <!--start sidebar-left -->
+    
+          <div class="sidebar-left">
+        <div class="main">  
       <div class="main__left">
-        <div class="videos__group">
-        <div id="video-grid">
+        <div id="video-Container">
         <div id="videoBig">
           <!-- <canvas id="remoteCanvas">Your browser does not support Canvas</canvas> -->
           <video id="videoOutput" autoplay width="1600" height="900" poster="img/webrtc.png"></video>
@@ -144,8 +149,8 @@
         <p id="videoSubtitles"></p>
       </div>
     </div>
-      <div id="effects">
-        <div value="">Filter OFF</div>
+      <div class="effects">
+        <div value="">Filter Off</div>
         <div value="alien">Alien</div>
         <div value="aviators">Aviators</div>
         <div value="background_blur">Background Blur</div>
@@ -170,9 +175,9 @@
         <div value="teddycigar">Teddy Cigar</div>
         <div value="tiny_sunglasses">Tiny Sunglasses</div>
         <div value="topology">Topology</div>
-      </select>
-      <div class="pills">
       </div>
+      <!-- <div class="pills">
+      </div> -->
     </div>
     <script type="text/javascript" src="lib/deepar.js"></script>
     <script src="js/index.js"></script>
