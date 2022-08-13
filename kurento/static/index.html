@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/demo-console/index.css">
     <link rel="stylesheet" href="bower_components/ekko-lightbox/dist/ekko-lightbox.min.css">
+    <script src="https://kit.fontawesome.com/efaff327b3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/kurento.css">
 
     <script src="bower_components/webrtc-adapter/release/adapter.js"></script>
@@ -30,10 +31,10 @@
     <!-- chatting button -->
     <script type="text/javascript">
       function show(){
-          if($('#chatting').css('display') == 'none'){
-          $('#chatting').show();
+          if($('#main__chat_window').css('display') == 'none'){
+          $('#main__chat_window').show();
       }else{
-          $('#chatting').hide();
+          $('#main__chat_window').hide();
       }
       }
 
@@ -43,7 +44,6 @@
         });
       })()
   </script>
-
     <script defer src="js/index.js"></script>
     <script>
       let listen = false
@@ -190,7 +190,7 @@
     <div class="header">
       <div class="container">
         <ul class="navbar-left">
-          <li class="header-li"><img id="logo" src="./logoLong.svg" alt="logo"></li>
+          <li class="header-li"><img id="logo" src="./assets/image/logoLong.svg" alt="logo"></li>
           <li class="header-li"><span class="title">Title of Meeting</span></li>
         </ul>
         <ul class="navbar-right">
@@ -205,7 +205,7 @@
     <!-- 인생 네컷 + 필터 선택 -->
     <div class="main">  
       <div class="main__left">
-        <div class="filter">
+        <div class="filter" display="none">
           <div class="effects">
             <div value="">Filter Off</div>
             <div value="alien">Alien</div>
