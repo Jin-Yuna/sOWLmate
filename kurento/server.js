@@ -261,11 +261,12 @@ wss.on('connection', function(ws) {
         case 'textChat':
             var toChat = userRegistry.getByName(message.to);
             var message = {
-                id: 'receive', 
-                from : message.from,
-                content : message.context
+                id: 'receive',
+                from: message.from,
+                content: message.context
             }
             toChat.sendMessage(message);
+            break;
             
         case 'translate':
             userRegistry.getByName(message.to).sendMessage({

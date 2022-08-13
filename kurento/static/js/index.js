@@ -66,26 +66,45 @@ const $canvas = document.getElementById('canvas');
 function capture() {
 	console.log("start capture() function : 캡쳐를 시작합니다.");
 	var context = $canvas.getContext('2d');
-	context.drawImage($videoOutput, 0, 0, 175, 260);
-	context.drawImage($videoInput, 175, 0, 350, 260);
-	// insertImage($canvas.toDataURL('image/png')); // 우리는 이걸 사진첩으로 저장
+	cnt += 1;
+	switch (cnt) {
+		case 1:
+			context.drawImage($videoOutput, 30, 30, 250, 200);
+			context.drawImage($videoInput, 280, 30, 250, 200);
+			break;
+		case 2:
+			context.drawImage($videoOutput, 30, 260, 250, 200);
+			context.drawImage($videoInput, 280, 260, 250, 200);
+			break;
+		case 3:
+			context.drawImage($videoOutput, 30, 490, 250, 200);
+			context.drawImage($videoInput, 280, 490, 250, 200);
+			break;
+		case 4:
+			context.drawImage($videoOutput, 30, 720, 250, 200);
+			context.drawImage($videoInput, 280, 720, 250, 200);
+			document.querySelector('#btn-capture').innerHTML = '저장하기';
+			break;
+		default:
+			console.log("save");
+			saveImage();
+			$canvas.getContext('2d').clearRect(0, 0, 560, 950);
+			cnt = 0;
+			break;
+	}
 	console.log("end capture() function : 캡쳐를 끝냅니다.");
 }
 //* 캡쳐한 이미지 노출 함수
-function insertImage(imageData) {
-	const $images = document.querySelector('#images');
-	const $img = document.createElement('img');
-
-	$img.src = imageData;
-	$images.insertBefore($img, $images.childNodes[0]);
+function saveImage() {
+	let $image = $canvas.toDataURL('image/png');
+	var w = window.open('about:blank', 'image from canvas');
+	w.document.write("<img src='" + $image + "' alt='from canvas'/>");
 }
 //* 초기 이벤트 바인딩
 function initialize() {
-	//$canvas.width = 350;
-	//$canvas.height = 260;
-	console.log("clicked initialiize() function");
+	document.querySelector('#btn-capture').innerHTML = '찰칵~!';
 	document.querySelector('#btn-capture').addEventListener('click', capture);
-	console.log("캡쳐할 준비를 시작합니다.");
+	console.log("캡쳐할 준비를 시작합니다. 미리보기 창 띄우면 될 듯?");
 }
 /////
 
@@ -117,7 +136,7 @@ var removeFilter = '';
 
 // local User
 function initDeepAR() {
-	const deeparCanvas = document.createElement('canvas');
+	const deepArCanvas = document.createElement('canvas');
 	const initVideoSource = () => {
 		if(navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({
@@ -144,7 +163,7 @@ function initDeepAR() {
 		licenseKey: deepAR_license_key,
 		canvasWidth: 640,
 		canvasHeight: 480,
-		canvas: deeparCanvas,
+		canvas: deepArCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () {
 		console.log('시작')
@@ -157,7 +176,7 @@ function initDeepAR() {
 	});
 
 	deepAR.onVideoStarted = function() {
-		streamVideo.srcObject = deeparCanvas.captureStream()
+		streamVideo.srcObject = deepArCanvas.captureStream()
 		streamVideo.muted = true
 		streamVideo.play()
 	};
@@ -293,7 +312,7 @@ function initDeepAR() {
 
 // RemoteUser
 function initDeepARForRemote() {
-	const deeparCanvas = document.createElement('canvas');
+	const deepArCanvas = document.createElement('canvas');
 	const initVideoSource = () => {
 		if(navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({
@@ -320,7 +339,7 @@ function initDeepARForRemote() {
 		licenseKey: deepAR_license_key,
 		canvasWidth: 640,
 		canvasHeight: 480,
-		canvas: deepARCanvas,
+		canvas: deepArCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () {
 		console.log('시작')
@@ -332,7 +351,7 @@ function initDeepARForRemote() {
 	});
 
 	deepAR.onVideoStarted = function() {
-		streamVideoForRemote.srcObject = deepARCanvas.captureStream()
+		streamVideoForRemote.srcObject = deepArCanvas.captureStream()
 		streamVideoForRemote.muted = true
 		streamVideoForRemote.play()
 	};
@@ -522,20 +541,22 @@ ws.onmessage = function(message) {
 		var msgBox = $('<div class="msgBox">');
 		var nameLine = $('<div class="nameLine">');
 		var nameBox = $('<div class="nameBox">');
-		
+	
 		nameBox.append(parsedMessage.from);
 		msgBox.append(parsedMessage.content);
 		nameBox.css('display', 'inline-block');
 		msgBox.css('display', 'inline-block');
-		
+	
 		nameLine.append(nameBox);
 		msgLine.append(msgBox);
 		$('#chatView').append(nameLine);
 		$('#chatView').append(msgLine);
 
 		chatView.scrollTop = chatView.scrollHeight;
+		break;
 	default:
 		console.error('Unrecognized message', parsedMessage);
+		break;
 	}
 }
 
@@ -691,7 +712,7 @@ function stop(message) {
 		}
 	}
 	hideSpinner(videoInput, videoOutput);
-	//location.replace("https://i7b308.p.ssafy.io")
+	location.replace("https://i7b308.p.ssafy.io")
 }
 
 function sendMessage(message) {
