@@ -249,6 +249,23 @@ wss.on('connection', function(ws) {
                 effect: message.effect
             });
             break;
+
+       case 'filterRemove':
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'filterRemove',
+                from: message.from,
+                effect: message.effect
+            });
+            break;
+
+        case 'textChat':
+            var toChat = userRegistry.getByName(message.to);
+            var message = {
+                id: 'receive', 
+                from : message.from,
+                content : message.context
+            }
+            toChat.sendMessage(message);
             
         case 'translate':
             userRegistry.getByName(message.to).sendMessage({
