@@ -61,53 +61,44 @@ function setCallState(nextState) {
 let cnt = 0;
 const $videoInput = document.getElementById('videoInput');
 const $videoOutput = document.getElementById('videoOutput');
-const $canvas1 = document.getElementById('canvas1');
-const $canvas2 = document.getElementById('canvas2');
-const $canvas3 = document.getElementById('canvas3');
-const $canvas4 = document.getElementById('canvas4');
+const $canvas = document.getElementById('canvas');
 // 비디오 이미지 캡쳐
 function capture() {
 	console.log("start capture() function : 캡쳐를 시작합니다.");
-	var context = null;
+	var context = $canvas.getContext('2d');
 	cnt += 1;
 	switch (cnt) {
 		case 1:
-			context = $canvas1.getContext('2d');
+			context.drawImage($videoOutput, 30, 30, 250, 200);
+			context.drawImage($videoInput, 280, 30, 250, 200);
 			break;
 		case 2:
-			context = $canvas2.getContext('2d');
+			context.drawImage($videoOutput, 30, 260, 250, 200);
+			context.drawImage($videoInput, 280, 260, 250, 200);
 			break;
 		case 3:
-			context = $canvas3.getContext('2d');
+			context.drawImage($videoOutput, 30, 490, 250, 200);
+			context.drawImage($videoInput, 280, 490, 250, 200);
 			break;
 		case 4:
-			context = $canvas4.getContext('2d');
+			context.drawImage($videoOutput, 30, 720, 250, 200);
+			context.drawImage($videoInput, 280, 720, 250, 200);
 			document.querySelector('#btn-capture').innerHTML = '저장하기';
 			break;
 		default:
-			console.log("save")
+			console.log("save");
+			saveImage();
+			$canvas.getContext('2d').clearRect(0, 0, 560, 950);
+			cnt = 0;
 			break;
 	}
-	if (cnt === 5) {
-		$canvas1.getContext('2d').clearRect(0, 0, 500, 200);
-		$canvas2.getContext('2d').clearRect(0, 0, 500, 200);
-		$canvas3.getContext('2d').clearRect(0, 0, 500, 200);
-		$canvas4.getContext('2d').clearRect(0, 0, 500, 200);
-		cnt = 0;
-	} else {
-		context.drawImage($videoOutput, 0, 0, 250, 200);
-		context.drawImage($videoInput, 250, 0, 500, 200);
-		// insertImage($canvas1.toDataURL('image/png')); // 우리는 이걸 사진첩으로 저장
-		console.log("end capture() function : 캡쳐를 끝냅니다.");
-	}
+	console.log("end capture() function : 캡쳐를 끝냅니다.");
 }
 //* 캡쳐한 이미지 노출 함수
-function insertImage(imageData) {
-	const $images = document.querySelector('#images');
-	const $img = document.createElement('img');
-
-	$img.src = imageData;
-	$images.insertBefore($img, $images.childNodes[0]);
+function saveImage() {
+	let $image = $canvas.toDataURL('image/png');
+	var w = window.open('about:blank', 'image from canvas');
+	w.document.write("<img src='" + $image + "' alt='from canvas'/>");
 }
 //* 초기 이벤트 바인딩
 function initialize() {
