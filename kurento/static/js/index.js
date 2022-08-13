@@ -136,7 +136,7 @@ var removeFilter = '';
 
 // local User
 function initDeepAR() {
-	const deeparCanvas = document.createElement('canvas');
+	const deepArCanvas = document.createElement('canvas');
 	const initVideoSource = () => {
 		if(navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({
@@ -163,7 +163,7 @@ function initDeepAR() {
 		licenseKey: deepAR_license_key,
 		canvasWidth: 640,
 		canvasHeight: 480,
-		canvas: deeparCanvas,
+		canvas: deepArCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () {
 		console.log('시작')
@@ -176,7 +176,7 @@ function initDeepAR() {
 	});
 
 	deepAR.onVideoStarted = function() {
-		streamVideo.srcObject = deeparCanvas.captureStream()
+		streamVideo.srcObject = deepArCanvas.captureStream()
 		streamVideo.muted = true
 		streamVideo.play()
 	};
@@ -312,7 +312,7 @@ function initDeepAR() {
 
 // RemoteUser
 function initDeepARForRemote() {
-	const deeparCanvas = document.createElement('canvas');
+	const deepArCanvas = document.createElement('canvas');
 	const initVideoSource = () => {
 		if(navigator.mediaDevices.getUserMedia) {
 			navigator.mediaDevices.getUserMedia({
@@ -339,7 +339,7 @@ function initDeepARForRemote() {
 		licenseKey: deepAR_license_key,
 		canvasWidth: 640,
 		canvasHeight: 480,
-		canvas: deepARCanvas,
+		canvas: deepArCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () {
 		console.log('시작')
@@ -351,7 +351,7 @@ function initDeepARForRemote() {
 	});
 
 	deepAR.onVideoStarted = function() {
-		streamVideoForRemote.srcObject = deepARCanvas.captureStream()
+		streamVideoForRemote.srcObject = deepArCanvas.captureStream()
 		streamVideoForRemote.muted = true
 		streamVideoForRemote.play()
 	};
@@ -541,20 +541,22 @@ ws.onmessage = function(message) {
 		var msgBox = $('<div class="msgBox">');
 		var nameLine = $('<div class="nameLine">');
 		var nameBox = $('<div class="nameBox">');
-		
+	
 		nameBox.append(parsedMessage.from);
 		msgBox.append(parsedMessage.content);
 		nameBox.css('display', 'inline-block');
 		msgBox.css('display', 'inline-block');
-		
+	
 		nameLine.append(nameBox);
 		msgLine.append(msgBox);
 		$('#chatView').append(nameLine);
 		$('#chatView').append(msgLine);
 
 		chatView.scrollTop = chatView.scrollHeight;
+		break;
 	default:
 		console.error('Unrecognized message', parsedMessage);
+		break;
 	}
 }
 
