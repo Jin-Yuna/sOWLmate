@@ -20,6 +20,7 @@ public class PenpalResponseDto {
     private LanguageType language;
     private LanguageType preferenceLanguage;
     private List<InterestType> interests;
+    private String profilePictureUrl;
     private int intimacyEval;
 
     public static PenpalResponseDto toDto(Penpal penpal) {
@@ -32,6 +33,7 @@ public class PenpalResponseDto {
         List<InterestType> tmpInterest = new ArrayList<>();
         penpal.getToUser().getInterests().stream().forEach(i-> tmpInterest.add(i.getTitle()));
         dto.setInterests(tmpInterest);
+        dto.setProfilePictureUrl(penpal.getToUser().getProfilePictureUrl());
         return dto;
     }
 }

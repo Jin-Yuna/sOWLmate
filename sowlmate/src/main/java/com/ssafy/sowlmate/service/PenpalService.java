@@ -101,4 +101,13 @@ public class PenpalService {
         res += penpalRepository.deleteByFromUserIdAndToUserId(idDto.getToUserId(), idDto.getFromUserId());
         return res;
     }
+
+    public List<PenpalResponseDto> selectAllByFromUserIdAndIntimacyLevel(String fromUserId, int intimacyStart, int intimacyEnd) {
+        List<PenpalResponseDto> result = new ArrayList<>();
+        List<PenpalResponseDto> dtos = selectAllByFromUserId(fromUserId);
+        for (PenpalResponseDto dto : dtos) {
+            if (dto.getIntimacyEval() >= intimacyStart && dto.getIntimacyEval() <= intimacyEnd) result.add(dto);
+        }
+        return result;
+    }
 }
