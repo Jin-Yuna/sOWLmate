@@ -58,17 +58,41 @@ function setCallState(nextState) {
 }
 
 ///////
-let cnt = 0;
+let cnt = 1;
 const $videoInput = document.getElementById('videoInput');
 const $videoOutput = document.getElementById('videoOutput');
-const $canvas = document.getElementById('canvas');
+const $canvas1 = document.getElementById('canvas1');
+const $canvas2 = document.getElementById('canvas2');
+const $canvas3 = document.getElementById('canvas3');
+const $canvas4 = document.getElementById('canvas4');
 // 비디오 이미지 캡쳐
 function capture() {
 	console.log("start capture() function : 캡쳐를 시작합니다.");
-	var context = $canvas.getContext('2d');
-	context.drawImage($videoOutput, 0, 0, 175, 260);
-	context.drawImage($videoInput, 175, 0, 350, 260);
-	// insertImage($canvas.toDataURL('image/png')); // 우리는 이걸 사진첩으로 저장
+	var context = null;
+	switch (cnt) {
+		case 1:
+			context = $canvas1.getContext('2d');
+			cnt += 1;
+			break;
+		case 2:
+			context = $canvas2.getContext('2d');
+			cnt += 1;
+			break;
+		case 3:
+			context = $canvas3.getContext('2d');
+			cnt += 1;
+			break;
+		case 4:
+			context = $canvas4.getContext('2d');
+			cnt = 1;
+			break;
+		default:
+			console.log("error")
+			break;
+	}
+	context.drawImage($videoOutput, 0, 0, 250, 200);
+	context.drawImage($videoInput, 250, 0, 500, 200);
+	// insertImage($canvas1.toDataURL('image/png')); // 우리는 이걸 사진첩으로 저장
 	console.log("end capture() function : 캡쳐를 끝냅니다.");
 }
 //* 캡쳐한 이미지 노출 함수
@@ -81,11 +105,8 @@ function insertImage(imageData) {
 }
 //* 초기 이벤트 바인딩
 function initialize() {
-	//$canvas.width = 350;
-	//$canvas.height = 260;
-	console.log("clicked initialiize() function");
 	document.querySelector('#btn-capture').addEventListener('click', capture);
-	console.log("캡쳐할 준비를 시작합니다.");
+	console.log("캡쳐할 준비를 시작합니다. 미리보기 창 띄우면 될 듯?");
 }
 /////
 
@@ -475,7 +496,7 @@ function stop(message) {
 		}
 	}
 	hideSpinner(videoInput, videoOutput);
-	//location.replace("https://i7b308.p.ssafy.io")
+	location.replace("https://i7b308.p.ssafy.io")
 }
 
 function sendMessage(message) {
