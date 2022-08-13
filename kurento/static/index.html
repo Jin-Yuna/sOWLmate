@@ -171,6 +171,8 @@
         <div>
           <a id="terminate" href="#" class="btn btn-danger">
             <span class="glyphicon glyphicon-stop"></span> Stop</a>
+            <button id="chatting-show" onclick="show()" class="btn btn-danger">
+              <span class="glyphicon glyphicon-chat"></span> Chatting</button>
         </div>
         <!-- display translation -->
         <div>
@@ -198,36 +200,46 @@
         <p id="videoSubtitles"></p>
       </div>
     </div>
-    <div id="controls">
-      <select id="effects">
-        <option value="">Filter OFF</option>
-        <option value="alien">Alien</option>
-        <option value="aviators">Aviators</option>
-        <option value="background_blur">Background Blur</option>
-        <option value="background_segmentation">Background Segmentation</option>
-        <option value="ball_face">Ball Face</option>
-        <option value="beard">Beard</option>
-        <option value="beauty">Beauty</option>
-        <option value="dalmatian">Dalmatian</option>
-        <option value="fairy_lights">Fairy Lights</option>
-        <option value="flowers">Flowers</option>
-        <option value="frankenstein">Frankenstein</option>
-        <option value="hair_segmentation">Hair Segmentation</option>
-        <option value="koala">Koala</option>
-        <option value="lion">Lion</option>
-        <option value="look1">Look1</option>
-        <option value="look2">Look2</option>
-        <option value="manly_face">Manly Face</option>
-        <option value="plastic_ocean">Plastic Ocean</option>
-        <option value="pumpkin">Pumpkin</option>
-        <option value="scuba">Scuba</option>
-        <option value="tape_face">Tape Face</option>
-        <option value="teddycigar">Teddy Cigar</option>
-        <option value="tiny_sunglasses">Tiny Sunglasses</option>
-        <option value="topology">Topology</option>
-      </select>
-      <div class="pills">
+      <!-- chat -->
+      <div id="chatting" style="display:none">
+        <div class="chat__header">
+          <span class="chat__header__greetings" id="username">
+          </span>
+        </div>
+        <div id="chatView">
+        </div>
+        <form id="chatForm" onsubmit="return false">
+          <input type="text" id="msg" autocomplete="off" placeholder="Type message here...">
+          <input type="submit" id="send" value="전송">
+        </form>
       </div>
+    <div class="effects">
+      <div value="">Filter Off</div>
+      <div value="alien">Alien</div>
+      <div value="aviators">Aviators</div>
+      <div value="background_blur">Background Blur</div>
+      <div value="background_segmentation">Background Segmentation</div>
+      <div value="ball_face">Ball Face</div>
+      <div value="beard">Beard</div>
+      <div value="beauty">Beauty</div>
+      <div value="dalmatian">Dalmatian</div>
+      <div value="fairy_lights">Fairy Lights</div>
+      <div value="flowers">Flowers</div>
+      <div value="frankenstein">Frankenstein</div>
+      <div value="hair_segmentation">Hair Segmentation</div>
+      <div value="koala">Koala</div>
+      <div value="lion">Lion</div>
+      <div value="look1">Look1</div>
+      <div value="look2">Look2</div>
+      <div value="manly_face">Manly Face</div>
+      <div value="plastic_ocean">Plastic Ocean</div>
+      <div value="pumpkin">Pumpkin</div>
+      <div value="scuba">Scuba</div>
+      <div value="tape_face">Tape Face</div>
+      <div value="teddycigar">Teddy Cigar</div>
+      <div value="tiny_sunglasses">Tiny Sunglasses</div>
+      <div value="topology">Topology</div>
+    </div>
     </div>
     <script type="text/javascript" src="lib/deepar.js"></script>
     <!-- <script src="js/index.js"></script> -->
