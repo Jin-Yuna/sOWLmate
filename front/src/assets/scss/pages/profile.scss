@@ -3,25 +3,23 @@
 }
 
 .wrapper {
-  width: 11rem;
-  height: 12rem;
-  min-height: 100vh;
-  display: flex;
- 
-  @media screen and (max-width: 768px) {
-    min-height: 100vh;
-  }
+  width: 14rem;
+  margin: 0.5rem;
+  margin-top: 5rem;
 
+  @media screen and (max-width: 768px) {
+
+  }
 }
 
 .profile-card {
   width: 100%;
-  min-height: 8rem;
   margin: auto;
-  box-shadow: 0px 8px 20px -10px $color-blue;
-  border-radius: 1rem;
-  max-width: 11rem;
-  position: relative;
+  background: #FFFFFF;
+  /* color shadow shine */
+  
+  box-shadow: 0px 8px 20px rgba(74, 131, 239, 0.3);
+  border-radius: 8px;
   &:hover {
     background: linear-gradient(282.24deg, rgba(124, 88, 235, 0.2) -31.61%, rgba(110, 157, 245, 0.2) 89.49%);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 8px 20px rgba(74, 131, 239, 0.3);
@@ -39,8 +37,7 @@
     box-shadow: 0px 0px 0px 0.2rem $color-purple;
 
     @media screen and (max-width: 576px) {
-      width: 90px;
-      height: 90px;
+      width: 6rem;
     }
 
     img {
@@ -56,31 +53,7 @@
     margin-top: -35px;
     text-align: center;
     padding: 0 20px;
-    padding-bottom: 40px;
     transition: all .3s;
-  }
-
-  &__name {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 28px;
-    background: $color-main;
-    color: transparent;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  &__txt {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 15px;
-
-    strong {
-      //color: #ff2846;
-      font-weight: 700;
-    }
-
   }
 }
 

@@ -2,31 +2,25 @@
   <div class="wrapper">
     <div class="profile-card js-profile-card" @click="show = !show">
       <div class="profile-card__img">
-        <ProfileAvatar />
+        <ProfileAvatar :profilePictureUrl="this.profilePictureUrl" />
       </div>
       <div class="profile-card__cnt js-profile-cnt">
-        <div class="profile-card__name">{{ name }}</div>
+        <h3>{{ name }}</h3>
       </div>
       <v-expand-transition>
         <v-container>
           <div v-show="show">
+            <ProfileBasicInfo
+              class="upup"
+              v-if="region"
+              :region="this.region"
+              :language="this.language"
+              :interests="this.interests"
+            />
             <ProgressBar :intimacyEval="intimacyEval" />
             <br />
-            <button style="width: 100%">편지쓰기</button>
-            <v-btn
-              :loading="loading[3]"
-              :disabled="loading[3]"
-              style="width: 100%"
-              color="info"
-              @click="load(3)"
-            >
-              편지함
-              <template v-slot:loader>
-                <span class="custom-loader">
-                  <v-icon light>mdi-cached</v-icon>
-                </span>
-              </template>
-            </v-btn>
+            <button class="main-btn mb-4" style="width: 100%">편지쓰기</button>
+            <button class="sub-btn" style="width: 100%">편지함</button>
           </div>
         </v-container>
       </v-expand-transition>
@@ -37,70 +31,39 @@
 <script>
 import ProfileAvatar from '@/components/Profile/ProfileAvatar.vue';
 import ProgressBar from '@/components/Profile/ProgressBar.vue';
+import ProfileBasicInfo from '@/components/Profile/ProfileBasicInfo.vue';
 
 export default {
   components: {
     ProfileAvatar,
     ProgressBar,
+    ProfileBasicInfo,
   },
   props: {
     name: String,
     intimacyEval: Number,
+    region: String,
+    language: String,
+    interests: Array,
+    profilePictureUrl: String,
   },
   data: () => ({
     show: false,
-    loading: [],
   }),
-  methods: {
-    load(i) {
-      this.loading[i] = true;
-      setTimeout(() => (this.loading[i] = false), 3000);
-    },
-  },
+  methods: {},
 };
 </script>
 
 <style lang="scss">
 @import '~@/assets/scss/pages/profile.scss';
 
-.custom-loader {
-  animation: loader 1s infinite;
-  display: flex;
+h3 {
+  background: $color-main;
+  color: transparent;
+  -webkit-background-clip: text;
 }
-@-moz-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-o-keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes loader {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.v-container {
+.upup {
   position: relative;
-  top: -20px;
+  top: -1.2rem;
 }
 </style>

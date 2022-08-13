@@ -1,15 +1,30 @@
 <template>
-  <div>
-    <!-- 닉네임, 친밀도, 소울메이트면 옆에 표시 -->
-    <div class="profile-card__name">Muhammed Erdem</div>
-    <div class="profile-card__txt">
-      Front-end Developer from <strong>Mesopotamia</strong>
-    </div>
+  <div class="align">
+    <p-small class="p-small">{{ region }}/{{ language }}</p-small>
+    <v-row class="my-1">
+      <main-chip v-for="interest in interests" :key="interest">
+        <span>{{ interest }}</span>
+      </main-chip>
+    </v-row>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    region: String,
+    language: String,
+    interests: Array,
+  },
+};
 </script>
 
-<style></style>
+<style scoped>
+p-small {
+  color: #adb5bd;
+}
+.align {
+  text-align: center;
+  justify-content: center;
+}
+</style>
