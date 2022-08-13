@@ -2,7 +2,7 @@
   <v-container class="mt-5">
     <v-row justify="center">
       <v-col cols="3">
-        <p>메모리네브바</p>
+        <p>메모리네브 자리</p>
       </v-col>
       <v-col cols="9">
         <TotalFriend />
