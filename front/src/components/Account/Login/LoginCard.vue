@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="text-gradient pw-b">Welcome Back!</h1>
-    <PlaneAnimation />
+    <h1 class="text-gradient greeting">Welcome Back!</h1>
+    <PlaneAnimation class="plane-position" />
     <LoginDeco class="login-deco-position" />
     <div class="img-container">
       <v-img
@@ -32,7 +32,8 @@ export default {
 }
 .img-container {
   position: relative;
-  top: 2rem;
+  top: 4rem;
+  left: -6rem;
   width: 50rem;
   height: 100%;
   overflow: hidden;
@@ -42,5 +43,11 @@ export default {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+.plane-position {
+  position: relative;
+  left: -20rem;
+  top: 10rem;
 }
 </style>

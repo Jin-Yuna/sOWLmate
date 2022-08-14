@@ -79,7 +79,8 @@ svg {
   100% {
     -webkit-transform: translateY(100px);
     -moz-transform: translateY(100px);
-    transform: translateY(100px);
+    transform: translateY(50px);
+    /* 위아래 움직이는 높이 조절 */
   }
 }
 
