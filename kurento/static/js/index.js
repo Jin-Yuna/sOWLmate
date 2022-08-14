@@ -119,7 +119,7 @@ window.process = {
 const deepAR_license_key = process.env.DEEPAR_KEY
 
 // create canvas on which DeepAR will render
-var sourceVideo = document.createElement('video')
+var sourceVideo = document.createElement('video');
 var streamVideo = document.getElementById("videoInput");
 
 // effect click 시 (For LocalUser)
@@ -318,10 +318,10 @@ function initDeepAR() {
 	}
 }
 
-var streamVideoForRemote = document.getElementById("videoOutput");
-var play = false;
-const deeparCanvas = document.createElement('canvas');
-var sourceVideoForRemote = document.createElement('video');
+// var streamVideoForRemote = document.getElementById("videoOutput");
+// var play = false;
+// const deeparCanvas = document.createElement('canvas');
+// var sourceVideoForRemote = document.createElement('video');
 
 // // RemoteUser
 // function initDeepARForRemote() {
