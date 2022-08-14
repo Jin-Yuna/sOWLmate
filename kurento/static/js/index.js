@@ -116,10 +116,8 @@ window.process = {
 }
 
 // create canvas on which DeepAR will render
-var sourceVideo = document.createElement('video');
-var sourceVideo2 = document.createElement('video');
-var outputVideo = document.getElementById("videoOuput");
-var inputVideo = document.getElementById("videoInput");
+// var outputVideo = document.getElementById("videoOuput");
+
 
 // effect click 시 (For LocalUser)
 var effectList = []
@@ -132,30 +130,119 @@ var slotListForRemote = []
 let slotsForRemote = 0;
 var removeFilter = '';
 
-var deepArCanvas = document.getElementById('deepARCanvas');
+
 function initDeepAR() {
-	
+	const deepArCanvas = document.createElement('canvas');
+	const sourceVideo = document.createElement('video');
+	const inputVideo = document.getElementById("videoInput");
+
+	// input video 받는 과정 (사용자 비디오)
+	const initVideoSource = () => {
+        if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({
+                video: {
+                    width: { ideal: 4096 },
+                    height: { ideal: 2160 }
+                }
+            })
+                .then(function (stream) {
+                    sourceVideo.srcObject = stream
+                    // sourceVideo.muted = true
+
+                    setTimeout(function() {
+                        sourceVideo.play();
+                    }, 50);
+                }).catch();
+
+            deepAR.setVideoElement(sourceVideo)
+        }
+    }
+
+	sourceVideo.addEventListener('play', function () {
+        if (this.paused && this.ended) {
+            deepAR.stopVideo()
+        }
+    }, 0)
+
+    sourceVideo.addEventListener('loadedmetadata', function() {
+		console.log('여기 실행 함')
+        deepAR.canvasWidth = sourceVideo.videoWidth
+        deepAR.canvasHeight = sourceVideo.videoHeight
+    })
+
 	var deepAR = DeepAR({
         licenseKey: '67e4f08a6b406e41d7134bc8d3ae59aa441276b8806bdfcaf2cefb8af478b662fca544b1a3bed97c',
 		canvasWidth: 640,
 		canvasHeight: 480,
 		canvas: deepArCanvas,
-		numberOfFaces: 1, // how many faces we want to track min 1, max 4
+		numberOfFaces: 2, // how many faces we want to track min 1, max 4
 		onInitialize: function () { 
-			deepAR.setVideoElement(inputVideo)
-			// deepAR.startVideo(true);
-		}
+			if (effectList.length === 0) {
+				var effect = 'lion'
+				effectList.push('lion')
+				slotList.push(({slot:`slot${slots}`, effect: effect}))
+				deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
+				// effect loaded
+				})
+			}
+			deepAR.startVideo(true);
+			// 캔버스가 아니라 비디오로 보이게
+			windowVisibilityHandler(deepAR);
+			initVideoSource()
+		} 
     });
 
-	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
-
 	deepAR.onVideoStarted = function() {
-		// inputVideo.srcObject = deepArCanvas.captureStream()
-		// inputVideo.play()
-		webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
-	// 	// streamVideo.muted = false
-	// 	webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
-	// 	streamVideo.play()
+		inputVideo.srcObject = deepArCanvas.captureStream()
+		inputVideo.play()
+		// streamVideo.muted = false
+		// webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
+		// streamVideo.play()
+	}
+
+	const windowVisibilityHandler = (deepAR) => {
+		const hiddenStatusPropName = getHiddenStatusType()
+		const isEventListenerAvailable = document.addEventListener !== undefined
+		const isPageHiddenAPIAvailable = hiddenStatusPropName !== undefined
+	
+		if (!isEventListenerAvailable || !isPageHiddenAPIAvailable) {
+			console.error("Warning: Page Visibility API not supported")
+		} else {
+			document.addEventListener(
+				getVisibilityChangeHandlerName(),
+				onVisibilityChange,
+				false
+			)
+		}
+	
+		function getHiddenStatusType() {
+			if (document.hidden !== undefined) { // Opera 12.10 and Firefox 18 and later support
+				return "hidden"
+			} else if (document.msHidden !== undefined) {
+				return "msHidden"
+			} else if (document.webkitHidden !== undefined) {
+				return "webkitHidden"
+			}
+		}
+	
+		function getVisibilityChangeHandlerName() {
+			// Opera 12.10 and Firefox 18 and later support
+			if (document.visibilityState !== undefined) { 
+				return "visibilitychange"
+			} else if (document.msVisibilityState !== undefined) {
+				return "msvisibilitychange"
+			} else if (document.webkitVisibilityState !== undefined) {
+				return "webkitvisibilitychange"
+			}
+		}
+	
+		function onVisibilityChange() {
+			if (document[hiddenStatusPropName]) {
+				deepAR.stopVideo()
+			} else {
+				deepAR.startVideo()
+			}
+		}
 	}
 
 	const effects = document.querySelectorAll(".effects > div");
@@ -234,8 +321,10 @@ function initDeepAR() {
 		slotList = []
 		slots = 0;
 	}
-}
 
+	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
+
+}
 
 // remoteUser
 // function initDeepAR() {
