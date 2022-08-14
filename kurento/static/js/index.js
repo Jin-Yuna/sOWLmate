@@ -120,7 +120,8 @@ const deepAR_license_key = process.env.DEEPAR_KEY
 
 // create canvas on which DeepAR will render
 var sourceVideo = document.createElement('video');
-var streamVideo = document.getElementById("videoInput");
+var streamVideo = document.getElementById("videoOuput");
+var inputVideo = document.getElementById("videoInput");
 
 // effect click 시 (For LocalUser)
 var effectList = []
@@ -133,8 +134,196 @@ var slotListForRemote = []
 let slotsForRemote = 0;
 var removeFilter = '';
 
-// local User
+// remoteUser
 function initDeepAR() {
+	const deepArCanvas = document.createElement('canvas');
+	const initVideoSource = () => {
+		if(navigator.mediaDevices.getUserMedia) {
+			navigator.mediaDevices.getUserMedia({
+				video: {
+					width: { ideal: 640 },
+					height: { ideal: 480 }
+				}
+			})
+				.then(function (stream) {
+					sourceVideo.srcObject = stream
+					// sourceVideo.muted = true
+
+					setTimeout(function() {
+						sourceVideo.play()
+					}, 50);
+				}).catch();
+
+			deepAR.setVideoElement(sourceVideo)
+		}
+	}
+
+	// Initialize the DeepAR object
+	const deepAR = DeepAR({
+		licenseKey: deepAR_license_key,
+		canvasWidth: 640,
+		canvasHeight: 480,
+		canvas: deepArCanvas,
+		numberOfFaces: 2, // how many faces we want to track min 1, max 4
+		onInitialize: function () {
+		console.log('시작')
+		// start video immediately after the initalization, mirror = true
+		deepAR.startVideo()
+		windowVisibilityHandler(deepAR)
+		initVideoSource()
+		}
+	});
+
+	deepAR.onVideoStarted = function() {
+		inputVideo.srcObject = deepArCanvas.captureStream()
+		inputVideo.play()
+	};
+	// deepAR.onVideoStarted = function() {
+	// 	streamVideo.srcObject = deepArCanvas.captureStream()
+	// 	// streamVideo.muted = false
+	// 	webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
+	// 	streamVideo.play()
+	// };
+
+	const windowVisibilityHandler = (deepAR) => {
+		const hiddenStatusPropName = getHiddenStatusType()
+		const isEventListenerAvailable = document.addEventListener !== undefined
+		const isPageHiddenAPIAvailable = hiddenStatusPropName !== undefined
+	
+		if (!isEventListenerAvailable || !isPageHiddenAPIAvailable) {
+			console.error("Warning: Page Visibility API not supported")
+		} else {
+			document.addEventListener(
+				getVisibilityChangeHandlerName(),
+				onVisibilityChange,
+				false
+			)
+		}
+	
+		function getHiddenStatusType() {
+			if (document.hidden !== undefined) { // Opera 12.10 and Firefox 18 and later support
+				return "hidden"
+			} else if (document.msHidden !== undefined) {
+				return "msHidden"
+			} else if (document.webkitHidden !== undefined) {
+				return "webkitHidden"
+			}
+		}
+	
+		function getVisibilityChangeHandlerName() {
+			// Opera 12.10 and Firefox 18 and later support
+			if (document.visibilityState !== undefined) { 
+				return "visibilitychange"
+			} else if (document.msVisibilityState !== undefined) {
+				return "msvisibilitychange"
+			} else if (document.webkitVisibilityState !== undefined) {
+				return "webkitvisibilitychange"
+			}
+		}
+	
+		function onVisibilityChange() {
+			if (document[hiddenStatusPropName]) {
+				deepAR.stopVideo()
+			} else {
+				deepAR.startVideo()
+			}
+		}
+	}
+
+	sourceVideo.addEventListener('play', function () {
+		if (this.paused && this.ended) {
+			deepAR.stopVideo()
+		}
+	}, 0)
+
+	sourceVideo.addEventListener('loadedmetadata', function() {
+		deepAR.canvasWidth = sourceVideo.videoWidth
+		deepAR.canvasHeight = sourceVideo.videoHeight
+	})
+
+	// download the face tracking model
+	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
+
+	const effects = document.querySelectorAll(".effects > div");
+
+	effects.forEach(el => {
+	el.onclick = (e) => {
+		const nodes = [...e.target.parentElement.children];
+		const index = nodes.indexOf(e.target);
+		const effect = nodes[index].getAttributeNode('value')
+		if (effect.value === '') {
+			removeAllFilter()
+		}
+		else if (effectList.includes(effect.value)) {
+			console.log('removeFilter(effect.value)')
+			const Effectindex = effectList.indexOf(effect.value);
+			effectList.splice(Effectindex, 1);
+			removeFilter(effect.value)
+		} 
+		else {
+			console.log('addFilter(effect.value)')
+			effectList.push(effect.value)
+			addFilter(effect.value)
+		}
+
+	}});
+
+	function addFilter(effect) {
+		if (effect != '') {
+			slots++;
+			// sendMessage({
+			// 	id : 'filter',
+			// 	from : users[0],
+			// 	to: users[1],
+			// 	effect: effect
+			// });
+			slotList.push(({slot:`slot${slots}`, effect: effect}))
+			console.log(slotList)
+			deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
+			// effect loaded
+			})
+		}
+	}
+
+	function removeFilter(effect) {
+		let slotNum
+		for (let slot of slotList) {
+			console.log(slot)
+			if (slot.effect === effect) {
+				slotNum = slot.slot
+				slotList.splice(slotList.indexOf(slot), 1)
+				break
+			}	
+		}
+		if (effect != '') {
+			// sendMessage({
+			// 	id : 'filterRemove',
+			// 	from : users[0],
+			// 	to: users[1],
+			// 	effect: effect
+			// });
+			deepAR.clearEffect(slotNum);
+		}
+
+	}	
+
+	function removeAllFilter() {
+		for (let slot of slotList) {
+			deepAR.clearEffect(slot.slot)
+		}
+		// sendMessage({
+		// 	id : 'filterRemoveAll',
+		// 	from : users[0],
+		// 	to: users[1],
+		// });
+		effectList = []
+		slotList = []
+		slots = 0;
+	}
+}
+
+// //local User
+function initDeepARForRemote() {
 	const deepArCanvas = document.createElement('canvas');
 	const initVideoSource = () => {
 		if(navigator.mediaDevices.getUserMedia) {
@@ -174,12 +363,15 @@ function initDeepAR() {
 	});
 
 	deepAR.onVideoStarted = function() {
-		streamVideo.srcObject = deeparCanvas.captureStream(25)
-		streamVideo.muted = false
-		print(webRtcPeer)
-		webRtcPeer.peerConnection.addStream(deeparCanvas.captureStream(25))
-		streamVideo.play()
+		inputVideo.srcObject = deepArCanvas.captureStream()
+		inputVideo.play()
 	};
+	// deepAR.onVideoStarted = function() {
+	// 	streamVideo.srcObject = deepArCanvas.captureStream()
+	// 	// streamVideo.muted = false
+	// 	webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
+	// 	streamVideo.play()
+	// };
 
 	const windowVisibilityHandler = (deepAR) => {
 		const hiddenStatusPropName = getHiddenStatusType()
@@ -713,7 +905,7 @@ function incomingCall(message) {
 	});
 
 	initDeepAR();
-	// initDeepARForRemote();
+	initDeepARForRemote();
 	var usernameBox = $('<div class="usernameBox">');
 	var chat = $('#chatView');
 	chatLine = $('<div id="username">');
@@ -768,7 +960,7 @@ function call() {
 	});
 
 	initDeepAR();
-	// initDeepARForRemote()
+	initDeepARForRemote()
 }
 
 function stop(message) {
