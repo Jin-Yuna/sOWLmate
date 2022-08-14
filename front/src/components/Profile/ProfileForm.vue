@@ -5,7 +5,7 @@
         <ProfileAvatar :profilePictureUrl="this.profilePictureUrl" />
       </div>
       <div class="profile-card__cnt js-profile-cnt">
-        <h3>{{ name }}</h3>
+        <h3 class="text-gradient">{{ name }}</h3>
       </div>
       <v-expand-transition>
         <v-container>
@@ -57,11 +57,6 @@ export default {
 <style lang="scss">
 @import '~@/assets/scss/pages/profile.scss';
 
-h3 {
-  background: $color-main;
-  color: transparent;
-  -webkit-background-clip: text;
-}
 .upup {
   position: relative;
   top: -1.2rem;

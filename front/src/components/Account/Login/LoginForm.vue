@@ -1,41 +1,42 @@
 <template>
   <div>
-    <LoginCard />
+    <h1 class="mt-16 mb-6">Login</h1>
     <form @submit.prevent="login(userData)">
       <div>
-        <label for="userId">아이디: </label>
-        <input
-          type="text"
-          placeholder="아이디(이메일)를 입력하세요"
-          id="userId"
+        <v-text-field
+          color="primary"
+          label="아이디(Email)"
+          variant="underlined"
           v-model="userData.id"
           @input="idValidCheck()"
-        />
+        ></v-text-field>
+        <p v-if="!isEmailValidCheck && userData.id != ''">
+          이메일 형식으로 입력해주세요
+        </p>
+        <p v-if="isEmailValidCheck && isIdCheck">
+          없는 아이디 입니다. 아이디를 정확하게 입력해주세요.
+        </p>
       </div>
-      <p v-if="!isEmailValidCheck && userData.id != ''">
-        이메일 형식으로 입력해주세요
-      </p>
-      <p v-if="isEmailValidCheck && isIdCheck">
-        없는 아이디 입니다. 아이디를 정확하게 입력해주세요.
-      </p>
       <div>
-        <label for="password">비밀번호: </label>
-        <input
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          id="password"
+        <v-text-field
+          color="primary"
+          label="비밀번호"
+          variant="underlined"
           v-model="userData.password"
-        />
+          type="password"
+        ></v-text-field>
       </div>
       <p v-if="isLoginFail === 'fail' && !isIdCheck && userData.id != ''">
         비밀번호가 틀렸습니다.
       </p>
-      <div>
+      <div class="mt-6">
         <router-link :to="{ name: 'PasswordResetView' }"
           >비밀번호를 잊으셨나요?</router-link
         >
       </div>
       <v-btn
+        class="main-btn"
+        width="100%"
         type="submit"
         v-bind:disabled="
           userData.id === '' || userData.password === '' || isIdCheck
@@ -49,13 +50,9 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-import LoginCard from '@/components/Account/Login/LoginCard.vue';
 
 export default {
   name: 'LoginForm',
-  components: {
-    LoginCard,
-  },
   data() {
     return {
       userData: {
@@ -79,4 +76,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.ssss {
+  color: $color-purple;
+}
+</style>
