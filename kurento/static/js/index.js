@@ -598,6 +598,9 @@ ws.onmessage = function(message) {
 }
 
 document.getElementById('translate-text').addEventListener('click', function() {
+	let checked = document.getElementById('switch-1')
+	document.getElementById('translate-text').css('display', 'none')
+	checked.css('display', 'inline-block')
 	let elements = document.getElementsByClassName('msgTranslate')
 	for (let ele of elements) {
 		ele.css('display', 'inline-block')
@@ -729,7 +732,7 @@ function register() {
 		});
 		$('#username_send').val(users[0]);
 		var header = $('.chat__header__greetings');
-		header.append(`${users[0]} 님의 채팅창`)
+		header.append(`${users[0]} 님 반가워요😀`)
 }
 
 function call() {

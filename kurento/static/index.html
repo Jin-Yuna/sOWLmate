@@ -197,7 +197,8 @@
           <li class="header-li"><span class="time-check">시간 체크</span></li>
             <!-- <li><a href="#" id="lock"></a><i class="fa-solid fa-lock nav-icon"></i></a></li> -->
             <li class="header-li"><a href="#" id="unlock"><i class="fa-solid fa-unlock nav-icon"></i></a></li>
-          <li class="header-li"><a href="#" id="setting"><i class="fa-solid fa-gear nav-icon"></i></a></li>
+            <li class="header-li"><a href="#" id="setting"><i class="fa-solid fa-gear nav-icon"></i></a></li>
+            <li class="header-li"><button class="btn btn__primary" id="termibate">종료</button></li>
         </ul>
       </div>
     </div>
@@ -242,10 +243,6 @@
           </div>
         </div>
 
-        <!-- 종료 버튼 (자리 고민중) -->
-        <a id="terminate" href="#" class="btn btn-danger">
-          <span class="glyphicon glyphicon-stop"></span> Stop</a>
-
       </div>
       <!-- main center (비디오) -->
       <div class="main__center">
@@ -257,20 +254,32 @@
                   <p id="videoSubtitles"></p>
                 </div>
                 <!-- <canvas id="remoteCanvas">Your browser does not support Canvas</canvas> -->
-                  <video id="videoOutput" autoplay width="1600" height="900" poster="img/webrtc.png"></video>
+                  <video id="videoOutput" autoplay width="800" height="600" poster="img/webrtc.png"></video>
                   </div>
                   <div id="videoSmall">
-                <video id="videoInput" autoplay width="320" height="240" poster="img/webrtc.png"></video>
+                <video id="videoInput" autoplay width="360" height="280" poster="img/webrtc.png"></video>
               </div>
             </div>
-        </div>
-      </div>
+
       <!-- main-right -->
       <div class="main__right">
         <div class="main__chat_window">
           <div class="chat__header">
-              <span class="chat__header__greetings" id="username">
-              </span>
+              <div class="greeting">
+                <span class="chat__header__greetings" id="username">
+                </span>
+              </div>
+            <div class="switch" id="translate-text">
+              <p>번역</p>
+              <div class="switch__1">
+                <input id="switch-1" type="checkbox">
+                <label for="switch-1"></label>
+              </div>
+              <div class="switch__2" style="display:none;">
+                <input id="switch-2" type="checkbox" checked>
+                <label for="switch-2"></label>
+              </div>
+            </div>
           </div>
           <div id="chatView">
           </div>
@@ -280,7 +289,6 @@
           </form>
         </div>
       </div>
-    </div>
   </div>
       <!-- 옵션 -->
       <div class="options">
@@ -308,7 +316,7 @@
                 <!-- <li class="menu-item" onclick="stopListen()"> -->
                 <li class="menu-item check" onclick="startListen()">
                     <div href="">
-                      <i class="fa-solid fa-language menu-icon"></i>
+                      <!-- <i class="fa-solid fa-language menu-icon"></i> -->
                         <i class="fa-solid fa-language menu-icon-check"></i>
                     </div>
                 </li>
