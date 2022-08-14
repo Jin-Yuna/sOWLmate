@@ -46,20 +46,6 @@
   </script>
     <script defer src="js/index.js"></script>
     <script>
-      let listen = false
-
-        (function(){
-        $("#translate").on("click", function() {
-          listen = !listen
-        });
-      })()
-
-      if (listen) {
-        stopListen();
-      } else {
-        startListen();
-      }
-
       var sharedMessages = [];
       var listening = {
         value:false
@@ -198,7 +184,7 @@
             <!-- <li><a href="#" id="lock"></a><i class="fa-solid fa-lock nav-icon"></i></a></li> -->
             <li class="header-li"><a href="#" id="unlock"><i class="fa-solid fa-unlock nav-icon"></i></a></li>
             <li class="header-li"><a href="#" id="setting"><i class="fa-solid fa-gear nav-icon"></i></a></li>
-            <li class="header-li"><button class="btn btn__primary" id="termibate">종료</button></li>
+            <li class="header-li"><button class="btn btn__primary" id="terminate">종료</button></li>
         </ul>
       </div>
     </div>
