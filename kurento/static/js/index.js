@@ -141,8 +141,8 @@ function initDeepAR() {
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({
                 video: {
-                    width: { ideal: 640 },
-                    height: { ideal: 240 }
+                    width: { ideal: 4096 },
+                    height: { ideal: 2160 }
                 }
             })
                 .then(function (stream) {
@@ -165,6 +165,7 @@ function initDeepAR() {
     }, 0)
 
     sourceVideo.addEventListener('loadedmetadata', function() {
+		console.log('여기 실행 함')
         deepAR.canvasWidth = sourceVideo.videoWidth
         deepAR.canvasHeight = sourceVideo.videoHeight
     })
@@ -194,7 +195,6 @@ function initDeepAR() {
 	deepAR.onVideoStarted = function() {
 		inputVideo.srcObject = deepArCanvas.captureStream()
 		inputVideo.play()
-		webRtcPeer.peerConnection.addStream(inputVideo)
 		// streamVideo.muted = false
 		// webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
 		// streamVideo.play()
