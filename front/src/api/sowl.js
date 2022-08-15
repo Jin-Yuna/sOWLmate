@@ -20,7 +20,9 @@ export default {
     login: () => HOST + ACCOUNTS + 'login/',
     logout: () => HOST + ACCOUNTS + 'logout/',
     info: () => HOST + ACCOUNTS + 'info/',
+    googleLogin: () => HOST + ACCOUNTS + 'google/' + 'info/',
     users: () => HOST + USERS,
+    loginType: () => HOST + USERS + 'login-type',
 
     userList: () => HOST + USERS + 'list/',
 
