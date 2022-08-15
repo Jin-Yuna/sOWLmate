@@ -115,7 +115,11 @@ window.process = {
     }
 }
 
-const deepAR_license_key = process.env.DEEPAR_KEY
+// create canvas on which DeepAR will render
+var sourceVideo = document.createElement('video');
+var sourceVideo2 = document.createElement('video');
+var outputVideo = document.getElementById("videoOuput");
+var inputVideo = document.getElementById("videoInput");
 
 // effect click 시 (For LocalUser)
 var effectList = []
@@ -128,46 +132,16 @@ var slotListForRemote = []
 let slotsForRemote = 0;
 var removeFilter = '';
 
-// create canvas on which DeepAR will render
-var deepArCanvas = document.getElementById('canvasInput');
-var remoteCanvas = document.getElementById('remoteCanvas');
-var sourceVideo = document.createElement('video');
-var inputVideo = document.getElementById("videoInput");
-var outputVideo = document.getElementById("videoOutput");
-var localStream;
-var load = false;
 
 function initDeepAR() {
+	const deepArCanvas = document.getElementById('deepARCanvas');
 
-
-	// input video 받는 과정 (사용자 비디오)
-	const initVideoSource = () => {
-        if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({
-				video: {
-                    inputVideo
-                },
-				audio: true,
-            })
-                .then(function (stream) {
-                    sourceVideo.srcObject = stream
-                    sourceVideo.muted = true
-                    setTimeout(function() {
-						console.log('sourceVideo.play();')
-                        sourceVideo.play();
-                    }, 50);
-                }).catch();
-
-            deepAR.setVideoElement(sourceVideo)
-        }
-    }
-
-	const deepAR = DeepAR({
+	var deepAR = DeepAR({
         licenseKey: '67e4f08a6b406e41d7134bc8d3ae59aa441276b8806bdfcaf2cefb8af478b662fca544b1a3bed97c',
-		canvasWidth: 640,
-		canvasHeight: 480,
+		canvasWidth: 360,
+		canvasHeight: 280,
 		canvas: deepArCanvas,
-		numberOfFaces: 2, // how many faces we want to track min 1, max 4
+		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () { 
 			console.log('시작')
 			if (effectList.length === 0) {
@@ -178,100 +152,16 @@ function initDeepAR() {
 				// effect loaded
 				})
 			}
-			
-			deepAR.startVideo();
-			windowVisibilityHandler(deepAR);
-			// 캔버스가 아니라 비디오로 보이게
-			// setTimeout(function() {
-				
-				
-			// 	// inputVideo.muted = true
-				
-			// 	inputVideo.play()
-			// }, 50);
-			
-			initVideoSource()
-		} 
+			deepAR.setVideoElement(inputVideo)
+			// deepAR.startVideo(true);
+		}
     });
 
-
-
-
-
-
-	deepAR.onVideoStarted = function() {
-		console.log('deepAR.onVideoStarted')
-		inputVideo.srcObject = deepArCanvas.captureStream()
-		inputVideo.muted = true
-		// inputVideo.play()
-		// webRtcPeer.peerConnection.addStream(inputVideo.srcObject)
-		// const pc = new RTCPeerConnection();
-		// inputVideo.srcObject.getTracks().forEach((track) => {
-		// 	pc.addTrack(track, inputVideo.srcObject);
-		// });
-		// inputVideo.play()
-		
-	}
-
-	const windowVisibilityHandler = (deepAR) => {
-		const hiddenStatusPropName = getHiddenStatusType()
-		const isEventListenerAvailable = document.addEventListener !== undefined
-		const isPageHiddenAPIAvailable = hiddenStatusPropName !== undefined
-	
-		if (!isEventListenerAvailable || !isPageHiddenAPIAvailable) {
-			console.error("Warning: Page Visibility API not supported")
-		} else {
-			document.addEventListener(
-				getVisibilityChangeHandlerName(),
-				onVisibilityChange,
-				false
-			)
-		}
-	
-		function getHiddenStatusType() {
-			if (document.hidden !== undefined) { // Opera 12.10 and Firefox 18 and later support
-				return "hidden"
-			} else if (document.msHidden !== undefined) {
-				return "msHidden"
-			} else if (document.webkitHidden !== undefined) {
-				return "webkitHidden"
-			}
-		}
-	
-		function getVisibilityChangeHandlerName() {
-			// Opera 12.10 and Firefox 18 and later support
-			if (document.visibilityState !== undefined) { 
-				return "visibilitychange"
-			} else if (document.msVisibilityState !== undefined) {
-				return "msvisibilitychange"
-			} else if (document.webkitVisibilityState !== undefined) {
-				return "webkitvisibilitychange"
-			}
-		}
-	
-		function onVisibilityChange() {
-			if (document[hiddenStatusPropName]) {
-				deepAR.stopVideo()
-			} else {
-				deepAR.startVideo()
-			}
-		}
-	}
-
-	inputVideo.addEventListener('play', function () {
-		console.log('inputVideo.addEventListener')
-        if (this.paused && this.ended) {
-            deepAR.stopVideo()
-        }
-    }, 0)
-
-    inputVideo.addEventListener('loadedmetadata', function() {
-		console.log('여기 실행 함')
-        deepAR.canvasWidth = inputVideo.videoWidth
-        deepAR.canvasHeight = inputVideo.videoHeight
-    })
-
 	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
+
+	// deepAR.onVideoStarted = function() {
+	// 	webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
+	// }
 
 	const effects = document.querySelectorAll(".effects > div");
 
@@ -295,18 +185,17 @@ function initDeepAR() {
 			addFilter(effect.value)
 		}
 
-
 	}});
 
 	function addFilter(effect) {
 		if (effect != '') {
 			slots++;
-			// sendMessage({
-			// 	id : 'filter',
-			// 	from : users[0],
-			// 	to: users[1],
-			// 	effect: effect
-			// });
+			sendMessage({
+				id : 'filter',
+				from : users[0],
+				to: users[1],
+				effect: effect
+			});
 			slotList.push(({slot:`slot${slots}`, effect: effect}))
 			console.log(slotList)
 			deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
@@ -326,12 +215,12 @@ function initDeepAR() {
 			}	
 		}
 		if (effect != '') {
-			// sendMessage({
-			// 	id : 'filterRemove',
-			// 	from : users[0],
-			// 	to: users[1],
-			// 	effect: effect
-			// });
+			sendMessage({
+				id : 'filterRemove',
+				from : users[0],
+				to: users[1],
+				effect: effect
+			});
 			deepAR.clearEffect(slotNum);
 		}
 
@@ -341,246 +230,308 @@ function initDeepAR() {
 		for (let slot of slotList) {
 			deepAR.clearEffect(slot.slot)
 		}
-		// sendMessage({
-		// 	id : 'filterRemoveAll',
-		// 	from : users[0],
-		// 	to: users[1],
-		// });
+		sendMessage({
+			id : 'filterRemoveAll',
+			from : users[0],
+			to: users[1],
+		});
 		effectList = []
 		slotList = []
 		slots = 0;
 	}
-
-	
-
 }
 
-// remoteUser
 function initDeepARForRemote() {
-	// const initVideoSource = () => {
-	// 	if(navigator.mediaDevices.getUserMedia) {
-	// 		navigator.mediaDevices.getUserMedia({
-	// 			video: {
-	// 				outputVideo
-	// 			}
-	// 		})
-	// 			.then(function (stream) {
-	// 				sourceVideo.srcObject = stream
-	// 				sourceVideo2.srcObject = stream
-	// 				// sourceVideo.muted = true
-
-	// 				setTimeout(function() {
-	// 					sourceVideo.play()
-						
-	// 				}, 50);
-	// 			}).catch();
-
-	// 		deepAR.setVideoElement(outputVideo)
-	// 	}
-	// }
-
-	// Initialize the DeepAR object
-	const deepAR = DeepAR({
-		licenseKey: '67e4f08a6b406e41d7134bc8d3ae59aa441276b8806bdfcaf2cefb8af478b662fca544b1a3bed97c',
+	const remoteCanvas = document.getElementById('remoteCanvas');
+	
+	var deepAR = DeepAR({
+        licenseKey: '67e4f08a6b406e41d7134bc8d3ae59aa441276b8806bdfcaf2cefb8af478b662fca544b1a3bed97c',
 		canvasWidth: 640,
 		canvasHeight: 480,
 		canvas: remoteCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
-		onInitialize: function () {
-			console.log('시작')
-			if (effectListForRemote.length === 0) {
+		onInitialize: function () { 
+			if (effectList.length === 0) {
 				var effect = 'lion'
-				effectListForRemote.push('lion')
-				slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
-				deepAR.switchEffect(0, `slot${slotsForRemote}`, `./effects/${effect}`, function () {
+				effectList.push('lion')
+				slotList.push(({slot:`slot${slots}`, effect: effect}))
+				deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
 				// effect loaded
 				})
 			}
-			console.log('시작')
-			// start video immediately after the initalization, mirror = true
-			deepAR.startVideo(true)
-			// windowVisibilityHandler(deepAR)
 			deepAR.setVideoElement(outputVideo)
-			}
-	});
+			// deepAR.startVideo(true);
+		}
+    });
 
-	// download the face tracking model
 	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
 
 	// deepAR.onVideoStarted = function() {
-	// 	outputVideo.srcObject = remoteCanvas.captureStream()
-	// 	outputVideo.play()
+	// 	webRtcPeer.peerConnection.addStream(remoteCanvascaptureStream())
+	// }
 
-		// const canvasForRemote = document.createElement('canvas')
-		// startCapture()
-
-		// const canvas_video = document.getElementById('videoInput')
-
-		// canvasForRemote.width = 640
-		// canvasForRemote.height = 480
-
-		// canvas_video.srcObject = canvasForRemote.captureStream()
-
-		// async function startCapture() {
-		// 	try {
-		// 	  captureStream = await navigator.mediaDevices.getDisplayMedia({
-		// 		video: true,
-		// 		audio: true,
-		// 	  })
-		// 	  console.log(captureStream.getVideoTracks()[0].getSettings())
-		// 	  screen.srcObject = captureStream
-		// 	} catch (err) {
-		// 	  console.error('Error: ' + err)
-		// 	}
-		// 	return captureStream
-		//   }
-
-		// webRtcPeer.peerConnection.addStream(canvas_video.srcObject)
-		
-	// };
-
-	// deepAR.onVideoStarted = function() {
-	// 	streamVideo.srcObject = deepArCanvas.captureStream()
-	// 	// streamVideo.muted = false
-	// 	webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
-	// 	streamVideo.play()
-	// };
-
-	const windowVisibilityHandler = (deepAR) => {
-		const hiddenStatusPropName = getHiddenStatusType()
-		const isEventListenerAvailable = document.addEventListener !== undefined
-		const isPageHiddenAPIAvailable = hiddenStatusPropName !== undefined
-	
-		if (!isEventListenerAvailable || !isPageHiddenAPIAvailable) {
-			console.error("Warning: Page Visibility API not supported")
-		} else {
-			document.addEventListener(
-				getVisibilityChangeHandlerName(),
-				onVisibilityChange,
-				false
-			)
-		}
-	
-		function getHiddenStatusType() {
-			if (document.hidden !== undefined) { // Opera 12.10 and Firefox 18 and later support
-				return "hidden"
-			} else if (document.msHidden !== undefined) {
-				return "msHidden"
-			} else if (document.webkitHidden !== undefined) {
-				return "webkitHidden"
-			}
-		}
-	
-		function getVisibilityChangeHandlerName() {
-			// Opera 12.10 and Firefox 18 and later support
-			if (document.visibilityState !== undefined) { 
-				return "visibilitychange"
-			} else if (document.msVisibilityState !== undefined) {
-				return "msvisibilitychange"
-			} else if (document.webkitVisibilityState !== undefined) {
-				return "webkitvisibilitychange"
-			}
-		}
-	
-		function onVisibilityChange() {
-			if (document[hiddenStatusPropName]) {
-				deepAR.stopVideo()
-			} else {
-				deepAR.startVideo()
-			}
-		}
+	function addFilterForRemote() {
+		slotsForRemote++;
+		const effect = effectListForRemote[effectListForRemote.length - 1]
+		slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
+		deepAR.switchEffect(0, `slot${slotsForRemote}`, `./effects/${effect}`, function () {
+		// effect loaded
+		});
 	}
 
-	outputVideo.addEventListener('play', function () {
-		if (this.paused && this.ended) {
-			deepAR.stopVideo()
-		}
-	}, 0)
-
-	outputVideo.addEventListener('loadedmetadata', function() {
-		deepAR.canvasWidth = outputVideo.videoWidth
-		deepAR.canvasHeight = outputVideo.videoHeight
-	})
-
-	
-
-	const effects = document.querySelectorAll(".effects > div");
-
-	effects.forEach(el => {
-	el.onclick = (e) => {
-		const nodes = [...e.target.parentElement.children];
-		const index = nodes.indexOf(e.target);
-		const effect = nodes[index].getAttributeNode('value')
-		if (effect.value === '') {
-			removeAllFilter()
-		}
-		else if (effectList.includes(effect.value)) {
-			console.log('removeFilter(effect.value)')
-			const Effectindex = effectList.indexOf(effect.value);
-			effectList.splice(Effectindex, 1);
-			removeFilter(effect.value)
-		} 
-		else {
-			console.log('addFilter(effect.value)')
-			effectList.push(effect.value)
-			addFilter(effect.value)
-		}
-
-	}});
-
-	function addFilter(effect) {
-		if (effect != '') {
-			slots++;
-			// sendMessage({
-			// 	id : 'filter',
-			// 	from : users[0],
-			// 	to: users[1],
-			// 	effect: effect
-			// });
-			slotList.push(({slot:`slot${slots}`, effect: effect}))
-			console.log(slotList)
-			deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
-			// effect loaded
-			})
-		}
-	}
-
-	function removeFilter(effect) {
+	function removeFilterForRemote() {
 		let slotNum
-		for (let slot of slotList) {
+		for (let slot of slotListForRemote) {
 			console.log(slot)
-			if (slot.effect === effect) {
+			if (slot.effect === removeFilter) {
 				slotNum = slot.slot
-				slotList.splice(slotList.indexOf(slot), 1)
+				slotListForRemote.splice(slotListForRemote.indexOf(slot), 1)
 				break
-			}	
+			}
 		}
-		if (effect != '') {
-			// sendMessage({
-			// 	id : 'filterRemove',
-			// 	from : users[0],
-			// 	to: users[1],
-			// 	effect: effect
-			// });
 			deepAR.clearEffect(slotNum);
-		}
-
+			removeFilter = '';
 	}	
 
 	function removeAllFilter() {
-		for (let slot of slotList) {
+		for (let slot of slotListForRemote) {
 			deepAR.clearEffect(slot.slot)
 		}
-		// sendMessage({
-		// 	id : 'filterRemoveAll',
-		// 	from : users[0],
-		// 	to: users[1],
-		// });
-		effectList = []
-		slotList = []
-		slots = 0;
+		effectListForRemote = []
+		slotListForRemote = []
+		slotsForRemote = 0;
 	}
+
+
+	return {
+		addFilterForRemote_Obj : addFilterForRemote(),
+		removeFilterForRemote_Obj : removeFilterForRemote(),
+		removeAllFilter_Obj : removeAllFilter()
+	}
+
 }
+
+
+
+// remoteUser
+// function initDeepAR() {
+// 	const deepArCanvas = document.createElement('canvas');
+// 	const initVideoSource = () => {
+// 		if(navigator.mediaDevices.getUserMedia) {
+// 			navigator.mediaDevices.getUserMedia({
+// 				video: {
+// 					width: { ideal: 640 },
+// 					height: { ideal: 480 }
+// 				}
+// 			})
+// 				.then(function (stream) {
+// 					sourceVideo.srcObject = stream
+// 					sourceVideo2.srcObject = stream
+// 					// sourceVideo.muted = true
+
+// 					setTimeout(function() {
+// 						sourceVideo.play()
+						
+// 					}, 50);
+// 				}).catch();
+
+// 			deepAR.setVideoElement(sourceVideo)
+// 		}
+// 	}
+
+// 	// Initialize the DeepAR object
+// 	const deepAR = DeepAR({
+// 		licenseKey: deepAR_license_key,
+// 		canvasWidth: 640,
+// 		canvasHeight: 480,
+// 		canvas: deepArCanvas,
+// 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
+// 		onInitialize: function () {
+// 		console.log('시작')
+// 		// start video immediately after the initalization, mirror = true
+// 		deepAR.startVideo(true)
+// 		windowVisibilityHandler(deepAR)
+// 		initVideoSource()
+// 		}
+// 	});
+
+// 	// download the face tracking model
+// 	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
+
+// 	deepAR.onVideoStarted = function() {
+// 		inputVideo.srcObject = deepArCanvas.captureStream()
+// 		inputVideo.play()
+
+// 		// const canvasForRemote = document.createElement('canvas')
+// 		// startCapture()
+
+// 		// const canvas_video = document.getElementById('videoInput')
+
+// 		// canvasForRemote.width = 640
+// 		// canvasForRemote.height = 480
+
+// 		// canvas_video.srcObject = canvasForRemote.captureStream()
+
+// 		// async function startCapture() {
+// 		// 	try {
+// 		// 	  captureStream = await navigator.mediaDevices.getDisplayMedia({
+// 		// 		video: true,
+// 		// 		audio: true,
+// 		// 	  })
+// 		// 	  console.log(captureStream.getVideoTracks()[0].getSettings())
+// 		// 	  screen.srcObject = captureStream
+// 		// 	} catch (err) {
+// 		// 	  console.error('Error: ' + err)
+// 		// 	}
+// 		// 	return captureStream
+// 		//   }
+
+// 		// webRtcPeer.peerConnection.addStream(canvas_video.srcObject)
+		
+// 	};
+
+// 	// deepAR.onVideoStarted = function() {
+// 	// 	streamVideo.srcObject = deepArCanvas.captureStream()
+// 	// 	// streamVideo.muted = false
+// 	// 	webRtcPeer.peerConnection.addStream(deepArCanvas.captureStream())
+// 	// 	streamVideo.play()
+// 	// };
+
+// 	const windowVisibilityHandler = (deepAR) => {
+// 		const hiddenStatusPropName = getHiddenStatusType()
+// 		const isEventListenerAvailable = document.addEventListener !== undefined
+// 		const isPageHiddenAPIAvailable = hiddenStatusPropName !== undefined
+	
+// 		if (!isEventListenerAvailable || !isPageHiddenAPIAvailable) {
+// 			console.error("Warning: Page Visibility API not supported")
+// 		} else {
+// 			document.addEventListener(
+// 				getVisibilityChangeHandlerName(),
+// 				onVisibilityChange,
+// 				false
+// 			)
+// 		}
+	
+// 		function getHiddenStatusType() {
+// 			if (document.hidden !== undefined) { // Opera 12.10 and Firefox 18 and later support
+// 				return "hidden"
+// 			} else if (document.msHidden !== undefined) {
+// 				return "msHidden"
+// 			} else if (document.webkitHidden !== undefined) {
+// 				return "webkitHidden"
+// 			}
+// 		}
+	
+// 		function getVisibilityChangeHandlerName() {
+// 			// Opera 12.10 and Firefox 18 and later support
+// 			if (document.visibilityState !== undefined) { 
+// 				return "visibilitychange"
+// 			} else if (document.msVisibilityState !== undefined) {
+// 				return "msvisibilitychange"
+// 			} else if (document.webkitVisibilityState !== undefined) {
+// 				return "webkitvisibilitychange"
+// 			}
+// 		}
+	
+// 		function onVisibilityChange() {
+// 			if (document[hiddenStatusPropName]) {
+// 				deepAR.stopVideo()
+// 			} else {
+// 				deepAR.startVideo()
+// 			}
+// 		}
+// 	}
+
+// 	sourceVideo.addEventListener('play', function () {
+// 		if (this.paused && this.ended) {
+// 			deepAR.stopVideo()
+// 		}
+// 	}, 0)
+
+// 	sourceVideo.addEventListener('loadedmetadata', function() {
+// 		deepAR.canvasWidth = sourceVideo.videoWidth
+// 		deepAR.canvasHeight = sourceVideo.videoHeight
+// 	})
+
+	
+
+// 	const effects = document.querySelectorAll(".effects > div");
+
+// 	effects.forEach(el => {
+// 	el.onclick = (e) => {
+// 		const nodes = [...e.target.parentElement.children];
+// 		const index = nodes.indexOf(e.target);
+// 		const effect = nodes[index].getAttributeNode('value')
+// 		if (effect.value === '') {
+// 			removeAllFilter()
+// 		}
+// 		else if (effectList.includes(effect.value)) {
+// 			console.log('removeFilter(effect.value)')
+// 			const Effectindex = effectList.indexOf(effect.value);
+// 			effectList.splice(Effectindex, 1);
+// 			removeFilter(effect.value)
+// 		} 
+// 		else {
+// 			console.log('addFilter(effect.value)')
+// 			effectList.push(effect.value)
+// 			addFilter(effect.value)
+// 		}
+
+// 	}});
+
+// 	function addFilter(effect) {
+// 		if (effect != '') {
+// 			slots++;
+// 			// sendMessage({
+// 			// 	id : 'filter',
+// 			// 	from : users[0],
+// 			// 	to: users[1],
+// 			// 	effect: effect
+// 			// });
+// 			slotList.push(({slot:`slot${slots}`, effect: effect}))
+// 			console.log(slotList)
+// 			deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
+// 			// effect loaded
+// 			})
+// 		}
+// 	}
+
+// 	function removeFilter(effect) {
+// 		let slotNum
+// 		for (let slot of slotList) {
+// 			console.log(slot)
+// 			if (slot.effect === effect) {
+// 				slotNum = slot.slot
+// 				slotList.splice(slotList.indexOf(slot), 1)
+// 				break
+// 			}	
+// 		}
+// 		if (effect != '') {
+// 			// sendMessage({
+// 			// 	id : 'filterRemove',
+// 			// 	from : users[0],
+// 			// 	to: users[1],
+// 			// 	effect: effect
+// 			// });
+// 			deepAR.clearEffect(slotNum);
+// 		}
+
+// 	}	
+
+// 	function removeAllFilter() {
+// 		for (let slot of slotList) {
+// 			deepAR.clearEffect(slot.slot)
+// 		}
+// 		// sendMessage({
+// 		// 	id : 'filterRemoveAll',
+// 		// 	from : users[0],
+// 		// 	to: users[1],
+// 		// });
+// 		effectList = []
+// 		slotList = []
+// 		slots = 0;
+// 	}
+// }
 
 // local User
 // function initDeepARForRemote() {
@@ -939,10 +890,11 @@ function waitForSocketConnection(socket, callback){
 			}, 5);
 }
 
+
 window.onload = function() {
 	setRegisterState(NOT_REGISTERED);
 	var drag = new Draggabilly(document.getElementById('videoSmall'));
-	// videoInput = document.getElementById('videoInput');
+	videoInput = document.getElementById('videoInput');
 	videoOutput = document.getElementById('videoOutput');
 
 	// only register https://localhost:8443/?from=user1&to=
@@ -957,23 +909,19 @@ window.onload = function() {
 	});
 
 	if (users[1] != '') {
-		initDeepAR()
 		call();
-		
-	} 
+	}
 
 	document.getElementById('terminate').addEventListener('click', function() {
 		stop();
 	});
 }
 
-
-
 window.onbeforeunload = function() {
 	ws.close();
 }
 
-// var moduleOut = initDeepARForRemote();
+var moduleOut = initDeepARForRemote();
 var chatView = document.getElementById('chatView');
 var chatForm = document.getElementById('chatForm');
 var messageList = []
@@ -982,7 +930,6 @@ var clear = false;
 ws.onmessage = function(message) {
 	var parsedMessage = JSON.parse(message.data);
 	console.info('Received message: ' + message.data);
-	
 
 	switch (parsedMessage.id) {
 	case 'registerResponse':
@@ -992,11 +939,9 @@ ws.onmessage = function(message) {
 		callResponse(parsedMessage);
 		break;
 	case 'incomingCall':
-		initDeepAR()
 		incomingCall(parsedMessage);
 		break;
 	case 'startCommunication':
-		initDeepARForRemote()
 		startCommunication(parsedMessage);
 		break;
 	case 'stopCommunication':
@@ -1006,30 +951,28 @@ ws.onmessage = function(message) {
 	case 'iceCandidate':
 		webRtcPeer.addIceCandidate(parsedMessage.candidate)
 			break;
-	// case 'filter':
-	// 	var filtereffect = parsedMessage.effect
-	// 	if (filtereffect != '') {
-	// 		console.log(`filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
-	// 		effectListForRemote.push(filtereffect)
-	// 		initDeepARForRemote().addFilterForRemote_Obj;
-	// 	}
-	// 	break;
-	// case 'filterRemove':
-	// 	removeFilter = parsedMessage.effect
-	// 	if (removeFilter != '') {
-	// 		console.log(`filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
-	// 		initDeepARForRemote().removeFilterForRemote_Obj ;
-	// 	}
-	// 	break;
-	// case 'filterRemoveAll':
-	// 	initDeepARForRemote().removeAllFilter_Obj ;
-	// 	break;
+	case 'filter':
+		var filtereffect = parsedMessage.effect
+		if (filtereffect != '') {
+			console.log(`filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
+			effectListForRemote.push(filtereffect)
+			initDeepARForRemote().addFilterForRemote_Obj;
+		}
+		break;
+	case 'filterRemove':
+		removeFilter = parsedMessage.effect
+		if (removeFilter != '') {
+			console.log(`filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
+			initDeepARForRemote().removeFilterForRemote_Obj ;
+		}
+		break;
+	case 'filterRemoveAll':
+		initDeepARForRemote().removeAllFilter_Obj ;
+		break;
 	case 'translate':
 			console.log(`translate message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.text}`);
 			document.getElementById("videoSubtitles").innerHTML = parsedMessage.text;
 		break;
-	// text message
-	// when we receive a message from the other peer, display it on the screen 
 	case 'receive':
 		var msgLine = $('<div class="msgLine">');
 		var msgBox = $('<div class="msgBox">');
@@ -1065,6 +1008,7 @@ document.getElementById('noncheck').addEventListener('click', function() {
 	$('#noncheck').css('display', 'none')
 	$('#checked').css('display', 'inline-block')
 	let elements = document.querySelectorAll('.msgTranslate')
+	//*****수정 필요 (번역) ****/
 	// for (let ele of elements) {
 	// 	ele.style.display = inline-block
 	// }
@@ -1112,6 +1056,7 @@ function resgisterResponse(message) {
 }
 
 function callResponse(message) {
+	initDeepAR();
 	if (message.response != 'accepted') {
 		console.info('Call not accepted by peer. Closing call');
 		var errorMessage = message.message ? message.message
@@ -1131,8 +1076,8 @@ function startCommunication(message) {
 }
 
 function incomingCall(message) {
-	console.log('incomingCall')
 	
+	// If bussy just reject without disturbing user
 	if (callState != NO_CALL) {
 		var response = {
 			id : 'incomingCallResponse',
@@ -1148,7 +1093,7 @@ function incomingCall(message) {
 
 	users[1] = message.from;
 
-	// showSpinner(videoInput, videoOutput);
+	showSpinner(videoInput, videoOutput);
 
 	var options = {
 		localVideo : videoInput,
@@ -1178,8 +1123,8 @@ function incomingCall(message) {
 			});
 			
 	});
-	// initDeepAR();
-	// initDeepARForRemote();
+	initDeepAR();
+	initDeepARForRemote();
 	var usernameBox = $('<div class="usernameBox">');
 	var chat = $('#chatView');
 	chatLine = $('<div id="username">');
@@ -1202,10 +1147,8 @@ function register() {
 }
 
 function call() {
-	// initDeepAR();
-	console.log('call')
 	setCallState(PROCESSING_CALL);
-	// showSpinner(videoInput, videoOutput);
+	showSpinner(videoInput, videoOutput);
 
 	var options = {
 		localVideo : videoInput,
@@ -1234,15 +1177,14 @@ function call() {
 			sendMessage(message);
 		});
 	});
-	initDeepARForRemote()
-	
 
+	initDeepAR();
+	initDeepARForRemote();
 }
 
 function stop(message) {
 	setCallState(NO_CALL);
 	if (webRtcPeer) {
-		console.log('initDeepAR')
 		webRtcPeer.dispose();
 		webRtcPeer = null;
 
