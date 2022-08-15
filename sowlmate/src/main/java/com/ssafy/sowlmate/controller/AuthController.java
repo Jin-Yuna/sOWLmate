@@ -86,6 +86,33 @@ public class AuthController {
     }
 
     /**
+     * 구글(소셜) 가입 유저의 회원 정보를 반환한다. (로그인한 사용자 찾기)
+     */
+    @PostMapping("google/info")
+    public ResponseEntity<?> getInfoByGoogle(@RequestBody UserLoginDto loginDto) {
+        User userInfo = userService.selectById(loginDto.getId());
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        log.info(loginDto.getPassword());
+        log.info(userInfo.getPassword());
+        if (loginDto.getPassword().equals(userInfo.getPassword())) {
+            try {
+                UserInfoDto userInfoDto = UserInfoDto.toDto(userInfo);
+                resultMap.put("userInfo", userInfoDto);
+                resultMap.put("message", SUCCESS);
+                status = HttpStatus.ACCEPTED;
+            } catch (Exception e) {
+                resultMap.put("message", e.getMessage());
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        } else {
+            resultMap.put("message", FAIL);
+            status = HttpStatus.ACCEPTED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    /**
      * Find Password by email (Email과 name의 일치여부를 check하는 controller)
      */
     @PostMapping("findpw")

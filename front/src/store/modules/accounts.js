@@ -93,6 +93,30 @@ export const accounts = {
           console.error(error);
         });
     },
+    gooleLogin({ commit, dispatch }, userData) {
+      axios({
+        url: sowl.users.googleLogin(),
+        method: 'post',
+        data: userData,
+      })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data['message'] === 'fail') {
+            commit('LOGIN_FAIL', 'fail');
+          } else {
+            commit('SET_TOKEN', userData.token);
+            commit('SET_CURRENT_USER', userData.id);
+            dispatch('getInterestList');
+            commit('GET_USER_INFO', response.data.userInfo);
+            sessionStorage.setItem('token', userData.token);
+            router.push({ name: 'HomeView' });
+            alert('성공적으로 login 되었습니다.');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     logout({ dispatch, commit }) {
       dispatch('removeToken');
       commit('SET_CURRENT_USER', '');

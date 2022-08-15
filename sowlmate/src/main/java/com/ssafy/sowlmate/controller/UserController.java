@@ -56,6 +56,14 @@ public class UserController {
     }
 
     /**
+     * 유저 회원가입 타입 조회
+     */
+    @GetMapping("login-type")
+    public ResponseEntity<?> getLoginType(HttpServletRequest request) {
+        return ResponseEntity.ok().body(userService.selectById(request.getHeader("userId")).getLoginType());
+    }
+
+    /**
      * 유저 정보 수정
      */
     @PutMapping
