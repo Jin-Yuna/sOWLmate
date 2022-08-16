@@ -1,10 +1,18 @@
 <template>
   <div>
-    <div v-if="profile">
-      <img :src="profile" alt="프로필이미지" />
+    <div>
+      <label for="image" v-if="profile">
+        <img :src="profile" alt="프로필이미지" />
+      </label>
+      <label for="image" v-if="!profile">
+        <img
+          src="https://pdtxar.com/wp-content/uploads/2019/04/person-placeholder.jpg"
+          alt="프로필이미지"
+        />
+      </label>
+      <input type="file" id="image" @change="upload()" />
     </div>
-    <input type="file" id="image" />
-    <button @click="upload()">저장</button>
+    <button @click="img_delete()">삭제</button>
   </div>
 </template>
 
@@ -16,9 +24,12 @@ import axios from 'axios';
 import sowl from '@/api/sowl';
 
 export default {
+  props: {
+    profilePictureUrl: String,
+  },
   data() {
     return {
-      profile: '',
+      profile: this.profilePictureUrl,
     };
   },
   computed: {
@@ -29,13 +40,11 @@ export default {
       const storage = firebase.storage();
       var file = document.querySelector('#image').files[0];
       var storageRef = storage.ref();
-      var spaceRef = storageRef.child('image/' + file.name);
+      var spaceRef = storageRef.child('image/' + this.currentUser);
       var uploading = spaceRef.put(file);
       uploading.on(
         'state_changed',
-        // 변화시 동작하는 함수
         null,
-        //에러시 동작하는 함수
         (error) => {
           console.error('프로필 업로드 실패:', error);
         },
@@ -59,14 +68,39 @@ export default {
         },
       );
     },
+    img_delete() {
+      axios({
+        url: sowl.users.profile(),
+        method: 'put',
+        data: {
+          userId: this.currentUser,
+          profilePictureUrl: '',
+        },
+      })
+        .then(() => {
+          this.profile = '';
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
-    if (this.userInfo.profilePictureUrl) {
-      console.log(this.userInfo.profilePictureUrl);
-      this.profile = this.userInfo.profilePictureUrl;
+    if (this.profilePictureUrl.length > 0) {
+      this.profile = this.profilePictureUrl;
     }
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+img {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+}
+
+input {
+  visibility: hidden;
+}
+</style>
