@@ -243,7 +243,8 @@
                   <video id="videoOutput" autoplay width="800" height="600" poster="img/webrtc.png"></video>
                   </div>
                   <div id="videoSmall">
-                <video id="videoInput" autoplay width="360" height="280" poster="img/webrtc.png"></video>
+                    <!-- <canvas id="deepARCanvas" width="360" height="280" style="display:none;"></canvas> -->
+                    <video id="videoInput" autoplay width="360" height="280" poster="img/webrtc.png"></video>
               </div>
             </div>
 
@@ -257,11 +258,11 @@
               </div>
             <div class="switch" id="translate-text">
               <p>번역</p>
-              <div class="switch__1">
+              <div class="switch__1" id="noncheck">
                 <input id="switch-1" type="checkbox">
                 <label for="switch-1"></label>
               </div>
-              <div class="switch__2" style="display:none;">
+              <div class="switch__2" id="checked" style="display:none;">
                 <input id="switch-2" type="checkbox" checked>
                 <label for="switch-2"></label>
               </div>

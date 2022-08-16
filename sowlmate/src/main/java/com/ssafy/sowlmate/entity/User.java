@@ -1,6 +1,7 @@
 package com.ssafy.sowlmate.entity;
 
 import com.ssafy.sowlmate.entity.type.LanguageType;
+import com.ssafy.sowlmate.entity.type.LoginType;
 import com.ssafy.sowlmate.entity.type.RegionType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,7 +17,6 @@ import java.util.List;
 @Getter @Setter
 @RequiredArgsConstructor
 @Table(name = "user")
-//public class User implements OAuth2User {
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +53,9 @@ public class User {
     public void enroll_date() {
         this.enrollDate = LocalDateTime.now();
     }
+
+    @Enumerated(EnumType.ORDINAL)
+    private LoginType loginType;
 
     // google auth
 //    @Override
