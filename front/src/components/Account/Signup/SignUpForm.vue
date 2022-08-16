@@ -2,12 +2,23 @@
   <div>
     <h1 class="mt-16 mb-6">Sign up</h1>
     <SocialLogin />
+    <v-row class="mt-4">
+      <v-col cols="0" xs="1" lg="4">
+        <hr />
+      </v-col>
+      <v-col>
+        <p-small class="divide-text">or continue with</p-small>
+      </v-col>
+      <v-col cols="0" xs="1" lg="4">
+        <hr />
+      </v-col>
+    </v-row>
     <form @submit.prevent="signup(userData)">
-      <h4>기본정보</h4>
+      <h4 class="mt-2">기본정보</h4>
       <!-- 아이디 관련 type에 이메일이라고 쓰면 이메일 형식인지 검사해주는데 안예쁨-->
       <div>
         <div>
-          <v-row>
+          <v-row class="mt-1">
             <v-text-field
               color="primary"
               prepend-inner-icon="mdi-account-outline"
@@ -166,7 +177,7 @@
             @input="nicknameCheck(userData.nickname)"
           ></v-text-field>
         </v-row>
-        <div>
+        <div class="mt-2">
           <p
             v-if="userData.nickname != '' && !isNicknameCheck"
             class="form-err"
@@ -250,6 +261,8 @@
       </div>
       <!-- 회원 가입 버튼 -->
       <v-btn
+        class="main-btn btn-big mt-12"
+        width="100%"
         type="submit"
         v-bind:disabled="
           !isPasswordDoubleCheck ||
@@ -337,4 +350,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.divide-text {
+  position: relative;
+  top: -0.8rem;
+}
+</style>

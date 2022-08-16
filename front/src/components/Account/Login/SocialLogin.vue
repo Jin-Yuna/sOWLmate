@@ -12,11 +12,16 @@
 </template>
 
 <script>
-import axios from 'axios';
-import sowl from '@/api/sowl';
 import { mapActions } from 'vuex';
+
+// import firebase from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import axios from 'axios';
+import sowl from '@/api/sowl.js';
+
 export default {
+  name: 'LoginView',
+
   data() {
     return {
       userInfo: {
