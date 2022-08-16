@@ -60,7 +60,7 @@ public class LetterService {
         User fromUser = userService.selectById(requestDto.getFromUserId());
         User toUser = userService.selectById(requestDto.getToUserId());
         return letterRepository.save(Letter.createLetter(fromUser, toUser,
-                requestDto.getTitle(), requestDto.getContent()));
+                requestDto.getTitle(), requestDto.getContent(), requestDto.getWritingPad(), requestDto.getWritingFont()));
     }
 
     /**
