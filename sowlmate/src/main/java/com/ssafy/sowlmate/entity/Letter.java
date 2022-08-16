@@ -35,6 +35,10 @@ public class Letter {
     private boolean isRead = false;
     @NotNull
     private boolean isFavorite = false;
+    @NotNull
+    private String writingPad;
+    @NotNull
+    private String writingFont;
 
     private LocalDateTime createDate;
 
