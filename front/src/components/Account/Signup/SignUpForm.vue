@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Sign up</h1>
+    <h1 class="mt-16 mb-6">Sign up</h1>
     <SocialLogin />
     <form @submit.prevent="signup(userData)">
       <h4>기본정보</h4>
