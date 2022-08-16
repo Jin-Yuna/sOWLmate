@@ -2,7 +2,12 @@
   <div>
     <h1 class="text-gradient greeting">Welcome Back!</h1>
     <PlaneAnimation class="plane-position" />
+    <!-- <PlaneAnimation2 class="plane-position2" /> -->
     <LoginDeco class="login-deco-position" />
+    <v-img
+      :src="require('@/assets/sowlImage/etc/plane_white.svg')"
+      class="plane-white1"
+    />
     <div class="img-container">
       <v-img
         :src="require('@/assets/sowlImage/login_sowl.svg')"
@@ -14,10 +19,13 @@
 
 <script>
 import PlaneAnimation from '@/components/Account/Login/PlaneAnimation.vue';
+// import PlaneAnimation2 from '@/components/Account/Login/PlaneAnimation2.vue';
 import LoginDeco from '@/components/Account/Login/LoginDeco.vue';
 export default {
   components: {
     PlaneAnimation,
+    // PlaneAnimation2,
+
     LoginDeco,
   },
 };
@@ -33,7 +41,7 @@ export default {
 .img-container {
   position: relative;
   top: 4rem;
-  left: -6rem;
+  left: -2rem;
   width: 50rem;
   height: 100%;
   overflow: hidden;
@@ -49,5 +57,16 @@ export default {
   position: relative;
   left: -20rem;
   top: 10rem;
+}
+
+.plane-position2 {
+  position: relative;
+  left: -10rem;
+  top: 5rem;
+}
+.plane-white1 {
+  position: relative;
+  width: 3rem;
+  top: 16rem;
 }
 </style>

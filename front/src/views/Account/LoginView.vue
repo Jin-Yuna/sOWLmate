@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="8" class="login-card">
+      <v-col cols="7" class="auth-card">
         <LoginCard />
       </v-col>
-      <v-col cols="4" xs="11">
+      <v-col cols="5" xs="11">
         <v-container>
           <LoginForm />
         </v-container>
@@ -26,10 +26,4 @@ export default {
 };
 </script>
 
-<style scoped>
-@media screen and (max-width: 600px) {
-  .login-card {
-    display: none;
-  }
-}
-</style>
+<style scoped></style>
