@@ -159,7 +159,7 @@ function initDeepAR() {
 		canvasWidth: 400,
 		canvasHeight: 300,
 		canvas: deepARCanvas,
-		numberOfFaces: 2, // how many faces we want to track min 1, max 4
+		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () { 
 			if (effectList.length === 0) {
 				var effect = 'lion'
@@ -333,11 +333,11 @@ function initDeepARForRemote() {
 		canvas: remoteCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () { 
-			if (effectList.length === 0) {
+			if (effectListForRemote.length === 0) {
 				var effect = 'lion'
-				effectList.push('lion')
-				slotList.push(({slot:`slot${slots}`, effect: effect}))
-				deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
+				effectListForRemote.push('lion')
+				slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
+				deepAR.switchEffect(0, `slot${slotsForRemote}`, `./effects/${effect}`, function () {
 				// TODO: 라이언 버튼 눌림 처리
 				// effect loaded
 				})
