@@ -90,6 +90,7 @@ function capture() {
 			saveImage();
 			$canvas.getContext('2d').clearRect(0, 0, 560, 950);
 			cnt = 0;
+			document.querySelector('#div4cut').style.display = 'none';
 			break;
 	}
 	console.log("end capture() function : 캡쳐를 끝냅니다.");
@@ -102,6 +103,7 @@ function saveImage() {
 }
 //* 초기 이벤트 바인딩
 function initialize() {
+	document.querySelector('#div4cut').style.display = 'block';
 	document.querySelector('#btn-capture').innerHTML = '찰칵~!';
 	document.querySelector('#btn-capture').addEventListener('click', capture);
 	console.log("캡쳐할 준비를 시작합니다. 미리보기 창 띄우면 될 듯?");
