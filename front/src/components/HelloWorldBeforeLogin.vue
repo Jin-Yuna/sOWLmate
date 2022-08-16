@@ -1,21 +1,14 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col class="mb-4">
-        <h1
-          class="display-2 font-weight-bold mb-3"
-          data-aos="fade"
-          data-aos-offset="150"
-          data-aos-delay="30"
-          data-aos-duration="800"
-          data-aos-easing="ease-in-out"
-          data-aos-mirror="true"
-        >
-          아직 공사가 끝나지 않았어요!
-        </h1>
-      </v-col>
+    <v-row>
+      <v-col class="text-right"
+        ><v-btn v-if="isKor" color="white" @click="changeLang">한/영전환</v-btn>
+        <v-btn v-else color="white" @click="changeLang"
+          >Ko/En-Trans</v-btn
+        ></v-col
+      >
     </v-row>
-    <v-row class="my-9 text-center" align="center">
+    <v-row class="my-12 text-center" align="center">
       <v-col
         cols="5"
         data-aos="fade-right"
@@ -27,7 +20,7 @@
       >
         <h3>나의 글로벌</h3>
         <h3>SOWLMATE를 찾는 시간</h3>
-        <v-btn class="mt-3" color="primary" elevation="2" text x-large
+        <v-btn class="move1 mt-5 rounded-xl" elevation="2" text x-large
           >시작하기</v-btn
         >
       </v-col>
@@ -44,11 +37,19 @@
         />
       </v-col>
     </v-row>
-    <v-row class="my-16 bg-primary text-center" align="center">
+    <v-row class="my-9 text-center">
+      <v-col>
+        <h2>스크롤 아이콘(움직이는)</h2>
+      </v-col>
+    </v-row>
+    <v-row
+      class="description my-16 py-15 text-center rounded-lg"
+      align="center"
+    >
       <v-col
         cols="12"
         data-aos="fade-down"
-        data-aos-offset="150"
+        data-aos-offset="120"
         data-aos-delay="50"
         data-aos-duration="800"
         data-aos-easing="ease-in-out"
@@ -60,7 +61,7 @@
       </v-col>
     </v-row>
     <!--관심사 지정 및 언어 선택 소개-->
-    <v-row class="my-9 text-center" align="center">
+    <v-row class="mt-16 mb-9 text-center" align="center">
       <v-col
         cols="5"
         data-aos="fade-right"
@@ -70,15 +71,16 @@
         data-aos-easing="ease-in-out"
         data-aos-mirror="true"
       >
-        <h3>나의 글로벌</h3>
-        <h3>SOWLMATE를 찾는 시간</h3>
-        <v-btn class="mt-3" color="primary" elevation="2" text x-large
-          >시작하기</v-btn
-        >
+        <h3>나의 관심사를 지정하고,</h3>
+        <h3>원하는 언어를 선택해보세요!</h3>
+        <p>나와의 sowlmate가 될 다양한 사람들을 한 눈에 보고,</p>
+        <p>진정한 관계를 이어나갈 친구를 선택할 수 있답니다.</p>
+        <p>앗, 결정이 힘들다구요?</p>
+        <p>랜덤으로 나의 취향에 맞는 친구들을 만나볼 수도 있어요!</p>
       </v-col>
       <v-col cols="7">
         <img
-          :src="require('@/assets/sowlImage/mainBigSmall.png')"
+          :src="require('@/assets/main/main_1.png')"
           class="my-3"
           data-aos="fade-left"
           data-aos-offset="200"
@@ -93,7 +95,7 @@
     <v-row class="my-9 text-center" align="center">
       <v-col cols="7">
         <img
-          :src="require('@/assets/sowlImage/mainBigSmall.png')"
+          :src="require('@/assets/main/main_2.png')"
           class="my-3"
           data-aos="fade-right"
           data-aos-offset="200"
@@ -112,11 +114,11 @@
         data-aos-easing="ease-in-out"
         data-aos-mirror="true"
       >
-        <h3>나의 글로벌</h3>
-        <h3>SOWLMATE를 찾는 시간</h3>
-        <v-btn class="mt-3" color="primary" elevation="2" text x-large
-          >시작하기</v-btn
-        >
+        <h3>처음부터 얼굴부터 마주하는 게</h3>
+        <h3>부끄러운 당신을 위해 준비했어요!</h3>
+        <p>일정 기간의 만남은 얼굴 마스킹을 통해 진행된답니다!</p>
+        <p>어느 정도 마음이 생겼다면, 조심스럽게 오픈해봐도 좋아요</p>
+        <p>단, 서로의 마음이 일치해야 한답니다</p>
       </v-col>
     </v-row>
     <!--번역 소개-->
@@ -130,15 +132,14 @@
         data-aos-easing="ease-in-out"
         data-aos-mirror="true"
       >
-        <h3>나의 글로벌</h3>
-        <h3>SOWLMATE를 찾는 시간</h3>
-        <v-btn class="mt-3" color="primary" elevation="2" text x-large
-          >시작하기</v-btn
-        >
+        <h3>말이 안 통한다는</h3>
+        <h3>걱정은 그만!</h3>
+        <p>음성 혹은 자막, 원하는 방식으로 자동 변역이 제공됩니다.</p>
+        <p>필요하다면, 채팅도 번역이 가능해요!</p>
       </v-col>
       <v-col cols="7">
         <img
-          :src="require('@/assets/sowlImage/mainBigSmall.png')"
+          :src="require('@/assets/main/main_3.png')"
           class="my-3"
           data-aos="fade-left"
           data-aos-offset="200"
@@ -153,7 +154,7 @@
     <v-row class="my-9 text-center" align="center">
       <v-col cols="7">
         <img
-          :src="require('@/assets/sowlImage/mainBigSmall.png')"
+          :src="require('@/assets/main/main_4.png')"
           class="my-3"
           data-aos="fade-right"
           data-aos-offset="200"
@@ -172,11 +173,10 @@
         data-aos-easing="ease-in-out"
         data-aos-mirror="true"
       >
-        <h3>나의 글로벌</h3>
-        <h3>SOWLMATE를 찾는 시간</h3>
-        <v-btn class="mt-3" color="primary" elevation="2" text x-large
-          >시작하기</v-btn
-        >
+        <h3>친구에게 못다한 말은</h3>
+        <h3>나만의 편지로 전송해보세요!</h3>
+        <p>내가 직접 만든 편지로 마음을 전해보세요!</p>
+        <p>sowlmate의 마스코트 sowl이 전해준답니다!</p>
       </v-col>
     </v-row>
     <!--인생네컷 소개-->
@@ -190,15 +190,14 @@
         data-aos-easing="ease-in-out"
         data-aos-mirror="true"
       >
-        <h3>나의 글로벌</h3>
-        <h3>SOWLMATE를 찾는 시간</h3>
-        <v-btn class="mt-3" color="primary" elevation="2" text x-large
-          >시작하기</v-btn
-        >
+        <h3>기억에 남을</h3>
+        <h3>추억을 더욱 더 쌓고 싶다면?</h3>
+        <p>사진으로 기록해보세요</p>
+        <p>친구와 함께 하는 인생네컷도 준비되어 있답니다!</p>
       </v-col>
       <v-col cols="7">
         <img
-          :src="require('@/assets/sowlImage/mainBigSmall.png')"
+          :src="require('@/assets/main/main_4.png')"
           class="my-3"
           data-aos="fade-left"
           data-aos-offset="200"
@@ -209,12 +208,97 @@
         />
       </v-col>
     </v-row>
+    <v-row class="intimacy mt-16 pb-16 text-center rounded-lg" align="center">
+      <v-col
+        cols="12"
+        data-aos="fade-down"
+        data-aos-offset="150"
+        data-aos-delay="50"
+        data-aos-duration="800"
+        data-aos-easing="ease-in-out"
+        data-aos-mirror="true"
+      >
+        <h2>서로의 속도로 함께 쌓아가는</h2>
+        <h2>너와 나의 FRIENDSHIP</h2>
+      </v-col>
+    </v-row>
+    <v-row class="mt-n16 text-center" align="center">
+      <v-col
+        cols="12"
+        data-aos="fade-down"
+        data-aos-offset="150"
+        data-aos-delay="50"
+        data-aos-duration="800"
+        data-aos-easing="ease-in-out"
+        data-aos-mirror="true"
+      >
+        <img :src="require('@/assets/main/main_6.png')" />
+      </v-col>
+    </v-row>
+    <v-row class="mt-n9 mb-16 text-center" align="center">
+      <v-col
+        cols="12"
+        data-aos="fade-down"
+        data-aos-offset="100"
+        data-aos-delay="50"
+        data-aos-duration="800"
+        data-aos-easing="ease-in-out"
+        data-aos-mirror="true"
+      >
+        <p class="mt-4">서로의 마음이 일치해야 친구가 될 수 있답니다!</p>
+      </v-col>
+    </v-row>
+    <v-row class="move2 my-16 py-9 rounded-lg text-center">
+      <v-col
+        cols="12"
+        data-aos="fade-right"
+        data-aos-offset="150"
+        data-aos-delay="50"
+        data-aos-duration="1100"
+        data-aos-easing="ease-in-out"
+        data-aos-mirror="true"
+        data-aos-once="true"
+      >
+        <h3>SOWLMATE를 통해</h3>
+        <h3>나의 글로벌 SOULMATE를 만들어보세요!</h3>
+        <v-btn class="mt-7 rounded-xl" color="white" elevation="2" text x-large
+          >레고~!</v-btn
+        >
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 export default {
   name: 'HelloWorldBeforeLogin',
+  data() {
+    return {
+      isKor: true,
+    };
+  },
+  methods: {
+    changeLang() {
+      this.isKor = !this.isKor;
+    },
+  },
 };
 </script>
-<style scoped></style>
+<style lang="scss" scoped>
+.move1 {
+  background-image: $color-main;
+  color: white;
+}
+.description {
+  background-image: $color-main;
+  color: white;
+}
+.intimacy {
+  background-image: $color-main;
+  color: white;
+}
+.move2 {
+  background-image: $color-main;
+  color: white;
+}
+</style>

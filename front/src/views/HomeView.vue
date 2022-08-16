@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>로그인전</h1>
     <HelloWorldBeforeLogin />
     <h1>로그인후</h1>
     <HelloWorld />
