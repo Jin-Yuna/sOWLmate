@@ -6,6 +6,9 @@ var url = require('url');
 var kurento = require('kurento-client');
 var fs    = require('fs');
 var https = require('https');
+require('dotenv').config();
+
+// console.log(process.env.DEEPAR_KEY)
 
 var argv = minimist(process.argv.slice(2), {
     default: {
@@ -22,7 +25,7 @@ var options =
     cert: fs.readFileSync('keys/i7b308.p.ssafy.io.crt')
 };
 
-var app = express();
+var app = express()
 
 /*
  * Definition of global variables.

@@ -1,3 +1,22 @@
+/*
+ * (C) Copyright 2014-2015 Kurento (http://kurento.org/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+/* @CHARSET "UTF-8"; */
+
+
 @font-face {
     font-family: 'AppleSDGothicNeoB';
     src: url('../assets/font/AppleSDGothicNeoB.ttf') format('truetype');
@@ -32,16 +51,16 @@
   }
   
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+  }
 
-html {
+  html {
     overflow: hidden;
     max-height: 100%;
-    font-size: 100%;
+    font-size: 16px;
   }
   
 body {
@@ -62,7 +81,7 @@ body {
 
 .container {
     width: 80%;
-    margin: 30px auto;
+    margin: 2rem auto;
   }
 
 .navbar-left {
@@ -71,7 +90,7 @@ body {
   }
   
   #logo {
-    width: 132px;
+    width: 8.25rem;
     height: auto;
     box-sizing: border-box;
     display: inline;
@@ -79,11 +98,11 @@ body {
   
   .title {
     background-color: var(--main-darklg);
-    border-radius: 4px;
+    border-radius: 0.25rem;
     color: white;
     display: inline-block;
     font-family: 'AppleSDGothicNeoB';
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1;
     padding: 0.5rem 3rem;
     text-align: center;
@@ -93,18 +112,25 @@ body {
   
   .time-check {
     background-color: white;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     color: var(--main-grey);
     display: inline-block;
     font-family: 'AppleSDGothicNeoR';
-    font-size: 14px;
+    font-size: 0.8rem;
     line-height: 1;
-    padding: 4px 20px;
+    padding: 0.5rem 1.25rem;
     text-align: center;
     vertical-align: middle;
     white-space: nowrap;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.10);
+    box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.10);
   }
+
+  div.dragged {
+    cursor: all-scroll !important;
+    border-color: #7C58EB !important;
+    z-index: 10 !important;
+  }
+  
   
   .navbar-right {
     float: right;
@@ -113,25 +139,25 @@ body {
   
   .header-li {
     display: inline;
-    padding-left: 20px;
+    padding-left: 1.4rem;
   }
   
   .nav-icon {
-    font-size: 16px;
+    font-size: 1rm;
     color: var(--semi-grey);
     text-decoration: none;
   }
   
   .nav-icon:hover {
     color: #6E9DF5;
-    box-shadow: 0px 8px 20px 
+    box-shadow: 0px 0.5rem  1.14rem
     rgba(124, 88, 235, 0.3);
     text-decoration: none;
   }  
 
-  .btn {
+  .btn--primary {
     font-family: 'AppleSDGothicNeoR';
-    font-size: 14px;
+    font-size: 0.8rem;
     width: 4rem;
     height: 2rem;
     border-radius: 0.5rem;
@@ -143,9 +169,7 @@ body {
     transition: .3s ease;
   }
   
-  .btn__primary {
-    grid-column: 1 / 2;
-    grid-row: 4 / 5;
+  .btn--primary {
     background-color: #6E9DF5;
     box-shadow:inset .2rem .2rem 1rem #6E9DF5, 
               inset -.2rem -.2rem 1rem #5b0eeb,
@@ -153,73 +177,78 @@ body {
     color: #ffffff;
   }
   
-   .btn__primary:hover { 
+  .btn--primary:hover { 
     color: #E4EBF5; 
   }
-   .btn__primary:active {
+  
+ .btn--primary:active {
         box-shadow:inset .1rem .1rem 0.5rem #5b0eeb, 
                inset -.1rem -.1rem 0.5rem #6E9DF5;
   }
 
-  /* nav */
+  /* 메인 */
 
-  .main__left {
-    flex: 0.25;
-    display: flex;
-    flex-direction: column;
-    margin-left: 3%;
-    margin-right: 1.5%;
+  
+  .main {
     overflow: hidden;
+    height: 92vh;
+    display: flex;
   }
-  /* 비디오 */
 
   .main__center {
-    flex: 0.6;
+    flex: 0.7;
+    flex-grow: 1;
     display: flex;
-    margin: auto 1.5%;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+    margin-bottom: 1rem;
   }
 
   .main__right {
+    flex: 0.3;
     display: flex;
-    margin-left: 1.5%;
-    margin-right: 3%;
-    margin-top: 4%;
-    margin-bottom: 4%;
-    flex: 0.25;
+    margin-right: 12rem;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    
+  }
+
+  @media (max-width: 1080px) {
+
+    .main__right {
+      display: none;
+    }
+
+    .main__center {
+      width: 100%;
+      flex: 1;
+    }
+  
+    video {
+      height: auto;
+      width: 100%;
+    }
   }
 
 
 /* 비디오 */
 
-  .main {
-    overflow: hidden;
-    height: 92vh;
-    display: flex;
-    margin: auto 60px;
-  }
   
   .videos__group {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
-    background-color: var(--main-dark);
   }
   
   video {
-    /* max-width: 100%;
-    height: 100%; */
-    /* height: 300px; */
-    /* width: 400px; */
-    border-radius: 1rem;
-    margin: 0.5rem;
     object-fit: cover;
+    object-position: center center;
+    border-radius: 1rem;
     background-color: var(--main-light);
     background-image: none;
     border: 1px solid rgba(124, 88, 235, 0.05);
-	  border-radius: 1rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3);
     -webkit-transition: border-color ease-in-out .15s, box-shadow
@@ -227,40 +256,53 @@ body {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   }
 
+  #remoteCanvas {
+    width: 100%;
+    object-fit: cover;
+    object-position: center center;
+    /* max-width: 100%
+    height: 100%; */
+    background-color: var(--main-light);
+    background-image: none;
+    border: 1px solid rgba(124, 88, 235, 0.05);
+	  border-radius: 1rem;
+    box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow
+      ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+
   #videoSmall {
+    width: 400;
+    height: 300;
     position: absolute;
-    width: 360;
-	  height: 280;
-    top: 15%;
-    left: 5.5%;
+    top: 8rem;
+    left: 10rem;
     cursor: pointer;
     z-index: 10;
-    object-fit: cover;
+   
   }
 
   #videoBig {
-    width: 640;
-    height: 480;
+    position: relative; /* absolute는 부모가 relative일 때 부모를 따라간다. */
+    /* width: 100%; */
+    /* padding-top: 28.125%; */
+    /* padding-bottom: 28.125%;  */
     top: 0;
     left: 0;
     z-index: 1;
     text-align: center;
-    margin-bottom: 10px;
+    /* margin: 0.5rem; */
   }
   
-
-  #video-grid {
-    /* display: flex; */
-    justify-content: center;
-    /* flex-wrap: wrap; */
-  }
-
   /* option */
 
   .options {
+    z-index: 15;
     position : fixed;
     text-align: center;
-    bottom : 10px;
+    bottom : 1rem;
     left: 50%;
     background-color: var(--main-darklg);
   }
@@ -271,12 +313,12 @@ body {
 
 
   #menu {
-    width: 200px;
-    height: 200px;
+    width: 15rem;
+    height: 15rem;
     position: absolute;
     left: 50%;
     top: 50%;
-    margin: -75px 0 0 -75px;
+    margin: -5rem 0 0 -5rem;
     list-style: none;
     font-size: 200%;
   }
@@ -284,19 +326,19 @@ body {
   .menu-button {
     opacity: 0;
     z-index: -1;
-    width: 250px;
-    height: 250px;
+    width: 15rem;
+    height: 15rem;
     font-size: 200%;
     position: absolute;
-    left: -18%;
+    left: -9%;
     top: 0%;
     border-radius: 50%;
     border: none;
     color: #fff;
     cursor: pointer;
     background-image: var(--primary-color);
-    box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0.25rem 1rem 0 rgba(116, 79, 168, 0.75);
+    box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
     background-size: 100%;
     text-decoration: none; 
     box-shadow:inset .2rem .2rem 1rem #6E9DF5, 
@@ -311,7 +353,7 @@ body {
     -o-transition: all .4s ease-in-out;
     -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
-    box-shadow: 0px 1px 20px #9c9cc855;
+    box-shadow: 0px 1px 1.4rem #9c9cc855;
   }
 
   .menu-button:focus {
@@ -330,12 +372,12 @@ body {
   }
 
   .menu-item {
-      width: 60px;
-      height: 60px;
+      width: 4rem;
+      height: 4rem;
       position: absolute;
-      left: 55%;
+      left: 50%;
       top: 50%;
-      margin: -50px 0 0 -50px;
+      margin: -3.5rem 0 0 -3.5rem;
       border-radius: 50%;
       background-image: var(--main-light);
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -345,13 +387,13 @@ body {
       transition: .5s;
   }
 
-  .check {
-    width: 60px;
-    height: 60px;
+  .menu-item > .check {
+    width: 4rem;
+    height: 4rem;
     position: absolute;
-    left: 55%;
+    left: 50%;
     top: 50%;
-    margin: -50px 0 0 -50px;
+    margin: -3.5rem 0 0 -3.5rem;
     border-radius: 50%;
     background-image: var(--primary-color);
     background-size: 100%;
@@ -366,7 +408,7 @@ body {
     opacity: 0.5;
     background-color: #7C58EB;
     background-color: var(--primary-color);
-    box-shadow: 0px 1px 20px #9c9cc855;
+    box-shadow: 0px 1px 1.4rem #9c9cc855;
   }
 
   a {
@@ -379,54 +421,61 @@ body {
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       position: relative;
-      font-size: 20px;
+      font-size: 1.4rem;
       margin-top: 30%;
   }
 
-  .menu-icon-check {
+  .menu-icon > .check {
     color: white;
     position: relative;
-    font-size: 20px;
+    font-size: 1.4rem;
     margin-top: 30%;
   }
   
   .menu-icon:hover {
     color: #7C58EB;
-    box-shadow: 0px 8px 20px 
+    box-shadow: 0px 0.5rem 1.4rem
     rgba(124, 88, 235, 0.3);
     text-decoration: none;
   } 
 
+  /* 4번째 */
   #menu:target>.menu-item:nth-child(6) {
       transform: rotate(60deg) translateY(-150px) rotate(300deg);
       transition-delay: 0s;
   }
 
+    /* 3번째 */
   #menu:target>.menu-item:nth-child(5) {
       transform: rotate(20deg) translateY(-155px) rotate(-20deg);
       transition-delay: 0.1s;
   }
-
-  #menu:target>.menu-item:nth-child(3) {
-      transform: rotate(-20deg) translateY(-155px) rotate(20deg);
-      transition-delay: 0.2s;
-  }
-
-  #menu:target>.menu-item:nth-child(4) {
-      transform: rotate(-60deg) translateY(-150px) rotate(60deg);
-      transition-delay: 0.3s;
-  }
+  /* 2번째 */
+    #menu:target>.menu-item:nth-child(3) {
+        transform: rotate(-20deg) translateY(-155px) rotate(20deg);
+        transition-delay: 0.2s;
+    }
+  /* 2번째 */
+    #menu:target>.menu-item:nth-child(4) {
+        transform: rotate(-60deg) translateY(-150px) rotate(60deg);
+        transition-delay: 0.3s;
+    }
 
   /* filter */
 
+  .main__bottom {
+    padding: 1rem;
+    display: flex;
+    background-color: var(--main-darklg);
+  }
 
   /* Chatting */
 
 
   .main__chat_window {
-    border-radius: 16px;
+    border-radius: 1rem;
     background-color: var(--main-light);
-    box-shadow: 0px 1px 20px #9c9cc855;
+    box-shadow: 0px 1px 10rem #9c9cc855;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -436,7 +485,7 @@ body {
   .chat__header {
     background: #ffffff;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05);
-    border-radius: 16px 16px 0px 0px;
+    border-radius: 1rem 1rem 0px 0px;
     padding: 0.8rem 2.0rem;
     display: flex;
     justify-content: space-between;
@@ -445,7 +494,7 @@ body {
   .greeting {
     color: var(--main-grey);
     font-family: 'AppleSDGothicNeoSB';
-    font-size: 16px;
+    font-size: 1rem;
     margin-top: 2%;
   }
 
@@ -591,20 +640,3 @@ body {
     width: 16%;
   } 
   
-
-  @media (max-width: 700px) {
-    .main__right {
-      display: none;
-    }
-
-    .main__center {
-      width: 100%;
-      flex: 1;
-    }
-  
-    video {
-      height: auto;
-      width: 100%;
-    }
-  
-  }

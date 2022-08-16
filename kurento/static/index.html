@@ -28,13 +28,14 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
 
-    <!-- chatting button -->
-    <script type="text/javascript">
+    <script>
+      // chatting
       function show(){
-          if($('#main__chat_window').css('display') == 'none'){
-          $('#main__chat_window').show();
+          if($('.main__right').css('display') == 'none'){
+            $('.main__right').show();
       }else{
-          $('#main__chat_window').hide();
+          $('.main__right').hide();
+  
       }
       }
 
@@ -109,35 +110,13 @@
               ]);
               //console.log(sharedMessages);
               console.log(sharedMessages[sharedMessages.length-1][0].text);
-              axios({
-                baseURL: "https://api.cognitive.microsofttranslator.com/",
-                url: '/translate',
-                method: 'post',
-                headers: {
-                  'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
-                  'Ocp-Apim-Subscription-Region': "koreacentral",
-                  'Content-type': 'application/json',
-                  'X-ClientTraceId': uuidv4().toString()
-                },
-                params: {
-                  'api-version': '3.0',
-                  'from': 'ko',
-                  'to': 'en'
-                },
-                data: [{
-                  'text': sharedMessages[sharedMessages.length-1][0].text
-                }],
-                responseType: 'json'
-              }).then(function(response){
-                var translationResult = response.data;
-                //console.log(JSON.stringify(response.data, null, 4));
+              var translate_result = translateText(sharedMessages[sharedMessages.length-1][0].text)
                 sendMessage({
                   id : 'translate',
                   from : users[0],
                   to: users[1],
-                  text: translationResult[0].translations[0].text
+                  text: translate_result
                 });
-              })
             }
       };
       sr2.onerror = function() {
@@ -167,6 +146,33 @@
         listening.value = false;
         sr2.stop();
     };
+
+    function translateText(message) {
+    axios({
+      baseURL: "https://api.cognitive.microsofttranslator.com/",
+      url: '/translate',
+      method: 'post',
+      headers: {
+        'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
+        'Ocp-Apim-Subscription-Region': "koreacentral",
+        'Content-type': 'application/json',
+        'X-ClientTraceId': uuidv4().toString()
+      },
+      params: {
+        'api-version': '3.0',
+        'from': 'ko',
+        'to': 'en'
+      },
+      data: [{
+        'text': message
+      }],
+      responseType: 'json'
+      }).then(function(response){
+      var translationResult = response.data;
+      //console.log(JSON.stringify(response.data, null, 4));
+      return translationResult[0].translations[0].text
+      })
+  }
     </script>
     <title>sOWLmate</title>
 
@@ -182,71 +188,31 @@
         <ul class="navbar-right">
           <li class="header-li"><span class="time-check">시간 체크</span></li>
             <!-- <li><a href="#" id="lock"></a><i class="fa-solid fa-lock nav-icon"></i></a></li> -->
-            <li class="header-li"><a href="#" id="unlock"><i class="fa-solid fa-unlock nav-icon"></i></a></li>
-            <li class="header-li"><a href="#" id="setting"><i class="fa-solid fa-gear nav-icon"></i></a></li>
-            <li class="header-li"><button class="btn btn__primary" id="terminate">종료</button></li>
+            <li class="header-li"><i class="fa-solid fa-unlock nav-icon"></i></a></li>
+            <li class="header-li"><i class="fa-solid fa-gear nav-icon"></i></a></li>
+            <li class="header-li"><button class="btn btn--primary" id="terminate">종료</button></li>
         </ul>
       </div>
     </div>
-    <!-- main left -->
-    <!-- 인생 네컷 + 필터 선택 -->
     <div class="main">  
-      <div class="main__left">
-        <div class="filter" display="none">
-          <div class="effects">
-            <div value="">Filter Off</div>
-            <div value="alien">Alien</div>
-            <div value="aviators">Aviators</div>
-            <div value="background_blur">Background Blur</div>
-            <div value="segmentation">Segmentation</div>
-            <div value="ball_face">Ball Face</div>
-            <div value="beard">Beard</div>
-            <div value="beauty">Beauty</div>
-            <div value="dalmatian">Dalmatian</div>
-            <div value="fairy_lights">Fairy Lights</div>
-            <div value="flowers">Flowers</div>
-            <div value="frankenstein">Frankenstein</div>
-            <div value="hair_segmentation">Hair Segmentation</div>
-            <div value="koala">Koala</div>
-            <div value="lion">Lion</div>
-            <div value="look1">Look1</div>
-            <div value="look2">Look2</div>
-            <div value="manly_face">Manly Face</div>
-            <div value="plastic_ocean">Plastic Ocean</div>
-            <div value="pumpkin">Pumpkin</div>
-            <div value="scuba">Scuba</div>
-            <div value="tape_face">Tape Face</div>
-            <div value="teddycigar">Teddy Cigar</div>
-            <div value="tiny_sunglasses">Tiny Sunglasses</div>
-            <div value="topology">Topology</div>
-          </div>
-        </div>
-        <!-- 인생네컷 -->
-        <div>
-          <button id="btn-capture" onclick="initialize()">sayCheese</button>
-          <div>
-            <canvas id="canvas" width="560" height="950"></canvas>
-          </div>
-        </div>
-
-      </div>
       <!-- main center (비디오) -->
       <div class="main__center">
         <div class="videos__group">
           <div id="video-grid">
-              <div id="videoBig">
                 <!-- 자막 -->
-                </div>
+              <div>
                   <p id="videoSubtitles"></p>
                 </div>
-                <!-- <canvas id="remoteCanvas">Your browser does not support Canvas</canvas> -->
-                  <video id="videoOutput" autoplay width="800" height="600" poster="img/webrtc.png"></video>
+                <div id="videoBig">
+                  <canvas id="remoteCanvas" id="videoOutput" width="960" height="680" ></canvas>
+                  <video id="videoOutput" autoplay width="960" height="680" style="display:none;"></video>
                   </div>
                   <div id="videoSmall">
-                    <!-- <canvas id="deepARCanvas" width="360" height="280" style="display:none;"></canvas> -->
-                    <video id="videoInput" autoplay width="360" height="280" poster="img/webrtc.png"></video>
-              </div>
+                    <video id="videoInput" autoplay width="360" height="280" ></video>
+                </div>
             </div>
+          </div>
+      </div>
 
       <!-- main-right -->
       <div class="main__right">
@@ -275,78 +241,78 @@
               <input type="submit" id="send" value="전송">
           </form>
         </div>
-      </div>
-  </div>
-      <!-- 옵션 -->
-      <div class="options">
-        <div class="menu-container">
-            <ul id="menu">
-                   <a class="menu-button icon-plus" style="overflow: hidden;" href="#menu" title="Show navigation"></a>
-                   <a class="menu-button icon-minus" style="overflow: hidden;" href="#0" title="Hide navigation"></a>
-                   <li class="menu-item">
-                       <div href="" id="stopVideo" class="options__button" >
-                            <!-- <i class="fa-solid fa-video-slash"></i> -->
-                            <i class="fa-solid fa-video menu-icon"></i>
-                       </div>
-                   </li>
-                <li class="menu-item">
-                    <div href="" id="muteButton" class="options__button" >
-                    <!-- <i class="fa-solid fa-microphone-slash"></i> -->
-                        <i class="fa-solid fa-microphone menu-icon" aria-hidden="true"></i>
-                    </div>
-                </li>
-                <li class="menu-item check"  onclick="show()">
-                    <div href="" id="showChat"class="options__button" >
-                        <i class="fa-solid fa-message menu-icon-check"></i>
-                    </div>
-                </li>
-                <!-- <li class="menu-item" onclick="stopListen()"> -->
-                <li class="menu-item check" onclick="startListen()">
-                    <div href="">
-                      <!-- <i class="fa-solid fa-language menu-icon"></i> -->
-                        <i class="fa-solid fa-language menu-icon-check"></i>
-                    </div>
-                </li>
-              <!-- </li> -->
-            </ul>
-        </div>
-      </div>
-
-        <!-- </div> -->
-        <!-- display translation -->
-        <!-- <div> -->
-          <!-- <div v-if="!langIsSet">
-            <h2 class="text-3xl mb-6">Select language</h2>
-            <ul class="langlist">
-              <li v-for="[n] of locales" :key="n">
-                <a class="text-blue-800" :href="'?lang=' + n">{{ n }}</a>
-              </li>
-            </ul>
-          </div> -->
-          <!-- <br>
+        <!-- 인생네컷 -->
+        <div style="display:none;">
+          <button id="btn-capture" onclick="initialize()">sayCheese</button>
           <div>
-            <button onclick="startListen()">Start Listening</button>
-            <button onclick="stopListen()">Stop Listening</button> -->
-            <!-- <button id="btn-capture" onclick="initialize()">sayCheese</button>
-          </div> -->
-          
-
-    <!-- </div> -->
-      <!-- chat -->
-      <!-- <div id="chatting" style="display:none">
-        <div class="chat__header">
-          <span class="chat__header__greetings" id="username">
-          </span>
+            <canvas id="canvas" width="560" height="950"></canvas>
+          </div>
         </div>
-        <div id="chatView">
+      </div>
+    </div>
+          <!-- 필터 선택 -->
+    </div>
+      <div class="main__bottom">
+        <div class="filter" style=>
+          <div class="effects">
+            <div value="">Filter Off</div>
+            <div value="alien">Alien</div>
+            <div value="aviators">Aviators</div>
+            <div value="background_blur">Background Blur</div>
+            <div value="segmentation">Segmentation</div>
+            <div value="ball_face">Ball Face</div>
+            <div value="beard">Beard</div>
+            <div value="beauty">Beauty</div>
+            <div value="dalmatian">Dalmatian</div>
+            <div value="fairy_lights">Fairy Lights</div>
+            <div value="flowers">Flowers</div>
+            <div value="frankenstein">Frankenstein</div>
+            <div value="hair_segmentation">Hair Segmentation</div>
+            <div value="koala">Koala</div>
+            <div value="lion">Lion</div>
+            <div value="look1">Look1</div>
+            <div value="look2">Look2</div>
+            <div value="manly_face">Manly Face</div>
+            <div value="plastic_ocean">Plastic Ocean</div>
+            <div value="pumpkin">Pumpkin</div>
+            <div value="scuba">Scuba</div>
+            <div value="tape_face">Tape Face</div>
+            <div value="teddycigar">Teddy Cigar</div>
+            <div value="tiny_sunglasses">Tiny Sunglasses</div>
+            <div value="topology">Topology</div>
+          </div>
         </div>
-        <form id="chatForm" onsubmit="return false">
-          <input type="text" id="msg" autocomplete="off" placeholder="Type message here...">
-          <input type="submit" id="send" value="전송">
-        </form>
-      </div> -->
+      </div>
 
-    <!-- </div> -->
+     <!-- 옵션 -->
+     <div class="options">
+      <div class="menu-container">
+          <ul id="menu">
+                 <a class="menu-button icon-plus" style="overflow: hidden;" href="#menu" title="Show navigation"></a>
+                 <a class="menu-button icon-minus" style="overflow: hidden;" href="#0" title="Hide navigation"></a>
+                  <!-- 비디오 on/off -->
+                  <li class="menu-item"  id="stopVideo">
+                   <i class="fa-solid fa-video-slash menu-icon check" style="display: none;"></i>
+                   <i class="fa-solid fa-video menu-icon"></i>         
+                  </li>
+                 <!-- 음소거 -->
+                  <li class="menu-item"  id="muteButton">
+                   <i class="fa-solid fa-video-slash menu-icon check"  style="display: none;"></i>
+                   <i class="fa-solid fa-microphone menu-icon" aria-hidden="true"></i>
+                 </li>
+               <!-- 채팅 -->
+                 <li id="showChat" class="menu-item"  onclick="show()">
+                   <i class="fa-solid fa-message menu-icon check"  style="display: none;"></i>
+                   <i class="fa-solid fa-message menu-icon"></i>
+                  </li>
+               <!-- 번역 -->
+                 <li class="menu-item" onclick="translateStart()">
+                   <i class="fa-solid fa-language menu-icon"></i>
+                   <i class="fa-solid fa-language menu-icon check"  style="display: none;"></i>
+                 </li>
+           </ul>
+      </div>
+    </div>
     <script type="text/javascript" src="lib/deepar.js"></script>
     <!-- <script src="js/index.js"></script> -->
   </body>
