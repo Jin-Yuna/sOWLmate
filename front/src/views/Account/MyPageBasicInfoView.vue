@@ -1,10 +1,23 @@
 <template>
-  <div>
-    <h2>기본 정보</h2>
-    <MyPageAvatar :profilePictureUrl="this.userInfo.profilePictureUrl" />
-    <MyPageBasicInfoForm />
-    <button @click="withdrawal">탈퇴</button>
-  </div>
+  <v-container>
+    <h3>기본 정보</h3>
+    <v-row justify="center">
+      <MyPageAvatar
+        :profilePictureUrl="this.userInfo.profilePictureUrl"
+        class="profile-position"
+      />
+    </v-row>
+    <div class="mt-8">
+      <MyPageBasicInfoForm
+        :currentUser="this.currentUser"
+        :userNickname="this.userInfo.nickname"
+        :userRegion="this.userInfo.region"
+      />
+    </div>
+    <v-row justify="end">
+      <v-btn size="x-small" @click="withdrawal">탈퇴</v-btn>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -45,4 +58,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.profile-position {
+  left: 50%;
+}
+</style>

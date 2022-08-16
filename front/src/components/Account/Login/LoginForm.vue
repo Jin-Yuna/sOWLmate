@@ -35,9 +35,7 @@
         비밀번호가 틀렸습니다.
       </p>
       <div class="mt-1 d-flex justify-end">
-        <router-link
-          :to="{ name: 'PasswordResetView' }"
-          class="auth-q justify-end"
+        <router-link :to="{ name: 'PasswordResetView' }" class="auth-q"
           >비밀번호를 잊으셨나요?</router-link
         >
       </div>

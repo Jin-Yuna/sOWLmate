@@ -1,13 +1,27 @@
 <template>
-  <div>
-    <h3>preferenceLanguageEditForm.vue</h3>
-    <div>
-      <label for="lang">선호 언어: </label>
-      <select name="lang" id="lang" v-model="lang">
-        <option v-for="lan in languageList" :key="lan">{{ lan }}</option>
-      </select>
-    </div>
-    <button @click="modifyUserInfo({ preferenceLanguage: lang })">저장</button>
+  <div class="mt-12">
+    <h3>선호언어 변경</h3>
+    <v-row class="mt-8">
+      <v-label for="lang" class="mr-10 width-6 font-08">선호언어</v-label>
+      <v-select
+        name="lang"
+        id="lang"
+        color="primary"
+        v-model="lang"
+        :items="languageList"
+        variant="underlined"
+        :placeholder="this.userRegion"
+      >
+      </v-select>
+    </v-row>
+    <v-row justify="end" class="mt-4">
+      <button
+        @click="modifyUserInfo({ preferenceLanguage: lang })"
+        class="main-btn"
+      >
+        저장
+      </button>
+    </v-row>
   </div>
 </template>
 

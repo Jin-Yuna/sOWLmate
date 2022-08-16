@@ -16,6 +16,7 @@ import RoomMainListView from '@/views/Room/List/RoomMainListView.vue';
 import RoomFriendsListView from '@/views/Room/List/RoomFriendsListView.vue';
 import GoogleRegisterView from '@/views/Account/GoogleRegisterView.vue';
 import friendsView from '@/views/Friends/friendsView.vue';
+import MettingRateView from '@/views/Friends/MettingRateView.vue';
 import PhotoBoothView from '@/views/Profile/PhotoBoothView.vue';
 
 const routes = [
@@ -96,6 +97,11 @@ const routes = [
     path: '/friends/',
     name: 'friendsView',
     component: friendsView,
+  },
+  {
+    path: '/meeting/after/',
+    name: 'MettingRateView',
+    component: MettingRateView,
   },
 ];
 

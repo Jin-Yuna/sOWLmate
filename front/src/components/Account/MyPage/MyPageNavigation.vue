@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-row">
+  <div class="d-flex flex-row mt-16">
     <v-tabs v-model="tab" direction="vertical" color="primary">
       <v-tab>
         <router-link :to="{ name: 'MyPageBasicInfoView' }"

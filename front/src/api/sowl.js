@@ -11,7 +11,7 @@ const INTEREST = 'interest/';
 const CATEGORIS = 'categories/';
 const CONFERENCE = 'conference/';
 const PHOTOBOOTH = 'photo-booth/';
-
+const INTIMACY = 'intimacy/';
 export default {
   front: {
     googleRequest: () => FRONT,
@@ -72,5 +72,8 @@ export default {
   },
   friend: {
     friendList: () => HOST + 'penpal/list/user/',
+  },
+  intimacy: {
+    intimacy: () => HOST + INTIMACY + 'positive/',
   },
 };

@@ -1,29 +1,35 @@
 <template>
   <div>
-    <PasswordResetCard />
+    <h2 class="mt-16 mb-6">비밀번호 찾기</h2>
     <form @submit.prevent="resetPassword(userData)">
       <div>
-        <label for="userId">아이디 : </label>
-        <input
+        <v-text-field
+          color="primary"
+          prepend-inner-icon="mdi-account-outline"
           type="email"
-          placeholder="아이디(이메일)를 입력하세요"
-          id="userId"
+          label="아이디(Email)"
+          variant="underlined"
           v-model="userData.userId"
           @input="idCheck(userData.userId)"
-        />
-        <p v-if="isIdCheck || !isIdChecked">아이디를 정확하게 입력해주세요.</p>
-        <p v-if="!isIdCheck">아이디가 확인되었습니다.</p>
+        ></v-text-field>
+        <p v-if="isIdCheck || !isIdChecked" class="form-err">
+          아이디를 정확하게 입력해주세요.
+        </p>
+        <p v-if="!isIdCheck" class="form-blue">아이디가 확인되었습니다.</p>
       </div>
       <div>
-        <label for="userName">유저 이름 : </label>
-        <input
+        <v-text-field
+          color="primary"
+          prepend-inner-icon="mdi-key-outline"
+          variant="underlined"
           type="text"
-          placeholder="유저 이름을 입력하세요"
-          id="userName"
+          label="유저 이름"
           v-model="userData.userName"
-        />
+        ></v-text-field>
       </div>
       <v-btn
+        class="main-btn btn-big mt-12"
+        width="100%"
         type="submit"
         v-bind:disabled="isIdCheck"
         @click="showModal = true"
@@ -37,13 +43,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import PasswordResetCard from '@/components/Account/PasswordReset/PasswordResetCard.vue';
 import PasswordResetModal from '@/components/Account/PasswordReset/PasswordResetModal.vue';
 
 export default {
   name: 'PasswordResetForm',
   components: {
-    PasswordResetCard,
     PasswordResetModal,
   },
   data() {
@@ -71,4 +75,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>
