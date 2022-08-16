@@ -17,6 +17,7 @@
 import { mapActions } from 'vuex';
 import LoginForm from '@/components/Account/Login/LoginForm.vue';
 import LoginCard from '@/components/Account/Login/LoginCard.vue';
+
 // import firebase from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
