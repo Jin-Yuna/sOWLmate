@@ -12,4 +12,6 @@ public class LetterRequestDto {
     private String title;
     private String content;
     private Long letterNo;
+    private String writingPad;
+    private String writingFont;
 }

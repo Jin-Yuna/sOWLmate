@@ -43,12 +43,14 @@ public class Letter {
     private LocalDateTime createDate;
 
     // Create Letter
-    public static Letter createLetter(User fromUser, User toUser, String title, String content) {
+    public static Letter createLetter(User fromUser, User toUser, String title, String content, String writingPad, String writingFont) {
         Letter letter = new Letter();
         letter.setFromUser(fromUser);
         letter.setToUser(toUser);
         letter.setTitle(title);
         letter.setContent(content);
+        letter.setWritingPad(writingPad);
+        letter.setWritingFont(writingFont);
         letter.setCreateDate(LocalDateTime.now());
         return letter;
     }
