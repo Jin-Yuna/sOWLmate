@@ -1,14 +1,13 @@
 <template>
   <div>
-    <h1>로그인전</h1>
-    <HelloWorldBeforeLogin />
-    <h1>로그인후</h1>
-    <HelloWorld />
+    <HelloWorld v-if="isLoggedIn" />
+    <HelloWorldBeforeLogin v-else />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 // Components
 import HelloWorld from '../components/HelloWorld.vue';
@@ -19,6 +18,9 @@ export default defineComponent({
   components: {
     HelloWorld,
     HelloWorldBeforeLogin,
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn']),
   },
 });
 </script>
