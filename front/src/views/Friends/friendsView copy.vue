@@ -5,13 +5,21 @@
         <p>메모리네브 자리</p>
       </v-col>
       <v-col cols="9">
-        <v-tabs
-          ><v-tab @click="selected = 0"> 전체 </v-tab>
-          <v-tab @click="selected = 1"> 예비친구 </v-tab>
-          <v-tab @click="selected = 2"> 친구 </v-tab>
-          <v-tab @click="selected = 3"> 소울메이트 </v-tab>
-        </v-tabs>
-        <hr />
+        <v-row class="friend-nav"
+          ><p @click="selected = 0">
+            전체 <span v-if="selected === 0"><hr /></span>
+          </p>
+          <p @click="selected = 1">
+            예비친구<span v-if="selected === 1"><hr /></span>
+          </p>
+          <p @click="selected = 2">
+            친구<span v-if="selected === 2"><hr /></span>
+          </p>
+          <p @click="selected = 3">
+            소울메이트<span v-if="selected === 3"><hr /></span>
+          </p>
+        </v-row>
+        <hr class="nav-hr" />
         <TotalFriend
           v-if="selected === 0"
           class="my-16"
@@ -74,4 +82,27 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.friend-nav {
+  position: relative;
+  left: -0.8rem;
+}
+.friend-nav p {
+  width: 6rem;
+  margin-left: 0.5rem;
+  text-align: center;
+}
+.friend-nav hr {
+  position: relative;
+  top: 0.5rem;
+  background-color: #292d32;
+  height: 3px;
+  width: 6rem;
+}
+
+.nav-hr {
+  position: relative;
+  top: 1.2rem;
+  left: -0.8rem;
+}
+</style>

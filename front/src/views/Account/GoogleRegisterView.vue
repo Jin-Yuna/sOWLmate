@@ -6,10 +6,7 @@
       </v-col>
       <v-col cols="5" xs="11">
         <v-container>
-          <SignUpForm />
-          <router-link :to="{ name: 'LoginView' }"
-            >이미 회원이신가요?</router-link
-          >
+          <SocialSignupForm />
         </v-container>
       </v-col>
     </v-row>
@@ -18,13 +15,13 @@
 
 <script>
 import SignUpCard from '@/components/Account/Signup/SignUpCard.vue';
-import SignUpForm from '@/components/Account/Signup/SignUpForm.vue';
+import SocialSignupForm from '@/components/Account/Signup/SocialSignupForm.vue';
 
 export default {
   name: 'SignUpView',
   components: {
     SignUpCard,
-    SignUpForm,
+    SocialSignupForm,
   },
 };
 </script>
