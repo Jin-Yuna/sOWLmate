@@ -1,8 +1,36 @@
-/*===== 텍스트그라데이션 =====*/
-// background: $color-main;
-// color: transparent;
-// -webkit-background-clip: text;
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+max-container {
+	width: 100%;
+	height: 100%;
+}
+/*===== 폰트굵기 =====*/
+.pw-ul {
+	font-weight: 200;
+}
+.pw-l {
+	font-weight: 300;
+}
+.pw-r {
+	font-weight: 500;
+}
+.pw-sb {
+	font-weight: 600;
+}
+.pw-b {
+	font-weight: 700;
+}
 
+
+/*===== 텍스트그라데이션 =====*/
+.text-gradient {
+	background: $color-main;
+	color: transparent;
+	-webkit-background-clip: text;
+}
 /*===== BASE =====*/
 
 *,::before,::after{
@@ -15,22 +43,21 @@ html{
 }
 h1{
 	font-size: 3rem;
-	font-weight: 400;
+	font-weight: 700;
 }
 h2{
 	font-size: 2.25rem;
-  font-weight: 400;
+  font-weight: 700;
 }
 h3 {
 	font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 700;
 }
 h4 {
 	font-size: 1.25rem;
-  font-weight: 400;
+  font-weight: 700;
 }
 p{
-	margin: 0;
 	font-size: 1rem;
 }
 p-large {
@@ -45,8 +72,9 @@ ul{
 	padding: 0;
 	list-style: none;
 }
-a{
-	text-decoration: none;
+a {
+  text-decoration: none; /* 링크의 밑줄 제거 */
+  color: inherit; /* 링크의 색상 제거 */
 }
 img{
 	max-width: 100%;

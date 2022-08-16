@@ -1,41 +1,49 @@
 <template>
   <div>
-    <LoginCard />
+    <h1 class="mt-16 mb-6">Login</h1>
     <form @submit.prevent="login(userData)">
       <div>
-        <label for="userId">아이디: </label>
-        <input
-          type="text"
-          placeholder="아이디(이메일)를 입력하세요"
-          id="userId"
+        <v-text-field
+          color="primary"
+          prepend-inner-icon="mdi-account-outline"
+          label="아이디(Email)"
+          variant="underlined"
           v-model="userData.id"
           @input="idValidCheck()"
-        />
+        ></v-text-field>
+        <p v-if="!isEmailValidCheck && userData.id != ''" class="form-err">
+          이메일 형식으로 입력해주세요
+        </p>
+        <p v-if="isEmailValidCheck && isIdCheck" class="form-err">
+          없는 아이디 입니다. 아이디를 정확하게 입력해주세요.
+        </p>
       </div>
-      <p v-if="!isEmailValidCheck && userData.id != ''">
-        이메일 형식으로 입력해주세요
-      </p>
-      <p v-if="isEmailValidCheck && isIdCheck">
-        없는 아이디 입니다. 아이디를 정확하게 입력해주세요.
-      </p>
       <div>
-        <label for="password">비밀번호: </label>
-        <input
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          id="password"
+        <v-text-field
+          color="primary"
+          prepend-inner-icon="mdi-lock-outline"
+          label="비밀번호"
+          variant="underlined"
           v-model="userData.password"
-        />
+          type="password"
+        ></v-text-field>
       </div>
-      <p v-if="isLoginFail === 'fail' && !isIdCheck && userData.id != ''">
+      <p
+        v-if="isLoginFail === 'fail' && !isIdCheck && userData.id != ''"
+        class="form-err"
+      >
         비밀번호가 틀렸습니다.
       </p>
-      <div>
-        <router-link :to="{ name: 'PasswordResetView' }"
+      <div class="mt-1 d-flex justify-end">
+        <router-link
+          :to="{ name: 'PasswordResetView' }"
+          class="auth-q justify-end"
           >비밀번호를 잊으셨나요?</router-link
         >
       </div>
       <v-btn
+        class="main-btn btn-big mt-12"
+        width="100%"
         type="submit"
         v-bind:disabled="
           userData.id === '' || userData.password === '' || isIdCheck
@@ -44,23 +52,45 @@
         로그인
       </v-btn>
     </form>
+    <v-row class="mt-4">
+      <v-col cols="0" xs="1" lg="4">
+        <hr />
+      </v-col>
+      <v-col>
+        <p-small>or continue with</p-small>
+      </v-col>
+      <v-col cols="0" xs="1" lg="4">
+        <hr />
+      </v-col>
+    </v-row>
+    <v-container><SocialLogin /></v-container>
+    <router-link
+      :to="{ name: 'SignUpView' }"
+      class="auth-q mt-8 d-flex justify-center underline"
+      >처음 오셨나요?
+    </router-link>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-import LoginCard from '@/components/Account/Login/LoginCard.vue';
-
+import sowl from '@/api/sowl';
+import SocialLogin from '@/components/Account/Login/SocialLogin.vue';
 export default {
   name: 'LoginForm',
   components: {
-    LoginCard,
+    SocialLogin,
   },
   data() {
     return {
       userData: {
         password: '',
         id: '',
+      },
+      googleConfig: {
+        client_id: process.env.VUE_APP_GOOGLE_OAUTH_CLIENT_ID,
+        redirect_uri:
+          sowl.front.googleRequest() + 'accounts/auth/google/callback',
       },
     };
   },
@@ -79,4 +109,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+v-btn span {
+  font-size: 0.8rem;
+  line-height: -0.2rem;
+}
+.underline {
+  text-decoration: underline;
+}
+
+p-small {
+  position: relative;
+  top: -0.8rem;
+}
+</style>

@@ -1,78 +1,117 @@
 <template>
   <div>
-    <SignUpCard />
+    <h1>Sign up</h1>
+    <SocialLogin />
     <form @submit.prevent="signup(userData)">
-      <!-- 아이디 관련 -->
+      <h4>기본정보</h4>
+      <!-- 아이디 관련 type에 이메일이라고 쓰면 이메일 형식인지 검사해주는데 안예쁨-->
       <div>
-        <label for="id">아이디 : </label>
-        <input
-          type="email"
-          placeholder="아이디(이메일)를 입력하세요"
-          id="id"
-          v-model="userData.id"
-          @input="resetId()"
-        />
-        <!-- 중복 검사 -->
-        <p v-if="!isIdChecked" @click="idCheck(userData.id)">중복 검사</p>
-        <p v-if="!isIdChecked">중복 검사를 해주세요.</p>
-        <p v-if="!isEmailValidCheck && isIdCheck">이메일 형식이 아닙니다.</p>
-        <p v-if="!isIdCheck && isIdChecked">이미 있는 아이디 입니다.</p>
-        <p v-if="isIdCheck && isEmailValidCheck && !authentication_check">
-          사용 가능한 아이디 입니다. 이메일 인증을 해주세요.
-        </p>
-        <!-- 이메일 인증 -->
-        <p
-          v-if="isIdCheck && isEmailValidCheck && isIdEmailCheck === ''"
-          @click="idEmailCheck(userData.id)"
-        >
-          이메일 인증
-        </p>
-        <label
-          for="emailNum"
-          v-if="isIdEmailCheck != '' && !authentication_check"
-          >인증 번호 입력 :
-        </label>
-        <input
-          type="text"
-          placeholder="인증번호를 입력하세요"
-          id="emailNum"
-          v-if="isIdEmailCheck != '' && !authentication_check"
-          v-model="authentication_num"
-        />
-        <p
-          v-if="
-            isIdCheck &&
-            isEmailValidCheck &&
-            isIdEmailCheck != '' &&
-            !authentication_check
-          "
-          @click="authenticationNum(isIdEmailCheck)"
-        >
-          확인
-        </p>
-        <p
-          v-if="
-            isIdCheck &&
-            isEmailValidCheck &&
-            isIdEmailCheck != '' &&
-            !authentication_check
-          "
-          @click="idEmailCheck(userData.id)"
-        >
-          재요청
-        </p>
-        <p v-if="authentication_check">인증이 완료되었습니다.</p>
-        <p v-if="authentication_checked && !authentication_check">
-          인증 번호가 틀렸습니다.
-        </p>
+        <div>
+          <v-row>
+            <v-text-field
+              color="primary"
+              prepend-inner-icon="mdi-account-outline"
+              label="아이디(Email)"
+              variant="underlined"
+              v-model="userData.id"
+              @input="resetId()"
+            ></v-text-field>
+            <!-- 중복 검사 -->
+            <button
+              class="sub-btn btn-small confirm-position"
+              v-if="!isIdChecked"
+              @click="idCheck(userData.id)"
+            >
+              <span> 중복 검사 </span>
+            </button>
+            <button
+              class="sub-btn btn-small confirm-position"
+              v-if="isIdCheck && isEmailValidCheck && isIdEmailCheck === ''"
+              @click="idEmailCheck(userData.id), (email_button = true)"
+            >
+              <span>인증요청</span>
+            </button>
+          </v-row>
+          <div class="mt-2">
+            <p v-if="!isIdChecked" class="form-err">중복 검사를 해주세요.</p>
+            <p v-if="!isEmailValidCheck && isIdCheck" class="form-err">
+              이메일 형식이 아닙니다.
+            </p>
+            <p v-if="!isIdCheck && isIdChecked" class="form-err">
+              이미 있는 아이디 입니다.
+            </p>
+            <p
+              v-if="
+                isIdCheck &&
+                isEmailValidCheck &&
+                !authentication_check &&
+                userData.id &&
+                !email_button
+              "
+              class="form-blue"
+            >
+              사용 가능한 아이디 입니다. 이메일 인증을 해주세요.
+            </p>
+            <p v-if="email_button && userData.id" class="form-blue">
+              인증 메일을 보냈습니다. 메일을 확인해주세요.
+            </p>
+          </div>
+        </div>
+        <!-- 이메일 인증 확인 -->
+        <v-row v-if="isIdEmailCheck != '' && !authentication_check">
+          <v-text-field
+            color="primary"
+            prepend-inner-icon="mdi-email-check-outline"
+            label="인증 번호 입력"
+            variant="underlined"
+            v-model="authentication_num"
+            @input="resetId()"
+          ></v-text-field>
+          <button
+            v-if="
+              isIdCheck &&
+              isEmailValidCheck &&
+              isIdEmailCheck != '' &&
+              !authentication_check
+            "
+            class="sub-btn btn-small confirm-position mr-1"
+            @click="authenticationNum(isIdEmailCheck)"
+          >
+            <span>확인</span>
+          </button>
+          <button
+            v-if="
+              isIdCheck &&
+              isEmailValidCheck &&
+              isIdEmailCheck != '' &&
+              !authentication_check
+            "
+            class="sub-btn btn-small confirm-position"
+            @click="idEmailCheck(userData.id)"
+          >
+            <span>재요청</span>
+          </button>
+        </v-row>
+        <div class="mt-2">
+          <p v-if="authentication_check" class="form-blue">
+            인증이 완료되었습니다.
+          </p>
+          <p
+            v-if="authentication_checked && !authentication_check"
+            class="form-err"
+          >
+            인증 번호가 틀렸습니다.
+          </p>
+        </div>
       </div>
       <!-- 비밀번호 -->
-      <div>
-        <label for="password">비밀번호: </label>
-        <input
+      <v-row>
+        <v-text-field
+          color="primary"
+          prepend-inner-icon="mdi-lock-outline"
+          variant="underlined"
           type="password"
-          placeholder="비밀번호를 입력하세요"
-          id="password"
+          label="비밀번호"
           v-model="userData.password"
           @input="
             passwordDoubleCheck({
@@ -80,85 +119,134 @@
               password2: password2,
             })
           "
-        />
-      </div>
+        ></v-text-field>
+      </v-row>
       <!-- 비밀번호 확인 -->
       <div>
-        <label for="password2">비밀번호 확인: </label>
-        <input
-          type="password"
-          placeholder="비밀번호를 한 번 더 입력하세요"
-          id="password2"
-          v-model="password2"
-          @input="
-            passwordDoubleCheck({
-              password: userData.password,
-              password2: password2,
-            })
-          "
-        />
-        <p v-if="!isPasswordDoubleCheck && isPasswordDoubleChecked">
-          비밀번호가 일치하지 않습니다
-        </p>
-        <p v-if="!isPasswordDoubleCheck && !isPasswordDoubleChecked">
-          비밀번호 확인이 필요합니다
-        </p>
+        <v-row>
+          <v-text-field
+            color="primary"
+            prepend-inner-icon="mdi-lock-outline"
+            variant="underlined"
+            type="password"
+            label="비밀번호 확인"
+            v-model="password2"
+            @input="
+              passwordDoubleCheck({
+                password: userData.password,
+                password2: password2,
+              })
+            "
+          ></v-text-field>
+        </v-row>
+        <div class="mt-2">
+          <p
+            v-if="!isPasswordDoubleCheck && isPasswordDoubleChecked"
+            class="form-err"
+          >
+            비밀번호가 일치하지 않습니다
+          </p>
+          <p
+            v-if="!isPasswordDoubleCheck && !isPasswordDoubleChecked"
+            class="form-err"
+          >
+            비밀번호 확인이 필요합니다
+          </p>
+        </div>
       </div>
       <!-- 닉네임 -->
       <div>
-        <label for="nickname">닉네임: </label>
-        <input
-          type="text"
-          placeholder="닉네임을 입력하세요"
-          id="nickname"
-          v-model="userData.nickname"
-          @input="nicknameCheck(userData.nickname)"
-        />
-        <p v-if="userData.nickname != '' && !isNicknameCheck">
-          이미 있는 닉네임 입니다.
-        </p>
-        <p v-if="isNicknameCheck">사용할 수 있는 닉네임 입니다.</p>
+        <v-row>
+          <v-text-field
+            color="primary"
+            prepend-inner-icon="mdi-robot-excited-outline"
+            variant="underlined"
+            label="닉네임"
+            v-model="userData.nickname"
+            @input="nicknameCheck(userData.nickname)"
+          ></v-text-field>
+        </v-row>
+        <div>
+          <p
+            v-if="userData.nickname != '' && !isNicknameCheck"
+            class="form-err"
+          >
+            이미 있는 닉네임 입니다.
+          </p>
+          <p v-if="isNicknameCheck" class="form-blue">
+            사용할 수 있는 닉네임 입니다.
+          </p>
+        </div>
       </div>
       <!-- 지역 설정 -->
-      <div>
-        <label for="region">지역: </label>
-        <select name="region" id="region" v-model="userData.region">
-          <option v-for="reg in regionList" :key="reg">{{ reg }}</option>
-        </select>
+      <div class="mt-2">
+        <h4>지역</h4>
+        <p-small class="signup-explain">현재 계신 지역을 선택해주세요.</p-small>
+        <v-row class="mt-1">
+          <v-select
+            color="primary"
+            prepend-inner-icon="mdi-home-search-outline"
+            :items="regionList"
+            v-model="userData.region"
+            label="지역"
+            variant="underlined"
+          ></v-select>
+        </v-row>
       </div>
       <!-- 사용 언어 설정 -->
-      <div>
-        <label for="userlang">사용 언어: </label>
-        <select name="userlang" id="userlang" v-model="userData.language">
-          <option v-for="userlan in languageList" :key="userlan">
-            {{ userlan }}
-          </option>
-        </select>
+      <div class="mt-2">
+        <h4>언어</h4>
+        <p-small class="signup-explain"
+          >주요 사용하는 언어를 선택해주세요.</p-small
+        >
+        <v-row class="mt-1">
+          <v-select
+            color="primary"
+            prepend-inner-icon="mdi-alphabet-latin"
+            :items="languageList"
+            v-model="userData.language"
+            label="사용 언어"
+            variant="underlined"
+          ></v-select>
+        </v-row>
       </div>
       <!-- 선호 언어 설정 -->
-      <div>
-        <label for="preferlang">선호 언어: </label>
-        <select
-          name="preferlang"
-          id="preferlang"
-          v-model="userData.preferenceLanguage"
+      <div class="mt-2">
+        <h4>선호 언어</h4>
+        <p-small class="signup-explain"
+          >매칭되고싶은 사용자 언어를 선택해주세요.</p-small
         >
-          <option v-for="preferlang in languageList" :key="preferlang">
-            {{ preferlang }}
-          </option>
-        </select>
+        <v-row class="mt-1">
+          <v-select
+            color="primary"
+            prepend-inner-icon="mdi-account-heart-outline"
+            :items="languageList"
+            v-model="userData.preferenceLanguage"
+            label="선호 언어"
+            variant="underlined"
+          ></v-select>
+        </v-row>
       </div>
       <!-- 유저 이름 -->
-      <div>
-        <label for="name">유저 이름: </label>
-        <input
-          type="text"
-          placeholder="유저 이름을 입력하세요"
-          id="name"
-          v-model="userData.name"
-        />
-        <p v-if="userData.name === ''">유저 이름을 입력해주세요.</p>
-        <p>유저 이름은 공개되지 않으며, 비밀번호 찾기에 이용됩니다.</p>
+      <div class="mt-2">
+        <h4>유저 이름</h4>
+        <p-small class="signup-explain"
+          >유저 이름은 공개되지 않으며, 비밀번호 찾기에 이용됩니다.</p-small
+        >
+        <v-row class="mt-1">
+          <v-text-field
+            color="primary"
+            prepend-inner-icon="mdi-key-outline"
+            variant="underlined"
+            label="유저 이름"
+            v-model="userData.name"
+          ></v-text-field>
+        </v-row>
+        <div class="mt-2">
+          <p v-if="userData.name === ''" class="form-err">
+            유저 이름을 입력해주세요.
+          </p>
+        </div>
       </div>
       <!-- 회원 가입 버튼 -->
       <v-btn
@@ -178,11 +266,10 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-import SignUpCard from '@/components/Account/Signup/SignUpCard.vue';
-
+import SocialLogin from '@/components/Account/Login/SocialLogin.vue';
 export default {
   components: {
-    SignUpCard,
+    SocialLogin,
   },
   data() {
     return {
@@ -199,6 +286,7 @@ export default {
       authentication_num: '',
       authentication_check: false,
       authentication_checked: false,
+      email_button: false,
     };
   },
   computed: {

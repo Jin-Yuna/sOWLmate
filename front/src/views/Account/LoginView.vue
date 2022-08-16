@@ -1,17 +1,23 @@
 <template>
-  <div>
-    <h1>LoginView.vue</h1>
-    <div class="googlelogin">
-      <button @click="loginWithGoogle">구글로 로그인</button>
-    </div>
-    <LoginForm />
-    <router-link :to="{ name: 'SignUpView' }">처음 오셨나요?</router-link>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="7" class="auth-card">
+        <LoginCard />
+      </v-col>
+      <v-col cols="5" xs="11">
+        <v-container>
+          <LoginForm />
+        </v-container>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import LoginForm from '@/components/Account/Login/LoginForm.vue';
+import LoginCard from '@/components/Account/Login/LoginCard.vue';
+
 // import firebase from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
@@ -21,6 +27,7 @@ export default {
   name: 'LoginView',
   components: {
     LoginForm,
+    LoginCard,
   },
   data() {
     return {
@@ -120,4 +127,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>
