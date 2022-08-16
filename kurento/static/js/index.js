@@ -133,8 +133,8 @@ function initDeepAR() {
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({
 				video: {
-					width: { ideal: 4096 },
-                    height: { ideal: 2160 }
+					width: { ideal: 400 },
+                    height: { ideal: 300 }
                 },
 				audio: true,
             })
@@ -147,7 +147,7 @@ function initDeepAR() {
                     }, 50);
                 }).catch();
 
-            deepAR.setVideoElement(sourceVideo)
+					deepAR.setVideoElement(sourceVideo);
         }
     }
 	
@@ -156,10 +156,10 @@ function initDeepAR() {
 	const deepAR = DeepAR({
 		// 서버에서 받아오기
         licenseKey: '2df0063b6b8ef8eb754b707348e099d4c419524397ffeaae36f656112167e9816dafbe8dd2028e9c',
-		canvasWidth: 1280,
-		canvasHeight: 720,
+		canvasWidth: 400,
+		canvasHeight: 300,
 		canvas: deepARCanvas,
-		numberOfFaces: 1, // how many faces we want to track min 1, max 4
+		numberOfFaces: 2, // how many faces we want to track min 1, max 4
 		onInitialize: function () { 
 			if (effectList.length === 0) {
 				var effect = 'lion'
@@ -178,9 +178,10 @@ function initDeepAR() {
     });
 
 	deepAR.onVideoStarted = function() {
-		console.log('deepAR.onVideoStarted')
-		inputVideo.srcObject = deepARCanvas.captureStream()
-		inputVideo.muted = true	
+		console.log('deepAR.onVideoStarted');
+		inputVideo.srcObject = deepARCanvas.captureStream();
+		inputVideo.muted = true;
+		inputVideo.play();
 	}
 
 	const windowVisibilityHandler = (deepAR) => {
@@ -351,16 +352,16 @@ function initDeepARForRemote() {
 	// download the face tracking model
 	deepAR.downloadFaceTrackingModel('models/models-68-extreme.bin');
 
-	outputVideo.addEventListener('play', function () {
-		if (this.paused && this.ended) {
-			deepAR.stopVideo()
-		}
-	}, 0)
+	// outputVideo.addEventListener('play', function () {
+	// 	if (this.paused && this.ended) {
+	// 		deepAR.stopVideo()
+	// 	}
+	// }, 0)
 
-	outputVideo.addEventListener('loadedmetadata', function() {
-		deepAR.canvasWidth = outputVideo.videoWidth
-		deepAR.canvasHeight = outputVideo.videoHeight
-	})
+	// outputVideo.addEventListener('loadedmetadata', function() {
+	// 	deepAR.canvasWidth = outputVideo.videoWidth
+	// 	deepAR.canvasHeight = outputVideo.videoHeight
+	// })
 
 	function addFilterForRemote() {
 		slotsForRemote++;
@@ -424,7 +425,7 @@ window.onload = function() {
 	setRegisterState(NOT_REGISTERED);
 	var drag = new Draggabilly(document.getElementById('videoSmall'));
 	videoOutput = document.getElementById('videoOutput');
-	// videoIntput = document.getElementById('videoInput');
+	// videoInput = document.getElementById('videoInput');
 
 	// only register https://localhost:8443/?from=user1&to=
 	// register&call https://localhost:8443/?from=user2&to=user1
@@ -438,9 +439,8 @@ window.onload = function() {
 	});
 
 	if (users[1] != '') {
-		// initDeepAR()
+		initDeepAR();
 		call();
-		
 	} 
 
 	document.getElementById('terminate').addEventListener('click', function() {
@@ -452,7 +452,7 @@ window.onbeforeunload = function() {
 	ws.close();
 }
 
-// var moduleOut = initDeepARForRemote();
+var moduleOut = initDeepARForRemote();
 var chatView = document.getElementById('chatView');
 var chatForm = document.getElementById('chatForm');
 var messageList = []
@@ -469,7 +469,7 @@ ws.onmessage = function(message) {
 		callResponse(parsedMessage);
 		break;
 	case 'incomingCall':
-		// initDeepAR()
+		initDeepAR();
 		incomingCall(parsedMessage);
 		break;
 	case 'startCommunication':
