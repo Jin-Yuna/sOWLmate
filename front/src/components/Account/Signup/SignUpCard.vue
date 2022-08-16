@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-gradient greeting">Hello, firends!</h1>
+    <h1 class="text-gradient greeting">Hello, friends!</h1>
     <SignUpDeco class="signup_deco_container" />
     <PlaneAnimation class="plane-position" />
     <div class="img-container">
@@ -26,7 +26,7 @@ export default {
 <style scoped>
 .img-container {
   position: fixed;
-  bottom: -16rem;
+  bottom: -40%;
   left: 8rem;
   width: 50rem;
   height: 100%;
