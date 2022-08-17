@@ -1,9 +1,7 @@
 <template>
   <v-container class="mt-3">
     <v-row justify="center" class="mt-16">
-      <v-col cols="3">
-        <p>메모리네브 자리</p>
-      </v-col>
+      <v-col cols="3"> <MemoryNavigation /> </v-col>
       <v-col cols="9">
         <h2>띵똥! 편지 왔어요</h2>
         <p class="p-small mt-4">
@@ -34,11 +32,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import LetterCard from '@/components/Temp/LetterCard.vue';
+import MemoryNavigation from '@/components/Temp/MemoryNavigation.vue';
 
 export default {
   name: 'LetterListView',
   components: {
     LetterCard,
+    MemoryNavigation,
   },
   data() {
     return {

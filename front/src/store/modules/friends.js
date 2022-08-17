@@ -34,9 +34,9 @@ export const friends = {
           for (const friend of response.data) {
             if (friend.intimacyEval < 50) {
               commit('SET_PRE_FRIENDS_LIST', friend);
-            } else if (friend.intimacyEval < 100) {
+            } else if (friend.intimacyEval >= 50 && friend.intimacyEval < 100) {
               commit('SET_FRIENDS_LIST', friend);
-            } else {
+            } else if (friend.intimacyEval === 100) {
               commit('SET_SOWLMATE_LIST', friend);
             }
           }

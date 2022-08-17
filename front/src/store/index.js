@@ -8,7 +8,7 @@ export default createStore({
   modules: { accounts, rooms, friends },
   plugins: [
     createPersistedState({
-      paths: ['accounts', 'friends'],
+      paths: ['accounts'],
     }),
   ],
 });
