@@ -15,7 +15,6 @@ export default createVuetify({
         colors: {
           primary: '#7C58EB', // 보라
           secondary: '#6E9DF5', // 파랑
-          background: '#FFFFFF',
           info: '#CED4DA', // 회색
           error: '#F04438',
         },

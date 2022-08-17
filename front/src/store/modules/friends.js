@@ -1,5 +1,6 @@
 import axios from 'axios';
 import sowl from '@/api/sowl';
+import router from '@/router';
 
 export const friends = {
   state: {
@@ -7,18 +8,21 @@ export const friends = {
     friendsList: [],
     sowlmateList: [],
     letterList: [],
+    singleLetter: null,
   },
   getters: {
     preFriendsList: (state) => state.preFriendsList,
     friendsList: (state) => state.friendsList,
     sowlmateList: (state) => state.sowlmateList,
     letterList: (state) => state.letterList,
+    singleLetter: (state) => state.singleLetter,
   },
   mutations: {
     SET_PRE_FRIENDS_LIST: (state, friend) => state.preFriendsList.push(friend),
     SET_FRIENDS_LIST: (state, friend) => state.friendsList.push(friend),
     SET_SOWLMATE_LIST: (state, friend) => state.sowlmateList.push(friend),
     SET_LETTER_LIST: (state, list) => (state.letterList = list),
+    SET_SINGLE_LETTER: (state, list) => (state.singleLetter = list),
   },
   actions: {
     totalFriendList({ commit, rootState }) {
@@ -56,6 +60,24 @@ export const friends = {
       })
         .then((response) => {
           commit('SET_LETTER_LIST', response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    goDetail({ commit }, letterNo) {
+      console.log(sowl.letter.singleLetterList());
+      console.log(letterNo);
+      axios({
+        url: sowl.letter.singleLetterList(),
+        method: 'get',
+        headers: {
+          letterNo: letterNo,
+        },
+      })
+        .then((response) => {
+          commit('SET_SINGLE_LETTER', response.data);
+          router.push({ name: 'LetterDetailView', params: { pk: letterNo } });
         })
         .catch((err) => {
           console.log(err);
