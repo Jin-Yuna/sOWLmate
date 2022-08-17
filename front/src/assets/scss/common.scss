@@ -24,12 +24,14 @@ max-container {
 	font-weight: 700;
 }
 
-
 /*===== 텍스트그라데이션 =====*/
 .text-gradient {
 	background: $color-main;
 	color: transparent;
 	-webkit-background-clip: text;
+}
+.text-gray400 {
+	color: $color-gray400
 }
 /*===== BASE =====*/
 
@@ -60,10 +62,10 @@ h4 {
 p{
 	font-size: 1rem;
 }
-p-large {
+.p-large {
 	font-size: 1.125rem;
 }
-p-small {
+.p-small {
 	font-size: 0.875rem;
 }
 
@@ -90,8 +92,6 @@ $header-height: 3rem;
 $font-semi: 600;
 
 	/*===== Fuente y tipografia =====*/
-
-
 $big-font-size: 2rem;
 $h2-font-size: 1.25rem;
 $normal-font-size: .938rem;
@@ -113,8 +113,6 @@ $smaller-font-size: .75rem;
 		$normal-font-size: 1rem;
 		$smaller-font-size: .875rem;
 }
-
-
 
 
 .section-title{

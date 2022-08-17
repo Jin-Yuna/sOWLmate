@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="img-label">
       <label for="image" v-if="profile">
         <img :src="profile" alt="프로필이미지" />
       </label>
@@ -10,9 +10,15 @@
           alt="프로필이미지"
         />
       </label>
+      <v-badge
+        floating
+        content="삭제"
+        color="primary"
+        @click="img_delete()"
+        class="badge-position"
+      ></v-badge>
       <input type="file" id="image" @change="upload()" />
     </div>
-    <button @click="img_delete()">삭제</button>
   </div>
 </template>
 
@@ -98,9 +104,20 @@ img {
   width: 10rem;
   height: 10rem;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 input {
   visibility: hidden;
+}
+.badge-position {
+  position: relative;
+  left: -2rem;
+  cursor: pointer;
+}
+.img-label {
+  position: relative;
+  left: 10rem;
+  margin-top: 5rem;
 }
 </style>

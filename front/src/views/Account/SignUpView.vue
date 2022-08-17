@@ -7,9 +7,11 @@
       <v-col cols="5" xs="11">
         <v-container>
           <SignUpForm />
-          <router-link :to="{ name: 'LoginView' }"
-            >이미 회원이신가요?</router-link
-          >
+          <div class="mt-1 d-flex justify-end">
+            <router-link :to="{ name: 'LoginView' }" class="auth-q"
+              >이미 회원이신가요?</router-link
+            >
+          </div>
         </v-container>
       </v-col>
     </v-row>

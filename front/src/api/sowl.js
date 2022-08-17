@@ -11,6 +11,7 @@ const INTEREST = 'interest/';
 const CATEGORIS = 'categories/';
 const CONFERENCE = 'conference/';
 const PHOTOBOOTH = 'photo-booth/';
+const INTIMACY = 'intimacy/';
 const LETTER = 'letter/';
 
 export default {
@@ -74,11 +75,10 @@ export default {
   friend: {
     friendList: () => HOST + 'penpal/list/user/',
   },
+  intimacy: {
+    intimacy: () => HOST + INTIMACY + 'positive/',
+  },
   letter: {
-    letterList: () => HOST + LETTER + 'letter/list/',
-    singleLetterList: () => HOST + LETTER + 'letter/single/',
-    letteCreate: () => HOST + LETTER,
-    letterFavorite: () => HOST + LETTER + 'favorite/' + 'on/',
-    letterFavoriteOff: () => HOST + LETTER + 'favorite/' + 'off',
+    letterList: () => HOST + LETTER + 'list/',
   },
 };

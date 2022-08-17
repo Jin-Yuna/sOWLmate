@@ -4,10 +4,14 @@
     <PlaneAnimation class="plane-position" />
     <!-- <PlaneAnimation2 class="plane-position2" /> -->
     <LoginDeco class="login-deco-position" />
-    <v-img
+    <!-- <v-img
       :src="require('@/assets/sowlImage/etc/plane_white.svg')"
       class="plane-white1"
-    />
+    /> -->
+    <div class="plane-group-container">
+      <!-- <PasswordResetDeco /> -->
+      <img :src="require('@/assets/sowlImage/etc/plane_white_group.svg')" />
+    </div>
     <div class="img-container">
       <v-img
         :src="require('@/assets/sowlImage/login_sowl.svg')"
@@ -68,5 +72,9 @@ export default {
   position: relative;
   width: 3rem;
   top: 16rem;
+}
+.plane-group-container {
+  position: absolute;
+  left: -4rem;
 }
 </style>

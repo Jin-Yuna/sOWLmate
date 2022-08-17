@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="2">
-        <MyPageNavigation />
+      <v-col cols="4" class="auth-card">
+        <MyPageNavigation class="mypage-nav-position" />
       </v-col>
-      <v-col cols="10">
+      <v-col cols="8">
         <v-main>
           <router-view />
         </v-main>
@@ -24,4 +24,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.mypage-nav-position {
+  position: relative;
+  left: 8rem;
+}
+</style>

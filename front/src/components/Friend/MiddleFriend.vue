@@ -4,10 +4,9 @@
       <v-row>
         <h2>FRIENDS</h2>
         <div class="ml-6"></div>
-        <sub-chip><span>펜팔 가능</span></sub-chip>
-        <sub-chip><span>친구 목록</span></sub-chip>
-        <sub-chip><span>프로필 공개</span></sub-chip>
-        <sub-chip><span>온라인 표식</span></sub-chip>
+        <p class="sub-chip"><span>펜팔 가능</span></p>
+        <p class="sub-chip"><span>친구 목록</span></p>
+        <p class="sub-chip"><span>프로필 공개</span></p>
       </v-row>
       <br />
       <div v-if="!selected">

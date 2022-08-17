@@ -3,6 +3,10 @@
     <h1 class="text-gradient greeting">Hello, friends!</h1>
     <SignUpDeco class="signup_deco_container" />
     <PlaneAnimation class="plane-position" />
+    <div class="plane-group-container">
+      <!-- <PasswordResetDeco /> -->
+      <img :src="require('@/assets/sowlImage/etc/plane_white_group.svg')" />
+    </div>
     <div class="img-container">
       <v-img
         :src="require('@/assets/sowlImage/signup_sowl.svg')"
@@ -39,5 +43,9 @@ export default {
 .plane-position {
   position: fixed;
   top: 20rem;
+}
+.plane-group-container {
+  position: fixed;
+  left: -4rem;
 }
 </style>

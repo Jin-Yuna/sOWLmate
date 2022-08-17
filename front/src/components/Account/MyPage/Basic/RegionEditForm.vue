@@ -1,14 +1,23 @@
 <template>
-  <div>
-    <h3>RegionEditForm.vue</h3>
-    <div>
-      <label for="region">언어: </label>
-      <select name="region" id="region" v-model="region">
-        <option v-for="reg in regionList" :key="reg">{{ reg }}</option>
-      </select>
-    </div>
-    <button @click="modifyUserInfo({ region: region })">저장</button>
-  </div>
+  <v-row>
+    <v-label for="region" class="mr-10 width-6 font-08">지역</v-label>
+    <v-select
+      name="region"
+      id="region"
+      color="primary"
+      v-model="region"
+      :items="regionList"
+      variant="underlined"
+      :placeholder="this.userRegion"
+    >
+    </v-select>
+    <button
+      class="sub-btn btn-small confirm-position mr-1"
+      @click="modifyUserInfo({ region: region })"
+    >
+      <span>변경</span>
+    </button>
+  </v-row>
 </template>
 
 <script>
@@ -16,6 +25,9 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'RegionEditForm',
+  props: {
+    userRegion: String,
+  },
   data() {
     return {
       region: '',
