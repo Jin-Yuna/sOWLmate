@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-model="tab" direction="vertical">
+  <v-tabs v-model="tab" direction="vertical" class="mt-8">
     <v-tab>
       <router-link :to="{ name: 'RoomMainListView' }"
         >전체 유저 방 조회</router-link

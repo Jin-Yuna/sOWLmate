@@ -8,7 +8,7 @@
         <v-main>
           <router-view />
         </v-main>
-        <v-row class="mt-12">
+        <v-row class="mt-12 ml-4">
           <router-link :to="{ name: 'RoomCreateView' }"
             ><button class="main-btn">방 생성</button></router-link
           >
@@ -32,7 +32,7 @@ export default {
 
 <style scoped>
 .main-size {
-  margin-left: 2rem;
+  margin-left: 4rem;
   width: 80%;
 }
 
