@@ -10,4 +10,5 @@ public class IntimacyRequestDto {
     private String fromUserId;
     private String toUserId;
     private int eval;
+    private int meetingTime;
 }
