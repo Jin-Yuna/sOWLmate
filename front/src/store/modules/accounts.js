@@ -86,8 +86,12 @@ export const accounts = {
             dispatch('getUserInfo');
 
             sessionStorage.setItem('token', response.data['access-token']);
-            router.push({ name: 'HomeView' });
-            alert('성공적으로 login 되었습니다.');
+            if (userData.justsingup) {
+              router.push({ name: 'MypageEditInterestView' });
+            } else {
+              router.push({ name: 'HomeView' });
+              alert('성공적으로 login 되었습니다.');
+            }
           }
         })
         .catch((error) => {
@@ -131,7 +135,11 @@ export const accounts = {
         data: userData,
       })
         .then(() => {
-          const loginData = { id: userData.id, password: userData.password };
+          const loginData = {
+            id: userData.id,
+            password: userData.password,
+            justsingup: 1,
+          };
           dispatch('login', loginData);
         })
         .catch((error) => {
