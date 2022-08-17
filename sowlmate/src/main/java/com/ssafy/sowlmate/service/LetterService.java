@@ -80,4 +80,14 @@ public class LetterService {
         Letter letter = letterRepository.findByNo(letterNo);
         return letter.favoriteOff();
     }
+
+    @Transactional
+    public int deleteByFromUserId(String fromUserId) {
+        return letterRepository.deleteAllByFromUserId(fromUserId);
+    }
+
+    @Transactional
+    public int deleteByToUserId(String toUserId) {
+        return letterRepository.deleteAllByToUserId(toUserId);
+    }
 }

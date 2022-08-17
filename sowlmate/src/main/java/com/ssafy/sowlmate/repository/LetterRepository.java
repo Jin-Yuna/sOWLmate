@@ -10,4 +10,8 @@ import java.util.List;
 public interface LetterRepository extends JpaRepository<Letter, Long> {
     Letter findByNo(Long letterNo);
     List<Letter> findAllByToUserId(String toUserId);
+
+    int deleteAllByFromUserId(String fromUserId);
+
+    int deleteAllByToUserId(String toUserId);
 }
