@@ -84,7 +84,35 @@ export const accounts = {
             commit('SET_CURRENT_USER', userData.id);
             dispatch('getInterestList');
             dispatch('getUserInfo');
+
             sessionStorage.setItem('token', response.data['access-token']);
+            if (userData.justsingup) {
+              router.push({ name: 'MypageEditInterestView' });
+            } else {
+              router.push({ name: 'HomeView' });
+              alert('성공적으로 login 되었습니다.');
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    gooleLogin({ commit, dispatch }, userData) {
+      axios({
+        url: sowl.users.googleLogin(),
+        method: 'post',
+        data: userData,
+      })
+        .then((response) => {
+          if (response.data['message'] === 'fail') {
+            commit('LOGIN_FAIL', 'fail');
+          } else {
+            commit('SET_TOKEN', userData.token);
+            commit('SET_CURRENT_USER', userData.id);
+            dispatch('getInterestList');
+            commit('GET_USER_INFO', response.data.userInfo);
+            sessionStorage.setItem('token', userData.token);
             router.push({ name: 'HomeView' });
             alert('성공적으로 login 되었습니다.');
           }
@@ -105,9 +133,12 @@ export const accounts = {
         method: 'post',
         data: userData,
       })
-        .then((response) => {
-          console.log(response);
-          const loginData = { id: userData.id, password: userData.password };
+        .then(() => {
+          const loginData = {
+            id: userData.id,
+            password: userData.password,
+            justsingup: 1,
+          };
           dispatch('login', loginData);
         })
         .catch((error) => {
@@ -185,7 +216,6 @@ export const accounts = {
         data: Id,
       })
         .then((response) => {
-          console.log(response.data);
           commit('ID_EMAIL_CHECK', String(response.data));
         })
         .catch((error) => {
@@ -198,7 +228,6 @@ export const accounts = {
         url: sowl.categories.language(),
       })
         .then((response) => {
-          console.log(response.data);
           commit('GET_LANGUAGE_LIST', response.data);
         })
         .catch((err) => {
@@ -210,7 +239,6 @@ export const accounts = {
         url: sowl.categories.region(),
       })
         .then((response) => {
-          console.log(response.data);
           commit('GET_REGION_LIST', response.data);
         })
         .catch((err) => {
@@ -222,7 +250,6 @@ export const accounts = {
         url: sowl.categories.interest(),
       })
         .then((response) => {
-          console.log(response.data);
           commit('GET_INTEREST_LIST', response.data);
         })
         .catch((error) => {
@@ -230,57 +257,53 @@ export const accounts = {
         });
     },
     // Save
-    userInterestSave({ state, commit, dispatch }, interestindexs) {
+    async userInterestSave({ state, dispatch }, interestindexs) {
       // 기존에 저장된 관심사 뺴고 axios 요청
-      let current = [];
-      let now = [];
-      for (const currentInterest of state.userInfo.interests) {
-        current.push(currentInterest['title']);
-      }
-      console.log('관심사 현재', current);
-      for (const index of interestindexs) {
-        const interestName = state.interestList[index];
-        now.push(interestName);
-        if (!current.includes(interestName)) {
-          axios({
-            url: sowl.interests.userInterest(),
-            // url: sowl.interests.userInterest(state.currentUser, interestName),
-            data: {
-              userId: state.currentUser,
-              interest: {
-                title: interestName,
-              },
-            },
-            method: 'post',
-          }).then((response) => {
-            console.log('관심사저장', response);
-            commit('SET_CURRENT_USER', interestName);
-          });
+      try {
+        let current = [];
+        let now = [];
+        for (const currentInterest of state.userInfo.interests) {
+          current.push(currentInterest['title']);
         }
-      }
-      console.log('관심사 수정', now);
-      // 기존에는 있는데 넘겨준 interestindexs에 없다면 삭제 요청
-      for (const currentInterest of current) {
-        if (!now.includes(currentInterest)) {
-          axios({
-            url: sowl.interests.userInterest(),
-            data: {
-              userId: state.currentUser,
-              interest: {
-                title: currentInterest,
+        for (const index of interestindexs) {
+          const interestName = state.interestList[index];
+          now.push(interestName);
+          if (!current.includes(interestName)) {
+            await axios({
+              url: sowl.interests.userInterest(),
+              data: {
+                userId: state.currentUser,
+                interest: {
+                  title: interestName,
+                },
               },
-            },
-            method: 'delete',
-          })
-            .then(() => {
-              console.log('관심사삭제', currentInterest);
-            })
-            .catch((err) => {
-              console.log(err);
+              method: 'post',
             });
+            // console.log('관심사등록', interestName);
+            // commit('SET_CURRENT_USER', interestName);
+          }
         }
+        // 기존에는 있는데 넘겨준 interestindexs에 없다면 삭제 요청
+        for (const currentInterest of current) {
+          if (!now.includes(currentInterest)) {
+            axios({
+              url: sowl.interests.userInterest(),
+              data: {
+                userId: state.currentUser,
+                interest: {
+                  title: currentInterest,
+                },
+              },
+              method: 'delete',
+            });
+            // console.log('삭제', currentInterest);
+          }
+        }
+      } catch (err) {
+        console.log('err', err);
       }
       dispatch('getUserInfo');
+      alert('관심사 변경 완료');
     },
     getUserInfo({ state, commit }) {
       const data = {
@@ -295,7 +318,6 @@ export const accounts = {
         data,
       })
         .then((response) => {
-          console.log(response.data.userInfo);
           commit('GET_USER_INFO', response.data.userInfo);
         })
         .catch((error) => {
@@ -345,7 +367,6 @@ export const accounts = {
         data: userData,
       })
         .then((response) => {
-          console.log(response.data['check']);
           // 아이디와 닉네임이 일치할 때
           if (response.data['check']) {
             commit('ID_USERNAME_CHECK', true);
@@ -354,8 +375,7 @@ export const accounts = {
               method: 'post',
               data: userData,
             })
-              .then((response) => {
-                console.log(response);
+              .then(() => {
                 commit('ID_USERNAME_CHECK', true);
               })
               .catch((error) => {

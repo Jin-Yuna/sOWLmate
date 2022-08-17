@@ -51,6 +51,15 @@ public class PenpalService {
         return result;
     }
 
+    public String selectAllByFromUserIdAndToUserId(String fromUserId, String toUserId) {
+        Penpal penpal = penpalRepository.findByFromUserIdAndToUserId(fromUserId, toUserId);
+        if (penpal != null) {
+            return "exist";
+        } else {
+            return "empty";
+        }
+    }
+
 //    @Transactional
 //    public void enrollPenpalByUserNo(long fromUserNo, long toUserNo) {
 //        User fromUser = userService.selectByNo(fromUserNo);
@@ -100,5 +109,24 @@ public class PenpalService {
         res += penpalRepository.deleteByFromUserIdAndToUserId(idDto.getFromUserId(), idDto.getToUserId());
         res += penpalRepository.deleteByFromUserIdAndToUserId(idDto.getToUserId(), idDto.getFromUserId());
         return res;
+    }
+
+    @Transactional
+    public int deleteByFromUserId(String fromUserId) {
+        return penpalRepository.deleteAllByFromUserId(fromUserId);
+    }
+
+    @Transactional
+    public int deleteByToUserId(String toUserId) {
+        return penpalRepository.deleteAllByToUserId(toUserId);
+    }
+
+    public List<PenpalResponseDto> selectAllByFromUserIdAndIntimacyLevel(String fromUserId, int intimacyStart, int intimacyEnd) {
+        List<PenpalResponseDto> result = new ArrayList<>();
+        List<PenpalResponseDto> dtos = selectAllByFromUserId(fromUserId);
+        for (PenpalResponseDto dto : dtos) {
+            if (dto.getIntimacyEval() >= intimacyStart && dto.getIntimacyEval() <= intimacyEnd) result.add(dto);
+        }
+        return result;
     }
 }

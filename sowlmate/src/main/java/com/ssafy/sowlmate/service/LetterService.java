@@ -60,7 +60,7 @@ public class LetterService {
         User fromUser = userService.selectById(requestDto.getFromUserId());
         User toUser = userService.selectById(requestDto.getToUserId());
         return letterRepository.save(Letter.createLetter(fromUser, toUser,
-                requestDto.getTitle(), requestDto.getContent()));
+                requestDto.getTitle(), requestDto.getContent(), requestDto.getWritingPad(), requestDto.getWritingFont()));
     }
 
     /**
@@ -79,5 +79,15 @@ public class LetterService {
     public boolean offFavorite(Long letterNo) {
         Letter letter = letterRepository.findByNo(letterNo);
         return letter.favoriteOff();
+    }
+
+    @Transactional
+    public int deleteByFromUserId(String fromUserId) {
+        return letterRepository.deleteAllByFromUserId(fromUserId);
+    }
+
+    @Transactional
+    public int deleteByToUserId(String toUserId) {
+        return letterRepository.deleteAllByToUserId(toUserId);
     }
 }

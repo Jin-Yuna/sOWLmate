@@ -1,18 +1,32 @@
 <template>
-  <div>
+  <v-container>
+    <h2>방 만들기</h2>
     <form @submit.prevent="createRoom(newRoom)">
-      <label for="title">제목 : </label>
+      <h4 class="mt-6 ml-2">방 제목</h4>
+      <v-text-field
+        color="primary"
+        prepend-icon="mdi-home"
+        v-model="newRoom.title"
+        label="방 제목을 입력해주세요"
+      ></v-text-field>
+      <!-- <label for="title">제목 : </label>
       <input
         type="text"
         placeholder="방 제목을 입력해주세요."
         id="title"
         v-model="newRoom.title"
-      />
+      /> -->
       <div>
-        <label for="thumbnail">썸네일 : </label>
-        <input type="file" id="thumbnail" />
+        <h4 class="mt-6 ml-2">썸네일 등록</h4>
+        <!-- <label for="thumbnail">썸네일 : </label>
+        <input type="file" id="thumbnail" /> -->
+        <v-file-input
+          id="thumbnail"
+          accept="image/*"
+          label="썸네일 등록하기"
+        ></v-file-input>
       </div>
-      <h5>관심사 선택</h5>
+      <h4 class="mt-6 ml-2">관심사 선택</h4>
       <div v-if="userInterest.length === 0">
         <router-link :to="{ name: 'MypageEditInterestView' }"
           >관심사를 먼저 선택해야 이용 가능합니다. 관심사 선택하러
@@ -21,33 +35,28 @@
       </div>
       <div v-else>
         <p>관심사는 하나만 선택 가능합니다.</p>
-        <v-chip-group
-          v-if="!isInterestMore"
-          v-model="newRoom.interest"
-          active-class="primary--text"
-          column
-        >
+        <v-chip-group v-if="!isInterestMore" v-model="newRoom.interest" column>
           <v-chip
+            color="primary"
             v-for="interest in userInterest"
             :key="userInterest[interest]"
           >
             {{ interest }}
           </v-chip>
         </v-chip-group>
-        <p v-if="!isInterestMore" @click="interestMore()">관심사 모두 보기</p>
-        <v-chip-group
-          v-if="isInterestMore"
-          v-model="newRoom.interest"
-          color="000000"
-          column
+        <v-btn v-if="!isInterestMore" @click="interestMore()"
+          >관심사 모두 보기</v-btn
         >
+        <v-chip-group v-if="isInterestMore" v-model="newRoom.interest" column>
           <v-chip
+            color="primary"
             v-for="interest in userInterest"
             :key="userInterest[interest]"
           >
             {{ interest }}
           </v-chip>
           <v-chip
+            color="primary"
             v-for="interest in userNotInterest"
             :key="userNotInterest[interest]"
           >
@@ -57,6 +66,7 @@
       </div>
 
       <div>
+        <h4 class="mt-6 ml-2">비밀번호 걸기</h4>
         <input
           type="checkbox"
           id="checkbox"
@@ -87,7 +97,7 @@
         >생성</v-btn
       >
     </form>
-  </div>
+  </v-container>
 </template>
 
 <script>

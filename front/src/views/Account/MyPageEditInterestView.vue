@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>MypageEditInterestView.vue</h1>
     <InterestEditForm />
   </div>
 </template>

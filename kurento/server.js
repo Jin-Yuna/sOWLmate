@@ -6,25 +6,24 @@ var url = require('url');
 var kurento = require('kurento-client');
 var fs    = require('fs');
 var https = require('https');
+require('dotenv').config();
+
+// console.log(process.env.DEEPAR_KEY)
 
 var argv = minimist(process.argv.slice(2), {
-  default: {
-    //   as_uri: "https://localhost:8443",
-    //   ws_uri: "ws://localhost:8888/kurento"
-      as_uri: "https://i7b308.p.ssafy.io:8443",
-      ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
-  }
+    default: {
+        as_uri: "https://i7b308.p.ssafy.io:8443",
+        ws_uri: "ws://i7b308.p.ssafy.io:8888/kurento"
+    }
 });
 
 var options =
 {
-    // key:  fs.readFileSync('keys/server.key'),
-    // cert: fs.readFileSync('keys/server.crt')
     key:  fs.readFileSync('keys/i7b308.p.ssafy.io.key'),
     cert: fs.readFileSync('keys/i7b308.p.ssafy.io.crt')
 };
 
-var app = express();
+var app = express()
 
 /*
  * Definition of global variables.
@@ -244,6 +243,47 @@ wss.on('connection', function(ws) {
 
         case 'onIceCandidate':
             onIceCandidate(sessionId, message.candidate);
+            break;
+
+        case 'filter':
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'filter',
+                from: message.from,
+                effect: message.effect
+            });
+            break;
+
+       case 'filterRemove':
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'filterRemove',
+                from: message.from,
+                effect: message.effect
+            });
+            break;
+        
+        case 'filterRemoveAll':
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'filterRemoveAll',
+                from: message.from,
+            });
+            break;
+
+        case 'textChat':
+            var toChat = userRegistry.getByName(message.to);
+            var message = {
+                id: 'receive',
+                from: message.from,
+                content: message.context
+            }
+            toChat.sendMessage(message);
+            break;
+            
+        case 'translate':
+            userRegistry.getByName(message.to).sendMessage({
+                id: 'translate',
+                from: message.from,
+                text: message.text
+            });
             break;
 
         default:

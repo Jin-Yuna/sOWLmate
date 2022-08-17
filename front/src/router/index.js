@@ -14,7 +14,12 @@ import RoomMainView from '@/views/Room/RoomMainView.vue';
 import RoomCreateView from '@/views/Room/RoomCreateView.vue';
 import RoomMainListView from '@/views/Room/List/RoomMainListView.vue';
 import RoomFriendsListView from '@/views/Room/List/RoomFriendsListView.vue';
-import GoogleLoginView from '@/views/Account/GoogleLoginView.vue';
+import GoogleRegisterView from '@/views/Account/GoogleRegisterView.vue';
+import friendsView from '@/views/Friends/friendsView.vue';
+import MettingRateView from '@/views/Friends/MettingRateView.vue';
+import PhotoBoothView from '@/views/Profile/PhotoBoothView.vue';
+import LetterListView from '@/views/Friends/LetterListView.vue';
+import LetterDetailView from '@/views/Friends/LetterDetailView.vue';
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
@@ -22,9 +27,9 @@ const routes = [
   { path: '/auth/logout/', name: 'LogoutView', component: LogoutView },
   { path: '/auth/sign-up/', name: 'SignUpView', component: SignUpView },
   {
-    path: '/accounts/auth/google/callback',
-    name: 'GoogleLoginView',
-    component: GoogleLoginView,
+    path: '/auth/google/sign-up',
+    name: 'GoogleRegisterView',
+    component: GoogleRegisterView,
   },
   {
     path: '/auth/password-reset/',
@@ -61,6 +66,11 @@ const routes = [
         name: 'MyPageEditPreferenceLanguageView',
         component: MyPageEditPreferenceLanguageView,
       },
+      {
+        path: 'photo-booth/',
+        name: 'PhotoBoothView',
+        component: PhotoBoothView,
+      },
     ],
   },
   {
@@ -84,6 +94,26 @@ const routes = [
     path: '/portal/rooms/new/',
     name: 'RoomCreateView',
     component: RoomCreateView,
+  },
+  {
+    path: '/friends/',
+    name: 'friendsView',
+    component: friendsView,
+  },
+  {
+    path: '/meeting/after/',
+    name: 'MettingRateView',
+    component: MettingRateView,
+  },
+  {
+    path: '/letter/list/',
+    name: 'singleLetterList',
+    component: LetterListView,
+  },
+  {
+    path: '/letter/:pk/',
+    name: 'LetterDetailView',
+    component: LetterDetailView,
   },
 ];
 

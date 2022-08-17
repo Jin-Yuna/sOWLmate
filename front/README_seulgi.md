@@ -531,3 +531,39 @@ npm ERR! Missing script: "start"
 - 여기서 고급을 눌러 "`localhost(안전하지 않음)`(으)로 이동"을 누른 후 다시 시도해보면 정상적으로 작동한다.
 
 - 정상작동상태가 유지되다가 인터넷 사용기록을 삭제하거나 하면 다시 이 에러가 발생하게 된다.
+
+
+
+
+
+## 13. scss오류
+
+- scss가 잘 동작하다가 vue 컴포넌트에서 import 하려고만 하면 `Module not found: Error: Can't resolve ~~폰트경로` 가 뜨면서 에러가 발생하였다.
+
+- 패키지의 문제인 줄 알고 node-scss와 scss-loader를 삭제 후 다시 설치해봤지만 여전히 에러가 발생하였다. 원래 variables.scss에서 다음과 같이 폰트 url경로에 ../를 사용했지만 
+  
+  ```scss
+  @font-face {
+    font-family: "Apple SD Gothic Neo";
+    src: url('../fonts/AppleSDGothicNeo/AppleSDGothicNeoUL.ttf') format('truetype');
+    font-weight: 200;
+  }
+  ```
+
+- @를사용하는 경로로수정하니 잘 동작한다.
+  
+  ```scss
+  @font-face {
+    font-family: "Apple SD Gothic Neo";
+    src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoUL.ttf') format('truetype');
+    font-weight: 200;
+  }
+  ```
+
+- 컴포넌트에서 import 할 때는 아래와 같이 쓰면 된다. 대체로 `scoped`를 사용하지만 이 컴포넌트에서는 scoped를 사용하지 않았다.
+  
+  ```css
+  <style lang="scss">
+  @import '~@/assets/scss/pages/profile.scss';
+  </style>
+  ```

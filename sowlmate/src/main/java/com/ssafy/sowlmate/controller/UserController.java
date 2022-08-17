@@ -6,6 +6,9 @@ import com.ssafy.sowlmate.dto.request.UserProfileDto;
 import com.ssafy.sowlmate.dto.request.UserRequestDto;
 import com.ssafy.sowlmate.dto.request.UserUpdateRequestDto;
 import com.ssafy.sowlmate.entity.User;
+import com.ssafy.sowlmate.service.IntimacyService;
+import com.ssafy.sowlmate.service.LetterService;
+import com.ssafy.sowlmate.service.PenpalService;
 import com.ssafy.sowlmate.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     private final UserService userService;
+    private final PenpalService penpalService;
+    private final IntimacyService intimacyService;
+    private final LetterService letterService;
 
     /**
      * 유저 회원가입
@@ -56,6 +62,14 @@ public class UserController {
     }
 
     /**
+     * 유저 회원가입 타입 조회
+     */
+    @GetMapping("login-type")
+    public ResponseEntity<?> getLoginType(HttpServletRequest request) {
+        return ResponseEntity.ok().body(userService.selectById(request.getHeader("userId")).getLoginType());
+    }
+
+    /**
      * 유저 정보 수정
      */
     @PutMapping
@@ -84,6 +98,12 @@ public class UserController {
      */
     @DeleteMapping
     public ResponseEntity<?> deleteUserInfo(@RequestBody UserRequestDto requestDto) {
+        penpalService.deleteByFromUserId(requestDto.getUserId());
+        penpalService.deleteByToUserId(requestDto.getUserId());
+        intimacyService.deleteByFromUserId(requestDto.getUserId());
+        intimacyService.deleteByToUserId(requestDto.getUserId());
+        letterService.deleteByFromUserId(requestDto.getUserId());
+        letterService.deleteByToUserId(requestDto.getUserId());
         return ResponseEntity.ok().body(userService.deleteById(requestDto.getUserId()));
     }
 }

@@ -6,11 +6,12 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="shortcut icon" href="assets/logoIcon.svg" type="image/svg"/>
+    <link rel="shortcut icon" href="assets/image/logoIcon.svg" type="image/svg"/>
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/demo-console/index.css">
     <link rel="stylesheet" href="bower_components/ekko-lightbox/dist/ekko-lightbox.min.css">
+    <script src="https://kit.fontawesome.com/efaff327b3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/kurento.css">
 
     <script src="bower_components/webrtc-adapter/release/adapter.js"></script>
@@ -23,12 +24,172 @@
     <script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js" type="text/javascript"></script>
     
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
 
-    <script src="js/index.js"></script>
+    <script>
+      // chatting
+      function show(){
+          if($('.main__right').css('display') == 'none'){
+            $('.main__right').show();
+      }else{
+          $('.main__right').hide();
+      }
+      }
+
+      // carousel
+      (function ($) {
+    $(function () {
+      jQuery(document).ready(function(){
+      var slider = $(".effects").flickity({
+      imagesLoaded: true,
+      percentPosition: false,
+      prevNextButtons: false, //true = enable buttons
+      initialIndex: 3,
+      pageDots: false, //true = enable dots
+      groupCells: 1,
+      selectedAttraction: 0.2,
+      friction: 0.8,
+      draggable: true
+    });
+
+
+    //this enables clicking on cards
+    slider.on(
+      "staticClick.flickity",
+      function (event, pointer, cellElement, cellIndex) {
+        if (typeof cellIndex == "number") {
+          slider.flickity("selectCell", cellIndex);
+        }
+      }
+    );
+
+    //this resizes the cards and centers the carousel because it tends to move a few pixels to the right if .resize() and .reposition() aren't used
+    
+    var flkty = slider.data("flickity");
+    flkty.selectedElement.classList.add("is-custom-selected");
+    flkty.resize();
+    flkty.reposition();
+    let time = 0;
+    function reposition() {
+      flkty.reposition();
+      if (time++ < 10) {
+        requestAnimationFrame(reposition);
+      } else {
+        $(".flickity-prev-next-button").css("pointer-events", "auto");
+      }
+    }
+    requestAnimationFrame(reposition);
+
+    //this expands the cards when in focus
+    flkty.on("settle", () => {
+      $(".carousel__item").removeClass("is-custom-selected");
+      $(".flickity-prev-next-button").css("pointer-events", "none");
+      flkty.selectedElement.classList.add("is-custom-selected");
+
+      let time = 0;
+      function reposition() {
+        flkty.reposition();
+        if (time++ < 10) {
+          requestAnimationFrame(reposition);
+        } else {
+          $(".flickity-prev-next-button").css("pointer-events", "auto");
+        }
+      }
+      requestAnimationFrame(reposition);
+    });
+
+    //this reveals the carousel
+        $(".filter").addClass("animation-reveal");
+        $(".filter").css("opacity", "0");
+        flkty.resize();
+        flkty.reposition();
+        setTimeout(() => {
+          $(".filter").removeClass("animation-reveal");
+          $(".filter").css("opacity", "1");
+          flkty.resize();
+          flkty.reposition();
+          let time = 0;
+          function reposition() {
+            flkty.reposition();
+            if (time++ < 10) {
+              requestAnimationFrame(reposition);
+            }
+          }
+          requestAnimationFrame(reposition);
+        }, 1000);
+      });  })
+    })(jQuery);
+
+    // filter button
+    const faceButton = document.querySelector('.face-button');
+    const faceContainer = document.querySelector('.face-container');
+    const containerCoords = document.querySelector('#container');
+    const mouseCoords = containerCoords.getBoundingClientRect();
+
+    faceButton.addEventListener('mousemove', function(e) {
+      const mouseX = e.pageX - containerCoords.offsetLeft;
+      const mouseY = e.pageY - containerCoords.offsetTop;
+      
+      TweenMax.to(faceButton, 0.3, {
+        x: (mouseX - mouseCoords.width / 2) / mouseCoords.width * 50,
+        y: (mouseY - mouseCoords.height / 2) / mouseCoords.width * 50,
+        ease: Power4.easeOut
+      })
+    });
+
+  faceButton.addEventListener('mousemove', function(e) {
+  const mouseX = e.pageX - containerCoords.offsetLeft;
+  const mouseY = e.pageY - containerCoords.offsetTop;
+  
+  TweenMax.to(faceContainer, 0.3, {
+     x: (mouseX - mouseCoords.width / 2) / mouseCoords.width * 25,
+     y: (mouseY - mouseCoords.height / 2) / mouseCoords.width * 25,
+     ease: Power4.easeOut
+   })
+  });
+
+  faceButton.addEventListener('mouseenter', function(e) {
+  TweenMax.to(faceButton, 0.3, {
+    scale: 0.975
+  })
+});
+
+  faceButton.addEventListener('mouseleave', function(e) {
+  TweenMax.to(faceButton, 0.3, {
+    x: 0,
+    y: 0,
+    scale: 1
+  })
+  
+  TweenMax.to(faceContainer, 0.3, {
+    x: 0,
+    y: 0,
+    scale: 1
+  })
+});
+
+    // chatting
+    function Filtershow(){
+        if($('.main__left').css('display') == 'none'){
+          $('.main__left').show();
+    }else{
+        $('.main__left').hide();
+
+    }
+    }
+
+
+
+  (function(){
+    $("#lock").on("click", function() {
+      $(".lock-check").fadeToggle( "fast");
+    });
+  })()
+  </script>
+    <script defer src="js/index.js"></script>
     <script>
       var sharedMessages = [];
       var listening = {
@@ -93,29 +254,14 @@
               ]);
               //console.log(sharedMessages);
               console.log(sharedMessages[sharedMessages.length-1][0].text);
-              axios({
-                baseURL: "https://api.cognitive.microsofttranslator.com/",
-                url: '/translate',
-                method: 'post',
-                headers: {
-                  'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
-                  'Ocp-Apim-Subscription-Region': "koreacentral",
-                  'Content-type': 'application/json',
-                  'X-ClientTraceId': uuidv4().toString()
-                },
-                params: {
-                  'api-version': '3.0',
-                  'from': 'ko',
-                  'to': 'en'
-                },
-                data: [{
-                  'text': sharedMessages[sharedMessages.length-1][0].text
-                }],
-                responseType: 'json'
-              }).then(function(response){
-                console.log(JSON.stringify(response.data, null, 4));
-              })
-          }
+              var translate_result = translateText(sharedMessages[sharedMessages.length-1][0].text)
+                sendMessage({
+                  id : 'translate',
+                  from : users[0],
+                  to: users[1],
+                  text: translate_result
+                });
+            }
       };
       sr2.onerror = function() {
         console.log("onerror");
@@ -144,75 +290,184 @@
         listening.value = false;
         sr2.stop();
     };
+
+    function translateText(message) {
+    axios({
+      baseURL: "https://api.cognitive.microsofttranslator.com/",
+      url: '/translate',
+      method: 'post',
+      headers: {
+        'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
+        'Ocp-Apim-Subscription-Region': "koreacentral",
+        'Content-type': 'application/json',
+        'X-ClientTraceId': uuidv4().toString()
+      },
+      params: {
+        'api-version': '3.0',
+        'from': 'ko',
+        'to': 'en'
+      },
+      data: [{
+        'text': message
+      }],
+      responseType: 'json'
+      }).then(function(response){
+      var translationResult = response.data;
+      //console.log(JSON.stringify(response.data, null, 4));
+      return translationResult[0].translations[0].text
+      })
+  }
     </script>
     <title>sOWLmate</title>
 
   </head>
   <body>
-    <div class="container">
-        </div>
-        <div class="col-md-7">
-          <div id="videoBig">
-            <video id="videoOutput" autoplay width="640px" height="480px" poster="img/webrtc.png"></video>
-          </div>
-          <div id="videoSmall">
-            <video id="videoInput" autoplay width="240px" height="180px" poster="img/webrtc.png"></video>
-          </div>
-        </div>
-        <div>
-          <a id="terminate" href="#" class="btn btn-danger">
-            <span class="glyphicon glyphicon-stop"></span> Stop</a>
-        </div>
-        <!-- display translation -->
-        <div>
-          <!-- <div v-if="!langIsSet">
-            <h2 class="text-3xl mb-6">Select language</h2>
-            <ul class="langlist">
-              <li v-for="[n] of locales" :key="n">
-                <a class="text-blue-800" :href="'?lang=' + n">{{ n }}</a>
-              </li>
-            </ul>
-          </div> -->
-          <br>
-          <div>
-            <button onclick="startListen()">Start Listening</button>
-            <button onclick="stopListen()">Stop Listening</button>
-          </div>
-        </div>
+    <!-- header -->
+    <div class="header">
+      <div class="container">
+        <ul class="navbar-left">
+          <li class="header-li"><img id="logo" src="./assets/image/logoLong.svg" alt="logo"></li>
+          <li class="header-li"><span class="title">Title of Meeting</span></li>
+        </ul>
+        <ul class="navbar-right">
+          <li class="header-li"><span class="time-check">시간 체크</span></li>
+            <!-- <li><a href="#" id="lock"></a><i class="fa-solid fa-lock nav-icon"></i></a></li> -->
+            <li class="header-li"><i class="fa-solid fa-unlock nav-icon"></i></a></li>
+            <li class="header-li"><i class="fa-solid fa-gear nav-icon"></i></a></li>
+            <li class="header-li"><button class="btn btn--primary" id="terminate">종료</button></li>
+        </ul>
       </div>
     </div>
-    <div id="controls">
-      <select id="effects">
-        <option value="">Filter OFF</option>
-        <option value="alien">Alien</option>
-        <option value="aviators">Aviators</option>
-        <option value="background_blur">Background Blur</option>
-        <option value="background_segmentation">Background Segmentation</option>
-        <option value="ball_face">Ball Face</option>
-        <option value="beard">Beard</option>
-        <option value="beauty">Beauty</option>
-        <option value="dalmatian">Dalmatian</option>
-        <option value="fairy_lights">Fairy Lights</option>
-        <option value="flowers">Flowers</option>
-        <option value="frankenstein">Frankenstein</option>
-        <option value="hair_segmentation">Hair Segmentation</option>
-        <option value="koala">Koala</option>
-        <option value="lion">Lion</option>
-        <option value="look1">Look1</option>
-        <option value="look2">Look2</option>
-        <option value="manly_face">Manly Face</option>
-        <option value="plastic_ocean">Plastic Ocean</option>
-        <option value="pumpkin">Pumpkin</option>
-        <option value="scuba">Scuba</option>
-        <option value="tape_face">Tape Face</option>
-        <option value="teddycigar">Teddy Cigar</option>
-        <option value="tiny_sunglasses">Tiny Sunglasses</option>
-        <option value="topology">Topology</option>
-      </select>
-      <div class="pills">
+    <div class="main">  
+      <!-- 필터 선택 -->
+      <div class="filter-button">
+        <div id="filter-container" onClick="Filtershow()">
+          <button class="face-button">
+            <span class="face-container">
+              <span class="eye left"></span>
+              <span class="eye right"></span>
+              <span class="mouth"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="main__left" style="display: none;">
+        <div class="filter">
+          <div class="effects">
+            <div value="" class="carousel__item"><p>Filter Off</p></div>
+            <div value="alien" class="carousel__item"><p>Alien</p></div>
+            <div value="aviators" class="carousel__item"><p>Aviators</p></div>
+            <div value="background_blur" class="carousel__item"><p>Background Blur</p></div>
+            <div value="segmentation" class="carousel__item"><p>Segmentation</p></div>
+            <div value="ball_face" class="carousel__item"><p>Ball Face</p></div>
+            <div value="beard" class="carousel__item"><p>Beard</p></div>
+            <div value="beauty" class="carousel__item"><p>Beauty</p></div>
+            <div value="dalmatian" class="carousel__item"><p>Dalmatian</p></div>
+            <div value="fairy_lights" class="carousel__item"><p>Fairy Lights</p></div>
+            <div value="flowers" class="carousel__item"><p>Flowers</p></div>
+            <div value="frankenstein" class="carousel__item"><p>Frankenstein</p></div>
+            <div value="hair_segmentation" class="carousel__item"><p>Hair</p></div>
+            <div value="koala" class="carousel__item"><p>Koalav</div>
+            <div value="lion" class="carousel__item"><p>Lion</p></div>
+            <div value="look1" class="carousel__item"><p>Look1</p></div>
+            <div value="look2" class="carousel__item"><p>Look2</p></div>
+            <div value="manly_face" class="carousel__item"><p>Manly Face</p></div>
+            <div value="plastic_ocean" class="carousel__item"><p>Plastic Ocean</p></div>
+            <div value="pumpkin" class="carousel__item"><p>Pumpkin</p></div>
+            <div value="scuba" class="carousel__item"><p>Scuba</p></div>
+            <div value="tape_face" class="carousel__item"><p>Tape Face</p></div>
+            <div value="teddycigar" class="carousel__item"><p>Teddy Cigar</p></div>
+            <div value="tiny_sunglasses" class="carousel__item"><p>Tiny Sunglasses</p></div>
+            <div value="topology" class="carousel__item"><p>Topology</p></div>
+          </div>
+        </div>
+    </div> 
+      <!-- main center (비디오) -->
+      <div class="main__center">
+        <div class="videos__group">
+          <div id="video-grid">
+                <!-- 자막 -->
+              <div>
+                  <p id="videoSubtitles"></p>
+                </div>
+                <div id="videoBig">
+                  <canvas id="remoteCanvas" width="960" height="680"></canvas>
+                  <video id="videoOutput" autoplay width="960" height="680" style="display:none;"></video>
+                  </div>
+                  <div id="videoSmall">
+                    <video id="videoInput" autoplay width="360" height="280" ></video>
+                </div>
+            </div>
+          </div>
+
+      </div>
+      <!-- main-right -->
+      <div class="main__right">
+        <div class="main__chat_window">
+          <div class="chat__header">
+              <div class="greeting">
+                <span class="chat__header__greetings" id="username">
+                </span>
+              </div>
+            <div class="switch" id="translate-text">
+              <p>번역</p>
+              <div class="switch__1" id="noncheck">
+                <input id="switch-1" type="checkbox">
+                <label for="switch-1"></label>
+              </div>
+              <div class="switch__2" id="checked" style="display:none;">
+                <input id="switch-2" type="checkbox" checked>
+                <label for="switch-2"></label>
+              </div>
+            </div>
+          </div>
+          <div id="chatView">
+          </div>
+          <form id="chatForm" onsubmit="return false">
+              <input type="text" id="msg" autocomplete="off" placeholder="Type message here...">
+              <input type="submit" id="send" value="전송">
+          </form>
+        </div>
+        <!-- 인생네컷 -->
+        <div>
+          <button id="btn-capture" onclick="initialize()">sayCheese</button>
+          <div id="div4cut" style="background-color:black; display: none;">
+            <canvas id="canvas" width="560" height="950"></canvas>
+          </div>
+        </div>
+      </div> 
+  
+    </div>
+     <!-- 옵션 -->
+     <div class="options">
+      <div class="menu-container">
+        <ul id="menu">
+          <a class="menu-button icon-plus" style="overflow: hidden;" href="#menu" title="Show navigation"></a>
+          <a class="menu-button icon-minus" style="overflow: hidden;" href="#0" title="Hide navigation"></a>
+          <!-- 비디오 on/off -->
+          <li class="menu-item"  id="stopVideo">
+            <i class="fa-solid fa-video-slash menu-icon check" style="display: none;"></i>
+            <i class="fa-solid fa-video menu-icon"></i>         
+          </li>
+          <!-- 음소거 -->
+          <li class="menu-item"  id="muteButton">
+            <i class="fa-solid fa-video-slash menu-icon check"  style="display: none;"></i>
+            <i class="fa-solid fa-microphone menu-icon" aria-hidden="true"></i>
+          </li>
+          <!-- 채팅 -->
+          <li id="showChat" class="menu-item"  onclick="show()">
+            <i class="fa-solid fa-message menu-icon check"  style="display: none;"></i>
+            <i class="fa-solid fa-message menu-icon"></i>
+          </li>
+          <!-- 번역 -->
+          <li class="menu-item" onclick="translateStart()">
+            <i class="fa-solid fa-language menu-icon"></i>
+            <i class="fa-solid fa-language menu-icon check"  style="display: none;"></i>
+          </li>
+        </ul>
       </div>
     </div>
     <script type="text/javascript" src="lib/deepar.js"></script>
-    <script src="js/index.js"></script>
+    <!-- <script src="js/index.js"></script> -->
   </body>
 </html>

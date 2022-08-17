@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>MyPageEditLanguageView.vue</h2>
     <LanguageEditForm />
   </div>
 </template>

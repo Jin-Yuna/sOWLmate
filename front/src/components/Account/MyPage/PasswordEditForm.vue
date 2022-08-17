@@ -1,35 +1,54 @@
 <template>
-  <div>
-    <h3>PasswordEditForm.vue</h3>
-    <div>
-      <label for="currentPassword">현재 비밀번호: </label>
-      <input type="password" id="currentPassword" v-model="currentPassword" />
-    </div>
-    <div>
-      <label for="password">새로운 비밀번호: </label>
-      <input
-        type="password"
+  <div class="mt-10">
+    <h3>비밀번호 변경</h3>
+    <v-row class="mt-8">
+      <v-label for="currentPassword" class="mr-10 width-6 font-08"
+        >현재 비밀번호</v-label
+      >
+      <v-text-field
+        id="currentPassword"
+        color="primary"
+        variant="underlined"
+        v-model="currentPassword"
+      ></v-text-field>
+    </v-row>
+    <v-row>
+      <v-label for="password" class="mr-10 width-6 font-08"
+        >새로운 비밀번호</v-label
+      >
+      <v-text-field
         id="password"
+        color="primary"
+        variant="underlined"
         v-model="password"
         @keyup="
           passwordDoubleCheck({ password: password, password2: password2 })
         "
-      />
-    </div>
-    <div>
-      <label for="password2">비밀번호 확인: </label>
-      <input
-        type="password"
+      ></v-text-field>
+    </v-row>
+    <v-row>
+      <v-label for="password2" class="mr-10 width-6 font-08"
+        >비밀번호 확인</v-label
+      >
+      <v-text-field
         id="password2"
+        color="primary"
+        variant="underlined"
         v-model="password2"
         @keyup="
           passwordDoubleCheck({ password: password, password2: password2 })
         "
-      />
-    </div>
-    <button v-if="isPasswordDoubleCheck" @click="passwordChange()">
-      비밀번호 변경
-    </button>
+      ></v-text-field>
+    </v-row>
+    <v-row justify="end">
+      <button
+        v-if="isPasswordDoubleCheck"
+        class="main-btn"
+        @click="passwordChange()"
+      >
+        비밀번호 변경
+      </button>
+    </v-row>
   </div>
 </template>
 

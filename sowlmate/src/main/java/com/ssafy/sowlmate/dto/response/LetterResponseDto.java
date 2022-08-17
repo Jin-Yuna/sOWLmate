@@ -17,6 +17,8 @@ public class LetterResponseDto {
     private String toUserNickname;
     private String title;
     private String content;
+    private String writingPad;
+    private String writingFont;
     private LocalDateTime createDate;
     private boolean favorite;
     private boolean read;
@@ -30,6 +32,8 @@ public class LetterResponseDto {
         dto.setToUserNickname(letter.getToUser().getNickname());
         dto.setTitle(letter.getTitle());
         dto.setContent(letter.getContent());
+        dto.setWritingPad(letter.getWritingPad());
+        dto.setWritingFont(letter.getWritingFont());
         dto.setCreateDate(letter.getCreateDate());
         dto.setFavorite(letter.isFavorite());
         dto.setRead(letter.isRead());
