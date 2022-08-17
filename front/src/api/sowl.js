@@ -80,5 +80,9 @@ export default {
   },
   letter: {
     letterList: () => HOST + LETTER + 'list/',
+    singleLetterList: () => HOST + LETTER + 'letter/single/',
+    letteCreate: () => HOST + LETTER,
+    letterFavorite: () => HOST + LETTER + 'favorite/' + 'on/',
+    letterFavoriteOff: () => HOST + LETTER + 'favorite/' + 'off',
   },
 };

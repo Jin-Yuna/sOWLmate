@@ -12,6 +12,9 @@ export const rooms = {
     roomByInterestLanguage: [],
     toUserNickname: '',
     fromUserNickname: '',
+    preFriendsRoomList: [],
+    friendsRoomList: [],
+    sowlmateRoomList: [],
   },
   getters: {
     room: (state) => state.room,
@@ -22,6 +25,9 @@ export const rooms = {
     roomByInterestLanguage: (state) => state.roomByInterestLanguage,
     toUserNickname: (state) => state.toUserNickname,
     fromUserNickname: (state) => state.fromUserNickname,
+    preFriendsRoomList: (state) => state.preFriendsRoomList,
+    friendsRoomList: (state) => state.friendsRoomList,
+    sowlmateRoomList: (state) => state.sowlmateRoomList,
   },
   mutations: {
     SET_ROOM: (state, room) => (state.room = room),
@@ -33,6 +39,9 @@ export const rooms = {
       (state.roomByInterestLanguage = list),
     TO_USER_NICKNAME: (state, data) => (state.toUserNickname = data),
     FROM_USER_NICKNAME: (state, data) => (state.fromUserNickname = data),
+    ROOM_PRE: (state, list) => (state.preFriendsRoomList = list),
+    ROOM_FRIENDS: (state, list) => (state.friendsRoomList = list),
+    ROOM_SOWLMATE: (state, list) => (state.sowlmateRoomList = list),
   },
   actions: {
     createRoom({ commit, getters }, newRoom) {
@@ -43,6 +52,7 @@ export const rooms = {
       })
         .then((response) => {
           commit('SET_ROOM', response.data);
+          // TODO : 노드 서버에게 데이터 전송
           location.replace(sowl.webRTC.conferenceSend(getters.toUserNickname));
           router.push({
             name: 'RoomMainListView',
@@ -60,6 +70,7 @@ export const rooms = {
       })
         .then((response) => {
           commit('SET_ROOM', response.data);
+          // TODO : 노드 서버에게 데이터 전송
           location.replace(
             sowl.webRTC.conferenceReceive(
               getters.toUserNickname,
@@ -97,6 +108,25 @@ export const rooms = {
         })
         .catch((err) => {
           console.log(err);
+        });
+    },
+    getRoomListByInterest({ commit }, userData) {
+      axios
+        .get(sowl.conference.conferenceInsterestList(userData.interest))
+        .then((response) => {
+          console.log(response.data);
+          commit('ROOM_BY_INTEREST', response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getRoomListByLanguage({ commit }, userData) {
+      axios
+        .get(sowl.conference.conferenceLanguageList(userData.language))
+        .then((response) => {
+          console.log(response.data);
+          commit('ROOM_BY_LANGUAGE', response.data);
         });
     },
   },

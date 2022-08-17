@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h3>RoomMainListView.vue</h3>
-    <InterestSelector />
-    <p>선호 언어 : {{ userInfo.preferenceLanguage }}</p>
+    <p>
+      나의 선호 언어 : {{ userInfo.preferenceLanguage }} 와 관심사에 맞추어 방을
+      볼 수 있습니다.
+    </p>
     <router-link :to="{ name: 'MyPageEditLanguageView' }"
       >선호 언어 수정</router-link
     >
@@ -12,14 +13,13 @@
 
 <script>
 import RoomMainList from '@/components/Room/Home/RoomMainList.vue';
-import InterestSelector from '@/components/Room/Home/InterestSelector.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'RoomMainListView',
-  components: { InterestSelector, RoomMainList },
+  components: { RoomMainList },
   computed: {
-    ...mapGetters(['userInfo', 'roomInterests']),
+    ...mapGetters(['userInfo']),
   },
 };
 </script>

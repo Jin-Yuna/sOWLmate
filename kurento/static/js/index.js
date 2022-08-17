@@ -150,8 +150,7 @@ function initDeepAR() {
         if (navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({
 				video: {
-					width: { ideal: 400 },
-                    height: { ideal: 300 }
+					inputVideo
                 },
 				audio: true,
             })
@@ -159,7 +158,6 @@ function initDeepAR() {
 									sourceVideo.srcObject = stream;
 									sourceVideo.muted = true;
                     setTimeout(function() {
-						console.log('sourceVideo.play();')
                         sourceVideo.play();
                     }, 50);
                 }).catch();
@@ -168,7 +166,7 @@ function initDeepAR() {
         }
     }
 	
-	const deepARCanvas = document.createElement('canvas');
+	var deepARCanvas = document.createElement('canvas');
 	// canvas 만들어 deepAR 실행
 	const deepAR = DeepAR({
 		// 서버에서 받아오기
@@ -187,7 +185,6 @@ function initDeepAR() {
 				// effect loaded
 				})
 			}
-			
 			deepAR.startVideo();
 			windowVisibilityHandler(deepAR);
 			initVideoSource();
@@ -195,10 +192,8 @@ function initDeepAR() {
     });
 
 	deepAR.onVideoStarted = function() {
-		console.log('deepAR.onVideoStarted');
-		inputVideo.srcObject = deepARCanvas.captureStream();
-		inputVideo.muted = true;
-		inputVideo.play();
+		inputVideo.srcObject = deepARCanvas.captureStream()
+		inputVideo.muted = true	
 	}
 
 	const windowVisibilityHandler = (deepAR) => {
@@ -323,7 +318,6 @@ function initDeepAR() {
 	}	
 
 	function removeAllFilter() {
-		// TODO : 친밀도에 따라 다 없애도 사자는 남아있게
 		for (let slot of slotList) {
 			deepAR.clearEffect(slot.slot);
 		}
@@ -345,24 +339,28 @@ function initDeepARForRemote() {
 	// canvas 만들어 deepAR 실행
 	const deepAR = DeepAR({
 		licenseKey: '2df0063b6b8ef8eb754b707348e099d4c419524397ffeaae36f656112167e9816dafbe8dd2028e9c',
-		canvasWidth: 1280,
-		canvasHeight: 720,
+		canvasWidth: 960,
+		canvasHeight: 680,
 		canvas: remoteCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () { 
 			if (effectListForRemote.length === 0) {
-				var effect = 'lion';
-				effectListForRemote.push('lion');
-				slotListForRemote.push(({ slot: `slot${slotsForRemote}`, effect: effect }));
+				var effect = 'lion'
+				effectListForRemote.push('lion')
+				slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
 				deepAR.switchEffect(0, `slot${slotsForRemote}`, `./effects/${effect}`, function () {
-				// TODO: 라이언 버튼 눌림 처리
 				// effect loaded
 				})
+			} else {
+				for (slot of slotListForRemote) {
+					deepAR.switchEffect(0, `slot${slot.slot}`, `./effects/${slot.effect}`, function () {
+						// effect loaded
+					})
+				}
 			}
 
-			console.log('시작');
-			deepAR.startVideo(true);
-			deepAR.setVideoElement(outputVideo);
+			deepAR.startVideo()
+			deepAR.setVideoElement(outputVideo)
 		} 
 	});
 
@@ -454,7 +452,7 @@ window.onload = function() {
 	});
 
 	if (users[1] != '') {
-		initDeepAR();
+		initDeepAR()
 		call();
 		startTime = new Date();
 		timeId = setInterval(printTime, 1000);
@@ -505,20 +503,20 @@ ws.onmessage = function(message) {
 	case 'filter':
 			var filtereffect = parsedMessage.effect;
 		if (filtereffect != '') {
-			console.log(`filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
+			console.log(`add filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
 			effectListForRemote.push(filtereffect)
-			initDeepARForRemote().addFilterForRemote_Obj;
+			moduleOut.addFilterForRemote_Obj;
 		}
 		break;
 	case 'filterRemove':
 			removeFilter = parsedMessage.effect;
 		if (removeFilter != '') {
-			console.log(`filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
-			initDeepARForRemote().removeFilterForRemote_Obj;
+			console.log(`remove filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
+			moduleOut.removeFilterForRemote_Obj ;
 		}
 		break;
 	case 'filterRemoveAll':
-		initDeepARForRemote().removeAllFilter_Obj;
+		moduleOut.removeAllFilter_Obj ;
 		break;
 	case 'translate':
 			console.log(`translate message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.text}`);

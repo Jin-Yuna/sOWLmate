@@ -1,11 +1,18 @@
 <template>
-  <div>
-    <router-link :to="{ name: 'RoomMainListView' }">모두 보기</router-link>
-    |
-    <router-link :to="{ name: 'RoomFriendsListView' }"
-      >내 친구의 방</router-link
-    >
-  </div>
+  <v-col cols="3">
+    <v-tabs v-model="tab" direction="vertical" color="primary">
+      <v-tab>
+        <router-link :to="{ name: 'RoomMainListView' }"
+          >전체 유저 방 조회</router-link
+        >
+      </v-tab>
+      <v-tab>
+        <router-link :to="{ name: 'RoomFriendsListView' }"
+          >친구 방 조회</router-link
+        >
+      </v-tab>
+    </v-tabs>
+  </v-col>
 </template>
 
 <script>

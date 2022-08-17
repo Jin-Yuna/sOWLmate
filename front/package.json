@@ -20,7 +20,8 @@
     "vuetify": "npm:@vuetify/nightly@next",
     "vuex": "^4.0.0",
     "vuex-persistedstate": "^4.1.0",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

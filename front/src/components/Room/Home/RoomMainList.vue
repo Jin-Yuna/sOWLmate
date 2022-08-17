@@ -1,22 +1,46 @@
 <template>
-  <v-container>
-    <v-row justify="center">
-      <v-col v-for="room in roomByInterestLanguage" :key="room.id">
-        <RoomListCard :room="room" />
-      </v-col>
-    </v-row>
-  </v-container>
+  <div>
+    <InterestSelector @roomInterest="showList" />
+    <!-- 일단은 선호하는 언어 기준으로, 원하면 바꿔라 -->
+    <!-- 시간 남으면 언어 선택 -->
+    <v-container>
+      <v-row justify="center">
+        <v-col v-for="room in roomList" :key="room.id">
+          <RoomListCard :room="room.id" />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import RoomListCard from '@/components/Room/RoomListCard.vue';
-import { mapGetters } from 'vuex';
+import InterestSelector from '@/components/Room/Home/InterestSelector.vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'RoomMainList',
-  components: { RoomListCard },
+  components: { RoomListCard, InterestSelector },
   computed: {
-    ...mapGetters(['roomByInterestLanguage']),
+    ...mapActions(['roomBy']),
+    ...mapGetters(['roomByInterestLanguage', 'roomAll', 'userInfo']),
+  },
+  data() {
+    return {
+      roomList: [],
+    };
+  },
+  methods: {
+    showList(roomInterest) {
+      let preferLanguage = this.userInfo.preferLanguage;
+      for (let interest of roomInterest) {
+        let userData = {
+          interest: interest,
+          language: preferLanguage,
+        };
+        this.roomList = [...this.roomList, ...this.getRoomList(userData)];
+      }
+    },
   },
 };
 </script>
