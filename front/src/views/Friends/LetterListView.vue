@@ -5,73 +5,81 @@
         <p>메모리네브 자리</p>
       </v-col>
       <v-col cols="9">
-        <v-tabs
-          ><v-tab @click="selected = 0"> 전체 </v-tab>
-          <v-tab @click="selected = 1"> 예비친구 </v-tab>
-          <v-tab @click="selected = 2"> 친구 </v-tab>
-          <v-tab @click="selected = 3"> 소울메이트 </v-tab>
-        </v-tabs>
-        <hr />
-        <TotalFriend
-          v-if="selected === 0"
-          class="my-16"
-          :preFriendsList="this.preFriendsList"
-          :friendsList="this.friendsList"
-          :sowlmateList="this.sowlmateList"
-        />
-        <PreFriend
-          v-if="selected === 1"
-          class="my-16"
-          :friendsList="this.preFriendsList"
-          :selected="selected"
-        />
-        <MiddleFriend
-          v-if="selected === 2"
-          class="my-16"
-          :friendsList="this.friendsList"
-          :selected="selected"
-        />
-        <SowlMate
-          v-if="selected === 3"
-          class="my-16"
-          :friendsList="this.sowlmateList"
-          :selected="selected"
-        />
+        <h2>띵똥! 편지 왔어요</h2>
+        <p class="p-small mt-4">
+          나에게 도착한 편지, 누구에게 왔을까 궁금하지 않나요?
+        </p>
       </v-col>
+      <v-container class="list-position">
+        <v-row>
+          <v-col v-for="letter in nowContent" :key="letter.no" cols="12" md="4">
+            <LetterCard :fromUserNickname="letter.fromUserNickname" />
+          </v-col>
+        </v-row>
+      </v-container>
+      <!-- 페이지 -->
+      <div class="pagenation-position">
+        <div class="text-center">
+          <v-pagination
+            v-model="page"
+            :length="totalpage"
+            :total-visible="4"
+          ></v-pagination>
+        </div>
+      </div>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import TotalFriend from '@/components/Friend/TotalFriend.vue';
-import PreFriend from '@/components/Friend/PreFriend.vue';
-import MiddleFriend from '@/components/Friend/MiddleFriend.vue';
-import SowlMate from '@/components/Friend/SowlMate.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
+import LetterCard from '@/components/Temp/LetterCard.vue';
 
 export default {
-  name: 'friendsView',
+  name: 'LetterListView',
   components: {
-    TotalFriend,
-    PreFriend,
-    MiddleFriend,
-    SowlMate,
+    LetterCard,
   },
   data() {
     return {
-      selected: 0,
+      page: 1,
+      totalpage: 1,
     };
   },
   computed: {
-    ...mapGetters(['preFriendsList', 'friendsList', 'sowlmateList']),
+    ...mapGetters(['letterList']),
+    nowContent() {
+      // 한페이지에 10개씩
+      const startindex = (this.page - 1) * 10;
+      const endindex = this.page * 10;
+      return this.letterList.slice(startindex, endindex);
+    },
   },
   methods: {
-    ...mapActions(['totalFriendList']),
+    ...mapActions(['totalLetterList']),
+    pagetotal() {
+      this.totalpage = parseInt(this.letterList.length / 10) + 1;
+      if (!this.letterList % 10) {
+        this.totalpage -= 1;
+      }
+    },
   },
   mounted() {
-    this.totalFriendList();
+    this.pagetotal();
+    if (this.letterList.length < 1) {
+      this.totalLetterListt();
+    }
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.pagenation-position {
+  position: fixed;
+  bottom: 0;
+}
+.list-position {
+  position: relative;
+  left: 10rem;
+}
+</style>
