@@ -22,7 +22,6 @@ export const friends = {
   },
   actions: {
     totalFriendList({ commit, rootState }) {
-      console.log('로그로그로그');
       const user = rootState.accounts.currentUser;
       axios({
         url: sowl.friend.friendList(),
