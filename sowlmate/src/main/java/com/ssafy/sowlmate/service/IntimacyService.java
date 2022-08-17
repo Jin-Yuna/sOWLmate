@@ -94,4 +94,14 @@ public class IntimacyService {
         intimacy.negative(requestDto.getEval());
         return intimacy.getEval();
     }
+
+    /**
+     * 수정 - 미팅 시간에 따른 긍정평가
+     */
+    @Transactional
+    public int evalPositiveByMeetingTime(IntimacyRequestDto requestDto) {
+        Intimacy intimacy = selectByFromUserIdAndToUserId(requestDto);
+        intimacy.positive((int) Math.round(Math.log10(requestDto.getMeetingTime())));
+        return intimacy.getEval();
+    }
 }

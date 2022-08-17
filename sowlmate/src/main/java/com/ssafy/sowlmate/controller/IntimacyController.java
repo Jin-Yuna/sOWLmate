@@ -61,6 +61,14 @@ public class IntimacyController {
     }
 
     /**
+     * 미팅 시간에 따른 친밀도 증가
+     */
+    @PutMapping("positive/time")
+    public ResponseEntity<?> evalPositiveByMeetingTime(@RequestBody IntimacyRequestDto requestDto) {
+        return ResponseEntity.ok().body(intimacyService.evalPositiveByMeetingTime(requestDto));
+    }
+
+    /**
      * 부정 평가
      */
     @PutMapping("negative")
