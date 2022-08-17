@@ -7,7 +7,6 @@
         <p class="sub-chip"><span>펜팔 가능</span></p>
         <p class="sub-chip"><span>친구 목록</span></p>
         <p class="sub-chip"><span>프로필 공개</span></p>
-        <p class="sub-chip"><span>온라인 표식</span></p>
       </v-row>
       <br />
       <div v-if="!selected">
