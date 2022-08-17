@@ -104,4 +104,14 @@ public class IntimacyService {
         intimacy.positive((int) Math.round(Math.log10(requestDto.getMeetingTime())));
         return intimacy.getEval();
     }
+
+    @Transactional
+    public int deleteByFromUserId(String fromUserId) {
+        return intimacyRepository.deleteAllByFromUserId(fromUserId);
+    }
+
+    @Transactional
+    public int deleteByToUserId(String toUserId) {
+        return intimacyRepository.deleteAllByToUserId(toUserId);
+    }
 }
