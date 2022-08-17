@@ -199,19 +199,19 @@
       <div class="main__center">
         <div class="videos__group">
           <div id="video-grid">
-                <!-- 자막 -->
-              <div>
-                  <p id="videoSubtitles"></p>
-                </div>
-                <div id="videoBig">
-                  <canvas id="remoteCanvas" id="videoOutput" width="960" height="680" ></canvas>
-                  <video id="videoOutput" autoplay width="960" height="680" style="display:none;"></video>
-                  </div>
-                  <div id="videoSmall">
-                    <video id="videoInput" autoplay width="360" height="280" ></video>
-                </div>
+            <!-- 자막 -->
+            <div>
+              <p id="videoSubtitles"></p>
+            </div>
+            <div id="videoBig">
+              <canvas id="remoteCanvas" width="960" height="680" ></canvas>
+              <video id="videoOutput" autoplay width="960" height="680" style="display:none;"></video>
+            </div>
+            <div id="videoSmall">
+              <video id="videoInput" autoplay width="360" height="280" ></video>
             </div>
           </div>
+        </div>
       </div>
 
       <!-- main-right -->
@@ -242,9 +242,9 @@
           </form>
         </div>
         <!-- 인생네컷 -->
-        <div style="display:none;">
+        <div>
           <button id="btn-capture" onclick="initialize()">sayCheese</button>
-          <div>
+          <div id="div4cut" style="background-color:black; display: none;">
             <canvas id="canvas" width="560" height="950"></canvas>
           </div>
         </div>
@@ -284,33 +284,33 @@
         </div>
       </div>
 
-     <!-- 옵션 -->
-     <div class="options">
+    <!-- 옵션 -->
+    <div class="options">
       <div class="menu-container">
-          <ul id="menu">
-                 <a class="menu-button icon-plus" style="overflow: hidden;" href="#menu" title="Show navigation"></a>
-                 <a class="menu-button icon-minus" style="overflow: hidden;" href="#0" title="Hide navigation"></a>
-                  <!-- 비디오 on/off -->
-                  <li class="menu-item"  id="stopVideo">
-                   <i class="fa-solid fa-video-slash menu-icon check" style="display: none;"></i>
-                   <i class="fa-solid fa-video menu-icon"></i>         
-                  </li>
-                 <!-- 음소거 -->
-                  <li class="menu-item"  id="muteButton">
-                   <i class="fa-solid fa-video-slash menu-icon check"  style="display: none;"></i>
-                   <i class="fa-solid fa-microphone menu-icon" aria-hidden="true"></i>
-                 </li>
-               <!-- 채팅 -->
-                 <li id="showChat" class="menu-item"  onclick="show()">
-                   <i class="fa-solid fa-message menu-icon check"  style="display: none;"></i>
-                   <i class="fa-solid fa-message menu-icon"></i>
-                  </li>
-               <!-- 번역 -->
-                 <li class="menu-item" onclick="translateStart()">
-                   <i class="fa-solid fa-language menu-icon"></i>
-                   <i class="fa-solid fa-language menu-icon check"  style="display: none;"></i>
-                 </li>
-           </ul>
+        <ul id="menu">
+          <a class="menu-button icon-plus" style="overflow: hidden;" href="#menu" title="Show navigation"></a>
+          <a class="menu-button icon-minus" style="overflow: hidden;" href="#0" title="Hide navigation"></a>
+          <!-- 비디오 on/off -->
+          <li class="menu-item"  id="stopVideo">
+            <i class="fa-solid fa-video-slash menu-icon check" style="display: none;"></i>
+            <i class="fa-solid fa-video menu-icon"></i>         
+          </li>
+          <!-- 음소거 -->
+          <li class="menu-item"  id="muteButton">
+            <i class="fa-solid fa-video-slash menu-icon check"  style="display: none;"></i>
+            <i class="fa-solid fa-microphone menu-icon" aria-hidden="true"></i>
+          </li>
+          <!-- 채팅 -->
+          <li id="showChat" class="menu-item"  onclick="show()">
+            <i class="fa-solid fa-message menu-icon check"  style="display: none;"></i>
+            <i class="fa-solid fa-message menu-icon"></i>
+          </li>
+          <!-- 번역 -->
+          <li class="menu-item" onclick="translateStart()">
+            <i class="fa-solid fa-language menu-icon"></i>
+            <i class="fa-solid fa-language menu-icon check"  style="display: none;"></i>
+          </li>
+        </ul>
       </div>
     </div>
     <script type="text/javascript" src="lib/deepar.js"></script>
