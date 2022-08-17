@@ -12,4 +12,8 @@ public interface IntimacyRepository extends JpaRepository<Intimacy, Long> {
     List<Intimacy> findAllByFromUserId(String fromUserId);
 
     Intimacy findByFromUserIdAndToUserId(String fromUserId, String toUserId);
+
+    int deleteAllByFromUserId(String fromUserId);
+
+    int deleteAllByToUserId(String toUserId);
 }

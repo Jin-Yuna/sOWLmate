@@ -111,6 +111,16 @@ public class PenpalService {
         return res;
     }
 
+    @Transactional
+    public int deleteByFromUserId(String fromUserId) {
+        return penpalRepository.deleteAllByFromUserId(fromUserId);
+    }
+
+    @Transactional
+    public int deleteByToUserId(String toUserId) {
+        return penpalRepository.deleteAllByToUserId(toUserId);
+    }
+
     public List<PenpalResponseDto> selectAllByFromUserIdAndIntimacyLevel(String fromUserId, int intimacyStart, int intimacyEnd) {
         List<PenpalResponseDto> result = new ArrayList<>();
         List<PenpalResponseDto> dtos = selectAllByFromUserId(fromUserId);
