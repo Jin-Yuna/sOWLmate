@@ -723,6 +723,41 @@ function stop(message) {
 	}
 	// hideSpinner(videoInput, videoOutput);
 
+	axios.get("https://localhost:8080/api/v1/penpal/single/user", {
+		headers: {
+			fromUserId: users[0],
+			toUserId: users[1]
+		}
+	}).then(function (response) {
+		if (response.data === "empty") {
+			console.log("친구 등록을 진행합니다.");
+			// users[0] -> users[1]
+			axios.post("https://localhost:8080/api/v1/penpal", {
+        fromUserId: users[0],
+				toUserId: users[1]
+			})
+			.then(function (response) {
+					console.log(response);
+			}).catch(function (error) {
+					console.log(error);
+			});
+			// users[1] -> users[0]
+			axios.post("https://localhost:8080/api/v1/penpal", {
+        fromUserId: users[1],
+				toUserId: users[0]
+			})
+			.then(function (response) {
+					console.log(response);
+			}).catch(function (error) {
+					console.log(error);
+			});
+		} else {
+			console.log("이미 친구입니다.")
+		}
+	}).catch(function (err) {
+		console.log(err);
+	})
+
 	let totalDependTime = Math.floor(((new Date() - startTime) / 1000) % 60);
 
 	axios.get("https://localhost:8080/api/v1/intimacy/single", {
