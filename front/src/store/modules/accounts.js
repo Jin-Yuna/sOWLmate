@@ -105,7 +105,6 @@ export const accounts = {
         data: userData,
       })
         .then((response) => {
-          console.log(response.data);
           if (response.data['message'] === 'fail') {
             commit('LOGIN_FAIL', 'fail');
           } else {
@@ -280,7 +279,7 @@ export const accounts = {
               },
               method: 'post',
             });
-            console.log('관심사등록', interestName);
+            // console.log('관심사등록', interestName);
             // commit('SET_CURRENT_USER', interestName);
           }
         }
@@ -297,7 +296,7 @@ export const accounts = {
               },
               method: 'delete',
             });
-            console.log('삭제', currentInterest);
+            // console.log('삭제', currentInterest);
           }
         }
       } catch (err) {
