@@ -10,6 +10,7 @@
     "module": "index.mjs"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "kurento-client": "git+https://github.com/Kurento/kurento-client-js.git",

@@ -722,7 +722,42 @@ function stop(message) {
 		}
 	}
 	// hideSpinner(videoInput, videoOutput);
-	location.replace("https://i7b308.p.ssafy.io")
+
+	let totalDependTime = Math.floor(((new Date() - startTime) / 1000) % 60);
+
+	axios.get("https://localhost:8080/api/v1/intimacy/single", {
+		headers: {
+			fromUserId: users[0],
+			toUserId: users[1]
+		}
+	})
+		.then(function (response) {
+			console.log(response);
+			axios.put("https://localhost:8080/api/v1/intimacy/positive/time", {
+				fromUserId: users[0],
+				toUserId: users[1],
+				meetingTime: totalDependTime
+			})
+				.then(function (response) {
+					console.log(response);
+				}).catch(function (error) {
+					console.log(error);
+				});
+		}).catch(function (error) {
+			console.log(error);
+			axios.post("https://localhost:8080/api/v1/intimacy", {
+        fromUserId: users[0],
+				toUserId: users[1],
+				eval: Math.round(Math.log10(totalDependTime))
+			})
+			.then(function (response) {
+					console.log(response);
+			}).catch(function (error) {
+					console.log(error);
+			});
+		});
+
+	location.replace("https://i7b308.p.ssafy.io");
 }
 
 function sendMessage(message) {
