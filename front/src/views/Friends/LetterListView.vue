@@ -11,7 +11,10 @@
       <v-container class="list-position">
         <v-row>
           <v-col v-for="letter in nowContent" :key="letter.no" cols="12" md="4">
-            <LetterCard :fromUserNickname="letter.fromUserNickname" />
+            <LetterCard
+              :fromUserNickname="letter.fromUserNickname"
+              :letterNo="letter.no"
+            />
           </v-col>
         </v-row>
       </v-container>

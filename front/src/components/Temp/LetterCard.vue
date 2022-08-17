@@ -1,5 +1,5 @@
 <template>
-  <div class="jb-a mt-12">
+  <div class="jb-a mt-12" @click="goDetail(this.letterNo)">
     <img
       :src="require('@/assets/sowlImage/letter_envelope_close.svg')"
       class="jb-b"
@@ -13,10 +13,15 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   props: {
     fromUserNickname: String,
     title: String,
+    letterNo: Number,
+  },
+  methods: {
+    ...mapActions(['goDetail']),
   },
 };
 </script>

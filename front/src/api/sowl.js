@@ -80,7 +80,7 @@ export default {
   },
   letter: {
     letterList: () => HOST + LETTER + 'list/',
-    singleLetterList: () => HOST + LETTER + 'letter/single/',
+    singleLetterList: () => HOST + LETTER + 'single/',
     letteCreate: () => HOST + LETTER,
     letterFavorite: () => HOST + LETTER + 'favorite/' + 'on/',
     letterFavoriteOff: () => HOST + LETTER + 'favorite/' + 'off',

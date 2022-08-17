@@ -54,12 +54,19 @@
               <p class="auth-q">
                 나와의 관심사와 선호 언어가 일치하는 친구의 방을 추천드립니다
               </p>
+              <div class="mt-4 ml-12">
+                <router-link :to="{ name: 'RoomMainListView' }">
+                  <button class="sub-btn main-btn-size">
+                    <span>방 리스트 가기</span>
+                  </button>
+                </router-link>
+              </div>
             </div>
-            <div class="mt-8 mb-1">
+            <!-- <div class="mt-8 mb-1">
               <h3>Live On! 나의 친구</h3>
               <p class="auth-q">나의 친구가 sowlmate를 기다려요!</p>
               <p class="auth-q">내 친구를 한번 더 보고싶다면?</p>
-            </div>
+            </div> -->
             <div class="mt-8 mb-1">
               <h3>직접 맛보는 쫀득쫀득한 친구 매칭</h3>
               <p class="auth-q">
@@ -68,15 +75,17 @@
               <p class="auth-q">
                 처음은 누구나 어렵지만, SOWLMATE가 도와줄게요!
               </p>
-              <v-row class="mt-2">
-                <div class="main-btn-size ml-16">
+              <v-row class="mt-4">
+                <!-- <div class="main-btn-size ml-16">
                   <button class="sub-btn main-btn-size">
                     <span>랜덤매칭</span>
                   </button>
-                </div>
-                <div class="main-btn-size ml-16">
-                  <button class="main-btn main-btn-size">방 만들기</button>
-                </div>
+                </div> -->
+                <router-link :to="{ name: 'RoomCreateView' }">
+                  <div class="main-btn-size ml-16">
+                    <button class="main-btn main-btn-size">방 만들기</button>
+                  </div>
+                </router-link>
               </v-row>
             </div>
             <div class="mt-8">
@@ -87,15 +96,11 @@
               <!-- 편지 케러셀 -->
               <v-sheet class="mx-auto card-group-pisiton" max-width="800">
                 <v-slide-group show-arrows>
-                  <v-slide-group-item
-                    v-for="letter in letters10"
-                    :key="letter"
-                    v-slot="toggle"
-                  >
+                  <v-slide-group-item v-for="letter in letters10" :key="letter">
                     <LetterCard
-                      @click="toggle"
                       :fromUserNickname="letter.fromUserNickname"
                       :title="letter.title"
+                      :letterNo="letter.no"
                     />
                   </v-slide-group-item>
                 </v-slide-group>

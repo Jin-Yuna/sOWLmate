@@ -19,6 +19,7 @@ import friendsView from '@/views/Friends/friendsView.vue';
 import MettingRateView from '@/views/Friends/MettingRateView.vue';
 import PhotoBoothView from '@/views/Profile/PhotoBoothView.vue';
 import LetterListView from '@/views/Friends/LetterListView.vue';
+import LetterDetailView from '@/views/Friends/LetterDetailView.vue';
 
 const routes = [
   { path: '/', name: 'HomeView', component: HomeView },
@@ -104,7 +105,16 @@ const routes = [
     name: 'MettingRateView',
     component: MettingRateView,
   },
-  { path: '/letter/list/', name: 'LetterListView', component: LetterListView },
+  {
+    path: '/letter/list/',
+    name: 'singleLetterList',
+    component: LetterListView,
+  },
+  {
+    path: '/letter/:pk/',
+    name: 'LetterDetailView',
+    component: LetterDetailView,
+  },
 ];
 
 const router = createRouter({
