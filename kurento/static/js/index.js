@@ -1,5 +1,4 @@
 var ws = new WebSocket('wss://' + location.host + '/one2one');
-// var ws = new WebSocket('wss://localhost:8443/one2one');
 var videoInput;
 var videoOutput;
 var webRtcPeer;
@@ -445,8 +444,6 @@ window.onload = function() {
 	videoOutput = document.getElementById('videoOutput');
 	// videoInput = document.getElementById('videoInput');
 
-	// only register https://localhost:8443/?from=user1&to=
-	// register&call https://localhost:8443/?from=user2&to=user1
 	location.href.split("?")[1].split("&").forEach(element => {
 		users.push(element.split("=")[1]);
 	});
@@ -723,7 +720,7 @@ function stop(message) {
 	}
 	// hideSpinner(videoInput, videoOutput);
 
-	axios.get("https://localhost:8080/api/v1/penpal/single/user", {
+	axios.get("https://i7b308.p.ssafy.io:8080/api/v1/penpal/single/user", {
 		headers: {
 			fromUserId: users[0],
 			toUserId: users[1]
@@ -732,7 +729,7 @@ function stop(message) {
 		if (response.data === "empty") {
 			console.log("친구 등록을 진행합니다.");
 			// users[0] -> users[1]
-			axios.post("https://localhost:8080/api/v1/penpal", {
+			axios.post("https://i7b308.p.ssafy.io:8080/api/v1/penpal", {
         fromUserId: users[0],
 				toUserId: users[1]
 			})
@@ -742,7 +739,7 @@ function stop(message) {
 					console.log(error);
 			});
 			// users[1] -> users[0]
-			axios.post("https://localhost:8080/api/v1/penpal", {
+			axios.post("https://i7b308.p.ssafy.io:8080/api/v1/penpal", {
         fromUserId: users[1],
 				toUserId: users[0]
 			})
@@ -760,7 +757,7 @@ function stop(message) {
 
 	let totalDependTime = Math.floor(((new Date() - startTime) / 1000) % 60);
 
-	axios.get("https://localhost:8080/api/v1/intimacy/single", {
+	axios.get("https://i7b308.p.ssafy.io:8080/api/v1/intimacy/single", {
 		headers: {
 			fromUserId: users[0],
 			toUserId: users[1]
@@ -768,7 +765,7 @@ function stop(message) {
 	})
 		.then(function (response) {
 			console.log(response);
-			axios.put("https://localhost:8080/api/v1/intimacy/positive/time", {
+			axios.put("https://i7b308.p.ssafy.io:8080/api/v1/intimacy/positive/time", {
 				fromUserId: users[0],
 				toUserId: users[1],
 				meetingTime: totalDependTime
@@ -780,7 +777,7 @@ function stop(message) {
 				});
 		}).catch(function (error) {
 			console.log(error);
-			axios.post("https://localhost:8080/api/v1/intimacy", {
+			axios.post("https://i7b308.p.ssafy.io:8080/api/v1/intimacy", {
         fromUserId: users[0],
 				toUserId: users[1],
 				eval: Math.round(Math.log10(totalDependTime))
