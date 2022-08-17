@@ -62,17 +62,17 @@ export default {
     ...mapActions(['totalFriendList']),
     ...mapMutations(['ROOM_PRE', 'ROOM_FRIENDS', 'ROOM_SOWLMATE']),
     totalRoomFriendsList() {
-      for (let room of this.roomList) {
+      for (let room of this.roomAll) {
         if (this.preFriendsList.includes(room.ownerId)) {
           this.totalRoomList.preFriendsRoomList.push(room);
         }
       }
-      for (let room of this.roomList) {
+      for (let room of this.roomAll) {
         if (this.friendsList.includes(room.ownerId)) {
           this.totalRoomList.friendsRoomList.push(room);
         }
       }
-      for (let room of this.roomList) {
+      for (let room of this.roomAll) {
         if (this.sowlmateList.includes(room.ownerId)) {
           this.totalRoomList.sowlmateRoomList.push(room);
         }

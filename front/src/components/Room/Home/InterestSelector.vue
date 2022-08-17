@@ -72,7 +72,6 @@ export default {
   },
   mounted() {
     this.userInfoCheck();
-    this.interestCheck();
   },
   watch() {
     this.$emit('roomInterest', this.roomInterest);

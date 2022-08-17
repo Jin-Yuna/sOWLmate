@@ -338,7 +338,7 @@ function initDeepARForRemote() {
 
 	// canvas 만들어 deepAR 실행
 	const deepAR = DeepAR({
-		// licenseKey: '2df0063b6b8ef8eb754b707348e099d4c419524397ffeaae36f656112167e9816dafbe8dd2028e9c',
+		licenseKey: '2df0063b6b8ef8eb754b707348e099d4c419524397ffeaae36f656112167e9816dafbe8dd2028e9c',
 		canvasWidth: 960,
 		canvasHeight: 680,
 		canvas: remoteCanvas,
