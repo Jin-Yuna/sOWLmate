@@ -12,6 +12,8 @@ const CATEGORIS = 'categories/';
 const CONFERENCE = 'conference/';
 const PHOTOBOOTH = 'photo-booth/';
 const INTIMACY = 'intimacy/';
+const LETTER = 'letter/';
+
 export default {
   front: {
     googleRequest: () => FRONT,
@@ -75,5 +77,8 @@ export default {
   },
   intimacy: {
     intimacy: () => HOST + INTIMACY + 'positive/',
+  },
+  letter: {
+    letterList: () => HOST + LETTER + 'list/',
   },
 };

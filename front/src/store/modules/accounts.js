@@ -84,6 +84,7 @@ export const accounts = {
             commit('SET_CURRENT_USER', userData.id);
             dispatch('getInterestList');
             dispatch('getUserInfo');
+
             sessionStorage.setItem('token', response.data['access-token']);
             router.push({ name: 'HomeView' });
             alert('성공적으로 login 되었습니다.');
