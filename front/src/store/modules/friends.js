@@ -66,8 +66,6 @@ export const friends = {
         });
     },
     goDetail({ commit }, letterNo) {
-      console.log(sowl.letter.singleLetterList());
-      console.log(letterNo);
       axios({
         url: sowl.letter.singleLetterList(),
         method: 'get',
@@ -83,5 +81,10 @@ export const friends = {
           console.log(err);
         });
     },
+    // getBlackList({ commit }) {
+    //   axios({
+    //     url: sowl.
+    //   })
+    // },
   },
 };
