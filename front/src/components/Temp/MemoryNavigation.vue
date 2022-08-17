@@ -10,11 +10,6 @@
       <v-tab>
         <router-link :to="{ name: 'PhotoBoothView' }">사진첩</router-link>
       </v-tab>
-      <v-tab>
-        <!-- <router-link :to="{ name: 'MyPageEditPreferenceLanguageView' }"
-          >차단친구관리</router-link
-        > -->
-      </v-tab>
     </v-tabs>
   </div>
 </template>
