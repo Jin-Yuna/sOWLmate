@@ -4,7 +4,7 @@
       <v-row>
         <h2>PRE-FRIENDS</h2>
         <div class="ml-6"></div>
-        <sub-chip><span>펜팔 가능</span></sub-chip>
+        <p class="sub-chip"><span>펜팔 가능</span></p>
       </v-row>
       <br />
       <div v-if="!selected">

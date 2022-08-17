@@ -55,7 +55,7 @@
         <hr />
       </v-col>
       <v-col>
-        <p-small>or continue with</p-small>
+        <p class="p-small">or continue with</p>
       </v-col>
       <v-col cols="0" xs="1" lg="4">
         <hr />
@@ -116,7 +116,7 @@ v-btn span {
   text-decoration: underline;
 }
 
-p-small {
+.p-small {
   position: relative;
   top: -0.8rem;
 }
