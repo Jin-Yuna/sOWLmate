@@ -29,7 +29,7 @@
       <!-- 지역 설정 -->
       <div class="mt-2">
         <h4>지역</h4>
-        <p-small class="signup-explain">현재 계신 지역을 선택해주세요.</p-small>
+        <p class="p-small signup-explain">현재 계신 지역을 선택해주세요.</p>
         <v-row class="mt-1">
           <v-select
             color="primary"
@@ -44,9 +44,7 @@
       <!-- 사용 언어 설정 -->
       <div class="mt-2">
         <h4>언어</h4>
-        <p-small class="signup-explain"
-          >주요 사용하는 언어를 선택해주세요.</p-small
-        >
+        <p class="p-small signup-explain">주요 사용하는 언어를 선택해주세요.</p>
         <v-row class="mt-1">
           <v-select
             color="primary"
@@ -61,9 +59,9 @@
       <!-- 선호 언어 설정 -->
       <div class="mt-2">
         <h4>선호 언어</h4>
-        <p-small class="signup-explain"
-          >매칭되고싶은 사용자 언어를 선택해주세요.</p-small
-        >
+        <p class="p-small signup-explain">
+          매칭되고싶은 사용자 언어를 선택해주세요.
+        </p>
         <v-row class="mt-1">
           <v-select
             color="primary"
@@ -78,9 +76,9 @@
       <!-- 유저 이름 -->
       <div class="mt-2">
         <h4>유저 이름</h4>
-        <p-small class="signup-explain"
-          >유저 이름은 공개되지 않으며, 비밀번호 찾기에 이용됩니다.</p-small
-        >
+        <p class="p-small signup-explain">
+          유저 이름은 공개되지 않으며, 비밀번호 찾기에 이용됩니다.
+        </p>
         <v-row class="mt-1">
           <v-text-field
             color="primary"

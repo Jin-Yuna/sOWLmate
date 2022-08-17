@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <h2>MyPageEditPasswordView.vue</h2>
+  <v-container>
     <PasswordEditForm />
-  </div>
+  </v-container>
 </template>
 
 <script>

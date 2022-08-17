@@ -2,7 +2,7 @@
   <v-container class="mt-3">
     <v-row justify="center" class="mt-16">
       <v-col cols="3">
-        <p>메모리네브 자리</p>
+        <MemoryNavigation />
       </v-col>
       <v-col cols="9">
         <v-tabs
@@ -47,6 +47,8 @@ import TotalFriend from '@/components/Friend/TotalFriend.vue';
 import PreFriend from '@/components/Friend/PreFriend.vue';
 import MiddleFriend from '@/components/Friend/MiddleFriend.vue';
 import SowlMate from '@/components/Friend/SowlMate.vue';
+import MemoryNavigation from '@/components/Temp/MemoryNavigation.vue';
+
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -56,6 +58,7 @@ export default {
     PreFriend,
     MiddleFriend,
     SowlMate,
+    MemoryNavigation,
   },
   data() {
     return {

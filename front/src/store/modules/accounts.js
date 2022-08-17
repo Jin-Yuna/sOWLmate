@@ -84,9 +84,14 @@ export const accounts = {
             commit('SET_CURRENT_USER', userData.id);
             dispatch('getInterestList');
             dispatch('getUserInfo');
+
             sessionStorage.setItem('token', response.data['access-token']);
-            router.push({ name: 'HomeView' });
-            alert('성공적으로 login 되었습니다.');
+            if (userData.justsingup) {
+              router.push({ name: 'MypageEditInterestView' });
+            } else {
+              router.push({ name: 'HomeView' });
+              alert('성공적으로 login 되었습니다.');
+            }
           }
         })
         .catch((error) => {
@@ -100,7 +105,6 @@ export const accounts = {
         data: userData,
       })
         .then((response) => {
-          console.log(response.data);
           if (response.data['message'] === 'fail') {
             commit('LOGIN_FAIL', 'fail');
           } else {
@@ -130,7 +134,11 @@ export const accounts = {
         data: userData,
       })
         .then(() => {
-          const loginData = { id: userData.id, password: userData.password };
+          const loginData = {
+            id: userData.id,
+            password: userData.password,
+            justsingup: 1,
+          };
           dispatch('login', loginData);
         })
         .catch((error) => {
@@ -271,7 +279,7 @@ export const accounts = {
               },
               method: 'post',
             });
-            console.log('관심사등록', interestName);
+            // console.log('관심사등록', interestName);
             // commit('SET_CURRENT_USER', interestName);
           }
         }
@@ -288,7 +296,7 @@ export const accounts = {
               },
               method: 'delete',
             });
-            console.log('삭제', currentInterest);
+            // console.log('삭제', currentInterest);
           }
         }
       } catch (err) {

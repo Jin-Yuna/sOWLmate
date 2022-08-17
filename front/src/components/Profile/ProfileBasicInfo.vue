@@ -1,10 +1,10 @@
 <template>
   <div class="align">
-    <p-small class="p-small">{{ region }}/{{ language }}</p-small>
+    <p class="p-small">{{ region }}/{{ language }}</p>
     <v-row class="my-1">
-      <main-chip v-for="interest in interests" :key="interest">
+      <p class="main-chip" v-for="interest in interests" :key="interest">
         <span>{{ interest }}</span>
-      </main-chip>
+      </p>
     </v-row>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style scoped>
-p-small {
+.p-small {
   color: #adb5bd;
 }
 .align {
