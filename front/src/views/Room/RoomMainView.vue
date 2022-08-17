@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-3">
-    <v-row class="mt-16">
+    <v-row class="mt-16" justify="center">
       <div class="auth-card">
         <RoomListNavigation />
       </div>
