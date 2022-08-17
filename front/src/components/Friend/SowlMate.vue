@@ -7,9 +7,8 @@
         <p class="sub-chip"><span>펜팔 가능</span></p>
         <p class="sub-chip"><span>친구 목록</span></p>
         <p class="sub-chip"><span>프로필 공개</span></p>
-        <p class="sub-chip"><span>온라인 표식</span></p>
-        <p class="sub-chip"><span>추억 일기</span></p>
         <p class="sub-chip"><span>얼굴 공개 가능</span></p>
+        <p class="sub-chip"><span>사진 찍기</span></p>
       </v-row>
       <br />
       <div v-if="!selected">

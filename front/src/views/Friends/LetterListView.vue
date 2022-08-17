@@ -67,7 +67,7 @@ export default {
   mounted() {
     this.pagetotal();
     if (this.letterList.length < 1) {
-      this.totalLetterListt();
+      this.totalLetterList();
     }
   },
 };
