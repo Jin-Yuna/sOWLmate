@@ -40,6 +40,16 @@ public class PenpalController {
     }
 
     /**
+     * From, To 유저별 펜팔 조회
+     */
+    @GetMapping("single/user")
+    public ResponseEntity<?> penpalByFromUserIdAndToUserId(HttpServletRequest request) {
+        return ResponseEntity.ok().body(penpalService.selectAllByFromUserIdAndToUserId(
+                request.getHeader("fromUserId"),
+                request.getHeader("toUserId")));
+    }
+
+    /**
      * 유저별, 친밀도 수준별 펜팔 조회
      */
     @GetMapping("list/user-intimacy")
