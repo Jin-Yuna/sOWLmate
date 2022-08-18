@@ -109,6 +109,7 @@ body {
     vertical-align: middle;
     white-space: nowrap;
   }
+
   
   .time-check {
     background-color: white;
@@ -274,11 +275,29 @@ body {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   }
 
+  #videoSubtitles {
+    margin-bottom : 20rem;
+    justify-content: center;
+    align-items: center;
+    height : 10;
+    width: auto;
+    position : absolute;
+    z-index: 15;
+    background-color:  var(--main-darklg);
+    color: var(--main-light);
+    font-family : 'AppleSDGothicNeoB';
+    font-size: 0.8rem;
+    padding: 1rem;
+  }
+
   #remoteCanvas {
     /* width: 100%; */
+    position :absolute;
     object-fit: cover;
-    width : 960;
-    height: 640;
+    width: 600;
+    height: 400;
+    width : 100%;
+    height: 100%;
     object-position: center center;
     /* max-width: 100%
     height: 100%; */
@@ -305,8 +324,8 @@ body {
   }
 
   #videoBig {
-    width: 400;
-    height: 300;
+    width: 800;
+    height: 600;
     position: relative; /* absolute는 부모가 relative일 때 부모를 따라간다. */
     /* width: 100%; */
     /* padding-top: 28.125%; */
@@ -323,10 +342,11 @@ body {
     position : fixed;
     text-align: center;
     bottom : 1rem;
-    left: 50%;
+    left: 40%;
   }
 
   .menu-container {
+    margin-bottom : 10rem;
     overflow: hidden;
   }
 
@@ -335,9 +355,10 @@ body {
     width: 15rem;
     height: 15rem;
     position: absolute;
-    left: 50%;
+    left: 0;
     top: 50%;
-    margin: -5rem 0 0 -5rem;
+    margin: 0;
+    border-radius: 50%;
     list-style: none;
     font-size: 200%;
   }

@@ -32,12 +32,13 @@
     <script>
       // chatting
       function show(){
-          if($('.main__right').css('display') == 'none'){
-            $('.main__right').show();
+          if($('.main__chat_window').css('display') == 'none'){
+            $('.main__chat_window').show();
       }else{
-          $('.main__right').hide();
+          $('.main__chat_window').hide();
       }
       }
+
 
       // carousel
       (function ($) {
@@ -171,7 +172,7 @@
   })
 });
 
-    // chatting
+    // fiilter
     function Filtershow(){
         if($('.main__left').css('display') == 'none'){
           $('.main__left').show();
@@ -181,13 +182,12 @@
     }
     }
 
-
-
   (function(){
     $("#lock").on("click", function() {
       $(".lock-check").fadeToggle( "fast");
     });
   })()
+
   </script>
     <script defer src="js/index.js"></script>
     <script>
@@ -195,6 +195,7 @@
       var listening = {
         value:false
       };
+      var check = false;
       var draft = "";
 
       const sr = new webkitSpeechRecognition();
@@ -232,6 +233,8 @@
     }); };
 
     const startListen = function() {
+      check = !check
+      if (check === true) {
       console.log("startListen");
       listening.value = true;
       sr2.onresult = function(event) {
@@ -245,22 +248,40 @@
               }
           }
           draft.value = interimTranscript;
-          // console.log(draft);
+          console.log(draft);
           if(finalTranscript) {
               sharedMessages.push([
                   {
                       text: finalTranscript,
                   },
               ]);
-              //console.log(sharedMessages);
+              console.log(sharedMessages);
               console.log(sharedMessages[sharedMessages.length-1][0].text);
-              var translate_result = translateText(sharedMessages[sharedMessages.length-1][0].text)
-                sendMessage({
-                  id : 'translate',
-                  from : users[0],
-                  to: users[1],
-                  text: translate_result
-                });
+              axios({
+                baseURL: "https://api.cognitive.microsofttranslator.com/",
+                url: '/translate',
+                method: 'post',
+                headers: {
+                  'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
+                  'Ocp-Apim-Subscription-Region': "koreacentral",
+                  'Content-type': 'application/json',
+                  'X-ClientTraceId': uuidv4().toString()
+                },
+                params: {
+                  'api-version': '3.0',
+                  'from': 'ko',
+                  'to': 'en'
+                },
+                data: [{
+                  'text': sharedMessages[sharedMessages.length-1][0].text
+                }],
+                responseType: 'json'
+              }).then(function(response){
+                var translationResult = response.data;
+                document.getElementById("videoSubtitles").innerHTML = translationResult[0].translations[0].text;
+                $('#videoSubtitles').css('display') = 'inline-block'
+                console.log(JSON.stringify(response.data, null, 4));
+              })
             }
       };
       sr2.onerror = function() {
@@ -272,51 +293,27 @@
         } catch {
           console.log("말을 더 이상 안하실 예정이면 번역 기능을 꺼주세요~!");
         }
-        //listening.value = false;
+        listening.value = false;
       };
       sr2.onend = function() {
         console.log("onend");
         if(listening.value===true) {
           sr2.start();
         }
-        //listening.value = false;
+        listening.value = false;
       };
       sr2.start();
-      return [2];
+      return [2];} else stopListen()
     };
     
     var stopListen = function () {
         console.log("stopListen");
         listening.value = false;
         sr2.stop();
+        $('#videoSubtitles').css('display') == 'none'
     };
 
-    function translateText(message) {
-    axios({
-      baseURL: "https://api.cognitive.microsofttranslator.com/",
-      url: '/translate',
-      method: 'post',
-      headers: {
-        'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
-        'Ocp-Apim-Subscription-Region': "koreacentral",
-        'Content-type': 'application/json',
-        'X-ClientTraceId': uuidv4().toString()
-      },
-      params: {
-        'api-version': '3.0',
-        'from': 'ko',
-        'to': 'en'
-      },
-      data: [{
-        'text': message
-      }],
-      responseType: 'json'
-      }).then(function(response){
-      var translationResult = response.data;
-      //console.log(JSON.stringify(response.data, null, 4));
-      return translationResult[0].translations[0].text
-      })
-  }
+
     </script>
     <title>sOWLmate</title>
 
@@ -341,7 +338,7 @@
     <div class="main">  
       <!-- 필터 선택 -->
       <div class="filter-button">
-        <div id="filter-container" onClick="Filtershow()">
+        <div id="filter-container">
           <button class="face-button">
             <span class="face-container">
               <span class="eye left"></span>
@@ -387,12 +384,12 @@
         <div class="videos__group">
           <div id="video-grid">
                 <!-- 자막 -->
-              <div>
-                  <p id="videoSubtitles"></p>
-                </div>
                 <div id="videoBig">
-                  <canvas id="remoteCanvas" width="960" height="680"></canvas>
-                  <video id="videoOutput" autoplay width="960" height="680" style="display:none;"></video>
+                  <div>
+                    <p id="videoSubtitles"></p>
+                  </div>
+                  <canvas id="remoteCanvas" width="900" height="600"></canvas>
+                  <video id="videoOutput" autoplay width="900" height="600" style="display:none;"></video>
                   </div>
                   <div id="videoSmall">
                     <video id="videoInput" autoplay width="360" height="280" ></video>
@@ -403,13 +400,13 @@
       </div>
       <!-- main-right -->
       <div class="main__right">
-        <div class="main__chat_window">
+        <div class="main__chat_window" style="display: none;">
           <div class="chat__header">
               <div class="greeting">
                 <span class="chat__header__greetings" id="username">
                 </span>
               </div>
-            <div class="switch" id="translate-text">
+            <!-- <div class="switch" id="translate-text">
               <p>번역</p>
               <div class="switch__1" id="noncheck">
                 <input id="switch-1" type="checkbox">
@@ -419,7 +416,7 @@
                 <input id="switch-2" type="checkbox" checked>
                 <label for="switch-2"></label>
               </div>
-            </div>
+            </div> -->
           </div>
           <div id="chatView">
           </div>
@@ -430,8 +427,7 @@
         </div>
         <!-- 인생네컷 -->
         <div>
-          <button id="btn-capture" onclick="initialize()">sayCheese</button>
-          <div id="div4cut" style="background-color:black; display: none;">
+          <div id="div4cut" style="background-color:#6E9DF5; display: none;">
             <canvas id="canvas" width="560" height="950"></canvas>
           </div>
         </div>
@@ -444,15 +440,15 @@
         <ul id="menu">
           <a class="menu-button icon-plus" style="overflow: hidden;" href="#menu" title="Show navigation"></a>
           <a class="menu-button icon-minus" style="overflow: hidden;" href="#0" title="Hide navigation"></a>
-          <!-- 비디오 on/off -->
-          <li class="menu-item"  id="stopVideo">
-            <i class="fa-solid fa-video-slash menu-icon check" style="display: none;"></i>
-            <i class="fa-solid fa-video menu-icon"></i>         
+          <!-- 필터 on/off -->
+          <li class="menu-item"  id="filter"  onclick="Filtershow()">
+            <i class="fa-solid fa-masks-theater menu-icon check" style="display: none;"></i>
+            <i class="fa-solid fa-masks-theater menu-icon "></i>         
           </li>
-          <!-- 음소거 -->
-          <li class="menu-item"  id="muteButton">
-            <i class="fa-solid fa-video-slash menu-icon check"  style="display: none;"></i>
-            <i class="fa-solid fa-microphone menu-icon" aria-hidden="true"></i>
+          <!-- 인생네컷 -->
+          <li class="menu-item"  id="btn-capture" onclick="initialize()">
+            <i class="fa-solid fa-camera-retro menu-icon check"  style="display: none;"></i>
+            <i class="fa-solid fa-camera-retro menu-icon" aria-hidden="true"></i>
           </li>
           <!-- 채팅 -->
           <li id="showChat" class="menu-item"  onclick="show()">
@@ -460,7 +456,7 @@
             <i class="fa-solid fa-message menu-icon"></i>
           </li>
           <!-- 번역 -->
-          <li class="menu-item" onclick="translateStart()">
+          <li id="speeckTranslate" class="menu-item" onclick="startListen()">
             <i class="fa-solid fa-language menu-icon"></i>
             <i class="fa-solid fa-language menu-icon check"  style="display: none;"></i>
           </li>
