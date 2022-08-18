@@ -44,7 +44,7 @@
             {{ interest }}
           </v-chip>
         </v-chip-group>
-        <v-btn v-if="!isInterestMore" @click="interestMore()"
+        <v-btn v-if="!isInterestMore" size="small" @click="interestMore()"
           >관심사 모두 보기</v-btn
         >
         <v-chip-group v-if="isInterestMore" v-model="newRoom.interest" column>
@@ -65,7 +65,7 @@
         </v-chip-group>
       </div>
 
-      <div>
+      <!-- <div>
         <h4 class="mt-6 ml-2">비밀번호 걸기</h4>
         <input
           type="checkbox"
@@ -89,7 +89,7 @@
           v-if="newRoom.locks === 'LOCK'"
           v-model="newRoom.password"
         />
-      </div>
+      </div> -->
       <v-btn
         type="submit"
         @click="upload()"
