@@ -1,4 +1,5 @@
-var ws = new WebSocket('wss://' + location.host + '/one2one');
+// var ws = new WebSocket('wss://' + location.host + '/one2one');
+var ws = new WebSocket('wss://i7b308.p.ssafy.io:8443/one2one');
 var videoInput;
 var videoOutput;
 var webRtcPeer;
