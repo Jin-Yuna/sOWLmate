@@ -68,7 +68,8 @@
     </v-row>
     <v-row class="my-9 text-center">
       <v-col>
-        <h2>스크롤 아이콘(움직이는)</h2>
+        <img :src="require('@/assets/expandMore1.png')" />
+        <h3>Scroll</h3>
       </v-col>
     </v-row>
     <v-row
