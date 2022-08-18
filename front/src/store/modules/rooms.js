@@ -88,6 +88,7 @@ export const rooms = {
         method: 'get',
       })
         .then((response) => {
+          console.log('방방방', response.data);
           commit('ROOM_ALL_LIST', response.data);
         })
         .catch((err) => {
