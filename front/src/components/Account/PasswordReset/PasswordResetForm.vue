@@ -65,7 +65,7 @@ export default {
   methods: {
     ...mapActions(['idCheck', 'resetPassword']),
     pageLink() {
-      console.log(this.isIdUsernameCheck);
+      // console.log(this.isIdUsernameCheck);
       if (this.isIdUsernameCheck) {
         this.$router.push({ name: 'LoginView' });
       }

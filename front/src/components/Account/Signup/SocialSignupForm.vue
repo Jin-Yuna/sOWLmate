@@ -137,7 +137,7 @@ export default {
     this.userData.name = this.$route.query.username;
     this.userData.profilePictureUrl = this.$route.query.userphotourl;
     this.userData.nickname = this.$route.query.usernickname;
-    console.log(this.userData);
+    // console.log(this.userData);
   },
   computed: {
     ...mapGetters([

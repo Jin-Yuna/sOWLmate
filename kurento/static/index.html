@@ -235,7 +235,7 @@
     const startListen = function() {
       check = !check
       if (check === true) {
-      console.log("startListen");
+      //console.log("startListen");
       listening.value = true;
       sr2.onresult = function(event) {
           var finalTranscript = "";
@@ -248,15 +248,15 @@
               }
           }
           draft.value = interimTranscript;
-          console.log(draft);
+          //console.log(draft);
           if(finalTranscript) {
               sharedMessages.push([
                   {
                       text: finalTranscript,
                   },
               ]);
-              console.log(sharedMessages);
-              console.log(sharedMessages[sharedMessages.length-1][0].text);
+              //console.log(sharedMessages);
+              //console.log(sharedMessages[sharedMessages.length-1][0].text);
               axios({
                 baseURL: "https://api.cognitive.microsofttranslator.com/",
                 url: '/translate',
@@ -280,23 +280,23 @@
                 var translationResult = response.data;
                 document.getElementById("videoSubtitles").innerHTML = translationResult[0].translations[0].text;
                 $('#videoSubtitles').css('display') = 'inline-block'
-                console.log(JSON.stringify(response.data, null, 4));
+                //console.log(JSON.stringify(response.data, null, 4));
               })
             }
       };
       sr2.onerror = function() {
-        console.log("onerror");
+        //console.log("onerror");
         try {
           if(listening.value===true) {
             sr2.start();
           }
         } catch {
-          console.log("말을 더 이상 안하실 예정이면 번역 기능을 꺼주세요~!");
+          //console.log("말을 더 이상 안하실 예정이면 번역 기능을 꺼주세요~!");
         }
         listening.value = false;
       };
       sr2.onend = function() {
-        console.log("onend");
+        //console.log("onend");
         if(listening.value===true) {
           sr2.start();
         }
@@ -307,7 +307,7 @@
     };
     
     var stopListen = function () {
-        console.log("stopListen");
+        //console.log("stopListen");
         listening.value = false;
         sr2.stop();
         $('#videoSubtitles').css('display') == 'none'
