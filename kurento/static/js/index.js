@@ -74,7 +74,7 @@ const $videoOutput = document.getElementById('videoOutput');
 const $canvas = document.getElementById('canvas');
 // 비디오 이미지 캡쳐
 function capture() {
-	console.log("start capture() function : 캡쳐를 시작합니다.");
+	//console.log("start capture() function : 캡쳐를 시작합니다.");
 	var context = $canvas.getContext('2d');
 	cnt += 1;
 	switch (cnt) {
@@ -96,14 +96,14 @@ function capture() {
 			document.querySelector('#btn-capture').innerHTML = '저장하기';
 			break;
 		default:
-			console.log("save");
+			//console.log("save");
 			saveImage();
 			$canvas.getContext('2d').clearRect(0, 0, 560, 950);
 			cnt = 0;
 			document.querySelector('#div4cut').style.display = 'none';
 			break;
 	}
-	console.log("end capture() function : 캡쳐를 끝냅니다.");
+	//console.log("end capture() function : 캡쳐를 끝냅니다.");
 }
 //* 캡쳐한 이미지 노출 함수
 function saveImage() {
@@ -252,7 +252,7 @@ function initDeepAR() {
 	}
 
 	inputVideo.addEventListener('play', function () {
-		console.log('inputVideo.addEventListener')
+		//console.log('inputVideo.addEventListener')
         if (this.paused && this.ended) {
 					deepAR.stopVideo();
         }
@@ -276,13 +276,13 @@ function initDeepAR() {
 			removeAllFilter();
 		}
 		else if (effectList.includes(effect.value)) {
-			console.log('removeFilter(effect.value)');
+			//console.log('removeFilter(effect.value)');
 			const Effectindex = effectList.indexOf(effect.value);
 			effectList.splice(Effectindex, 1);
 			removeFilter(effect.value);
 		} 
 		else {
-			console.log('addFilter(effect.value)');
+			//console.log('addFilter(effect.value)');
 			effectList.push(effect.value);
 			addFilter(effect.value);
 		}
@@ -299,7 +299,7 @@ function initDeepAR() {
 				effect: effect
 			});
 			slotList.push(({ slot: `slot${slots}`, effect: effect }));
-			console.log(slotList);
+			//console.log(slotList);
 			deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
 			// effect loaded
 			})
@@ -309,7 +309,7 @@ function initDeepAR() {
 	function removeFilter(effect) {
 		let slotNum;
 		for (let slot of slotList) {
-			console.log(slot);
+			//console.log(slot);
 			if (slot.effect === effect) {
 				slotNum = slot.slot;
 				slotList.splice(slotList.indexOf(slot), 1);
@@ -402,7 +402,7 @@ function initDeepARForRemote() {
 	function removeFilterForRemote() {
 		let slotNum;
 		for (let slot of slotListForRemote) {
-			console.log(slot);
+			//console.log(slot);
 			if (slot.effect === removeFilter) {
 				slotNum = slot.slot;
 				slotListForRemote.splice(slotListForRemote.indexOf(slot), 1);
@@ -437,12 +437,12 @@ function waitForSocketConnection(socket, callback){
 	setTimeout(
 			function () {
 					if (socket.readyState === 1) {
-						console.log("Connection is made");
+						//console.log("Connection is made");
 							if (callback != null){
 									callback();
 							}
 					} else {
-						console.log("wait for connection...");
+						//console.log("wait for connection...");
 							waitForSocketConnection(socket, callback);
 					}
 			}, 5);
@@ -457,7 +457,7 @@ window.onload = function() {
 	location.href.split("?")[1].split("&").forEach(element => {
 		users.push(element.split("=")[1]);
 	});
-	console.log(users);
+	// console.log(users);
 
 	waitForSocketConnection(ws, function(){
 		register();
@@ -515,7 +515,7 @@ ws.onmessage = function(message) {
 	case 'filter':
 			var filtereffect = parsedMessage.effect;
 		if (filtereffect != '') {
-			console.log(`add filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
+			// console.log(`add filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
 			effectListForRemote.push(filtereffect)
 			moduleOut.addFilterForRemote_Obj;
 		}
@@ -523,7 +523,7 @@ ws.onmessage = function(message) {
 	case 'filterRemove':
 			removeFilter = parsedMessage.effect;
 		if (removeFilter != '') {
-			console.log(`remove filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
+			// console.log(`remove filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
 			moduleOut.removeFilterForRemote_Obj ;
 		}
 		break;
@@ -531,7 +531,7 @@ ws.onmessage = function(message) {
 		moduleOut.removeAllFilter_Obj ;
 		break;
 	case 'translate':
-			console.log(`translate message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.text}`);
+			// console.log(`translate message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.text}`);
 			document.getElementById("videoSubtitles").innerHTML = parsedMessage.text;
 		break;
 	case 'receive':
@@ -544,7 +544,7 @@ ws.onmessage = function(message) {
 		nameBox.append(parsedMessage.from);
 		msgBox.append(parsedMessage.content);
 		var msgtranslate = translateText(parsedMessage.content);
-		console.log(msgtranslate)
+		// console.log(msgtranslate)
 		msgTranslate.append(msgtranslate);
 		nameBox.css('display', 'inline-block');
 		msgBox.css('display', 'inline-block');
@@ -607,7 +607,7 @@ function startCommunication(message) {
 }
 
 function incomingCall(message) {
-	console.log('incomingCall')
+	// console.log('incomingCall')
 	
 	if (callState != NO_CALL) {
 		var response = {
@@ -676,7 +676,7 @@ function register() {
 }
 
 function call() {
-	console.log('call')
+	// console.log('call')
 	setCallState(PROCESSING_CALL);
 	// showSpinner(videoInput, videoOutput);
 
@@ -715,7 +715,7 @@ function call() {
 function stop(message) {
 	setCallState(NO_CALL);
 	if (webRtcPeer) {
-		console.log('initDeepAR')
+		// console.log('initDeepAR')
 		webRtcPeer.dispose();
 		webRtcPeer = null;
 
@@ -735,14 +735,14 @@ function stop(message) {
 		}
 	}).then(function (response) {
 		if (response.data === "empty") {
-			console.log("친구 등록을 진행합니다.");
+			// console.log("친구 등록을 진행합니다.");
 			// users[0] -> users[1]
 			axios.post("https://i7b308.p.ssafy.io/api/v1/penpal", {
         fromUserId: users[0],
 				toUserId: users[1]
 			})
 			.then(function (response) {
-					console.log(response);
+					// console.log(response);
 			}).catch(function (error) {
 					console.log(error);
 			});
@@ -752,12 +752,12 @@ function stop(message) {
 				toUserId: users[0]
 			})
 			.then(function (response) {
-					console.log(response);
+					// console.log(response);
 			}).catch(function (error) {
 					console.log(error);
 			});
 		} else {
-			console.log("이미 친구입니다.")
+			// console.log("이미 친구입니다.")
 		}
 	}).catch(function (err) {
 		console.log(err);
@@ -779,7 +779,7 @@ function stop(message) {
 				meetingTime: totalDependTime
 			})
 				.then(function (response) {
-					console.log(response);
+					// console.log(response);
 				}).catch(function (error) {
 					console.log(error);
 				});
@@ -791,7 +791,7 @@ function stop(message) {
 				eval: Math.round(Math.log10(totalDependTime))
 			})
 			.then(function (response) {
-					console.log(response);
+					// console.log(response);
 			}).catch(function (error) {
 					console.log(error);
 			});
@@ -802,12 +802,12 @@ function stop(message) {
 
 function sendMessage(message) {
 	var jsonMessage = JSON.stringify(message);
-	console.log('Sending message: ' + jsonMessage);
+	// console.log('Sending message: ' + jsonMessage);
 	ws.send(jsonMessage);
 }
 
 function onIceCandidate(candidate) {
-	console.log('Local candidate' + JSON.stringify(candidate));
+	// console.log('Local candidate' + JSON.stringify(candidate));
 
 	var message = {
 		id : 'onIceCandidate',

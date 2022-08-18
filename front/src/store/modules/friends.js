@@ -28,8 +28,11 @@ export const friends = {
     Get_PENPAL_LIST: (state, list) => (state.penpalList = list),
   },
   actions: {
-    totalFriendList({ commit, rootState }) {
+    totalFriendList({ commit, rootState, state }) {
       const user = rootState.accounts.currentUser;
+      state.preFriendsList = [];
+      state.friends = [];
+      state.sowlmateList = [];
       axios({
         url: sowl.friend.friendList(),
         method: 'get',
@@ -85,15 +88,18 @@ export const friends = {
           console.log(err);
         });
     },
-    sendMail(data) {
+    sendMail({ dispatch }, myData) {
+      console.log('데타', myData);
       const letterdata = {
-        content: data.content,
-        fromUserId: data.fromUserId,
-        toUserId: data.toUserId,
-        title: data.title,
-        writingPad: data.writingPad,
-        writingFont: data.writingFont,
+        content: myData.content,
+        fromUserId: myData.fromUserId,
+        toUserId: myData.toUserId,
+        title: myData.title,
+        writingPad: myData.writingPad,
+        writingFont: myData.writingFont,
       };
+      console.log(sowl.letter.letteCreate());
+      console.log(letterdata);
       axios({
         url: sowl.letter.letteCreate(),
         method: 'post',
@@ -101,6 +107,7 @@ export const friends = {
       })
         .then(() => {
           alert('편지를 보냈습니다');
+          dispatch('totalLetterList');
           router.push({ name: 'HomeView' });
         })
         .catch((err) => console.log(err));

@@ -31,7 +31,7 @@ export default {
       this.nowProgress = progress;
     },
     letterDataGet(letterData) {
-      console.log(letterData);
+      // console.log(letterData);
       this.letterData = letterData;
     },
   },

@@ -90,7 +90,6 @@ export const accounts = {
               router.push({ name: 'MypageEditInterestView' });
             } else {
               router.push({ name: 'HomeView' });
-              alert('성공적으로 login 되었습니다.');
             }
           }
         })
