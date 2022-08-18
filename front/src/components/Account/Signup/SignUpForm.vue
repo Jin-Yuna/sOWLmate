@@ -351,4 +351,7 @@ export default {
   position: relative;
   top: -0.8rem;
 }
+.btn-small {
+  width: 4rem;
+}
 </style>
