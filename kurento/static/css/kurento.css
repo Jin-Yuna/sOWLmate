@@ -281,11 +281,11 @@ body {
     align-items: center;
     height : 10;
     width: auto;
-    position : absolute;
     z-index: 10;
     background-color:  var(--main-darklg);
     color: var(--main-light);
     font-family : 'AppleSDGothicNeoB';
+    position : absolute;
     font-size: 0.8rem;
     padding: 1rem;
   }
