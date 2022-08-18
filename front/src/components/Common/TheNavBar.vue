@@ -59,7 +59,6 @@
           </v-list>
         </v-menu>
       </div>
-      <!-- 토글메뉴 -->
     </v-row>
   </div>
 </template>
