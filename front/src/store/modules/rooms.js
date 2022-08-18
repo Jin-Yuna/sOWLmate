@@ -53,7 +53,9 @@ export const rooms = {
         .then((response) => {
           commit('SET_ROOM', response.data);
           // TODO : 노드 서버에게 데이터 전송
-          location.replace(sowl.webRTC.conferenceSend(getters.toUserNickname));
+          location.replace(
+            sowl.webRTC.conferenceSend(getters.fromUserNickname),
+          );
           router.push({
             name: 'RoomMainListView',
           });
@@ -73,8 +75,8 @@ export const rooms = {
           // TODO : 노드 서버에게 데이터 전송
           location.replace(
             sowl.webRTC.conferenceReceive(
-              getters.toUserNickname,
               getters.fromUserNickname,
+              getters.toUserNickname,
             ),
           );
         })
