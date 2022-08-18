@@ -580,7 +580,7 @@ body {
     }
 
 
-  .filter {
+  /* .filter {
     transform: rotate(90deg) translate(30px, -100%);
     transform-origin: left top;
   }
@@ -588,9 +588,9 @@ body {
     transform: rotate(-90deg);
     font-family: 'AppleSDGothicNeoEB';
     font-size: 1rem;
-    font-weight: bolder;
+    font-weight: bolder; */
     /* color: var(--main-darklg); */
-    background: var(--primary-color);
+    /* background: var(--primary-color);
     color: transparent;
     -webkit-background-clip: text;
   }
@@ -651,7 +651,7 @@ body {
       transition: all .4s ease-in-out;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       box-shadow: 0px 1px 1.4rem #9c9cc855;
-  }
+  } */
   /* .flickity-enabled {
       position: relative;
   }
@@ -671,8 +671,66 @@ body {
       height: 100%;
   } */
 
-
-
+  .carousel__item > div {
+    font-family: 'AppleSDGothicNeoEB';
+    font-size: 1rem;
+    font-weight: bolder;
+    background: var(--primary-color);
+    color: transparent;
+    -webkit-background-clip: text;
+  }
+    .effects.animation-reveal {
+      animation: reveal 1s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    @keyframes reveal {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+  
+    .owl-item > div {
+      cursor: pointer;
+      margin: 3rem auto;
+      transition: margin 0.4s ease;
+      height: 100%;
+      width: 100%;
+      background-position: center;
+      background-size: cover;
+      background-position: 100% 0;
+      background-image: url("../assets/image/owl_signup.png");
+      transform: rotate(90);
+      width: 7rem;
+      height: 7rem;;
+      display: flex;
+      flex-direction: row;
+      font-size: 1.4rem;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      box-shadow: 0px 1px 10rem #9c9cc855;
+    }
+  
+    .owl-item.center > div {
+      cursor: auto;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      background-position: center;
+      background-size: cover;
+    }
+    .owl-item:not(.center) > div:hover {
+      opacity: .75;
+      background-position: 100% 0;
+      moz-transition: all .4s ease-in-out;
+      -o-transition: all .4s ease-in-out;
+      -webkit-transition: all .4s ease-in-out;
+      transition: all .4s ease-in-out;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      box-shadow: 0px 1px 1.4rem #9c9cc855;
+    }
 
   /* Chatting */
 
