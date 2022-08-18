@@ -4,7 +4,6 @@ import com.ssafy.sowlmate.dto.request.LetterRequestDto;
 import com.ssafy.sowlmate.dto.response.LetterResponseDto;
 import com.ssafy.sowlmate.entity.BlackList;
 import com.ssafy.sowlmate.entity.Letter;
-import com.ssafy.sowlmate.entity.User;
 import com.ssafy.sowlmate.repository.LetterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,8 @@ import java.util.List;
 public class LetterService {
 
     private final LetterRepository letterRepository;
-    private final UserService userService;
     private final BlackListService blackListService;
+    private final UserService userService;
 
     /**
      * 받은 편지 전체 리스트 (내가 설정한 블랙리스트가 보낸 편지는 가져오지 않는다.)
@@ -31,11 +30,11 @@ public class LetterService {
         // 편지를 받은 사람 기준 블랙리스트를 불러온다.
         List<BlackList> blackLists = blackListService.selectAllByFromUserId(toUserId);
         // 블랙리스트로 지정된 유저를 불러온다.
-        List<User> users = new ArrayList<>();
-        for (BlackList blackList : blackLists) users.add(blackList.getToUser());
+        List<String> userIds = new ArrayList<>();
+        for (BlackList blackList : blackLists) userIds.add(blackList.getToUser().getId());
         // 편지를 보낸 사람이 블랙리스트에 포함되어 있다면 반환하지 않는다.
         for (Letter letter : letterRepository.findAllByToUserId(toUserId)) {
-            if (!users.contains(letter.getFromUser())) {
+            if (!userIds.contains(letter.getFromUserId())) {
                 result.add(LetterResponseDto.toDto(letter));
             }
         }
@@ -57,10 +56,13 @@ public class LetterService {
      */
     @Transactional
     public Letter enrollLetter(LetterRequestDto requestDto) {
-        User fromUser = userService.selectById(requestDto.getFromUserId());
-        User toUser = userService.selectById(requestDto.getToUserId());
-        return letterRepository.save(Letter.createLetter(fromUser, toUser,
-                requestDto.getTitle(), requestDto.getContent(), requestDto.getWritingPad(), requestDto.getWritingFont()));
+        String fromUserNickname = userService.selectById(requestDto.getFromUserId()).getNickname();
+        String toUserNickname = userService.selectById(requestDto.getToUserId()).getNickname();
+        return letterRepository.save(Letter.createLetter(
+                requestDto.getFromUserId(), requestDto.getToUserId(),
+                fromUserNickname, toUserNickname,
+                requestDto.getTitle(), requestDto.getContent(),
+                requestDto.getWritingPad(), requestDto.getWritingFont()));
     }
 
     /**
