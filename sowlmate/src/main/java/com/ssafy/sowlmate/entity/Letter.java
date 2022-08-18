@@ -11,21 +11,20 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 @RequiredArgsConstructor
-@Table(name = "letter", uniqueConstraints = {
-        @UniqueConstraint(name = "letter_uk", columnNames = {"from_user_no", "to_user_no"})
-})
 public class Letter {
     @Id @GeneratedValue
     @Column(name = "letter_id")
     private Long no;
 
-    @JoinColumn(name = "from_user_no")
-    @ManyToOne
-    private User fromUser;
+    @NotNull
+    private String fromUserId;
+    @NotNull
+    private String toUserId;
 
-    @JoinColumn(name = "to_user_no")
-    @ManyToOne
-    private User toUser;
+    @NotNull
+    private String fromUserNickname;
+    @NotNull
+    private String toUserNickname;
 
     @NotNull
     private String title;
@@ -43,10 +42,14 @@ public class Letter {
     private LocalDateTime createDate;
 
     // Create Letter
-    public static Letter createLetter(User fromUser, User toUser, String title, String content, String writingPad, String writingFont) {
+    public static Letter createLetter(String fromUserId, String toUserId,
+                                      String fromUserNickname, String toUserNickname,
+                                      String title, String content, String writingPad, String writingFont) {
         Letter letter = new Letter();
-        letter.setFromUser(fromUser);
-        letter.setToUser(toUser);
+        letter.setFromUserId(fromUserId);
+        letter.setToUserId(toUserId);
+        letter.setFromUserNickname(fromUserNickname);
+        letter.setToUserNickname(toUserNickname);
         letter.setTitle(title);
         letter.setContent(content);
         letter.setWritingPad(writingPad);

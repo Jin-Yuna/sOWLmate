@@ -5,8 +5,8 @@
     <!-- 시간 남으면 언어 선택 -->
     <v-container>
       <v-row justify="center">
-        <v-col v-for="room in roomList" :key="room.id">
-          <RoomListCard :room="room.id" />
+        <v-col v-for="room in roomAll" :key="room.id">
+          <RoomListCard :room="room" />
         </v-col>
       </v-row>
     </v-container>
@@ -31,6 +31,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['getAllRoomList']),
     showList(roomInterest) {
       let preferLanguage = this.userInfo.preferLanguage;
       for (let interest of roomInterest) {
@@ -41,6 +42,9 @@ export default {
         this.roomList = [...this.roomList, ...this.getRoomList(userData)];
       }
     },
+  },
+  mounted() {
+    this.getAllRoomList();
   },
 };
 </script>
