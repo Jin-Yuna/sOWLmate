@@ -4,7 +4,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
     allowedHosts: 'all',
-    https: true,
+    https: false,
   },
   pluginOptions: {
     vuetify: {
