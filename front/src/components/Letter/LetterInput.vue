@@ -72,7 +72,7 @@ export default {
         toUserId: '',
         title: '',
         content: '',
-        writingPad: '에러남',
+        writingPad: '안됨',
         writingFont: '없음',
       },
       friendslList: this.$store.state.friends.penpalList,

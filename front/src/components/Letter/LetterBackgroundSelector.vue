@@ -17,7 +17,14 @@
       <button class="main-btn" @click="choice()">이 편지지로 선택</button>
     </div>
     <div>
-      <button class="main-btn" @click="sendMail(this.data)">편지 보내기</button>
+      <button
+        v-if="selectedImg"
+        class="main-btn"
+        @click="sendMail(letterdata)"
+        max-width="100%"
+      >
+        편지 보내기
+      </button>
     </div>
   </div>
 </template>
@@ -39,18 +46,17 @@ export default {
       ],
       selectedImg: '',
       num: 1,
-      date: this.letterData,
+      letterdata: this.letterData,
     };
   },
   methods: {
     select(index) {
-      this.selectedImg = index + 1;
+      this.selectedImg = this.items[index];
       this.num = index + 1;
     },
     choice() {
-      // const data = this.letterData;
-      // data.writingPad = `${this.num}`;
-      // this.data = data;
+      // const letterdata = this.letterData;
+      // letterdata.writingPad = `${this.num}`;
     },
     ...mapActions(['sendMail']),
   },
