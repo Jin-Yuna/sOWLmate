@@ -2,7 +2,6 @@
   <div>
     <!-- <v-img :src="require('@/assets/letter/1.png')" /> -->
     <v-carousel class="ma-6">
-      {{ letterdata }}
       <v-carousel-item
         v-for="(item, i) in items"
         :key="i"
@@ -18,7 +17,12 @@
       <button class="main-btn" @click="choice()">이 편지지로 선택</button>
     </div>
     <div>
-      <button class="main-btn" @click="sendMail(letterdata)">
+      <button
+        v-if="selectedImg"
+        class="main-btn"
+        @click="sendMail(letterdata)"
+        max-width="100%"
+      >
         편지 보내기
       </button>
     </div>
@@ -47,13 +51,12 @@ export default {
   },
   methods: {
     select(index) {
-      this.selectedImg = index + 1;
+      this.selectedImg = this.items[index];
       this.num = index + 1;
     },
     choice() {
-      // const data = this.letterData;
-      // data.writingPad = `${this.num}`;
-      // this.data = data;
+      // const letterdata = this.letterData;
+      // letterdata.writingPad = `${this.num}`;
     },
     ...mapActions(['sendMail']),
   },
