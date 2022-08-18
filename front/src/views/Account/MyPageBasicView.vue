@@ -27,6 +27,6 @@ export default {
 <style scoped>
 .mypage-nav-position {
   position: relative;
-  left: 8rem;
+  left: 12rem;
 }
 </style>

@@ -7,10 +7,12 @@
       >
     </div>
     <div v-else>
-      <h5>나의 관심사</h5>
-      <v-chip v-for="interest in roomInterest" :key="interest">
-        {{ interest }}
-      </v-chip>
+      <h5 v-if="!isEditInterest">나의 관심사</h5>
+      <div v-if="!isEditInterest">
+        <v-chip v-for="interest in roomInterest" :key="interest">
+          {{ interest }}
+        </v-chip>
+      </div>
       <v-btn v-if="!isEditInterest" @click="editInterest()"
         >모든 관심사 선택 검색</v-btn
       >
@@ -27,7 +29,7 @@
           {{ interest }}
         </v-chip>
       </v-chip-group>
-      <v-btn v-if="isEditInterest" @click="editInterest()" \>닫기</v-btn>
+      <v-btn v-if="isEditInterest" @click="editInterest()">닫기</v-btn>
     </div>
   </div>
 </template>

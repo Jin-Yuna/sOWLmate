@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="3">
+  <v-col cols="3" class="room-nav">
     <v-tabs v-model="tab" direction="vertical" color="primary">
       <v-tab>
         <router-link :to="{ name: 'RoomMainListView' }"
@@ -23,4 +23,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.room-nav {
+  margin-left: 7rem;
+}
+</style>
