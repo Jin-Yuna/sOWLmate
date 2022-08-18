@@ -132,7 +132,7 @@ export default {
     ...mapActions(['totalFriendList', 'totalLetterList']),
   },
   mounted() {
-    console.log('마운티드~');
+    // console.log('마운티드~');
     this.totalFriendList();
     this.totalLetterList();
   },

@@ -41,7 +41,7 @@ export default {
       this.userData.conferenceNo = this.room.no;
       this.FROM_USER_NICKNAME(this.userInfo.nickname);
       for (const user of this.userList) {
-        console.log(user);
+        // console.log(user);
         if (this.room.ownerId === user['id']) {
           this.TO_USER_NICKNAME(user['nickname']);
           break;
