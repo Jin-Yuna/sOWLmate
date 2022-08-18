@@ -58,12 +58,20 @@ function setCallState(nextState) {
 	callState = nextState;
 }
 
+// TODO : 방 제목 받기 
+// axios.get(('https://i7b308.p.ssafy.io/api/v1/conference/list'))
+// 	.then((response) => {
+// 		var conferenceList = response.data
+// 		// for (conference of conferenceList) {
+// 		// 	if
+// 		// }
+// 	}) 
+
 /////////////
 let cnt = 0;
 const $videoInput = document.getElementById('videoInput');
 const $videoOutput = document.getElementById('videoOutput');
 const $canvas = document.getElementById('canvas');
-var checked = false
 // 비디오 이미지 캡쳐
 function capture() {
 	//console.log("start capture() function : 캡쳐를 시작합니다.");
@@ -100,23 +108,14 @@ function capture() {
 //* 캡쳐한 이미지 노출 함수
 function saveImage() {
 	let $image = $canvas.toDataURL('image/png');
-	let $image2 = $canvas.toDataURL("image/png");
-	initDeepARForRemote.onScreenshotTaken($image2);
 	var w = window.open('about:blank', 'image from canvas');
 	w.document.write("<img src='" + $image + "' alt='from canvas'/>");
-	w.document.write("<img src='" + $image2 + "' alt='from canvas'/>");
 }
 //* 초기 이벤트 바인딩
 function initialize() {
-	checked = !checked
-	if(checked === true && $('.main__chat_window').css('display') != 'none'){
-		$('.main__chat_window').hide();
-		$('#div4cut').show();
-	} else {
-		$('#div4cut').hide();
-	}
 	document.querySelector('#div4cut').style.display = 'block';
-	document.querySelector('.filter-button').addEventListener('click', capture);
+	document.querySelector('#btn-capture').innerHTML = '찰칵~!';
+	document.querySelector('#btn-capture').addEventListener('click', capture);
 	// console.log("캡쳐할 준비를 시작합니다. 미리보기 창 띄우면 될 듯?");
 }
 //////////////////////////////////////////////////////////
@@ -165,8 +164,8 @@ function initDeepAR() {
 				audio: true,
             })
                 .then(function (stream) {
-									sourceVideo.srcObject = stream;
-									sourceVideo.muted = true;
+					sourceVideo.srcObject = stream;
+					sourceVideo.muted = true;
                     setTimeout(function() {
                         sourceVideo.play();
                     }, 50);
@@ -189,6 +188,7 @@ function initDeepAR() {
 			if (effectList.length === 0) {
 				var effect = 'lion';
 				effectList.push('lion');
+				slots++
 				slotList.push(({ slot: `slot${slots}`, effect: effect }));
 				deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
 				// TODO: 라이언 버튼 눌림 처리
@@ -357,6 +357,7 @@ function initDeepARForRemote() {
 			if (effectListForRemote.length === 0) {
 				var effect = 'lion'
 				effectListForRemote.push('lion')
+				slotsForRemote++;
 				slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
 				deepAR.switchEffect(0, `slot${slotsForRemote}`, `./effects/${effect}`, function () {
 				// effect loaded
@@ -390,6 +391,7 @@ function initDeepARForRemote() {
 
 	function addFilterForRemote() {
 		slotsForRemote++;
+		console.log(effectListForRemote)
 		const effect = effectListForRemote[effectListForRemote.length - 1]
 		slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
 		deepAR.switchEffect(0, `slot${slotsForRemote}`, `./effects/${effect}`, function () {
@@ -574,8 +576,6 @@ ws.onmessage = function(message) {
 // });
 
 
-
-
 function resgisterResponse(message) {
 	if (message.response == 'accepted') {
 		setRegisterState(REGISTERED);
@@ -728,7 +728,7 @@ function stop(message) {
 	}
 	// hideSpinner(videoInput, videoOutput);
 
-	axios.get("https://i7b308.p.ssafy.io:8080/api/v1/penpal/single/user", {
+	axios.get("https://i7b308.p.ssafy.io/api/v1/penpal/single/user", {
 		headers: {
 			fromUserId: users[0],
 			toUserId: users[1]
@@ -737,7 +737,7 @@ function stop(message) {
 		if (response.data === "empty") {
 			// console.log("친구 등록을 진행합니다.");
 			// users[0] -> users[1]
-			axios.post("https://i7b308.p.ssafy.io:8080/api/v1/penpal", {
+			axios.post("https://i7b308.p.ssafy.io/api/v1/penpal", {
         fromUserId: users[0],
 				toUserId: users[1]
 			})
@@ -747,8 +747,8 @@ function stop(message) {
 					console.log(error);
 			});
 			// users[1] -> users[0]
-			axios.post("https://i7b308.p.ssafy.io:8080/api/v1/penpal", {
-        fromUserId: users[1],
+			axios.post("https://i7b308.p.ssafy.io/api/v1/penpal", {
+        		fromUserId: users[1],
 				toUserId: users[0]
 			})
 			.then(function (response) {
@@ -772,8 +772,8 @@ function stop(message) {
 		}
 	})
 		.then(function (response) {
-			// console.log(response);
-			axios.put("https://i7b308.p.ssafy.io:8080/api/v1/intimacy/positive/time", {
+			console.log(response);
+			axios.put("https://i7b308.p.ssafy.io/api/v1/intimacy/positive/time", {
 				fromUserId: users[0],
 				toUserId: users[1],
 				meetingTime: totalDependTime
@@ -785,7 +785,7 @@ function stop(message) {
 				});
 		}).catch(function (error) {
 			console.log(error);
-			axios.post("https://i7b308.p.ssafy.io:8080/api/v1/intimacy", {
+			axios.post("https://i7b308.p.ssafy.io/api/v1/intimacy", {
         fromUserId: users[0],
 				toUserId: users[1],
 				eval: Math.round(Math.log10(totalDependTime))
@@ -797,7 +797,7 @@ function stop(message) {
 			});
 		});
 
-	location.replace("https://i7b308.p.ssafy.io");
+	location.replace(`https://i7b308.p.ssafy.io/meeting/after/${user[1]}/${user[0]}`);
 }
 
 function sendMessage(message) {
@@ -859,11 +859,10 @@ function showSpinner() {
 function hideSpinner() {
 	for (var i = 0; i < arguments.length; i++) {
 		arguments[i].src = '';
-		arguments[i].poster = './img/webrtc.png';
+		arguments[i].poster = './assets/image/logoLong.png';
 		arguments[i].style.background = '';
 	}
 }
-
 
 /**
  * Lightbox utility (to display media pipeline image in a modal dialog)
