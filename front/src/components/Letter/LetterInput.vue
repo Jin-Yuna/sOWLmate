@@ -1,24 +1,19 @@
 <template>
-  <form @submit.prevent="next(letterData)">
+  <form @submit.prevent="emitLetterInput()">
     <div id="background">
-      <div>
+      <div class="autocomplete-size">
         <p class="push">Dear</p>
         <v-autocomplete
-          chips
-          deletable-chips
-          filled
-          solo
           v-model="letterData.toUserId"
-          :items="penpalList"
-          item-text="nickname"
-          item-value="id"
+          :items="friendslList"
+          item-title="toUserNickname"
+          item-value="toUserId"
           prepend-inner-icon="mdi-account-outline"
           placeholder="편지를 보낼 상대방을 선택해주세요."
         >
         </v-autocomplete>
-        <p>,</p>
       </div>
-      <div>
+      <div class="title-size">
         <label for="title">Title</label><br />
         <v-text-field
           color="primary"
@@ -27,18 +22,20 @@
           variant="underlined"
           v-model="letterData.title"
         ></v-text-field>
-        <p>,</p>
+
         <br />
-        <label for="message">Message</label><br />
-        <v-textarea
-          prepend-inner-icon="mdi-comment"
-          v-model="letterData.message"
-          name="message_to_recipient"
-          placeholder="Be SOULMATE, WITH SOWLMATE!"
-        ></v-textarea
-        ><br />
+        <div class="content-size">
+          <label for="message">Message</label><br />
+          <v-textarea
+            prepend-inner-icon="mdi-comment"
+            v-model="letterData.content"
+            name="message_to_recipient"
+            placeholder="Be SOULMATE, WITH SOWLMATE!"
+          ></v-textarea>
+        </div>
+        <br />
       </div>
-      <div>
+      <div class="ml-8">
         <p>Yours soulful</p>
         <br />
         <v-text-field
@@ -49,7 +46,12 @@
           prepend-inner-icon="mdi-account-heart-outline"
           variant="underlined"
         ></v-text-field>
-        <v-btn class="main-btn btn-big mt-12" width="100%" type="submit">
+        <v-btn
+          class="main-btn btn-big mt-12"
+          width="100%"
+          type="submit"
+          @click="emitProgress(), emitLetterInput()"
+        >
           다음
         </v-btn>
       </div>
@@ -62,18 +64,18 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'LetterCreateView',
-
   data() {
     return {
       totalFriendsList: [],
       letterData: {
-        fromUserId: '',
+        fromUserId: this.$store.state.accounts.currentUser,
         toUserId: '',
         title: '',
         content: '',
-        writingPad: '',
-        writingFont: '',
+        writingPad: '에러남',
+        writingFont: '없음',
       },
+      friendslList: this.$store.state.friends.penpalList,
     };
   },
   computed: {
@@ -86,8 +88,19 @@ export default {
       'penpalList',
     ]),
   },
+  methods: {
+    emitProgress() {
+      this.$emit('progress', 1);
+    },
+    emitLetterInput() {
+      this.$emit('letterData', this.letterData);
+    },
+  },
   mounted() {
     this.letterData.fromUserId = this.currentUser;
+    for (const friend of this.penpalList) {
+      this.totalFriendsList.push(friend.toUserNickname);
+    }
   },
 };
 </script>
@@ -115,7 +128,7 @@ textarea {
   border: none;
   border-radius: 4%;
   height: 1.9em;
-  padding: 0.7em;
+  /* padding: 0.7em; */
   font-size: 1.3em;
 }
 
@@ -151,7 +164,17 @@ textarea {
   margin-top: 4.5em;
   margin-bottom: 1.5em;
 }
-
+.autocomplete-size {
+  width: 10rem;
+  margin-right: 2rem;
+}
+.title-size {
+  width: 20rem;
+}
+/* .content-size {
+  left: -60rem;
+  width: 50rem;
+} */
 /* footer {
   margin: 2em auto;
   text-align: center;

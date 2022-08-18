@@ -25,7 +25,7 @@ export const friends = {
     SET_SOWLMATE_LIST: (state, friend) => state.sowlmateList.push(friend),
     SET_LETTER_LIST: (state, list) => (state.letterList = list),
     SET_SINGLE_LETTER: (state, list) => (state.singleLetter = list),
-    Get_PENPAL_LIST: (state, list) => (state, (state.penpalList = list)),
+    Get_PENPAL_LIST: (state, list) => (state.penpalList = list),
   },
   actions: {
     totalFriendList({ commit, rootState }) {
@@ -38,6 +38,7 @@ export const friends = {
         },
       })
         .then((response) => {
+          commit('Get_PENPAL_LIST', response.data);
           for (const friend of response.data) {
             if (friend.intimacyEval < 50) {
               commit('SET_PRE_FRIENDS_LIST', friend);
@@ -84,24 +85,25 @@ export const friends = {
           console.log(err);
         });
     },
-    getPenpalList({ commit, rootState }) {
-      const user = rootState.accounts.currentUser;
+    sendMail(data) {
+      const letterdata = {
+        content: data.content,
+        fromUserId: data.fromUserId,
+        toUserId: data.toUserId,
+        title: data.title,
+        writingPad: data.writingPad,
+        writingFont: data.writingFont,
+      };
       axios({
-        url: sowl.photoBooth.userPhotos(),
-        method: 'get',
-        headers: {
-          userId: user,
-        },
+        url: sowl.letter.letteCreate(),
+        method: 'post',
+        data: letterdata,
       })
-        .then((response) => {
-          commit('Get_PENPAL_LIST', response.data);
+        .then(() => {
+          alert('편지를 보냈습니다');
+          router.push({ name: 'HomeView' });
         })
-        .catch((error) => {
-          console.error(error);
-        });
+        .catch((err) => console.log(err));
     },
-    // createLetter({ commit }, letterData) {
-    //   // 상대방 닉네임을 유저 아이디로 변환 작업 필요
-    // },
   },
 };
