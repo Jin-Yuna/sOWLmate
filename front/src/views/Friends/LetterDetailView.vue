@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="1000">
     <v-card-text>
-      <div>{{ this.singleLetter.toUserNickname }}</div>
+      <div>from {{ this.singleLetter.toUserNickname }}</div>
       <p class="text-h4 text--primary">{{ this.singleLetter.title }}</p>
       <p>{{ this.singleLetter.createDate }}</p>
       <div class="text--primary">
@@ -21,4 +21,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>

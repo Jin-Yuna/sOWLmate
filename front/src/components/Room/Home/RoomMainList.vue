@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-4">
     <InterestSelector @roomInterest="showList" />
     <!-- 일단은 선호하는 언어 기준으로, 원하면 바꿔라 -->
     <!-- 시간 남으면 언어 선택 -->

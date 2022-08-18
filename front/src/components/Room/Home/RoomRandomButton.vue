@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="romm()">RANDOM</button>
+    <button class="main-btn" @click="randomRoom()">RANDOM</button>
   </div>
 </template>
 
@@ -94,4 +94,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.main-btn {
+  width: 10rem;
+}
+</style>

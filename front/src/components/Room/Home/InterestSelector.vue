@@ -7,20 +7,19 @@
       >
     </div>
     <div v-else>
-      <h5 v-if="!isEditInterest">나의 관심사</h5>
-      <div v-if="!isEditInterest">
-        <v-chip v-for="interest in roomInterest" :key="interest">
-          {{ interest }}
-        </v-chip>
-      </div>
-      <v-btn v-if="!isEditInterest" @click="editInterest()"
-        >모든 관심사 선택 검색</v-btn
-      >
+      <h5>나의 관심사</h5>
+      <v-chip v-for="interest in roomInterest" :key="interest" color="primary">
+        {{ interest }}
+      </v-chip>
+      <button class="sub-btn" v-if="!isEditInterest" @click="editInterest()">
+        <span>모든 관심사 선택 검색</span>
+      </button>
       <!-- 선택 검색 눌렀을 때 -->
       <v-chip v-if="isEditInterest" @click="allCheck()">All</v-chip>
       <v-chip-group
         v-if="isEditInterest"
         v-model="roomInterest"
+        color="primary"
         @click="roomInterestCheck()"
         column
         multiple
@@ -81,4 +80,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.sub-btn {
+  margin-left: 2rem;
+  width: 8rem;
+}
+</style>

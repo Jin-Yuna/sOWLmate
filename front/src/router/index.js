@@ -113,7 +113,7 @@ const routes = [
   },
   {
     path: '/letter/list/',
-    name: 'singleLetterList',
+    name: 'LetterListView',
     component: LetterListView,
   },
   {

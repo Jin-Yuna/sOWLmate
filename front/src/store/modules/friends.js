@@ -69,8 +69,6 @@ export const friends = {
         });
     },
     goDetail({ commit }, letterNo) {
-      console.log(sowl.letter.singleLetterList());
-      console.log(letterNo);
       axios({
         url: sowl.letter.singleLetterList(),
         method: 'get',
