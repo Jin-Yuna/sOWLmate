@@ -1,4 +1,5 @@
-const HOST = 'https://i7b308.p.ssafy.io:8080/api/v1/';
+// const HOST = 'https://i7b308.p.ssafy.io:8080/api/v1/';
+const HOST = 'https://i7b308.p.ssafy.io/api/v1/';
 // const HOST = 'https://localhost:8080/api/v1/';
 const NODE = 'https://i7b308.p.ssafy.io:8443/';
 // const NODE = 'https://localhost:8443/';

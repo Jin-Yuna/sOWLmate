@@ -103,7 +103,7 @@ export const rooms = {
         method: 'get',
       })
         .then((response) => {
-          console.log('여기', response.data);
+          // console.log('여기', response.data);
           commit('ROOM_BY_INTEREST_LANGUAGE', response.data);
         })
         .catch((err) => {
@@ -114,7 +114,7 @@ export const rooms = {
       axios
         .get(sowl.conference.conferenceInsterestList(userData.interest))
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           commit('ROOM_BY_INTEREST', response.data);
         })
         .catch((err) => {
@@ -125,7 +125,7 @@ export const rooms = {
       axios
         .get(sowl.conference.conferenceLanguageList(userData.language))
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           commit('ROOM_BY_LANGUAGE', response.data);
         });
     },

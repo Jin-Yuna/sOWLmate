@@ -48,8 +48,8 @@ export default {
   },
   methods: {
     getPhotos() {
-      console.log(this.currentUser);
-      console.log(sowl.photoBooth.userPhotos());
+      // console.log(this.currentUser);
+      // console.log(sowl.photoBooth.userPhotos());
       axios
         .get(`${sowl.photoBooth.userPhotos()}`, {
           headers: {
@@ -58,7 +58,7 @@ export default {
         })
         .then((response) => {
           this.photos = response.data;
-          console.log(this.photos);
+          // console.log(this.photos);
         })
         .catch((error) => {
           console.error(error);

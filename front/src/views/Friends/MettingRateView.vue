@@ -85,8 +85,8 @@ export default {
           eval: usereval,
         },
       })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          // console.log(response);
           router.push({ name: 'HomeView' });
         })
         .catch((err) => {
