@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" max-width="300">
-    <v-img height="200px" :src="room.thumbnail"> </v-img>
+    <v-img height="200px" :src="require('@/assets/sowlImage/room_img.svg')" />
     <v-card-title>{{ room.title }}</v-card-title>
     <v-card-subtitle class="pb-0">
       {{ room.language }} | {{ room.interest }}</v-card-subtitle
