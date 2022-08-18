@@ -6,6 +6,7 @@ var url = require('url');
 var kurento = require('kurento-client');
 var fs    = require('fs');
 var https = require('https');
+const contextPath = '/meet';
 require('dotenv').config();
 
 // console.log(process.env.DEEPAR_KEY)
@@ -483,4 +484,4 @@ function onIceCandidate(sessionId, _candidate) {
     }
 }
 
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(contextPath, express.static(path.join(__dirname, 'static')));
