@@ -26,10 +26,10 @@ public class LetterResponseDto {
     public static LetterResponseDto toDto(Letter letter) {
         LetterResponseDto dto = new LetterResponseDto();
         dto.setNo(letter.getNo());
-        dto.setFromUserId(letter.getFromUser().getId());
-        dto.setFromUserNickname(letter.getFromUser().getNickname());
-        dto.setToUserId(letter.getToUser().getId());
-        dto.setToUserNickname(letter.getToUser().getNickname());
+        dto.setFromUserId(letter.getFromUserId());
+        dto.setFromUserNickname(letter.getFromUserNickname());
+        dto.setToUserId(letter.getToUserId());
+        dto.setToUserNickname(letter.getToUserNickname());
         dto.setTitle(letter.getTitle());
         dto.setContent(letter.getContent());
         dto.setWritingPad(letter.getWritingPad());
