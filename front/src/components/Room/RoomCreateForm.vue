@@ -131,9 +131,9 @@ export default {
   },
   methods: {
     ...mapActions(['userInterestSave', 'createRoom']),
-    ...mapMutations(['TO_USER_NICKNAME']),
+    ...mapMutations(['FROM_USER_NICKNAME']),
     userInfoCheck() {
-      this.TO_USER_NICKNAME(this.userInfo.nickname);
+      this.FROM_USER_NICKNAME(this.userInfo.nickname);
       this.userNotInterest = this.InterestList;
       this.newRoom.ownerId = this.userInfo.id;
       this.newRoom.language = this.userInfo.language;
