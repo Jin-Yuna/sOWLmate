@@ -19,8 +19,14 @@
             />
             <ProgressBar :intimacyEval="intimacyEval" />
             <br />
-            <button class="main-btn mb-4" style="width: 100%">편지쓰기</button>
-            <button class="sub-btn" style="width: 100%">편지함</button>
+            <router-link :to="{ name: 'LetterCreateView' }">
+              <button class="main-btn mb-4" style="width: 100%">
+                편지쓰기
+              </button>
+            </router-link>
+            <router-link :to="{ name: 'LetterListView' }">
+              <button class="sub-btn" style="width: 100%">편지함</button>
+            </router-link>
           </div>
         </v-container>
       </v-expand-transition>

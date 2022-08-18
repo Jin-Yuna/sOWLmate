@@ -18,6 +18,7 @@ import GoogleRegisterView from '@/views/Account/GoogleRegisterView.vue';
 import friendsView from '@/views/Friends/friendsView.vue';
 import MettingRateView from '@/views/Friends/MettingRateView.vue';
 import PhotoBoothView from '@/views/Profile/PhotoBoothView.vue';
+import LetterCreateView from '@/views/Friends/LetterCreateView.vue';
 import LetterListView from '@/views/Friends/LetterListView.vue';
 import LetterDetailView from '@/views/Friends/LetterDetailView.vue';
 
@@ -106,8 +107,13 @@ const routes = [
     component: MettingRateView,
   },
   {
+    path: '/letter/new/',
+    name: 'LetterCreateView',
+    component: LetterCreateView,
+  },
+  {
     path: '/letter/list/',
-    name: 'singleLetterList',
+    name: 'LetterListView',
     component: LetterListView,
   },
   {

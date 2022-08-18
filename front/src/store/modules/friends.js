@@ -9,6 +9,7 @@ export const friends = {
     sowlmateList: [],
     letterList: [],
     singleLetter: null,
+    penpalList: [],
   },
   getters: {
     preFriendsList: (state) => state.preFriendsList,
@@ -16,6 +17,7 @@ export const friends = {
     sowlmateList: (state) => state.sowlmateList,
     letterList: (state) => state.letterList,
     singleLetter: (state) => state.singleLetter,
+    penpalList: (state) => state.penpalList,
   },
   mutations: {
     SET_PRE_FRIENDS_LIST: (state, friend) => state.preFriendsList.push(friend),
@@ -23,6 +25,7 @@ export const friends = {
     SET_SOWLMATE_LIST: (state, friend) => state.sowlmateList.push(friend),
     SET_LETTER_LIST: (state, list) => (state.letterList = list),
     SET_SINGLE_LETTER: (state, list) => (state.singleLetter = list),
+    Get_PENPAL_LIST: (state, list) => (state.penpalList = list),
   },
   actions: {
     totalFriendList({ commit, rootState }) {
@@ -35,6 +38,7 @@ export const friends = {
         },
       })
         .then((response) => {
+          commit('Get_PENPAL_LIST', response.data);
           for (const friend of response.data) {
             if (friend.intimacyEval < 50) {
               commit('SET_PRE_FRIENDS_LIST', friend);
@@ -66,8 +70,6 @@ export const friends = {
         });
     },
     goDetail({ commit }, letterNo) {
-      console.log(sowl.letter.singleLetterList());
-      console.log(letterNo);
       axios({
         url: sowl.letter.singleLetterList(),
         method: 'get',
@@ -82,6 +84,26 @@ export const friends = {
         .catch((err) => {
           console.log(err);
         });
+    },
+    sendMail(data) {
+      const letterdata = {
+        content: data.content,
+        fromUserId: data.fromUserId,
+        toUserId: data.toUserId,
+        title: data.title,
+        writingPad: data.writingPad,
+        writingFont: data.writingFont,
+      };
+      axios({
+        url: sowl.letter.letteCreate(),
+        method: 'post',
+        data: letterdata,
+      })
+        .then(() => {
+          alert('편지를 보냈습니다');
+          router.push({ name: 'HomeView' });
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

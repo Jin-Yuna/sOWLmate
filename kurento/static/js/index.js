@@ -63,6 +63,7 @@ let cnt = 0;
 const $videoInput = document.getElementById('videoInput');
 const $videoOutput = document.getElementById('videoOutput');
 const $canvas = document.getElementById('canvas');
+var checked = false
 // 비디오 이미지 캡쳐
 function capture() {
 	console.log("start capture() function : 캡쳐를 시작합니다.");
@@ -99,15 +100,24 @@ function capture() {
 //* 캡쳐한 이미지 노출 함수
 function saveImage() {
 	let $image = $canvas.toDataURL('image/png');
+	let $image2 = $canvas.toDataURL("image/png");
+	initDeepARForRemote.onScreenshotTaken($image2);
 	var w = window.open('about:blank', 'image from canvas');
 	w.document.write("<img src='" + $image + "' alt='from canvas'/>");
+	w.document.write("<img src='" + $image2 + "' alt='from canvas'/>");
 }
 //* 초기 이벤트 바인딩
 function initialize() {
+	checked = !checked
+	if(checked === true && $('.main__chat_window').css('display') != 'none'){
+		$('.main__chat_window').hide();
+		$('#div4cut').show();
+	} else {
+		$('#div4cut').hide();
+	}
 	document.querySelector('#div4cut').style.display = 'block';
-	document.querySelector('#btn-capture').innerHTML = '찰칵~!';
-	document.querySelector('#btn-capture').addEventListener('click', capture);
-	console.log("캡쳐할 준비를 시작합니다. 미리보기 창 띄우면 될 듯?");
+	document.querySelector('.filter-button').addEventListener('click', capture);
+	// console.log("캡쳐할 준비를 시작합니다. 미리보기 창 띄우면 될 듯?");
 }
 //////////////////////////////////////////////////////////
 function printTime() {
@@ -552,16 +562,16 @@ ws.onmessage = function(message) {
 	}
 }
 
-document.getElementById('noncheck').addEventListener('click', function() {
-	$('#noncheck').css('display', 'none');
-	$('#checked').css('display', 'inline-block');
-	let elements = document.querySelectorAll('.msgTranslate');
-	// TODO : Translate 표시
-	// for (let ele of elements) {
-	// 	ele.style.display = inline-block
-	// }
+// document.getElementById('noncheck').addEventListener('click', function() {
+// 	$('#noncheck').css('display', 'none');
+// 	$('#checked').css('display', 'inline-block');
+// 	let elements = document.querySelectorAll('.msgTranslate');
+// 	// TODO : Translate 표시
+// 	// for (let ele of elements) {
+// 	// 	ele.style.display = inline-block
+// 	// }
 
-});
+// });
 
 
 

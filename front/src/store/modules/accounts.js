@@ -257,7 +257,7 @@ export const accounts = {
         });
     },
     // Save
-    async userInterestSave({ state, dispatch }, interestindexs) {
+    async userInterestSave({ state }, interestindexs) {
       // 기존에 저장된 관심사 뺴고 axios 요청
       try {
         let current = [];
@@ -302,7 +302,7 @@ export const accounts = {
       } catch (err) {
         console.log('err', err);
       }
-      dispatch('getUserInfo');
+      // dispatch('getUserInfo');
       alert('관심사 변경 완료');
     },
     getUserInfo({ state, commit }) {
