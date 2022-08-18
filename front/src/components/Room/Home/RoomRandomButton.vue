@@ -16,6 +16,7 @@ export default {
       'roomByInterestLanguage',
       'userInfo',
       'userList',
+      'InterestList',
     ]),
     ...mapMutations(['TO_USER_NICKNAME', 'FROM_USER_NICKNAME']),
   },

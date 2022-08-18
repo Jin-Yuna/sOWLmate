@@ -21,4 +21,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.room-nav {
+  margin-left: 7rem;
+}
+</style>

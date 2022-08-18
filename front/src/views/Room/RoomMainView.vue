@@ -22,7 +22,6 @@
 <script>
 import RoomListNavigation from '@/components/Room/RoomListNavigation.vue';
 import RoomRandomButton from '@/components/Room/Home/RoomRandomButton.vue';
-
 export default {
   name: 'RoomMainView',
   components: { RoomListNavigation, RoomRandomButton },

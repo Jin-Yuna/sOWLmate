@@ -28,7 +28,7 @@
           {{ interest }}
         </v-chip>
       </v-chip-group>
-      <v-btn v-if="isEditInterest" @click="editInterest()" \>닫기</v-btn>
+      <v-btn v-if="isEditInterest" @click="editInterest()">닫기</v-btn>
     </div>
   </div>
 </template>
