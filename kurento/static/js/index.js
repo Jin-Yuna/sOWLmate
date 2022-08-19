@@ -137,6 +137,8 @@ let slotListForRemote = [];
 let slotsForRemote = 0;
 let removeFilter = '';
 
+let switchFilter = false;
+
 // create canvas on which DeepAR will render
 
 var remoteCanvas = document.getElementById('remoteCanvas');
@@ -260,6 +262,7 @@ function initDeepAR() {
 
 	effects.forEach(el => {
 	el.onclick = (e) => {
+		switchFilter = !switchFilter
 		const nodes = [...e.target.parentElement.children];
 		const index = nodes.indexOf(e.target);
 		const effect = nodes[index].getAttributeNode('value');
@@ -345,20 +348,13 @@ function initDeepARForRemote() {
 		canvas: remoteCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () { 
-			if (effectListForRemote.length === 0) {
+			if (switchFilter === false && effectListForRemote.length === 0) {
 				var effect = 'lion'
 				effectListForRemote.push('lion')
-				slotsForRemote++;
 				slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
 				deepAR.switchEffect(0, `slot${slotsForRemote}`, `./effects/${effect}`, function () {
 				// effect loaded
 				})
-			} else {
-				for (slot of slotListForRemote) {
-					deepAR.switchEffect(0, `slot${slot.slot}`, `./effects/${slot.effect}`, function () {
-						// effect loaded
-					})
-				}
 			}
 
 			deepAR.startVideo()
