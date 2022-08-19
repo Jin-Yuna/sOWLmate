@@ -1,10 +1,4 @@
-- [1. SowlMate 소개](#1.-SowlMate-소개)
-
-- [2. 개발 환경](#2.-개발-환경)
-  - [2-1. 환경 설정](#2-1.-환경-설정)
-  - [2-2. 서비스 아키텍쳐](#2-2.-서비스-아키텍쳐)
-- [3. 배포 문서](#3.-배포-문서)
-- [4. 주요기능](#4.-주요기능)
+[TOC]
 
 
 
@@ -556,26 +550,19 @@
 
 ## 7-2 브랜치 전략
 
-```tex
-master : deploy branch ===>>> release branch
+```markdown
+- master : deploy branch ===>>> release branch
+- dev : develop branch  ====>>> default branch
+- feat-fe-contents : frontend feature branch
 
-dev : develop branch  ====>>> default branch
+ex) `feat-fe-loginView`
+ex) `feat-be-contents` : backend feature branch
 
-feat-fe-contents : frontend feature branch
+ex) `fix-fe-contents` : frontend fix branch
+ex)`fix-be-contents` : backend fix branch
 
-→ ex) feat-fe-loginView
-
-feat-be-contents : backend feature branch
-
-→ ex) feat-be-signupAPI
-
-fix-fe-contents : frontend fix branch
-
-fix-be-contents : backend fix branch
-
-refactor-fe-contents : frontend refactoring branch
-
-refactor-be-contents : backend refactoring branch
+ex)`refactor-fe-contents` : frontend refactoring branch
+ex)`refactor-be-contents` : backend refactoring branch
 ```
 
 
@@ -597,6 +584,10 @@ refactor-be-contents : backend refactoring branch
 ## 7-4. 노션 관리
 
 - 공부한 내용, 도움이 될 링크, 데일리스크럼 및 회의록, 피드백 내용, 깃 컨벤션, 팀원간 연락처, ERD등 설계문서와 설계문서에 대한 링크를 통합적으로 관리
+
+![image-20220819171327360](../images/README/image-20220819171327360.png)
+
+
 
 
 
