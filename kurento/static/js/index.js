@@ -347,7 +347,7 @@ function initDeepARForRemote() {
 		canvas: remoteCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
 		onInitialize: function () { 
-			if (switchFilter === false && effectListForRemote.length === 0) {
+			if (switchFilter === false) {
 				var effect = 'lion'
 				effectListForRemote.push('lion')
 				slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
@@ -506,18 +506,18 @@ ws.onmessage = function(message) {
 		if (filtereffect != '') {
 			console.log(`add filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
 			effectListForRemote.push(filtereffect)
-			moduleOut.addFilterForRemote_Obj;
+			moduleOut;
 		}
 		break;
 	case 'filterRemove':
 			removeFilter = parsedMessage.effect;
 		if (removeFilter != '') {
 			console.log(`remove filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
-			moduleOut.removeFilterForRemote_Obj ;
+			moduleOut;
 		}
 		break;
 	case 'filterRemoveAll':
-		moduleOut.removeAllFilter_Obj ;
+		moduleOut;
 		break;
 	case 'translate':
 			console.log(`translate message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.text}`);

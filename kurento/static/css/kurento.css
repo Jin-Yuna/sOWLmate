@@ -171,7 +171,7 @@ div.dragged {
 }
 
 #div4cut {
-  background-color: #6E9DF5;
+  background-color: var(--main-darklg);
   box-shadow:inset .2rem .2rem 1rem #6E9DF5, 
             inset -.2rem -.2rem 1rem #5b0eeb,
             .3rem .3rem .6rem #c8d0e7;
