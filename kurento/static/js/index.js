@@ -350,17 +350,10 @@ function initDeepARForRemote() {
 			if (switchFilter === false && effectListForRemote.length === 0) {
 				var effect = 'lion'
 				effectListForRemote.push('lion')
-				slotsForRemote++;
 				slotListForRemote.push(({slot:`slot${slotsForRemote}`, effect: effect}))
 				deepAR.switchEffect(0, `slot${slotsForRemote}`, `./effects/${effect}`, function () {
 				// effect loaded
 				})
-			} else {
-				for (slot of slotListForRemote) {
-					deepAR.switchEffect(0, `slot${slot.slot}`, `./effects/${slot.effect}`, function () {
-						// effect loaded
-					})
-				}
 			}
 
 			deepAR.startVideo()
