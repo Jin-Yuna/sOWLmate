@@ -59,15 +59,6 @@ function setCallState(nextState) {
 	callState = nextState;
 }
 
-// TODO : 방 제목 받기 
-// axios.get(('https://i7b308.p.ssafy.io/api/v1/conference/list'))
-// 	.then((response) => {
-// 		var conferenceList = response.data
-// 		// for (conference of conferenceList) {
-// 		// 	if
-// 		// }
-// 	}) 
-
 /////////////
 let cnt = 0;
 const $videoInput = document.getElementById('videoInput');
@@ -115,7 +106,7 @@ function saveImage() {
 //* 초기 이벤트 바인딩
 function initialize() {
 	document.querySelector('#div4cut').style.display = 'block';
-	document.querySelector('#btn-capture').innerHTML = '찰칵~!';
+	document.querySelector('#btn-capture').innerHTML = '찰칵';
 	document.querySelector('#btn-capture').addEventListener('click', capture);
 	// console.log("캡쳐할 준비를 시작합니다. 미리보기 창 띄우면 될 듯?");
 }
@@ -192,7 +183,6 @@ function initDeepAR() {
 				slots++
 				slotList.push(({ slot: `slot${slots}`, effect: effect }));
 				deepAR.switchEffect(0, `slot${slots}`, `./effects/${effect}`, function () {
-				// TODO: 라이언 버튼 눌림 처리
 				// effect loaded
 				})
 			}
@@ -350,7 +340,7 @@ function initDeepARForRemote() {
 	// canvas 만들어 deepAR 실행
 	const deepAR = DeepAR({
 		licenseKey: '2df0063b6b8ef8eb754b707348e099d4c419524397ffeaae36f656112167e9816dafbe8dd2028e9c',
-		canvasWidth: 960,
+		canvasWidth: 800,
 		canvasHeight: 680,
 		canvas: remoteCanvas,
 		numberOfFaces: 1, // how many faces we want to track min 1, max 4
@@ -391,6 +381,7 @@ function initDeepARForRemote() {
 	// })
 
 	function addFilterForRemote() {
+		console.log('addFilter 함수 실행 for remote')
 		slotsForRemote++;
 		console.log(effectListForRemote)
 		const effect = effectListForRemote[effectListForRemote.length - 1]
@@ -403,7 +394,7 @@ function initDeepARForRemote() {
 	function removeFilterForRemote() {
 		let slotNum;
 		for (let slot of slotListForRemote) {
-			//console.log(slot);
+			console.log(slot);
 			if (slot.effect === removeFilter) {
 				slotNum = slot.slot;
 				slotListForRemote.splice(slotListForRemote.indexOf(slot), 1);
@@ -414,7 +405,7 @@ function initDeepARForRemote() {
 		removeFilter = '';
 	}	
 
-	function removeAllFilter() {
+	function removeAllFilterForRemote() {
 		for (let slot of slotListForRemote) {
 			deepAR.clearEffect(slot.slot);
 		}
@@ -427,7 +418,7 @@ function initDeepARForRemote() {
 	return {
 		addFilterForRemote_Obj : addFilterForRemote(),
 		removeFilterForRemote_Obj : removeFilterForRemote(),
-		removeAllFilter_Obj : removeAllFilter()
+		removeAllFilter_Obj : removeAllFilterForRemote()
 	}
 
 }
@@ -473,6 +464,7 @@ window.onload = function() {
 
 	document.getElementById('terminate').addEventListener('click', function() {
 		stop();
+		location.replace('https://i7b308.p.ssafy.io/');
 	});
 }
 
@@ -508,15 +500,16 @@ ws.onmessage = function(message) {
 		break;
 	case 'stopCommunication':
 		console.info("Communication ended by remote peer");
+		location.replace('https://i7b308.p.ssafy.io/');
 		stop(true);
 		break;
 	case 'iceCandidate':
 		webRtcPeer.addIceCandidate(parsedMessage.candidate)
 			break;
 	case 'filter':
-			var filtereffect = parsedMessage.effect;
+		var filtereffect = parsedMessage.effect;
 		if (filtereffect != '') {
-			// console.log(`add filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
+			console.log(`add filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
 			effectListForRemote.push(filtereffect)
 			moduleOut.addFilterForRemote_Obj;
 		}
@@ -524,7 +517,7 @@ ws.onmessage = function(message) {
 	case 'filterRemove':
 			removeFilter = parsedMessage.effect;
 		if (removeFilter != '') {
-			// console.log(`remove filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
+			console.log(`remove filter message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.effect}`);
 			moduleOut.removeFilterForRemote_Obj ;
 		}
 		break;
@@ -532,7 +525,7 @@ ws.onmessage = function(message) {
 		moduleOut.removeAllFilter_Obj ;
 		break;
 	case 'translate':
-			// console.log(`translate message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.text}`);
+			console.log(`translate message : ${parsedMessage.id} ${parsedMessage.from} ${parsedMessage.text}`);
 			document.getElementById("videoSubtitles").innerHTML = parsedMessage.text;
 		break;
 	case 'receive':
@@ -540,19 +533,19 @@ ws.onmessage = function(message) {
 		var msgBox = $('<div class="msgBox">');
 		var nameLine = $('<div class="nameLine">');
 		var nameBox = $('<div class="nameBox">');
-		var msgTranslate = $('<p class="msgTranslate">');
+		// var msgTranslate = $('<p class="msgTranslate">');
 		messageList.push(parsedMessage.content)
 		nameBox.append(parsedMessage.from);
 		msgBox.append(parsedMessage.content);
-		var msgtranslate = translateText(parsedMessage.content);
+		// var msgtranslate = translateText(parsedMessage.content);
 		// console.log(msgtranslate)
-		msgTranslate.append(msgtranslate);
+		// msgTranslate.append(msgtranslate);
 		nameBox.css('display', 'inline-block');
 		msgBox.css('display', 'inline-block');
-		msgTranslate.css('display', 'none');
+		// msgTranslate.css('display', 'none');
 
 		nameLine.append(nameBox);
-		msgBox.append(msgTranslate);
+		// msgBox.append(msgTranslate);
 		msgLine.append(msgBox);
 		$('#chatView').append(nameLine);
 		$('#chatView').append(msgLine);
@@ -798,7 +791,7 @@ function stop(message) {
 			});
 		});
 
-	location.replace(`https://i7b308.p.ssafy.io/meeting/after/${user[1]}/${user[0]}`);
+		location.replace('https://i7b308.p.ssafy.io/');
 }
 
 function sendMessage(message) {

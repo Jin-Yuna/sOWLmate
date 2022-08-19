@@ -39,91 +39,6 @@
       }
       }
 
-
-    //   // carousel
-    //   (function ($) {
-    // $(function () {
-    //   jQuery(document).ready(function(){
-    //   var slider = $(".effects").flickity({
-    //   imagesLoaded: true,
-    //   percentPosition: false,
-    //   prevNextButtons: false, //true = enable buttons
-    //   initialIndex: 3,
-    //   pageDots: false, //true = enable dots
-    //   groupCells: 1,
-    //   selectedAttraction: 0.2,
-    //   friction: 0.8,
-    //   draggable: true
-    // });
-
-
-    // //this enables clicking on cards
-    // slider.on(
-    //   "staticClick.flickity",
-    //   function (event, pointer, cellElement, cellIndex) {
-    //     if (typeof cellIndex == "number") {
-    //       slider.flickity("selectCell", cellIndex);
-    //     }
-    //   }
-    // );
-
-    // //this resizes the cards and centers the carousel because it tends to move a few pixels to the right if .resize() and .reposition() aren't used
-    
-    // var flkty = slider.data("flickity");
-    // flkty.selectedElement.classList.add("is-custom-selected");
-    // flkty.resize();
-    // flkty.reposition();
-    // let time = 0;
-    // function reposition() {
-    //   flkty.reposition();
-    //   if (time++ < 10) {
-    //     requestAnimationFrame(reposition);
-    //   } else {
-    //     $(".flickity-prev-next-button").css("pointer-events", "auto");
-    //   }
-    // }
-    // requestAnimationFrame(reposition);
-
-    // //this expands the cards when in focus
-    // flkty.on("settle", () => {
-    //   $(".carousel__item").removeClass("is-custom-selected");
-    //   $(".flickity-prev-next-button").css("pointer-events", "none");
-    //   flkty.selectedElement.classList.add("is-custom-selected");
-
-    //   let time = 0;
-    //   function reposition() {
-    //     flkty.reposition();
-    //     if (time++ < 10) {
-    //       requestAnimationFrame(reposition);
-    //     } else {
-    //       $(".flickity-prev-next-button").css("pointer-events", "auto");
-    //     }
-    //   }
-    //   requestAnimationFrame(reposition);
-    // });
-
-    // //this reveals the carousel
-    //     $(".filter").addClass("animation-reveal");
-    //     $(".filter").css("opacity", "0");
-    //     flkty.resize();
-    //     flkty.reposition();
-    //     setTimeout(() => {
-    //       $(".filter").removeClass("animation-reveal");
-    //       $(".filter").css("opacity", "1");
-    //       flkty.resize();
-    //       flkty.reposition();
-    //       let time = 0;
-    //       function reposition() {
-    //         flkty.reposition();
-    //         if (time++ < 10) {
-    //           requestAnimationFrame(reposition);
-    //         }
-    //       }
-    //       requestAnimationFrame(reposition);
-    //     }, 1000);
-    //   });  })
-    // })(jQuery);
-
     // filter button
     const faceButton = document.querySelector('.face-button');
     const faceContainer = document.querySelector('.face-container');
@@ -334,7 +249,7 @@
     </div>
     <div class="main">  
       <!-- 필터 선택 -->
-      <div class="filter-button">
+      <!-- <div class="filter-button">
         <div id="filter-container">
           <button class="face-button">
             <span class="face-container">
@@ -344,35 +259,35 @@
             </span>
           </button>
         </div>
-      </div>
+      </div> -->
       <div class="main__left" style="display: none;">
         <div class="filter">
           <div class="effects">
-            <div value="" class="carousel__item"><p>Filter Off</p></div>
-            <div value="alien" class="carousel__item"><p>Alien</p></div>
-            <div value="aviators" class="carousel__item"><p>Aviators</p></div>
-            <div value="background_blur" class="carousel__item"><p>Background Blur</p></div>
-            <div value="segmentation" class="carousel__item"><p>Segmentation</p></div>
-            <div value="ball_face" class="carousel__item"><p>Ball Face</p></div>
-            <div value="beard" class="carousel__item"><p>Beard</p></div>
-            <div value="beauty" class="carousel__item"><p>Beauty</p></div>
-            <div value="dalmatian" class="carousel__item"><p>Dalmatian</p></div>
-            <div value="fairy_lights" class="carousel__item"><p>Fairy Lights</p></div>
-            <div value="flowers" class="carousel__item"><p>Flowers</p></div>
-            <div value="frankenstein" class="carousel__item"><p>Frankenstein</p></div>
-            <div value="hair_segmentation" class="carousel__item"><p>Hair</p></div>
-            <div value="koala" class="carousel__item"><p>Koalav</div>
-            <div value="lion" class="carousel__item"><p>Lion</p></div>
-            <div value="look1" class="carousel__item"><p>Look1</p></div>
-            <div value="look2" class="carousel__item"><p>Look2</p></div>
-            <div value="manly_face" class="carousel__item"><p>Manly Face</p></div>
-            <div value="plastic_ocean" class="carousel__item"><p>Plastic Ocean</p></div>
-            <div value="pumpkin" class="carousel__item"><p>Pumpkin</p></div>
-            <div value="scuba" class="carousel__item"><p>Scuba</p></div>
-            <div value="tape_face" class="carousel__item"><p>Tape Face</p></div>
-            <div value="teddycigar" class="carousel__item"><p>Teddy Cigar</p></div>
-            <div value="tiny_sunglasses" class="carousel__item"><p>Tiny Sunglasses</p></div>
-            <div value="topology" class="carousel__item"><p>Topology</p></div>
+            <div value="" class="btn--pri"><p>Filter Off</p></div>
+            <div value="alien" class="btn--pri"><p>Alien</p></div>
+            <div value="aviators" class="btn--pri"><p>Aviators</p></div>
+            <div value="background_blur" class="btn--pri"><p>Background Blur</p></div>
+            <div value="segmentation" class="btn--pri"><p>Segmentation</p></div>
+            <div value="ball_face" class="btn--pri"><p>Ball Face</p></div>
+            <div value="beard" class="btn--pri"><p>Beard</p></div>
+            <div value="beauty" class="btn--pri"><p>Beauty</p></div>
+            <div value="dalmatian" class="btn--pri"><p>Dalmatian</p></div>
+            <div value="fairy_lights" class="btn--pri"><p>Fairy Lights</p></div>
+            <div value="flowers" class="btn--pri"><p>Flowers</p></div>
+            <div value="frankenstein" class="btn--pri"><p>Frankenstein</p></div>
+            <div value="hair_segmentation" class="btn--pri"><p>Hair</p></div>
+            <div value="koala" class="btn--pri"><p>Koalav</div>
+            <div value="lion" class="btn--pri"><p>Lion</p></div>
+            <div value="look1" class="btn--pri"><p>Look1</p></div>
+            <div value="look2" class="btn--pri"><p>Look2</p></div>
+            <div value="manly_face" class="btn--pri"><p>Manly Face</p></div>
+            <div value="plastic_ocean" class="btn--pri"><p>Plastic Ocean</p></div>
+            <div value="pumpkin" class="btn--pri"><p>Pumpkin</p></div>
+            <div value="scuba" class="btn--pri"><p>Scuba</p></div>
+            <div value="tape_face" class="btn--pri"><p>Tape Face</p></div>
+            <div value="teddycigar" class="btn--pri"><p>Teddy Cigar</p></div>
+            <div value="tiny_sunglasses" class="btn--pri"><p>Tiny Sunglasses</p></div>
+            <div value="topology" class="btn--pri"><p>Topology</p></div>
           </div>
         </div>
       </div> 
@@ -382,7 +297,7 @@
           <div id="video-grid">
                 <!-- 자막 -->
                 <div id="videoBig">
-                    <p id="videoSubtitles"></p>
+                  <p id="videoSubtitles"></p>
                   <canvas id="remoteCanvas" width="800" height="600"></canvas>
                   <video id="videoOutput" autoplay width="800" height="600" style="display:none;"></video>
                   </div>
@@ -422,7 +337,7 @@
         </div>
         <!-- 인생네컷 -->
       <div>
-          <div id="div4cut" style="background-color:#6E9DF5; display: none;">
+          <div id="div4cut" style="display: none;">
             <canvas id="canvas" width="560" height="950"></canvas>
           </div>
      </div>
