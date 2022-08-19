@@ -585,7 +585,7 @@ ex)`refactor-be-contents` : backend refactoring branch
 
 - 공부한 내용, 도움이 될 링크, 데일리스크럼 및 회의록, 피드백 내용, 깃 컨벤션, 팀원간 연락처, ERD등 설계문서와 설계문서에 대한 링크를 통합적으로 관리
 
-![image-20220819171327360](../images/README/image-20220819171327360.png)
+![image-20220819171327360](./images/README/image-20220819171327360.png)
 
 
 
